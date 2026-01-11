@@ -1,0 +1,187 @@
+---
+title: In the Agentic AI Era, Agency is All You Have
+author: "Nicholas Dorsch"
+date: today
+categories: [coding, thoughts]
+---
+
+# I don't write code anymore
+
+Over the past 2 months, I've gone through a huge change in my attitudes about the
+current state of AI technology. 
+
+Up until this point I had regurgitated the usual tropes:
+
+- AI coding is unreliable, you'll spend a lot of time correcting errors
+- Vibe coding just generates "slop" and is in general a terrible idea for serious
+  application development
+- The majority of code should still be written by hand to ensure code quality and
+  consistency across an application
+
+I am still wrestling with the implications of this.
+
+
+## What do I think now?
+
+### Applied correctly, AI coding is now reliable 
+
+With the correct specification, you can safely expect frontier models like Opus 4.5 to
+"oneshot" the code implementation, including writing passing tests to verify everything.
+
+### The terms "Vibe Coding" and "Slop" have become [thought terminating cliches](https://en.wikipedia.org/wiki/Thought-terminating_clich%C3%A9)
+
+Yes, if you don't really understand what you are building, or even what you want, and
+are just "vibing", you should expect poor results ("slop"). If you are using coding
+agents to write the code to a spec that you carefully designed and understand, this
+isn't vibe coding anymore, it is something new.
+
+Dismissing all this progress as "vibe coding" invites you to stop thinking about it.
+This is a big mistake.
+
+### Writing code by hand is **no longer optimal**
+
+I *love* writing code. I have spent the last two years of my life in a terminal with
+Neovim open, steadily getting more and more proficient in the craft. I code before I
+sleep, my wife often needs to gently reminds me that it's time for bed. Sometimes I code
+*in my sleep*, I dream about it. I have passion verging on pathology for programming.
+
+And it isn't *just* the joy of building, it is the joy of the whole experience. The
+problem solving, the LSP, the iteration, the feedback loops, the colors, *all of it* is
+a delight to whatever weird brand of brain I am carrying. I am truly saddened at its
+impending irrelevance.
+
+But I have to accept the reality in the face of overwhelming evidence that the
+technology is now ready for serious use. I think facing this fact is genuinely painful
+for a lot of people like me, which explains some of the delay in the uptake of the
+technology. I can only imagine how this might feel for someone with decades of
+experience. But for better or worse, we're there. If you are typing everything yourself,
+you are not even close to your productive potential anymore.
+
+
+## What changed?
+
+A combination of factors have recently led coding agents to reach new levels of
+reliability and sophistication:
+
+- Frontier models like Anthropic's Opus 4.5 and OpenAI's GPT 5.1-Codex are signifantly
+  better at reasoning than previous generation models
+- Coding agent "harnesses" like Opencode and Claude Code are showing the power of
+  employing these agents in combination with good context engineering, ensuring that the
+  models are considering the right information when generating code
+
+
+# "What about the super duper specific and smart stuff that I work on??"
+
+> "Ok mister GPT, build me the incredibly complicated and specific system that I, the
+genius visionary author, have failed to actually specify here. No mistakes."
+
+> ...
+
+> "See, I told you it's a bubble!"
+
+My personal, meager version of "super duper specific and smart" involves a lot of
+stochastic simulation, reasoning about fairly high dimensional vectors, and bayesian
+inference. Maybe you work on way harder stuff. Maybe you're much smarter than I am, and
+I wouldn't even begin to understand your pet problems after a 3 hour conversation on the
+topic. I have no illusions about where my capabilities end.
+
+But if you were serious about investigating this technology, you would not feed a model
+something like the above, then smugly watch it fail to build your intellectual
+cathedral. 
+
+This is not an honest assessment, it is your ego preventing you from learning the truth.
+
+**Stop wasting time being wrong.**
+
+Be serious about the level of granularity required in your specification, and build at
+that cadence. For hyper-complex problems, move function by function, with tests to
+guarantee the implementation matches the requirement. Specify in detail how your classes
+should interact, specify in detail the control flow required on your critical path.
+Iterate. I promise you, it will work, and you will reach your destination *much faster*.
+
+... And your tests won't be trash.
+
+
+# The Agent Effectiveness Axis
+
+I'm mentally starting to place coding tasks in a convergence vs novelty space when
+considering how to approach things. Basically:
+
+*"How large is the space of valid implementations for this requirement?"* (divergent/convergent)
+
+vs 
+
+*"How often does this problem show up in the LLM's training set?"* (established/novel)
+
+## High Novelty, Low Convergence
+
+If something is very novel, but can be accomplished in a large number of ways
+(divergent), the model can probably do a good job of implementing it. Take a very unique
+interface requirement in a frontend application. Even though it might be unfamiliar
+territory to the model, the large number of divergent implementation paths mean the
+probability of accomplishing the task is higher. High novelty, high divergence.
+
+## Low Novelty, High Convergence
+
+On the other hand, if you are creating a highly complex (thus convergent, specific)
+machine learning model, the LLM will probably still do a good job, because it has seen
+so many examples retreading the same ground. It is highly convergent, but highly
+established territory.
+
+## Low Novelty, Low Convergence
+
+A lot of the modern frontend stack fits here. There are countless implementation paths,
+and the model has seen millions of different implementations. CSS, HTML, basic react.
+These are now solved problems.
+
+SQL also fits here.
+
+## High Novelty, High Convergence
+
+If you are pushing the edge of mathematics and physics, or inventing new algorithms, the
+space of valid solutions is tiny (highly convergent). That means the great majority of
+solution-paths the model could take will be wrong. It will hallucinate wrong answers far
+more often than providing insight. This is the only reliably bad quadrant to be in with
+these models, in my opinion.
+
+
+# Can everyone build software now?
+
+Software development will remain in the hands of people who dedicate themselves to it,
+because *software specifications are very detailed and complicated*, and language is
+vague. Up until now, the only way to specify complicated logical data flows was with
+programming languages. Now a coding agent can do that translation for us, but *the
+mental model of what the software needs to do* cannot be "guessed" reliably, it needs to
+be specified.
+
+If you don't know anything about software, you don't even know what to ask for, and the
+gap between the model's inference about your vision, and the actual vision in your head
+will gradually, reliably widen. I am new enough to software engineering that I can
+remember the feeling. You need to know how to navigate the problem space intelligently
+to be effective. 
+
+
+# ... Are we even relevant anymore?
+
+Despite the name, agentic coding systems are not, in fact, agents. "Agency" in this
+context is jargon for a Large Language Model in a while loop with access to tools. The
+models are never going to have an epiphany and decide to build something unprompted. The
+models *don't act*. 
+
+Avoiding a philosophical discussion on what it means, humans act! We choose what to do
+next. 
+
+As a technical professional, your primary value moving forward is *deciding what to do
+next*. You are better placed to make that decision than someone who lacks your
+knowledge. Your judgement is guided by domain expertise, technical detail, and
+implementation experience. You have vision.
+
+This was always the case, but up until now the following question of *"how do I write the
+code"* was a matter of genuine time and effort. Now you can do it at superhuman speed.
+
+This is amazing, terrifying, and nobody knows what happens next. Things are going to
+change.
+
+But please, **stop wasting time being wrong about it**. 
+
+Discover it for yourself. Adapt. Keep learning, keep building.
