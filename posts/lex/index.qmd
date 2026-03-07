@@ -1,5 +1,5 @@
 ---
-title: "Open Source AI is Ready"
+title: "Open Source AI is Ready for Real Work"
 author: "Nicholas Dorsch"
 date: 2026-03-07
 categories: [coding]
@@ -7,7 +7,8 @@ image: media/lex_statistics_screenshot.png
 ---
 
 > _A big thank you to Chris and Ant from [Zai Node](https://www.zainode.com/) for
-> providing access to their Australian hosted, private GPU cluster for this project._
+> providing API access to their Australian hosted, private GPU cluster for this
+> project._
 
 # Introduction
 
@@ -28,21 +29,23 @@ things can do a lot of damage very quickly. I'm sure we're in for many disasters
 to people letting the vibes take control at work. It is [already
 happening...](https://alexeyondata.substack.com/p/how-i-dropped-our-production-database)
 
-I think you would be crazy to let coding agents loose without significant guardrails and
-environment separation in projects managing databases and cloud infrastructure... 
+I think it would be irresponsible to let coding agents loose without significant
+guardrails and environment separation in projects managing sensitive systems, like
+databases and cloud infrastructure... 
 
 In my own time, though? With no company data on the line?
 
 ![It's... different](media/venjent-create.gif)
 
-There are still many people firmly in denial about what is happening, but my recent
-experience with AI agents has made it clear to me that software development has changed
-fundamentally, and most other knowledge work will probably follow in the next few years.
+There are many people in denial about what is happening, like I was last year, but my
+recent experience with AI agents has made it clear to me that software development has
+fundamentally changed, and most other knowledge work will probably follow in the next
+few years.
 
 I'm not an outlier and none of this is intended as a boast, because I don't think any of
 what I'm doing is particularly impressive, but it is what becomes accessible when you
 let go, you put the keyboard down and you open your mind to the army of digital gremlins
-that you can now summon at will.
+that you can now summon to do your bidding.
 
 The gremlins have gotten very smart, and maybe more importantly, very good at following
 instructions.
@@ -50,7 +53,7 @@ instructions.
 In the last two months, since deciding to really push myself with AI, I have
 
 - Built an agent orchestration "code factory" called
-[Ponder](https://github.com/nick-dorsch/ponder), inspired by the likes of [Geoffrey
+[Ponder](https://github.com/nick-dorsch/ponder), inspired by the work of [Geoffrey
 Huntley](https://ghuntley.com/ralph/) and [Steve
 Yegge](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04). First in Python
 (it was early) and then in Go (when I realised I should use a better tool, and my
@@ -66,7 +69,8 @@ JSON for database storage, and all lightning fast to simulate using `numpy` and
 
 - Built most of an end to end mine site scoping/early feasibility study tool, which is
 essentially a hard rock version of the Resgo tool that does this kind of analysis for
-oil and gas prospecting. Both are built on top of the statistics library.
+oil and gas prospecting. Both are now built on top of the statistics library (a major
+refactor for Resgo)
 
 - Written a fairly comprehensive legal analysis on a Strata dispute I'm in the middle
 of, with references to relevant statutes and case law, packaged up into several
@@ -83,21 +87,23 @@ Perhaps most surprisingly for me, I have also
 
 - Updated my resume
 
-And most recently, I've built a language learner's reading aide called Lex.
+And most recently while experimenting with open source LLMs, I've built a language
+learner's reading aide called Lex.
 
 # Lex
 
 ![A sample library using public domain books found in [Project
 Gutenberg](https://www.gutenberg.org/)](media/lex_library_screenshot.png)
 
-Lex solves a problem for me. I love reading in Spanish but I suck at it. 
+Lex solves a problem I have. I love reading in Spanish, but it is really hard. 
 
 Reading in your target language is a great way to learn, but it can be frustrating. You
-are often caught in a trade-off between comprehension and enjoyment. Nobody wants to
-read children's books; you want to read the things you would enjoy reading in your native
-language, but that is very difficult. Often you'll miss context, and subtext, through an
-inability to comprehend at a high enough level, which makes it hard to appreciate what
-you are reading, which feels like a waste of good reading material.
+are often caught in a trade-off between comprehension and enjoyment. You don't want to
+read children's books; you want to read the things you would enjoy reading in your
+native language, but that usually means quite advanced content. Often you'll miss
+context, and subtext, through an inability to comprehend at a high enough level, which
+makes it hard to appreciate what you are reading, which feels like a waste of good
+material.
 
 Lex is the tool I've always wanted to help me read more difficult books, while keeping
 the text comprehensible and enjoyable. It is heavily inspired by
@@ -133,7 +139,7 @@ The collection of reading statistics is a nice motivating factor for a data nerd
 me, and I'm finding myself in a bit of an addictive loop, keeping my learned words
 increasing over time with reading sessions each day. The white dashed line in the plot
 above is total words read, while the green and yellow areas are tracking lexemes that
-I know or am currently learning, respectively. Line go up. Feel good.
+I know or am currently learning, respectively. Line go up. Feels good. Do it more.
 
 I've experimented with a variety of LLMs for the translation help inside the app, and
 have settled on Claude Haiku, because it is so fast and essentially free to run (I've
@@ -143,19 +149,19 @@ external model providers, though I found the latest Qwen 3.5 range of models to 
 either reliable but too slow, or unreliable and fast. At least for now, Haiku gives me
 the best mix of speed and reliability. 
 
-Because Phoenix LiveView (the web framework I used) is built around websockets
-(persistent connections between the server and client), streaming LLM output into the
-interface was easy to set up, and it helps reduce the perceived delay in responses.
+Because Phoenix LiveView (the web framework I used) is built around websockets (keeping
+persistent connections open between the server and client), streaming LLM output into
+the interface was easy to set up, and it helps reduce the perceived delay in responses.
 Everything feels very snappy and responsive.
 
-![Reading is sentence by sentence. New words are outlined, words that are being learned
-are highlighted. Spacebar triggers LLM assistance](media/lex_reader_screenshot.png)
+![Reading is sentence by sentence. New words are outlined, words that I'm learning are
+highlighted. Spacebar triggers LLM assistance](media/lex_reader_screenshot.png)
 
 ## Development Process
 
 I decided to use Lex as an experiment, using open source models almost exclusively. I've
-been developing the impression that with good enough "context engineering", open source
-tokens can be just as effective as the expensive Anthropic ones, and the gap in
+been getting the impression that with good enough "context engineering", open source
+tokens can be just as effective as the boutique Anthropic/OpenAI ones, and the gap in
 capability is rapidly closing.
 
 Some friends of mine at the Australian AI startup _Zai Node_ were kind enough to provide an
@@ -164,18 +170,18 @@ open source LLM adoption. The majority of the project was built using Kimi K2.5 
 their privately hosted API, running on their GPU cluster. This meant very low latency,
 very fast LLM inference.
 
-I intentionally built Lex using tech I had no prior experience with (Elixir, Phoenix
+I intentionally built Lex using tech I had no prior experience with (Elixir and Phoenix
 LiveView) to force myself to rely heavily on the agents to implement everything for me,
 and I never really touched the code myself. The majority of the development was done
 using my task manager Ponder. On a few occasions I created a large backlog of tasks and
 just let it run overnight, waking up to thousands of new lines of tested, functional
 code. 
 
-I went to see Bad Bunny in Sydney while LLM agents ground away on my codebase just as
-tirelessly as the concert goers when the reggaeton started. 
+I went to see Bad Bunny in Sydney while LLM agents grinded away on my codebase just as
+tirelessly as the concert goers, once the _reggaeton_ started. 
 
-![DeBÍ TiRAR MáS FOToS is a great album, but reggaeton is still not my
-vibe](media/guy_in_corner_meme.jpg)
+![DeBÍ TiRAR MáS FOToS is a great album, but I forgot the unforgettable
+dance.](media/guy_in_corner_meme.jpg)
 
 It took about 4 days worth of coding sessions and I had most of the application written,
 the rest was refinement over the next week. There were also a few subtle but important
@@ -232,13 +238,6 @@ running multiple agents at once (I topped out at 4) becomes fairly simple, as ag
 only pick up available tasks, which are unlikely to clash given the dependency graph
 separating them. All other tasks are inaccessible.
 
-I found I didn't need git worktrees (a way of isolating the working environment for each
-agent) - it was rare that the agents had any issues working on the codebase in parallel.
-I would guess worktrees, or some other creative solution would become necessary north of
-10 agents running in parallel, but it would depend on the size of the codebase and the
-testing framework. I can't see myself needing to go much faster, either. Working like
-this is already exhausting enough.
-
 A worker agent assigned a task is told to write the code for the task spec, then write
 tests for it, and to iterate on the code until all the tests pass. Once the tests pass
 it commits its code changes to git, and stops. The cycle repeats for tasks across the
@@ -246,6 +245,13 @@ graph as new dependencies are met. This cycle of validation is the reason this p
 works at all. Without strong validation checkpoints, models will often go off the rails
 and litter your code with bugs. Less capable models mean tighter validation loops are
 required.
+
+I found I didn't need git worktrees (a way of isolating the working environment for each
+agent) - it was rare that the agents had any issues working on the codebase in parallel.
+I would guess worktrees, or some other creative solution would become necessary north of
+10 agents running in parallel, but it would depend on the size of the codebase and the
+testing framework. I can't see myself needing to go much faster, either. Working like
+this is already exhausting enough.
 
 ![Orbs shine purple when they are available for work, and turn gold when a worker is
 assigned to them. Blue orbs are done.](media/lex_development_screenshot.png)
@@ -276,13 +282,13 @@ The overlap of this quality with strong, clear visions of what to build (whether
 single person or a group of people), will create new companies that move mountains with
 this tech.
 
-As an aside, building Lex has taught me that Elixir is a much better tool than Go for
-agent orchestration projects like Ponder, and I would have used it if I had known
-better. The Erlang BEAM virtual machine that Elixir is built on top of is a perfect
-match for long running, highly concurrent and fault tolerant agent orchestration. Worker
-agents would be deployed with BEAM processes, supervised by higher order processes that
-spin them back up if they crash or get stuck. They're literally called Supervisors in
-the language!
+As an aside, building Lex has taught me that Elixir is the great choice for agent
+orchestration projects like Ponder, and I would have used it if I had known better. The
+Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long
+running, highly concurrent and fault tolerant agent orchestration. Worker agents would
+be deployed with `GenServer`, supervised by higher order processes (`DynamicSupervisor`)
+that spin them back up if they crash or get stuck. They're literally called Supervisors
+in the language!
 
 ![It's right there!](media/will_smith_meme.jpg)
 
@@ -292,107 +298,65 @@ I would bet some big frameworks are released using Elixir. I saw that OpenAI is
 Tackling an enterprise grade agent orchestration framework, using ideas from Ponder and
 my experience creating Lex, is a likely next target for our work at LD Informatics.
 
-# AI in Enterprise
-
-Despite the tantalizing potential they offer, coding agents are a complete
-[nightmare](https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/) from an
-enterprise security perspective, and I'm not sure how this will be solved. An agent in a
-network isolated sandbox with no internet access is a secure agent, but the question is
-how useful it can be from inside it. Internet access means [prompt
-injection](https://www.ibm.com/think/topics/prompt-injection) risk, and the blast radius
-of that can be minimized but not eradicated. Agent usefulness is proportional to agent
-risk. That is not ideal.
-
-Because of challenges like this, along with general conservatism, I think AI adoption in
-big companies (especially outside of tech) will be slow, and internal initiatives that
-don't go anywhere will be commonplace. I do wonder if the progress in open source means
-many will opt for running LLMs on their own infrastructure, or infrastructure
-provisioned by partners they trust, rather than relying on the big providers like Google
-and Microsoft. 
-
-I think there are a few ugly elephants in the room, both for the hyperscalers and the
-frontier model providers:
-
-1. Open source LLMs are already almost as capable as frontier proprietary models (which
-   will cost tens of billions of dollars to train) and that gap will narrow as the
-incremental gains of frontier model training runs get tighter
-2. For most business tasks, you _don't actually need frontier performance_, you just
-   need a model that follows instructions reliably. Many of the latest open source LLMs
-do that just fine, and a good harness makes up for model limitations
-3. Agents thrive on plain text files stored in easy to navigate file systems, not inside
-   enterprise grade walled gardens (like SharePoint or Google Workspace). Company
-knowledge should be moved to markdown or text, and out of Docs, PowerPoints, and PDFs
-4. Running local means fewer data security concerns (outside all the security concerns
-   that agents create)
-
-To me that choice is already clear. I can't imagine why I would build a company on
-Microsoft or Google ecosystems with the technology that is now available for free. I
-think there will be an emerging market of providers like Zai Node, provisioning compute
-locally, with no incentive to store client data because they aren't training their own
-models, just providing them as a service. It all comes back to compute - the LLMs are
-just big files full of numbers that are rapidly becoming free, but compute requires
-physical GPUs, RAM, data centers, water and energy, that all remain scarce. 
-
-As for the boutique model providers, I think they are caught in a Hail Mary of AGI or
-bust. AGI gives them market differentiation (or world domination?). No AGI and tokens
-become commoditized. 
-
-If AGI is achieved, differentiation means they (presumably one of them, the first to do
-it) monopolize the market. If this fails, they will be forced to compete on price,
-selling tokens at the margin in a highly competitive landscape. 
-
-This leaves little room for them, as the likes of Google, Microsoft and Amazon dominate
-compute at scale, not Anthropic or OpenAI. If AI fails to become a differentiated
-market, Microsoft just sells more Azure compute, OpenAI however would need to find
-alternate means of justifying its valuation.
-
-My bet is that tokens are commoditized, because I still don't believe LLM technology is
-a path to general intelligence, though smarter people than me agree and disagree, and I
-can't claim any special insight that they lack.
-
-I do find it interesting that Chinese companies, largely operating outside of the growth
-obligations of modern capitalism and instead within a more centralized engineering
-economy, seem to have a less sci-fi utopic vision of what the future of AI looks like.
-
-What I am sure of is that the technology landscape has irreversibly changed, regardless
-of future improvements, and that it will have a disruptive impact on other industries as
-adoption increases in a slow wave over the next five years. 
-
-Technical know-how will take a backseat as agency, judgement, vision and effective
-decision making become the longest levers in the post AI economy.
-
 
 # What To Do?
 
-What I'm telling people close to me about all this is that, while I don't know what will
-happen or when, it is a good idea to start building capability with AI tools, regardless
-of your profession. 
+AI is moving fast, and I imagine it is as disorienting to others as it has been to me,
+to the extent that often it is easier to just... look away. What I'm telling people
+close to me is that, while I don't know what will happen or when, it is a good idea to
+start getting familiar and capable with AI tools, regardless of your profession. Don't
+look away.
 
-Yes, we're probably in a bubble. Yes, there is a great deal of hype filled nonsense. But
-I'm not selling you anything, and I am telling you, deadset, this technology is real, it
-can do a lot of real work, and it will do it faster and cheaper than any human can. And
-(if you give it the information and clear instructions it needs), it will do your work
-better than you can. People with AI proficiency will become very valuable in many
-industries.
+Yes, we're probably in a bubble. Yes, there is a great deal of hype filled nonsense.
+Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and
+best left ignored. But I'm not selling you anything, and I am telling you, deadset, that
+this technology is real, it can do a lot of real work, and it will do it faster and
+cheaper than any human can. If you give it the information and clear instructions it
+needs, it might just do your work better than you can. People with AI proficiency will
+become very valuable in many industries.
 
 Don't ask for something vague, with no context, and smugly watch the model fail. That is
-your ego preventing you from discovering the truth. Don't dismiss it all as slop, that
-is a thought terminating cliche inviting you to stay ignorant. Give it a real go.
+your ego preventing you from confronting it. Don't dismiss it all as slop, that is a
+thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and
+then decide what you think based on direct experience.
 
 If you are in the legal profession, do yourself a favour and install a coding agent and
 [Typst](https://typst.app/) (or ask the agent to install it for you), and give it the
-information it needs. Don't rely on its model training, provide the documents so that it
-can look things up directly. When you see the perfectly templated PDF magically
-recompile after every change the agent makes, and you realise you are essentially in a
-live interview with all the information you need to create the exact document you
-require, you will realise the way you work has fundamentally changed.
+information it needs to work. Don't rely on its model training. Provide the documents so
+that it can read sources directly. When you see the perfectly templated PDF magically
+recompile after every change the agent makes, and you find yourself in what is
+essentially a live interview with the document and all supporting materials, you will
+realise the way you work has fundamentally changed.
+
+```{mermaid}
+flowchart LR
+    A[Source Documents]
+    A --> C[Agent]
+    F[You] --> C
+    C --> D[Typst]
+    D --> E[PDF]
+    E --> F
+```
 
 If you live in spreadsheets, install a coding agent, output your data to csv, explain
-the analysis you would run in Excel, and watch it recreate it with a short python
+the analysis you would run in Excel, and watch it recreate it with a short Python
 script, and output any plots or tables you want on the fly. Use Typst, compile it to a
 beautiful PDF. You can work differently and have a less painful life. Beautiful,
 colorful plots are how humans should interface with data, not tables of numbers. Tables
 of numbers are for robots.
+
+```{mermaid}
+flowchart LR
+    A[Source Data]
+    A --> C[Agent]
+    F[You] --> C
+    C --> D[Typst]
+    C --> G[Python]
+    G --> H[Plots and Tables]
+    H --> D
+    D --> E[PDF]
+    E --> F
+```
 
 If you run a small business and your invoicing or client management or whatever is a
 mess, install a coding agent and just talk to it about your problems and brainstorm what
@@ -417,8 +381,8 @@ and the trade-offs between them. And the vision you have for projects, the thing
 motivates you to build them at all, will mean the projects still feel like they are
 yours, even if you didn't write every line of the code.
 
-Most people would benefit a lot from experimenting with this stuff, even a little bit.
-So regardless of how the next few years look, that is my recommendation.
+Most would benefit from experimenting with AI. Regardless of how the next few years
+look, that is my recommendation.
 
 Thanks again to Zai Node for the API access.
 

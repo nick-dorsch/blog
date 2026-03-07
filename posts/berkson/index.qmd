@@ -14,8 +14,9 @@ import numpy as np
 import pandas as pd
 import altair as alt
 from scipy.special import expit as invlogit
+from src.plotting import apply_lex_altair_theme
 
-alt.theme.enable("dark")
+apply_lex_altair_theme()
 PLOT_WIDTH = "container"
 PLOT_HEIGHT = 500
 ```
@@ -62,7 +63,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 "... What are X and Y?"
@@ -90,7 +91,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 "Ok well... It looks like X and Y might be negatively associated... One goes up, the
@@ -121,7 +122,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 You were right.
@@ -294,7 +295,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 So your instincts were right! There's a strong negative association between the dates'
@@ -331,7 +332,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 In reality there's no connection between friendliness and attractiveness. That

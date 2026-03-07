@@ -1,0 +1,10 @@
+[tools]
+python = "3.13"
+uv = "latest"
+jq = "latest"
+lazygit = "latest"
+
+[tasks.preview]
+description = "Preview the blog with Quarto"
+usage = 'arg "[port]" help="Port to run preview on" default="3000"'
+run = "uv run quarto preview --port ${usage_port?}"

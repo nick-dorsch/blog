@@ -15,9 +15,9 @@ import altair as alt
 import scipy.stats as stats
 from datetime import datetime
 
-from src.plotting import stat_plots, finance_plots
+from src.plotting import apply_lex_altair_theme, stat_plots, finance_plots
 
-alt.theme.enable("dark")
+apply_lex_altair_theme()
 alt.data_transformers.disable_max_rows()
 PLOT_WIDTH = "container"
 PLOT_HEIGHT = 250
@@ -150,7 +150,7 @@ def plot_balance_area_chart(df: pd.DataFrame, title: str):
 chart = plot_balance_area_chart(
     flat_df, title="Comparison of Investing vs Coffee Drinking"
 )
-chart.show()
+chart
 ```
 
 ```{python}
@@ -224,7 +224,7 @@ def plot_factor_curves(discount_curve, inflation_curve) -> alt.Chart:
     )
 
 chart = plot_factor_curves(discount_curve, inflation_curve)
-chart.show()
+chart
 ```
 
 ... Investor Nick's returns look like this:
@@ -247,7 +247,7 @@ chart = plot_balance_area_chart(
     flat_discount_df, 
     title="(Real, Discounted at 13.5%): Comparison of Investing vs Coffee Drinking"
 )
-chart.show()
+chart
 ```
 
 ...So what does that mean?
@@ -274,7 +274,7 @@ experience, which would imply a very aggressive discount rate, probably in exces
 discount_curve = create_exponential_curve(months, annual_rate=-1)
 
 chart = plot_factor_curves(discount_curve, inflation_curve)
-chart.show()
+chart
 ```
 
 ```{python}
@@ -295,7 +295,7 @@ chart = plot_balance_area_chart(
     flat_discount_df, 
     title="(Real, Discounted at 100%): Comparison of Investing vs Coffee Drinking"
 )
-chart.show()
+chart
 ```
 
 So, any money beyond a year time horizon is worth *jack shit* to Nick the dribbler. He
@@ -325,7 +325,7 @@ chart = plot_balance_area_chart(
     flat_discount_df, 
     title="(Real, Discounted at 6%): Comparison of Investing vs Coffee Drinking"
 )
-chart.show()
+chart
 ```
 
 ## Stochastic Model
@@ -372,7 +372,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 Since the model invests into "the market", I'll just take the ASX200 as representative
@@ -411,7 +411,7 @@ returns_chart = (
     )
 )
 
-returns_chart.show()
+returns_chart
 ```
 
 Because we are (more or less) taking the derivative of price---the degree to which prices
@@ -435,7 +435,7 @@ chart = stat_plots.hist_dist_plot(
     hist_color="limegreen"
 )
 
-chart.show()
+chart
 ```
 
 The normal distribution used above does a pretty poor job of capturing the data. A
@@ -458,7 +458,7 @@ chart = stat_plots.hist_dist_plot(
     hist_color="limegreen"
 )
 
-chart.show()
+chart
 ```
 
 Much better.
@@ -483,7 +483,7 @@ sample_chart = (
 )
 
 combined_chart = (sample_chart + returns_chart).resolve_axis(x="shared", y="shared")
-combined_chart.show()
+combined_chart
 ```
 
 ... and it does *okay*. The elephant in the room is COVID-19. Independent samples from a
@@ -562,7 +562,7 @@ chart = finance_plots.simulated_portfolio_plot(
     sims=100
 )
 
-chart.show()
+chart
 ```
 
 When you hold out your coffee cup and say the magic word, future worlds spout forth, in
@@ -596,7 +596,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 ```{python}
@@ -659,7 +659,7 @@ chart = finance_plots.simulated_portfolio_plot(
     sims=100
 )
 
-chart.show()
+chart
 ```
 
 ```{python}
@@ -686,7 +686,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 And if we discount at the conservative rate of 6%:
@@ -700,7 +700,7 @@ chart = finance_plots.simulated_portfolio_plot(
     title="(Discounted) Simulated Investment Portfolio",
     sims=100
 )
-chart.show()
+chart
 ```
 
 ```{python}
@@ -727,7 +727,7 @@ chart = (
     )
 )
 
-chart.show()
+chart
 ```
 
 ```{python}
