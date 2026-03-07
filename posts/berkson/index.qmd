@@ -2,7 +2,7 @@
 title: Berkson's Boardroom
 subtitle: $X \rightarrow \text{YOU} \leftarrow Y$
 author: "Nicholas Dorsch"
-date: today
+date: 2025-06-26
 categories: [opinion, statistics]
 image: thumbnail.png
 ---
