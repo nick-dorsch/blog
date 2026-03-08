@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nicholas Dorsch">
+<meta name="dcterms.date" content="2026-03-07">
+
+<title>Open Source AI is Ready for Real Work – dorschblog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-608df8d7cdc78fc73f74c8855d132480.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d380e08ec0c228b32116c51df519cb0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">dorschblog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dersley"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/nicholasjohndorsch/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Open Source AI is Ready for Real Work</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">coding</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Nicholas Dorsch </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 7, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#lex" id="toc-lex" class="nav-link" data-scroll-target="#lex">Lex</a>
+  <ul class="collapse">
+  <li><a href="#development-process" id="toc-development-process" class="nav-link" data-scroll-target="#development-process">Development Process</a></li>
+  </ul></li>
+  <li><a href="#ponder" id="toc-ponder" class="nav-link" data-scroll-target="#ponder">Ponder</a></li>
+  <li><a href="#what-to-do" id="toc-what-to-do" class="nav-link" data-scroll-target="#what-to-do">What To Do?</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<blockquote class="blockquote">
+<p><em>A big thank you to Chris and Ant from <a href="https://www.zainode.com/">Zai Node</a> for providing API access to their Australian hosted, private GPU cluster for this project.</em></p>
+</blockquote>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>I spent last year in denial.</p>
+<p>I also spent last year employed… and maybe that partially explains the last 2 months. It is a wild time to be experimenting, without a boss to answer to, or an office to shuffle to each day.</p>
+<p>I was using LLMs every day, like most of us are, but I was always in tight control of all the code I was producing, holding firm to the egoistic notion that, because I knew my work better than the stochastic parrot, I needed to keep my hands on the wheel at all times. I also didn’t really use it for anything other than coding help.</p>
+<p>And when working with clients my hands are still firmly on the wheel, if not hovering just above it. Accountability and ownership of work done is still important, and these things can do a lot of damage very quickly. I’m sure we’re in for many disasters related to people letting the vibes take control at work. It is <a href="https://alexeyondata.substack.com/p/how-i-dropped-our-production-database">already happening…</a></p>
+<p>I think it would be irresponsible to let coding agents loose without significant guardrails and environment separation in projects managing sensitive systems, like databases and cloud infrastructure…</p>
+<p>In my own time, though? With no company data on the line?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/venjent-create.gif" class="img-fluid figure-img"></p>
+<figcaption>It’s… different</figcaption>
+</figure>
+</div>
+<p>There are many people in denial about what is happening, like I was last year, but my recent experience with AI agents has made it clear to me that software development has fundamentally changed, and most other knowledge work will probably follow in the next few years.</p>
+<p>I’m not an outlier and none of this is intended as a boast, because I don’t think any of what I’m doing is particularly impressive, but it is what becomes accessible when you let go, you put the keyboard down and you open your mind to the army of digital gremlins that you can now summon to do your bidding.</p>
+<p>The gremlins have gotten very smart, and maybe more importantly, very good at following instructions.</p>
+<p>In the last two months, since deciding to really push myself with AI, I have</p>
+<ul>
+<li><p>Built an agent orchestration “code factory” called <a href="https://github.com/nick-dorsch/ponder">Ponder</a>, inspired by the work of <a href="https://ghuntley.com/ralph/">Geoffrey Huntley</a> and <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge</a>. First in Python (it was early) and then in Go (when I realised I should use a better tool, and my inability to code in it didn’t matter). I’ll explain Ponder a bit more later in this post.</p></li>
+<li><p>Built a statistics library for reuse across all my company probabilistic modelling projects, with all the JSON serialization capabilities I’ve caught myself rebuilding over and over the past few years. It treats distributions and stochastic processes as primitives that can be composed into arbitrary Monte Carlo models, all serializable to JSON for database storage, and all lightning fast to simulate using <code>numpy</code> and <code>Xarray</code>.</p></li>
+<li><p>Built most of an end to end mine site scoping/early feasibility study tool, which is essentially a hard rock version of the Resgo tool that does this kind of analysis for oil and gas prospecting. Both are now built on top of the statistics library (a major refactor for Resgo)</p></li>
+<li><p>Written a fairly comprehensive legal analysis on a Strata dispute I’m in the middle of, with references to relevant statutes and case law, packaged up into several professionally typefaced documents intended for various recipients.</p></li>
+<li><p>Set up a personal assistant with access to my emails and a knowledge graph via Obsidian (though to be fair, I’ve barely used it).</p></li>
+<li><p>Made significant refactors across several company projects</p></li>
+<li><p>Created landing page websites for the company and its products</p></li>
+</ul>
+<p>Perhaps most surprisingly for me, I have also</p>
+<ul>
+<li>Updated my resume</li>
+</ul>
+<p>And most recently while experimenting with open source LLMs, I’ve built a language learner’s reading aide called Lex.</p>
+</section>
+<section id="lex" class="level1">
+<h1>Lex</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/lex_library_screenshot.png" class="img-fluid figure-img"></p>
+<figcaption>A sample library using public domain books found in <a href="https://www.gutenberg.org/">Project Gutenberg</a></figcaption>
+</figure>
+</div>
+<p>Lex solves a problem I have. I love reading in Spanish, but it is really hard.</p>
+<p>Reading in your target language is a great way to learn, but it can be frustrating. You are often caught in a trade-off between comprehension and enjoyment. You don’t want to read children’s books; you want to read the things you would enjoy reading in your native language, but that usually means quite advanced content. Often you’ll miss context, and subtext, through an inability to comprehend at a high enough level, which makes it hard to appreciate what you are reading, which feels like a waste of good material.</p>
+<p>Lex is the tool I’ve always wanted to help me read more difficult books, while keeping the text comprehensible and enjoyable. It is heavily inspired by <a href="https://www.lingq.com/en/">LingQ</a>, which I’ve used a lot in the past, but designed to work locally with my eBook collection, with LLM assistance built in, and keyboard shortcuts customized to my exact tastes (for me, that means Vim keybinds).</p>
+<p>It runs as a web app locally on my home server, which other devices like my phone or laptop can access via my <a href="https://tailscale.com/">tailnet</a> setup. It connects to my eBook library (using an open source program called <a href="https://calibre-ebook.com/">Calibre</a>), allowing quick imports into the database. The database tracks all the book content, as well as detailed statistics of the words I read, whether I know them or am still learning them, how many times I’ve seen them and so on.</p>
+<p>It uses a Python based <a href="https://spacy.io/">natural language processing</a> pipeline to ingest text into the database, so that the content can be organized by sentence and <em>lexeme</em> (the abstract unit of meaning that words point to, like [“running”, “ran”, “runs”] = “run”) to make language learning progress more meaningful. Hence, Lex.</p>
+<p>The basic set of Vim inspired keyboard shortcuts are: <code>j</code> and <code>k</code> move up and down sentences, <code>w</code> and <code>b</code> move forward and backwards through words, <code>W</code> and <code>B</code> skip straight to highlighted words, and <code>space</code> triggers LLM help on the current word. For me at least, it is a very nice user experience.</p>
+<p>Everything is timestamped, so detailed time series information can be generated by the database for visualizations like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/lex_statistics_screenshot.png" class="img-fluid figure-img"></p>
+<figcaption>Word reading event counts, broken down in 20 minute time intervals. Overkill? Yes. Line more squiggly and fun to look at? Also yes.</figcaption>
+</figure>
+</div>
+<p>The collection of reading statistics is a nice motivating factor for a data nerd like me, and I’m finding myself in a bit of an addictive loop, keeping my learned words increasing over time with reading sessions each day. The white dashed line in the plot above is total words read, while the green and yellow areas are tracking lexemes that I know or am currently learning, respectively. Line go up. Feels good. Do it more.</p>
+<p>I’ve experimented with a variety of LLMs for the translation help inside the app, and have settled on Claude Haiku, because it is so fast and essentially free to run (I’ve spent about 25 cents so far). Locally running models will soon be the best solution for this kind of application as they’ll remove the network hop required with calling external model providers, though I found the latest Qwen 3.5 range of models to be either reliable but too slow, or unreliable and fast. At least for now, Haiku gives me the best mix of speed and reliability.</p>
+<p>Because Phoenix LiveView (the web framework I used) is built around websockets (keeping persistent connections open between the server and client), streaming LLM output into the interface was easy to set up, and it helps reduce the perceived delay in responses. Everything feels very snappy and responsive.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/lex_reader_screenshot.png" class="img-fluid figure-img"></p>
+<figcaption>Reading is sentence by sentence. New words are outlined, words that I’m learning are highlighted. Spacebar triggers LLM assistance</figcaption>
+</figure>
+</div>
+<section id="development-process" class="level2">
+<h2 class="anchored" data-anchor-id="development-process">Development Process</h2>
+<p>I decided to use Lex as an experiment, building with open source models almost exclusively. I’ve been getting the impression that with good enough “context engineering”, open source tokens can be just as effective as the boutique Anthropic/OpenAI ones, and the gap in capability is rapidly closing.</p>
+<p>Some friends of mine at the Australian AI startup <em>Zai Node</em> were kind enough to provide an API key for use on this project, as they share a lot of my optimism about local and open source LLM adoption. The majority of the project was built using Kimi K2.5 via their privately hosted API, running on their GPU cluster. This meant very low latency, very fast LLM inference.</p>
+<p>I intentionally built Lex using tech I had no prior experience with (Elixir and Phoenix LiveView) to force myself to rely heavily on the agents to implement everything for me, and I never really touched the code myself. The majority of the development was done using my task manager Ponder. On a few occasions I created a large backlog of tasks and just let it run overnight, waking up to thousands of new lines of tested, functional code.</p>
+<p>I went to see Bad Bunny in Sydney while LLM agents grinded away on my codebase just as tirelessly as the concert goers, once the <em>reggaeton</em> started.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/guy_in_corner_meme.jpg" class="img-fluid figure-img"></p>
+<figcaption>DeBÍ TiRAR MáS FOToS is a great album, but I never learned el baile inolvidable.</figcaption>
+</figure>
+</div>
+<p>It took about 4 days worth of coding sessions and I had most of the application written, the rest was refinement over the next week. There were also a few subtle but important bugs that were not picked up in tests, which I only noticed digging around in the database. Fair warning that LLM code output is all very “plausible” looking, which makes it very difficult to find mistakes if they are not captured in tests. The agent will write a test based on a mistaken assumption (maybe due to a poorly specified description of the task), which bakes in the incorrect logic.</p>
+<p>Regardless, this would have been a month of work if I was an Elixir developer on day one, and more like 3 months learning the ropes without that prior experience. The product as written by me would also have had worse test coverage and documentation. Just being honest.</p>
+<p>At least I would have had mastery over the codebase if I wrote it myself… I had the agents create architecture diagrams for me to help understand what was built, but honestly? I’ll never get the level of understanding that naturally emerges as you write the code yourself, and I don’t think that experience is replaceable. Maybe I’ll build up understanding over time, but when I encounter a bug there is no alarm in my head saying <em>“that might be because of X function in this file, check there first”</em>, it’s usually more like <em>“clanker pls help my buton is not wokring, fix it”</em>. Even the database layer, that I normally take so much pride in, is obscure to me, written using Elixir’s ORM Ecto instead of my native SQL.</p>
+<p>But it works!</p>
+<p>I’m using it <em>a lot</em> and having a great time. It is software built just for me that I never would have bothered building otherwise. Maybe others will stumble upon it and find some use in it, but that wasn’t my goal. I just wanted the thing, and now I have it.</p>
+<p>AI!</p>
+<p>And I did it almost entirely using open source models, for free in my case, but otherwise very cheap from other providers, using an open source agent harness. The technology is ready, already, and it’s basically free.</p>
+<p>Open source AI!</p>
+<p>Progress could grind to a halt tomorrow and things would still be irreversibly different to how they were a year ago. Regardless of the endless hype, this is a big deal.</p>
+</section>
+</section>
+<section id="ponder" class="level1">
+<h1>Ponder</h1>
+<p>As I mentioned earlier, I was able to let the agents run semi-unsupervised for around 80% of the development using my agent task manager, Ponder.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/pondering-orb.png" class="img-fluid figure-img"></p>
+<figcaption>Me contributing to the project, ponderously</figcaption>
+</figure>
+</div>
+<p>Ponder is fairly simple in concept. Tasks (the orbs being pondered) are narrowly scoped units of work. They are stored in a SQLite database in a Directed Acyclic Graph <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>. Tasks have dependencies, and are only flagged as “available” if all dependencies are completed. This means that running multiple agents at once (I topped out at 4) becomes fairly simple, as agents only pick up available tasks, which are unlikely to clash given the dependency graph separating them. All other tasks are inaccessible.</p>
+<p>A worker agent assigned a task is told to write the code for the task spec, then write tests for it, and to iterate on the code until all the tests pass. Once the tests pass it commits its code changes to git, and stops. The cycle repeats for tasks across the graph as new dependencies are met. This cycle of validation is the reason this process works at all. Without strong validation checkpoints, models will often go off the rails and litter your code with bugs. Less capable models mean tighter validation loops are required.</p>
+<p>I found I didn’t need git worktrees (a way of isolating the working environment for each agent) - it was rare that the agents had any issues working on the codebase in parallel. I would guess worktrees, or some other creative solution would be necessary north of 10 agents running in parallel, but it would depend on the size of the codebase and the testing framework. I can’t see myself needing to go much faster, either. Working like this is already exhausting enough.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/lex_development_screenshot.png" class="img-fluid figure-img"></p>
+<figcaption>Orbs shine purple when they are available for work, and turn gold when a worker is assigned to them. Blue orbs are done.</figcaption>
+</figure>
+</div>
+<p>The tasks themselves are added to the graph by an orchestrator agent (the “Orbitor”) that I talk to in <a href="https://opencode.ai/">OpenCode</a>, the open source agentic coding tool that has become my tool of choice. Tasks are highly detailed specification documents. The Orbitor is instructed to interview me, grilling me for detail before committing to a plan. This might mean 15-20 technical questions before it is satisfied. At times I needed help even understanding what was being asked, being totally unfamiliar with Elixir and its conventions, but that is a part of the process. There are many decisions to be made about different architectural directions and their trade-offs. Once satisfied, the Orbitor commits a series of tasks into the graph, along with the dependencies between them, which worker agents are then assigned. While they work, I work with the Orbitor to define the next series of tasks.</p>
+<p>This process works very well (Ponder mostly built itself using it), but is mentally exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by stretches of relatively meditative coding, but now that is gone, and the next decision is minutes, not hours, away.</p>
+<p>I’m not sure if other developers share this experience, but I’m frequently exhausted after a few days working like this. Because it is so easy to get started on new projects I’ll often have 4 or 5 experiments in progress at any given time. It’s a lot to think about. The most effective engineers will be those who can manage all the context switching and decision making for longer stretches of time before burning out. The overlap of this quality with strong, clear visions of what to build (whether in a single person or a group of people), will create new companies that move mountains with this tech.</p>
+<p>As an aside, building Lex has taught me that Elixir is the great choice for agent orchestration projects like Ponder, and I would have used it if I had known better. The Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long running, highly concurrent and fault tolerant agent orchestration. Worker agents would be deployed with a <code>GenServer</code>, supervised by higher order processes (<code>DynamicSupervisor</code>) that spin them back up if they crash or get stuck. They’re literally called Supervisors in the language!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/will_smith_meme.jpg" class="img-fluid figure-img"></p>
+<figcaption>It’s right there!</figcaption>
+</figure>
+</div>
+<p>I would bet some big frameworks are released using Elixir. I saw that OpenAI is <a href="https://github.com/openai/symphony/tree/main">building</a> with it while writing this.</p>
+<p>Tackling an enterprise grade agent orchestration framework for managing tasks and knowledge sharing, using ideas from Ponder and my experience creating Lex, is a likely next target for our work at LD Informatics.</p>
+</section>
+<section id="what-to-do" class="level1">
+<h1>What To Do?</h1>
+<p>AI is moving fast, and I imagine it is as disorienting to others as it has been to me, to the extent that often it is easier to just… look away. What I’m telling people close to me is that, while I don’t know what will happen or when, it is a good idea to start getting familiar and capable with AI tools, regardless of your profession. Don’t look away.</p>
+<p>Most people have a bad taste in their mouth from all the AI garbage being shoved into it day after day. All our feeds are full of AI generated slop. Infuriatingly cliched writing, pointless video clips, music stripped of its human soul. It all feels like a collosally disappointing waste of time and money, and in service of what end? Replacing us? I despise this stuff.</p>
+<p>The technology feels different, though, when you ride out and confront it on your terms, and hold on to a feeling of authorship, ownership, and agency while working with it.</p>
+<p>Yes, we’re probably in a bubble. Yes, there is a great deal of hype filled nonsense. Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and best left ignored. But I’m not selling you anything, and I am telling you, deadset, that this technology is real, it can do a lot of real work, and it will do it faster and cheaper than any human can. If you give it the information and clear instructions it needs, it might just do your work better than you can.</p>
+<p>Regardless of how this feels, I think it is true, and it is better to adapt than to ignore it. People with AI proficiency will become very valuable in many industries.</p>
+<p>Don’t ask for something vague, with no context, and smugly watch the model fail. That is your ego preventing you from confronting it. Don’t dismiss it all as slop, that is a thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and then decide what you think based on direct experience.</p>
+<p>If you are in the legal profession, do yourself a favour and install a coding agent and <a href="https://typst.app/">Typst</a> (or ask the agent to install it for you), and give it the information it needs to work. Don’t rely on its model training - provide the documents so that it can read sources directly. When you see the perfectly templated PDF magically recompile after every change the agent makes, and you find yourself in what is essentially a live interview with the document and all supporting materials, you will realise the way you work has fundamentally changed.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Source Documents]
+    A --&gt; C[Agent]
+    F[You] --&gt; C
+    C --&gt; D[Typst]
+    D --&gt; E[PDF]
+    E --&gt; F
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>If you live in spreadsheets, install a coding agent, output your data to csv, explain the analysis you would run in Excel, and watch it recreate it with a short Python script, and output any plots or tables you want on the fly. Use Typst, compile it to a beautiful PDF. You can work differently and have a less painful life. Beautiful, colorful plots are how humans should interface with data, not tables of numbers. Tables of numbers are for the machines.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Source Data]
+    A --&gt; C[Agent]
+    F[You] --&gt; C
+    C --&gt; D[Typst]
+    C --&gt; G[Python]
+    G --&gt; H[Plots and Tables]
+    H --&gt; D
+    D --&gt; E[PDF]
+    E --&gt; F
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>If you run a small business and your invoicing or client management or whatever is a mess, install a coding agent and just talk to it about your problems and brainstorm what you can do to fix them. It might be as simple as organizing your file system, or it could be creating an automated invoicing system.</p>
+<p>OpenCode usually has models provided for free, so you don’t even have to pay to get started. You are a single command in your computer’s terminal away from trying it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsSL</span> https://opencode.ai/install <span class="kw">|</span> <span class="fu">bash</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you’re a software developer, you’re probably riding this wave already. If not - if you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming, and you resent the robot taking that away - try to shift your mental gears into a higher order of puzzle solving. I do miss coding by hand, I’ve been obsessed with it for years, but there is a lot of new fun to be had working with agents, as well. Maybe you won’t be deliberating over individual function implementations, or objects and how they are wired together, but you will definitely be wrestling with software architecture, the technologies to use and the trade-offs between them. The grand vision you have for projects, the thing that motivates you to build them at all, will mean they will still feel like they are yours, even if you didn’t write every line of the code.</p>
+<p>Most would benefit from experimenting with AI. Regardless of how the next few years look, that is my recommendation.</p>
+<p>Thanks again to Zai Node for the API access.</p>
+<p>And thanks for reading!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/nick-dorsch\.github\.io\/blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

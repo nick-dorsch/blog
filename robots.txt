@@ -1,1 +1,1 @@
-Sitemap: https://dersley.github.io/blog/sitemap.xml
+Sitemap: https://nick-dorsch.github.io/blog/sitemap.xml
