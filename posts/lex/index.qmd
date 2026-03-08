@@ -159,10 +159,10 @@ highlighted. Spacebar triggers LLM assistance](media/lex_reader_screenshot.png)
 
 ## Development Process
 
-I decided to use Lex as an experiment, using open source models almost exclusively. I've
-been getting the impression that with good enough "context engineering", open source
-tokens can be just as effective as the boutique Anthropic/OpenAI ones, and the gap in
-capability is rapidly closing.
+I decided to use Lex as an experiment, building with open source models almost
+exclusively. I've been getting the impression that with good enough "context
+engineering", open source tokens can be just as effective as the boutique
+Anthropic/OpenAI ones, and the gap in capability is rapidly closing.
 
 Some friends of mine at the Australian AI startup _Zai Node_ were kind enough to provide an
 API key for use on this project, as they share a lot of my optimism about local and
@@ -180,8 +180,8 @@ code.
 I went to see Bad Bunny in Sydney while LLM agents grinded away on my codebase just as
 tirelessly as the concert goers, once the _reggaeton_ started. 
 
-![DeBÍ TiRAR MáS FOToS is a great album, but I forgot the unforgettable
-dance.](media/guy_in_corner_meme.jpg)
+![DeBÍ TiRAR MáS FOToS is a great album, but I never learned el baile
+inolvidable.](media/guy_in_corner_meme.jpg)
 
 It took about 4 days worth of coding sessions and I had most of the application written,
 the rest was refinement over the next week. There were also a few subtle but important
@@ -221,7 +221,7 @@ technology is ready, already, and it's basically free.
 Open source AI!
 
 Progress could grind to a halt tomorrow and things would still be irreversibly different
-to how they were a year ago.
+to how they were a year ago. Regardless of the endless hype, this is a big deal.
 
 # Ponder
 
@@ -230,10 +230,10 @@ As I mentioned earlier, I was able to let the agents run semi-unsupervised for a
 
 ![Me contributing to the project, ponderously](media/pondering-orb.png)
 
-Ponder is fairly simple. Tasks (the orbs being pondered) are narrowly scoped units of
-work. They are stored in a SQLite database in a Directed Acyclic Graph
-[DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Tasks have dependencies, and
-are only flagged as "available" if all dependencies are completed. This means that
+Ponder is fairly simple in concept. Tasks (the orbs being pondered) are narrowly scoped
+units of work. They are stored in a SQLite database in a Directed Acyclic Graph
+[DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Tasks have dependencies,
+and are only flagged as "available" if all dependencies are completed. This means that
 running multiple agents at once (I topped out at 4) becomes fairly simple, as agents
 only pick up available tasks, which are unlikely to clash given the dependency graph
 separating them. All other tasks are inaccessible.
@@ -248,25 +248,25 @@ required.
 
 I found I didn't need git worktrees (a way of isolating the working environment for each
 agent) - it was rare that the agents had any issues working on the codebase in parallel.
-I would guess worktrees, or some other creative solution would become necessary north of
-10 agents running in parallel, but it would depend on the size of the codebase and the
+I would guess worktrees, or some other creative solution would be necessary north of 10
+agents running in parallel, but it would depend on the size of the codebase and the
 testing framework. I can't see myself needing to go much faster, either. Working like
 this is already exhausting enough.
 
 ![Orbs shine purple when they are available for work, and turn gold when a worker is
 assigned to them. Blue orbs are done.](media/lex_development_screenshot.png)
 
-The tasks themselves are committed into the graph, along with their dependencies, by an
-orchestrator agent (the "Orbitor") that I talk to in [OpenCode](https://opencode.ai/),
-the open source agentic coding tool, (my recommendation for people getting started with
-coding agents). Tasks are highly detailed specification documents. The Orbitor is
-instructed to interview me, grilling me for detail before committing to a plan. This
-might mean 15-20 technical questions before it is satisfied. At times I needed help even
-understanding what was being asked, but that is a part of the process. There are many
-decisions to be made about different architectural directions and their trade-offs. Once
+The tasks themselves are added to the graph by an orchestrator agent (the "Orbitor")
+that I talk to in [OpenCode](https://opencode.ai/), the open source agentic coding tool
+that has become my tool of choice. Tasks are highly detailed specification documents.
+The Orbitor is instructed to interview me, grilling me for detail before committing to a
+plan. This might mean 15-20 technical questions before it is satisfied. At times I
+needed help even understanding what was being asked, being totally unfamiliar with
+Elixir and its conventions, but that is a part of the process. There are many decisions
+to be made about different architectural directions and their trade-offs. Once
 satisfied, the Orbitor commits a series of tasks into the graph, along with the
-dependencies between them, which worker agents are then assigned. While they work,
-I work with the Orbitor to define the next series of tasks.
+dependencies between them, which worker agents are then assigned. While they work, I
+work with the Orbitor to define the next series of tasks.
 
 This process works very well (Ponder mostly built itself using it), but is mentally
 exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by
@@ -274,29 +274,30 @@ stretches of relatively meditative coding, but now that is gone, and the next de
 is minutes, not hours, away.
 
 I'm not sure if other developers share this experience, but I'm frequently exhausted
-after a few hours working like this. And because it is so easy to get started on new
-projects I'll often have 4 or 5 experiments in progress at any given time. It's a lot to
-think about. The most productive engineers will be those who can manage all the
-context switching and decision making for longer stretches of time before burning out.
-The overlap of this quality with strong, clear visions of what to build (whether in a
-single person or a group of people), will create new companies that move mountains with
-this tech.
+after a few days working like this. Because it is so easy to get started on new projects
+I'll often have 4 or 5 experiments in progress at any given time. It's a lot to think
+about. The most effective engineers will be those who can manage all the context
+switching and decision making for longer stretches of time before burning out. The
+overlap of this quality with strong, clear visions of what to build (whether in a single
+person or a group of people), will create new companies that move mountains with this
+tech.
 
 As an aside, building Lex has taught me that Elixir is the great choice for agent
 orchestration projects like Ponder, and I would have used it if I had known better. The
 Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long
 running, highly concurrent and fault tolerant agent orchestration. Worker agents would
-be deployed with `GenServer`, supervised by higher order processes (`DynamicSupervisor`)
-that spin them back up if they crash or get stuck. They're literally called Supervisors
-in the language!
+be deployed with a `GenServer`, supervised by higher order processes
+(`DynamicSupervisor`) that spin them back up if they crash or get stuck. They're
+literally called Supervisors in the language!
 
 ![It's right there!](media/will_smith_meme.jpg)
 
 I would bet some big frameworks are released using Elixir. I saw that OpenAI is
 [building](https://github.com/openai/symphony/tree/main) with it while writing this.
 
-Tackling an enterprise grade agent orchestration framework, using ideas from Ponder and
-my experience creating Lex, is a likely next target for our work at LD Informatics.
+Tackling an enterprise grade agent orchestration framework for managing tasks and
+knowledge sharing, using ideas from Ponder and my experience creating Lex, is a likely
+next target for our work at LD Informatics.
 
 
 # What To Do?
@@ -307,13 +308,25 @@ close to me is that, while I don't know what will happen or when, it is a good i
 start getting familiar and capable with AI tools, regardless of your profession. Don't
 look away.
 
+Most people have a bad taste in their mouth from all the AI garbage being shoved into it
+day after day. All our feeds are full of AI generated slop. Infuriatingly cliched
+writing, pointless video clips, music stripped of its human soul. It all feels like a
+collosally disappointing waste of time and money, and in service of what end? Replacing
+us? I despise this stuff.
+
+The technology feels different, though, when you ride out and confront it on your
+terms, and hold on to a feeling of authorship, ownership, and agency while working with
+it.
+
 Yes, we're probably in a bubble. Yes, there is a great deal of hype filled nonsense.
 Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and
 best left ignored. But I'm not selling you anything, and I am telling you, deadset, that
 this technology is real, it can do a lot of real work, and it will do it faster and
 cheaper than any human can. If you give it the information and clear instructions it
-needs, it might just do your work better than you can. People with AI proficiency will
-become very valuable in many industries.
+needs, it might just do your work better than you can.
+
+Regardless of how this feels, I think it is true, and it is better to adapt than to
+ignore it. People with AI proficiency will become very valuable in many industries.
 
 Don't ask for something vague, with no context, and smugly watch the model fail. That is
 your ego preventing you from confronting it. Don't dismiss it all as slop, that is a
@@ -322,7 +335,7 @@ then decide what you think based on direct experience.
 
 If you are in the legal profession, do yourself a favour and install a coding agent and
 [Typst](https://typst.app/) (or ask the agent to install it for you), and give it the
-information it needs to work. Don't rely on its model training. Provide the documents so
+information it needs to work. Don't rely on its model training - provide the documents so
 that it can read sources directly. When you see the perfectly templated PDF magically
 recompile after every change the agent makes, and you find yourself in what is
 essentially a live interview with the document and all supporting materials, you will
@@ -343,7 +356,7 @@ the analysis you would run in Excel, and watch it recreate it with a short Pytho
 script, and output any plots or tables you want on the fly. Use Typst, compile it to a
 beautiful PDF. You can work differently and have a less painful life. Beautiful,
 colorful plots are how humans should interface with data, not tables of numbers. Tables
-of numbers are for robots.
+of numbers are for the machines.
 
 ```{mermaid}
 flowchart LR
@@ -370,16 +383,16 @@ started. You are a single command in your computer's terminal away from trying i
 curl -fsSL https://opencode.ai/install | bash
 ```
 
-If you're a software developer, you're probably riding this wave already. But if not -
-if you are a tinkerer who enjoys solving coding puzzles, and you resent the robot
-solving them for you - try to shift your mental gears into a higher order of puzzle
-solving. I do miss coding by hand, I've been obsessed with it for years, but there is a
-lot of new fun to be had working with agents, as well. Maybe you won't be deliberating
-over individual function implementations, or objects and how they are wired together,
-but you will definitely be wrestling with software architecture, the technologies to use
-and the trade-offs between them. And the vision you have for projects, the thing that
-motivates you to build them at all, will mean the projects still feel like they are
-yours, even if you didn't write every line of the code.
+If you're a software developer, you're probably riding this wave already. If not - if
+you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming,
+and you resent the robot taking that away - try to shift your mental gears into a higher
+order of puzzle solving. I do miss coding by hand, I've been obsessed with it for years,
+but there is a lot of new fun to be had working with agents, as well. Maybe you won't be
+deliberating over individual function implementations, or objects and how they are wired
+together, but you will definitely be wrestling with software architecture, the
+technologies to use and the trade-offs between them. The grand vision you have for
+projects, the thing that motivates you to build them at all, will mean they will still
+feel like they are yours, even if you didn't write every line of the code.
 
 Most would benefit from experimenting with AI. Regardless of how the next few years
 look, that is my recommendation.
