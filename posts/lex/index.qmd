@@ -6,11 +6,11 @@ categories: [coding]
 image: media/lex_statistics_screenshot.png
 ---
 
-> _A big thank you to Chris and Ant from [Zai Node](https://www.zainode.com/) for
+> A big thank you to Chris and Ant from [Zai Node](https://www.zainode.com/) for
 > providing API access to their Australian hosted, private GPU cluster for this
-> project._
+> project.
 
-# Introduction
+# Taking the AI Pill
 
 I spent last year in denial.
 
@@ -29,9 +29,9 @@ things can do a lot of damage very quickly. I'm sure we're in for many disasters
 to people letting the vibes take control at work. It is [already
 happening...](https://alexeyondata.substack.com/p/how-i-dropped-our-production-database)
 
-I think it would be irresponsible to let coding agents loose without significant
-guardrails and environment separation in projects managing sensitive systems, like
-databases and cloud infrastructure... 
+It would be unwise to let coding agents loose without significant guardrails and
+environment separation in projects managing sensitive systems, like databases and cloud
+infrastructure... 
 
 In my own time, though? With no company data on the line?
 
@@ -387,12 +387,13 @@ If you're a software developer, you're probably riding this wave already. If not
 you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming,
 and you resent the robot taking that away - try to shift your mental gears into a higher
 order of puzzle solving. I do miss coding by hand, I've been obsessed with it for years,
-but there is a lot of new fun to be had working with agents, as well. Maybe you won't be
-deliberating over individual function implementations, or objects and how they are wired
-together, but you will definitely be wrestling with software architecture, the
-technologies to use and the trade-offs between them. The grand vision you have for
-projects, the thing that motivates you to build them at all, will mean they will still
-feel like they are yours, even if you didn't write every line of the code.
+but there is a lot of new fun to be had working with agents, as well. 
+
+Maybe you won't be deliberating over individual function implementations, or objects and
+how they are wired together, but you will definitely be wrestling with software
+architecture, the technologies to use and the trade-offs between them. The grand vision
+you have for projects, the thing that motivates you to build them at all, will mean they
+will still feel like they are yours, even if you didn't write every line of the code.
 
 Most would benefit from experimenting with AI. Regardless of how the next few years
 look, that is my recommendation.
