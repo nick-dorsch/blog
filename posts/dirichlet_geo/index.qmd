@@ -12,8 +12,9 @@ import numpy as np
 import pandas as pd
 import altair as alt
 from scipy.stats import beta
+from src.plotting import apply_lex_altair_theme
 
-alt.theme.enable("dark")
+apply_lex_altair_theme()
 PLOT_WIDTH = "container"
 PLOT_HEIGHT = 250
 ```

@@ -1,0 +1,402 @@
+---
+title: "Open Source AI is Ready for Real Work"
+author: "Nicholas Dorsch"
+date: 2026-03-07
+categories: [coding]
+image: media/lex_statistics_screenshot.png
+---
+
+> _A big thank you to Chris and Ant from [Zai Node](https://www.zainode.com/) for
+> providing API access to their Australian hosted, private GPU cluster for this
+> project._
+
+# Introduction
+
+I spent last year in denial.
+
+I also spent last year employed... and maybe that partially explains the last 2 months.
+It is a wild time to be experimenting, without a boss to answer to, or an office to
+shuffle to each day.
+
+I was using LLMs every day, like most of us are, but I was always in tight control of
+all the code I was producing, holding firm to the egoistic notion that, because I knew
+my work better than the stochastic parrot, I needed to keep my hands on the wheel at all
+times. I also didn't really use it for anything other than coding help.
+
+And when working with clients my hands are still firmly on the wheel, if not hovering
+just above it. Accountability and ownership of work done is still important, and these
+things can do a lot of damage very quickly. I'm sure we're in for many disasters related
+to people letting the vibes take control at work. It is [already
+happening...](https://alexeyondata.substack.com/p/how-i-dropped-our-production-database)
+
+I think it would be irresponsible to let coding agents loose without significant
+guardrails and environment separation in projects managing sensitive systems, like
+databases and cloud infrastructure... 
+
+In my own time, though? With no company data on the line?
+
+![It's... different](media/venjent-create.gif)
+
+There are many people in denial about what is happening, like I was last year, but my
+recent experience with AI agents has made it clear to me that software development has
+fundamentally changed, and most other knowledge work will probably follow in the next
+few years.
+
+I'm not an outlier and none of this is intended as a boast, because I don't think any of
+what I'm doing is particularly impressive, but it is what becomes accessible when you
+let go, you put the keyboard down and you open your mind to the army of digital gremlins
+that you can now summon to do your bidding.
+
+The gremlins have gotten very smart, and maybe more importantly, very good at following
+instructions.
+
+In the last two months, since deciding to really push myself with AI, I have
+
+- Built an agent orchestration "code factory" called
+[Ponder](https://github.com/nick-dorsch/ponder), inspired by the work of [Geoffrey
+Huntley](https://ghuntley.com/ralph/) and [Steve
+Yegge](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04). First in Python
+(it was early) and then in Go (when I realised I should use a better tool, and my
+inability to code in it didn't matter). I'll explain Ponder a bit more later in this
+post.
+
+- Built a statistics library for reuse across all my company probabilistic modelling
+projects, with all the JSON serialization capabilities I've caught myself rebuilding
+over and over the past few years. It treats distributions and stochastic processes as
+primitives that can be composed into arbitrary Monte Carlo models, all serializable to
+JSON for database storage, and all lightning fast to simulate using `numpy` and
+`Xarray`.
+
+- Built most of an end to end mine site scoping/early feasibility study tool, which is
+essentially a hard rock version of the Resgo tool that does this kind of analysis for
+oil and gas prospecting. Both are now built on top of the statistics library (a major
+refactor for Resgo)
+
+- Written a fairly comprehensive legal analysis on a Strata dispute I'm in the middle
+of, with references to relevant statutes and case law, packaged up into several
+professionally typefaced documents intended for various recipients.
+
+- Set up a personal assistant with access to my emails and a knowledge graph via
+Obsidian (though to be fair, I've barely used it).
+
+- Made significant refactors across several company projects
+
+- Created landing page websites for the company and its products
+
+Perhaps most surprisingly for me, I have also
+
+- Updated my resume
+
+And most recently while experimenting with open source LLMs, I've built a language
+learner's reading aide called Lex.
+
+# Lex
+
+![A sample library using public domain books found in [Project
+Gutenberg](https://www.gutenberg.org/)](media/lex_library_screenshot.png)
+
+Lex solves a problem I have. I love reading in Spanish, but it is really hard. 
+
+Reading in your target language is a great way to learn, but it can be frustrating. You
+are often caught in a trade-off between comprehension and enjoyment. You don't want to
+read children's books; you want to read the things you would enjoy reading in your
+native language, but that usually means quite advanced content. Often you'll miss
+context, and subtext, through an inability to comprehend at a high enough level, which
+makes it hard to appreciate what you are reading, which feels like a waste of good
+material.
+
+Lex is the tool I've always wanted to help me read more difficult books, while keeping
+the text comprehensible and enjoyable. It is heavily inspired by
+[LingQ](https://www.lingq.com/en/), which I've used a lot in the past, but designed to
+work locally with my eBook collection, with LLM assistance built in, and keyboard
+shortcuts customized to my exact tastes (for me, that means Vim keybinds). 
+
+It runs as a web app locally on my home server, which other devices like my phone
+or laptop can access via my [tailnet](https://tailscale.com/) setup. It connects to my
+eBook library (using an open source program called
+[Calibre](https://calibre-ebook.com/)), allowing quick imports into the database. The
+database tracks all the book content, as well as detailed statistics of the words I
+read, whether I know them or am still learning them, how many times I've seen them and so
+on. 
+
+It uses a Python based [natural language processing](https://spacy.io/) pipeline to
+ingest text into the database, so that the content can be organized by sentence and
+_lexeme_ (the abstract unit of meaning that words point to, like ["running", "ran",
+"runs"] = "run") to make language learning progress more meaningful. Hence, Lex.
+
+The basic set of Vim inspired keyboard shortcuts are: `j` and `k` move up and down
+sentences, `w` and `b` move forward and backwards through words, `W` and `B` skip
+straight to highlighted words, and `space` triggers LLM help on the current word. For me
+at least, it is a very nice user experience.
+
+Everything is timestamped, so detailed time series information can be generated by the
+database for visualizations like this:
+
+![Word reading event counts, broken down in 20 minute time intervals. Overkill? Yes.
+Line more squiggly and fun to look at? Also yes.](media/lex_statistics_screenshot.png)
+
+The collection of reading statistics is a nice motivating factor for a data nerd like
+me, and I'm finding myself in a bit of an addictive loop, keeping my learned words
+increasing over time with reading sessions each day. The white dashed line in the plot
+above is total words read, while the green and yellow areas are tracking lexemes that
+I know or am currently learning, respectively. Line go up. Feels good. Do it more.
+
+I've experimented with a variety of LLMs for the translation help inside the app, and
+have settled on Claude Haiku, because it is so fast and essentially free to run (I've
+spent about 25 cents so far). Locally running models will soon be the best solution for
+this kind of application as they'll remove the network hop required with calling
+external model providers, though I found the latest Qwen 3.5 range of models to be
+either reliable but too slow, or unreliable and fast. At least for now, Haiku gives me
+the best mix of speed and reliability. 
+
+Because Phoenix LiveView (the web framework I used) is built around websockets (keeping
+persistent connections open between the server and client), streaming LLM output into
+the interface was easy to set up, and it helps reduce the perceived delay in responses.
+Everything feels very snappy and responsive.
+
+![Reading is sentence by sentence. New words are outlined, words that I'm learning are
+highlighted. Spacebar triggers LLM assistance](media/lex_reader_screenshot.png)
+
+## Development Process
+
+I decided to use Lex as an experiment, building with open source models almost
+exclusively. I've been getting the impression that with good enough "context
+engineering", open source tokens can be just as effective as the boutique
+Anthropic/OpenAI ones, and the gap in capability is rapidly closing.
+
+Some friends of mine at the Australian AI startup _Zai Node_ were kind enough to provide an
+API key for use on this project, as they share a lot of my optimism about local and
+open source LLM adoption. The majority of the project was built using Kimi K2.5 via
+their privately hosted API, running on their GPU cluster. This meant very low latency,
+very fast LLM inference.
+
+I intentionally built Lex using tech I had no prior experience with (Elixir and Phoenix
+LiveView) to force myself to rely heavily on the agents to implement everything for me,
+and I never really touched the code myself. The majority of the development was done
+using my task manager Ponder. On a few occasions I created a large backlog of tasks and
+just let it run overnight, waking up to thousands of new lines of tested, functional
+code. 
+
+I went to see Bad Bunny in Sydney while LLM agents grinded away on my codebase just as
+tirelessly as the concert goers, once the _reggaeton_ started. 
+
+![DeBÍ TiRAR MáS FOToS is a great album, but I never learned el baile
+inolvidable.](media/guy_in_corner_meme.jpg)
+
+It took about 4 days worth of coding sessions and I had most of the application written,
+the rest was refinement over the next week. There were also a few subtle but important
+bugs that were not picked up in tests, which I only noticed digging around in the
+database. Fair warning that LLM code output is all very "plausible" looking, which makes
+it very difficult to find mistakes if they are not captured in tests. The agent will
+write a test based on a mistaken assumption (maybe due to a poorly specified description
+of the task), which bakes in the incorrect logic.
+
+Regardless, this would have been a month of work if I was an Elixir developer on day
+one, and more like 3 months learning the ropes without that prior experience. The
+product as written by me would also have had worse test coverage and documentation. Just
+being honest. 
+
+At least I would have had mastery over the codebase if I wrote it myself... I had the
+agents create architecture diagrams for me to help understand what was built, but
+honestly? I'll never get the level of understanding that naturally emerges as you write
+the code yourself, and I don't think that experience is replaceable. Maybe I'll build up
+understanding over time, but when I encounter a bug there is no alarm in my head saying
+_"that might be because of X function in this file, check there first"_, it's usually more
+like _"clanker pls help my buton is not wokring, fix it"_. Even the database layer, that
+I normally take so much pride in, is obscure to me, written using Elixir's ORM Ecto
+instead of my native SQL.
+
+But it works! 
+
+I'm using it _a lot_ and having a great time. It is software built just for me that I
+never would have bothered building otherwise. Maybe others will stumble upon it and find
+some use in it, but that wasn't my goal. I just wanted the thing, and now I have it.
+
+AI!
+
+And I did it almost entirely using open source models, for free in my case, but
+otherwise very cheap from other providers, using an open source agent harness. The
+technology is ready, already, and it's basically free. 
+
+Open source AI!
+
+Progress could grind to a halt tomorrow and things would still be irreversibly different
+to how they were a year ago. Regardless of the endless hype, this is a big deal.
+
+# Ponder
+
+As I mentioned earlier, I was able to let the agents run semi-unsupervised for around
+80% of the development using my agent task manager, Ponder. 
+
+![Me contributing to the project, ponderously](media/pondering-orb.png)
+
+Ponder is fairly simple in concept. Tasks (the orbs being pondered) are narrowly scoped
+units of work. They are stored in a SQLite database in a Directed Acyclic Graph
+[DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Tasks have dependencies,
+and are only flagged as "available" if all dependencies are completed. This means that
+running multiple agents at once (I topped out at 4) becomes fairly simple, as agents
+only pick up available tasks, which are unlikely to clash given the dependency graph
+separating them. All other tasks are inaccessible.
+
+A worker agent assigned a task is told to write the code for the task spec, then write
+tests for it, and to iterate on the code until all the tests pass. Once the tests pass
+it commits its code changes to git, and stops. The cycle repeats for tasks across the
+graph as new dependencies are met. This cycle of validation is the reason this process
+works at all. Without strong validation checkpoints, models will often go off the rails
+and litter your code with bugs. Less capable models mean tighter validation loops are
+required.
+
+I found I didn't need git worktrees (a way of isolating the working environment for each
+agent) - it was rare that the agents had any issues working on the codebase in parallel.
+I would guess worktrees, or some other creative solution would be necessary north of 10
+agents running in parallel, but it would depend on the size of the codebase and the
+testing framework. I can't see myself needing to go much faster, either. Working like
+this is already exhausting enough.
+
+![Orbs shine purple when they are available for work, and turn gold when a worker is
+assigned to them. Blue orbs are done.](media/lex_development_screenshot.png)
+
+The tasks themselves are added to the graph by an orchestrator agent (the "Orbitor")
+that I talk to in [OpenCode](https://opencode.ai/), the open source agentic coding tool
+that has become my tool of choice. Tasks are highly detailed specification documents.
+The Orbitor is instructed to interview me, grilling me for detail before committing to a
+plan. This might mean 15-20 technical questions before it is satisfied. At times I
+needed help even understanding what was being asked, being totally unfamiliar with
+Elixir and its conventions, but that is a part of the process. There are many decisions
+to be made about different architectural directions and their trade-offs. Once
+satisfied, the Orbitor commits a series of tasks into the graph, along with the
+dependencies between them, which worker agents are then assigned. While they work, I
+work with the Orbitor to define the next series of tasks.
+
+This process works very well (Ponder mostly built itself using it), but is mentally
+exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by
+stretches of relatively meditative coding, but now that is gone, and the next decision
+is minutes, not hours, away.
+
+I'm not sure if other developers share this experience, but I'm frequently exhausted
+after a few days working like this. Because it is so easy to get started on new projects
+I'll often have 4 or 5 experiments in progress at any given time. It's a lot to think
+about. The most effective engineers will be those who can manage all the context
+switching and decision making for longer stretches of time before burning out. The
+overlap of this quality with strong, clear visions of what to build (whether in a single
+person or a group of people), will create new companies that move mountains with this
+tech.
+
+As an aside, building Lex has taught me that Elixir is the great choice for agent
+orchestration projects like Ponder, and I would have used it if I had known better. The
+Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long
+running, highly concurrent and fault tolerant agent orchestration. Worker agents would
+be deployed with a `GenServer`, supervised by higher order processes
+(`DynamicSupervisor`) that spin them back up if they crash or get stuck. They're
+literally called Supervisors in the language!
+
+![It's right there!](media/will_smith_meme.jpg)
+
+I would bet some big frameworks are released using Elixir. I saw that OpenAI is
+[building](https://github.com/openai/symphony/tree/main) with it while writing this.
+
+Tackling an enterprise grade agent orchestration framework for managing tasks and
+knowledge sharing, using ideas from Ponder and my experience creating Lex, is a likely
+next target for our work at LD Informatics.
+
+
+# What To Do?
+
+AI is moving fast, and I imagine it is as disorienting to others as it has been to me,
+to the extent that often it is easier to just... look away. What I'm telling people
+close to me is that, while I don't know what will happen or when, it is a good idea to
+start getting familiar and capable with AI tools, regardless of your profession. Don't
+look away.
+
+Most people have a bad taste in their mouth from all the AI garbage being shoved into it
+day after day. All our feeds are full of AI generated slop. Infuriatingly cliched
+writing, pointless video clips, music stripped of its human soul. It all feels like a
+collosally disappointing waste of time and money, and in service of what end? Replacing
+us? I despise this stuff.
+
+The technology feels different, though, when you ride out and confront it on your
+terms, and hold on to a feeling of authorship, ownership, and agency while working with
+it.
+
+Yes, we're probably in a bubble. Yes, there is a great deal of hype filled nonsense.
+Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and
+best left ignored. But I'm not selling you anything, and I am telling you, deadset, that
+this technology is real, it can do a lot of real work, and it will do it faster and
+cheaper than any human can. If you give it the information and clear instructions it
+needs, it might just do your work better than you can.
+
+Regardless of how this feels, I think it is true, and it is better to adapt than to
+ignore it. People with AI proficiency will become very valuable in many industries.
+
+Don't ask for something vague, with no context, and smugly watch the model fail. That is
+your ego preventing you from confronting it. Don't dismiss it all as slop, that is a
+thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and
+then decide what you think based on direct experience.
+
+If you are in the legal profession, do yourself a favour and install a coding agent and
+[Typst](https://typst.app/) (or ask the agent to install it for you), and give it the
+information it needs to work. Don't rely on its model training - provide the documents so
+that it can read sources directly. When you see the perfectly templated PDF magically
+recompile after every change the agent makes, and you find yourself in what is
+essentially a live interview with the document and all supporting materials, you will
+realise the way you work has fundamentally changed.
+
+```{mermaid}
+flowchart LR
+    A[Source Documents]
+    A --> C[Agent]
+    F[You] --> C
+    C --> D[Typst]
+    D --> E[PDF]
+    E --> F
+```
+
+If you live in spreadsheets, install a coding agent, output your data to csv, explain
+the analysis you would run in Excel, and watch it recreate it with a short Python
+script, and output any plots or tables you want on the fly. Use Typst, compile it to a
+beautiful PDF. You can work differently and have a less painful life. Beautiful,
+colorful plots are how humans should interface with data, not tables of numbers. Tables
+of numbers are for the machines.
+
+```{mermaid}
+flowchart LR
+    A[Source Data]
+    A --> C[Agent]
+    F[You] --> C
+    C --> D[Typst]
+    C --> G[Python]
+    G --> H[Plots and Tables]
+    H --> D
+    D --> E[PDF]
+    E --> F
+```
+
+If you run a small business and your invoicing or client management or whatever is a
+mess, install a coding agent and just talk to it about your problems and brainstorm what
+you can do to fix them. It might be as simple as organizing your file system, or it
+could be creating an automated invoicing system. 
+
+OpenCode usually has models provided for free, so you don't even have to pay to get
+started. You are a single command in your computer's terminal away from trying it:
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
+```
+
+If you're a software developer, you're probably riding this wave already. If not - if
+you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming,
+and you resent the robot taking that away - try to shift your mental gears into a higher
+order of puzzle solving. I do miss coding by hand, I've been obsessed with it for years,
+but there is a lot of new fun to be had working with agents, as well. Maybe you won't be
+deliberating over individual function implementations, or objects and how they are wired
+together, but you will definitely be wrestling with software architecture, the
+technologies to use and the trade-offs between them. The grand vision you have for
+projects, the thing that motivates you to build them at all, will mean they will still
+feel like they are yours, even if you didn't write every line of the code.
+
+Most would benefit from experimenting with AI. Regardless of how the next few years
+look, that is my recommendation.
+
+Thanks again to Zai Node for the API access.
+
+And thanks for reading!

@@ -16,12 +16,12 @@ format:
     toc-depth: 3
     toc-location: right
     theme: darkly
+    highlight-style: gruvbox
     css: styles.css
     fig-align: center
     code-fold: true
     code-line-numbers: false
     
-
 
 
 

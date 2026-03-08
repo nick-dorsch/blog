@@ -1,32 +1,87 @@
-/* css styles */
+/* Lex palette + typography */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;500;700&display=swap");
 
-/* Set gray background for entire page */
-body {
-  background-color: #333333;
-  color: #ffffff;
-  font-family: "Source Sans Pro", "Times New Roman", serif;
-}
-
-/* Override other elements for better visibility */
-a {
-  color: #add8e6; /* light blue links */
-}
-
-/* Mermaid diagram font color */
 :root {
-  --mermaid-label-fg-color: #ffffff;
+  --warm-bg: #292524;
+  --warm-surface: #463a2f;
+  --warm-surface-strong: #3f342a;
+  --warm-code-bg: #332d28;
+  --warm-border: #665340;
+  --warm-border-strong: #7b6149;
+  --warm-text: #f4e9d7;
+  --warm-text-muted: #d5c2a6;
+  --warm-text-subtle: #b79e81;
+  --warm-gold: #c78d3b;
+  --warm-gold-soft: #ddb06d;
+
+  --bs-body-color: var(--warm-text);
+  --bs-body-bg: var(--warm-bg);
+  --bs-border-color: var(--warm-border);
+  --bs-link-color: var(--warm-gold-soft);
+  --bs-link-hover-color: var(--warm-gold);
+  --bs-emphasis-color: var(--warm-text);
 }
 
-.mermaid .edgePath path {
-  stroke: #ffffff !important;
+body {
+  background-color: var(--warm-bg);
+  color: var(--warm-text);
+  font-family: "Merriweather", "Times New Roman", serif;
+  font-size: 1.06rem;
+  line-height: 1.7;
 }
 
-.mermaid .marker {
-  fill: #ffffff !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--warm-text);
 }
 
-.navbar {
-  background-color: #1f1e1e !important;
+p,
+li,
+dt,
+dd {
+  color: var(--warm-text);
+}
+
+a,
+.nav-link,
+.navbar-brand {
+  color: var(--warm-gold-soft);
+}
+
+a:hover,
+.nav-link:hover,
+.navbar-brand:hover {
+  color: var(--warm-gold);
+}
+
+.navbar,
+#quarto-header {
+  background-color: var(--warm-bg) !important;
+  border-bottom: 1px solid var(--warm-border);
+}
+
+.navbar .navbar-nav .nav-link.active,
+.navbar .navbar-nav .show > .nav-link {
+  color: var(--warm-text);
+}
+
+.nav-link.active,
+#TOC .nav-link.active {
+  color: var(--warm-gold) !important;
+}
+
+#TOC .nav-link,
+#TOC ul > li > a {
+  border-left-color: transparent !important;
+}
+
+#TOC .nav-link.active,
+#TOC ul > li > a.active {
+  border-left-color: var(--warm-gold) !important;
 }
 
 .quarto-title-banner {
@@ -34,23 +89,163 @@ a {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-color: transparent !important; */
-  color: white;
+  color: var(--warm-text);
   z-index: 0;
 }
 
-/* Footnote background and color */
+.quarto-title-banner .title,
+#title-block-header .title,
+#title-block-header .subtitle,
+#title-block-header .quarto-title-meta-heading,
+#title-block-header .quarto-title-meta-contents,
+#title-block-header .quarto-title-meta-contents p,
+#title-block-header .quarto-category,
+#title-block-header .quarto-title .quarto-categories .quarto-category {
+  color: var(--warm-text) !important;
+}
+
+#title-block-header .quarto-title-meta {
+  border-top: 1px solid var(--warm-border);
+  color: var(--warm-text-muted);
+}
+
+#title-block-header .quarto-title-meta-heading {
+  color: var(--warm-text-subtle) !important;
+}
+
+#title-block-header .quarto-category {
+  background-color: rgba(199, 141, 59, 0.15);
+  border: 1px solid rgba(199, 141, 59, 0.45);
+}
+
+.sidebar,
+#TOC,
+.toc-active,
+.quarto-margin-sidebar {
+  background-color: var(--warm-bg);
+  border-color: var(--warm-border);
+}
+
+pre,
+code,
+.sourceCode,
+div.sourceCode {
+  background-color: var(--warm-code-bg) !important;
+  border-color: var(--warm-border) !important;
+  color: var(--warm-text-muted) !important;
+}
+
+blockquote {
+  border-left: 4px solid var(--warm-border-strong);
+  color: var(--warm-text-muted);
+}
+
+table,
+th,
+td {
+  border-color: var(--warm-border) !important;
+}
+
+th {
+  color: var(--warm-text-muted);
+}
+
+td {
+  color: var(--warm-text);
+}
+
+.btn,
+.btn-primary,
+.btn-secondary {
+  background-color: var(--warm-surface);
+  border-color: var(--warm-border-strong);
+  color: var(--warm-text);
+}
+
+.btn:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: var(--warm-surface-strong);
+  border-color: var(--warm-border-strong);
+  color: var(--warm-text);
+}
+
+hr,
+.quarto-listing-border,
+.table,
+.table > :not(caption) > * > * {
+  border-color: var(--warm-border) !important;
+}
+
+.footnotes,
+#quarto-appendix.default {
+  background-color: var(--warm-bg);
+  color: var(--warm-text);
+  border-top: 1px solid var(--warm-border);
+}
+
 .footnotes {
-  background-color: #333333;
-  color: #ffffff;
-  border-top: 1px solid #555555;
   padding-top: 1em;
 }
 
 #quarto-appendix.default {
-  background-color: #333333; /* match page background */
-  color: #ffffff;            /* match text color */
   padding-top: 1.5em;
   margin-top: 2em;
   z-index: 998;
+}
+
+/* Mermaid diagram colors */
+:root {
+  --mermaid-label-fg-color: var(--warm-text);
+  --mermaid-edge-color: var(--warm-text);
+  --mermaid-label-bg-color: var(--warm-bg);
+  --mermaid-fg-color: var(--warm-text);
+  --mermaid-font-family: "Merriweather", "Times New Roman", serif;
+}
+
+.mermaid .edgePath .path,
+.mermaid path.flowchart-link,
+.mermaid .flowchart-link,
+.mermaid .messageLine0,
+.mermaid .messageLine1,
+.mermaid .loopLine {
+  stroke: var(--warm-text) !important;
+}
+
+.mermaid .edge-thickness-normal,
+.mermaid .edge-thickness-thick {
+  stroke: var(--warm-text) !important;
+}
+
+.mermaid .edge-thickness-normal {
+  stroke-width: 2.5px !important;
+}
+
+.mermaid .edge-thickness-thick {
+  stroke-width: 4px !important;
+}
+
+.mermaid .marker,
+.mermaid .arrowheadPath,
+.mermaid marker path {
+  fill: var(--warm-text) !important;
+}
+
+.mermaid .edgeLabel,
+.mermaid .edgeLabel .label,
+.mermaid .edgeLabel div,
+.mermaid .edgeLabel span,
+.mermaid .edgeLabel p,
+.mermaid .messageText,
+.mermaid .label {
+  color: var(--warm-text) !important;
+  fill: var(--warm-text) !important;
+  background-color: transparent !important;
+}
+
+.mermaid .edgeLabel rect,
+.mermaid .label-container,
+.mermaid .labelBkg {
+  fill: var(--warm-bg) !important;
+  stroke: var(--warm-border) !important;
 }
