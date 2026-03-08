@@ -155,6 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">Open Source AI is Ready for Real Work</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">coding</div>
+                <div class="quarto-category">AI</div>
               </div>
                   </div>
   </div>
@@ -191,10 +192,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#taking-the-ai-pill" id="toc-taking-the-ai-pill" class="nav-link active" data-scroll-target="#taking-the-ai-pill">Taking the AI Pill</a></li>
   <li><a href="#lex" id="toc-lex" class="nav-link" data-scroll-target="#lex">Lex</a>
   <ul class="collapse">
-  <li><a href="#development-process" id="toc-development-process" class="nav-link" data-scroll-target="#development-process">Development Process</a></li>
+  <li><a href="#developing-software-with-agents" id="toc-developing-software-with-agents" class="nav-link" data-scroll-target="#developing-software-with-agents">Developing Software with Agents</a></li>
   </ul></li>
   <li><a href="#ponder" id="toc-ponder" class="nav-link" data-scroll-target="#ponder">Ponder</a></li>
-  <li><a href="#what-to-do" id="toc-what-to-do" class="nav-link" data-scroll-target="#what-to-do">What To Do?</a></li>
+  <li><a href="#some-closing-thoughts" id="toc-some-closing-thoughts" class="nav-link" data-scroll-target="#some-closing-thoughts">Some Closing Thoughts</a></li>
   </ul>
 </nav>
     </div>
@@ -211,10 +212,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="taking-the-ai-pill" class="level1">
 <h1>Taking the AI Pill</h1>
 <p>I spent last year in denial.</p>
-<p>I also spent last year employed… and maybe that partially explains the last 2 months. It is a wild time to be experimenting, without a boss to answer to, or an office to shuffle to each day.</p>
-<p>I was using LLMs every day, like most of us are, but I was always in tight control of all the code I was producing, holding firm to the egoistic notion that, because I knew my work better than the stochastic parrot, I needed to keep my hands on the wheel at all times. I also didn’t really use it for anything other than coding help.</p>
-<p>And when working with clients my hands are still firmly on the wheel, if not hovering just above it. Accountability and ownership of work done is still important, and these things can do a lot of damage very quickly. I’m sure we’re in for many disasters related to people letting the vibes take control at work. It is <a href="https://alexeyondata.substack.com/p/how-i-dropped-our-production-database">already happening…</a></p>
-<p>It would be unwise to let coding agents loose without significant guardrails and environment separation in projects managing sensitive systems, like databases and cloud infrastructure…</p>
+<p>I also spent last year with a job… and maybe not having one partially explains the last 2 months. It is a wild time to be experimenting, without a boss to answer to, or an office to shuffle to each morning.</p>
+<p>I was using LLMs every day, like most of us are, but I was always in tight control of the code I was producing, holding strong to the notion that, because I knew my work better than the stochastic parrot, I needed to keep my hands firmly on the wheel at all times. I also didn’t really use it for anything other than coding help.</p>
+<p>And when working with clients my hands are still firmly on the wheel, if not hovering just above it. These things can do a lot of damage very quickly. I’m sure we’re in for many disasters related to people letting the vibes take control at work. It is already starting to <a href="https://alexeyondata.substack.com/p/how-i-dropped-our-production-database">happen</a>.</p>
+<p>It would be unwise to let coding agents loose without significant guardrails and environment separation in projects managing sensitive systems…</p>
 <p>In my own time, though? With no company data on the line?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -222,16 +223,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>It’s… different</figcaption>
 </figure>
 </div>
-<p>There are many people in denial about what is happening, like I was last year, but my recent experience with AI agents has made it clear to me that software development has fundamentally changed, and most other knowledge work will probably follow in the next few years.</p>
-<p>I’m not an outlier and none of this is intended as a boast, because I don’t think any of what I’m doing is particularly impressive, but it is what becomes accessible when you let go, you put the keyboard down and you open your mind to the army of digital gremlins that you can now summon to do your bidding.</p>
+<p>Many are in denial about what is happening, like I was last year, but my recent experience with AI agents has made it clear to me that software development has fundamentally changed, and most other knowledge work will probably follow in the next few years.</p>
+<p>I’m not an outlier and none of this is intended as a boast, because I don’t think any of what I’m doing is particularly impressive, but it is what becomes achievable when you let go, you put the keyboard down and you open your mind to the army of digital gremlins that you can now summon to do your bidding.</p>
 <p>The gremlins have gotten very smart, and maybe more importantly, very good at following instructions.</p>
 <p>In the last two months, since deciding to really push myself with AI, I have</p>
 <ul>
 <li><p>Built an agent orchestration “code factory” called <a href="https://github.com/nick-dorsch/ponder">Ponder</a>, inspired by the work of <a href="https://ghuntley.com/ralph/">Geoffrey Huntley</a> and <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge</a>. First in Python (it was early) and then in Go (when I realised I should use a better tool, and my inability to code in it didn’t matter). I’ll explain Ponder a bit more later in this post.</p></li>
-<li><p>Built a statistics library for reuse across all my company probabilistic modelling projects, with all the JSON serialization capabilities I’ve caught myself rebuilding over and over the past few years. It treats distributions and stochastic processes as primitives that can be composed into arbitrary Monte Carlo models, all serializable to JSON for database storage, and all lightning fast to simulate using <code>numpy</code> and <code>Xarray</code>.</p></li>
-<li><p>Built most of an end to end mine site scoping/early feasibility study tool, which is essentially a hard rock version of the Resgo tool that does this kind of analysis for oil and gas prospecting. Both are now built on top of the statistics library (a major refactor for Resgo)</p></li>
+<li><p>Built a statistics library for reuse across all my company probabilistic modelling projects, with all the JSON serialization capabilities I’ve caught myself rebuilding over and over the past few years. It treats distributions and stochastic processes as primitives that can be composed into arbitrary Monte Carlo models, all serializable to JSON for database storage, and all lightning fast to simulate using <code>numpy</code> and <code>Xarray</code></p></li>
+<li><p>Built most of an end-to-end mine site scoping/early feasibility study tool, which is essentially a hard rock version of the Resgo tool that does this kind of analysis for oil and gas prospecting. Both are now built on top of the statistics library (a major refactor for Resgo)</p></li>
 <li><p>Written a fairly comprehensive legal analysis on a Strata dispute I’m in the middle of, with references to relevant statutes and case law, packaged up into several professionally typefaced documents intended for various recipients.</p></li>
-<li><p>Set up a personal assistant with access to my emails and a knowledge graph via Obsidian (though to be fair, I’ve barely used it).</p></li>
+<li><p>Set up a personal assistant with access to my emails and a knowledge graph via Obsidian (though to be fair, I’ve barely used it)</p></li>
 <li><p>Made significant refactors across several company projects</p></li>
 <li><p>Created landing page websites for the company and its products</p></li>
 </ul>
@@ -239,43 +240,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Updated my resume</li>
 </ul>
-<p>And most recently while experimenting with open source LLMs, I’ve built a language learner’s reading aide called Lex.</p>
+<p>Most recently, while experimenting with open-source LLMs, I’ve built a language learner’s reading aide called Lex.</p>
 </section>
 <section id="lex" class="level1">
 <h1>Lex</h1>
+<p>Lex solves a problem I have. I love reading in Spanish, but it is really hard.</p>
+<p>Reading in your target language is a great way to learn but it can be frustrating. You are often caught in a trade-off between comprehension and enjoyment. You don’t want to read children’s books; you want to read the things you’d enjoy in your native language, but that is usually pretty advanced. Often you’ll miss context or subtext, through an inability to comprehend at a high enough level. Poetic language is especially difficult. This makes it harder to appreciate what you are reading, and that makes it feel like a waste of good material.</p>
+<p>Lex is the tool I’ve always wanted to help me read more difficult books, while keeping them comprehensible and enjoyable. It is heavily inspired by <a href="https://www.lingq.com/en/">LingQ</a>, which I’ve used a lot in the past, but designed to work locally with my ebook collection, with LLM assistance built in, and keyboard shortcuts customized to my exact tastes.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/lex_library_screenshot.png" class="img-fluid figure-img"></p>
-<figcaption>A sample library using public domain books found in <a href="https://www.gutenberg.org/">Project Gutenberg</a></figcaption>
+<figcaption>Linked to your ebook collection. Shown is a sample library using public domain books found in <a href="https://www.gutenberg.org/">Project Gutenberg</a></figcaption>
 </figure>
 </div>
-<p>Lex solves a problem I have. I love reading in Spanish, but it is really hard.</p>
-<p>Reading in your target language is a great way to learn, but it can be frustrating. You are often caught in a trade-off between comprehension and enjoyment. You don’t want to read children’s books; you want to read the things you would enjoy reading in your native language, but that usually means quite advanced content. Often you’ll miss context, and subtext, through an inability to comprehend at a high enough level, which makes it hard to appreciate what you are reading, which feels like a waste of good material.</p>
-<p>Lex is the tool I’ve always wanted to help me read more difficult books, while keeping the text comprehensible and enjoyable. It is heavily inspired by <a href="https://www.lingq.com/en/">LingQ</a>, which I’ve used a lot in the past, but designed to work locally with my eBook collection, with LLM assistance built in, and keyboard shortcuts customized to my exact tastes (for me, that means Vim keybinds).</p>
-<p>It runs as a web app locally on my home server, which other devices like my phone or laptop can access via my <a href="https://tailscale.com/">tailnet</a> setup. It connects to my eBook library (using an open source program called <a href="https://calibre-ebook.com/">Calibre</a>), allowing quick imports into the database. The database tracks all the book content, as well as detailed statistics of the words I read, whether I know them or am still learning them, how many times I’ve seen them and so on.</p>
-<p>It uses a Python based <a href="https://spacy.io/">natural language processing</a> pipeline to ingest text into the database, so that the content can be organized by sentence and <em>lexeme</em> (the abstract unit of meaning that words point to, like [“running”, “ran”, “runs”] = “run”) to make language learning progress more meaningful. Hence, Lex.</p>
-<p>The basic set of Vim inspired keyboard shortcuts are: <code>j</code> and <code>k</code> move up and down sentences, <code>w</code> and <code>b</code> move forward and backwards through words, <code>W</code> and <code>B</code> skip straight to highlighted words, and <code>space</code> triggers LLM help on the current word. For me at least, it is a very nice user experience.</p>
-<p>Everything is timestamped, so detailed time series information can be generated by the database for visualizations like this:</p>
+<p>It runs as a web app on my home server, which other devices like my phone or laptop can access via my <a href="https://tailscale.com/">Tailscale</a> setup. It connects to my ebook library (using an open-source program called <a href="https://calibre-ebook.com/">Calibre</a>), allowing quick imports into the database. The database tracks all the book content, as well as detailed statistics of the words I read, whether I know them or am still learning them, how many times I’ve seen them and so on.</p>
+<p>It uses a Python based <a href="https://spacy.io/">natural language processing</a> pipeline to ingest text into the database, so that the content can be organized by sentence and <em>lexeme</em> (the abstract unit of meaning that words point to, like [“running”, “ran”, “runs”] = “run”) to make language learning progress more meaningful. Hence, “Lex”.</p>
+<p>The Vim inspired keyboard shortcuts are:</p>
+<ul>
+<li><code>j</code> and <code>k</code> move up and down sentences,</li>
+<li><code>w</code> and <code>b</code> move forward and backward through words,</li>
+<li>upper case <code>W</code> and <code>B</code> skip straight to highlighted words, and</li>
+<li><code>space</code> triggers LLM help on the current word</li>
+</ul>
+<p>For me at least, it is a very nice experience.</p>
+<p>Everything is timestamped, so detailed time-series analytics can be generated:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/lex_statistics_screenshot.png" class="img-fluid figure-img"></p>
-<figcaption>Word reading event counts, broken down in 20 minute time intervals. Overkill? Yes. Line more squiggly and fun to look at? Also yes.</figcaption>
+<figcaption>Word counts, broken down in 20 minute time intervals. Overkill? Yes. Line more squiggly and fun to look at? Also yes.</figcaption>
 </figure>
 </div>
-<p>The collection of reading statistics is a nice motivating factor for a data nerd like me, and I’m finding myself in a bit of an addictive loop, keeping my learned words increasing over time with reading sessions each day. The white dashed line in the plot above is total words read, while the green and yellow areas are tracking lexemes that I know or am currently learning, respectively. Line go up. Feels good. Do it more.</p>
-<p>I’ve experimented with a variety of LLMs for the translation help inside the app, and have settled on Claude Haiku, because it is so fast and essentially free to run (I’ve spent about 25 cents so far). Locally running models will soon be the best solution for this kind of application as they’ll remove the network hop required with calling external model providers, though I found the latest Qwen 3.5 range of models to be either reliable but too slow, or unreliable and fast. At least for now, Haiku gives me the best mix of speed and reliability.</p>
-<p>Because Phoenix LiveView (the web framework I used) is built around websockets (keeping persistent connections open between the server and client), streaming LLM output into the interface was easy to set up, and it helps reduce the perceived delay in responses. Everything feels very snappy and responsive.</p>
+<p>The reading statistics are a nice motivating factor for a data nerd like me, and I’m finding myself in a bit of an addictive loop, keeping my learned words increasing with reading sessions each day. The white dashed line is total words read, while the green and yellow areas are tracking lexemes that I know or am currently learning, respectively. Line go up. Feels good. Do it more.</p>
+<p>The use of a Large Language Model for translation assistance is a very natural fit. Instead of dictionary definitions (which are slow, can be misleading, and lack all context), words are explained in the context of the sentence you are reading and the book it is from. That means, even in very tricky passages using odd turns of phrase, slang, or poetric imagery, the LLM will give you a pretty good idea of what is happening. Instead of storing dictionary definitions, the database stores the explanations you get when you ask for help, so you can look through all the different contexts you have encountered words and how the model explained them.</p>
+<p>I’ve experimented with a few different LLMs for the translation help, and have settled on Claude Haiku because it is so fast and essentially free to run (I’ve spent about 25 cents so far). Open Source models running on your own machine will soon be the best solution for these kind of applications, as they’ll remove the network hop required to call external model APIs, though I found the latest Qwen 3.5 range of models to be either reliable but too slow, or fast but too unreliable. At least for now, Haiku gave me the best mix of speed and reliability.</p>
+<p>Everything feels very snappy and responsive, and the low contrast theme combined with big text makes long reading sessions comfortable.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/lex_reader_screenshot.png" class="img-fluid figure-img"></p>
-<figcaption>Reading is sentence by sentence. New words are outlined, words that I’m learning are highlighted. Spacebar triggers LLM assistance</figcaption>
+<figcaption>Reading is sentence by sentence. New words are outlined, words that I’m learning are highlighted. Spacebar triggers LLM assistance on the right</figcaption>
 </figure>
 </div>
-<section id="development-process" class="level2">
-<h2 class="anchored" data-anchor-id="development-process">Development Process</h2>
-<p>I decided to use Lex as an experiment, building with open source models almost exclusively. I’ve been getting the impression that with good enough “context engineering”, open source tokens can be just as effective as the boutique Anthropic/OpenAI ones, and the gap in capability is rapidly closing.</p>
-<p>Some friends of mine at the Australian AI startup <em>Zai Node</em> were kind enough to provide an API key for use on this project, as they share a lot of my optimism about local and open source LLM adoption. The majority of the project was built using Kimi K2.5 via their privately hosted API, running on their GPU cluster. This meant very low latency, very fast LLM inference.</p>
-<p>I intentionally built Lex using tech I had no prior experience with (Elixir and Phoenix LiveView) to force myself to rely heavily on the agents to implement everything for me, and I never really touched the code myself. The majority of the development was done using my task manager Ponder. On a few occasions I created a large backlog of tasks and just let it run overnight, waking up to thousands of new lines of tested, functional code.</p>
+<p>There is more I can do, like improve support for other languages (wiring up additional NLP model pipelines), or adding support for <a href="https://en.wikipedia.org/wiki/Spaced_repetition">Spaced Repetition</a> style learning sessions, but for me, right now, Lex does what I need it to.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Language</th>
+<th style="text-align: right;">Files</th>
+<th style="text-align: right;">Blank Lines</th>
+<th style="text-align: right;">Comment Lines</th>
+<th style="text-align: right;">Code Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Elixir</td>
+<td style="text-align: right;">89</td>
+<td style="text-align: right;">3,384</td>
+<td style="text-align: right;">1,802</td>
+<td style="text-align: right;">13,728</td>
+</tr>
+<tr class="even">
+<td>Python</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">551</td>
+</tr>
+<tr class="odd">
+<td>JavaScript</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">223</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>100</strong></td>
+<td style="text-align: right;"><strong>3,583</strong></td>
+<td style="text-align: right;"><strong>1,933</strong></td>
+<td style="text-align: right;"><strong>14,502</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Around 15 thousand lines of code, and I started on the 27th of February, less than two weeks ago.</p>
+<p>I didn’t write a single line of it.</p>
+<section id="developing-software-with-agents" class="level2">
+<h2 class="anchored" data-anchor-id="developing-software-with-agents">Developing Software with Agents</h2>
+<p>I decided to use Lex as an experiment, building with open-source models almost exclusively. I’ve been getting the impression that with good enough “context engineering”, open-source tokens can be just as useful as the boutique Anthropic/OpenAI ones, and the gap in capability between them is closing.</p>
+<p>Some friends of mine at the Australian AI startup <a href="https://www.zainode.com/">Zai Node</a> were kind enough to provide an API key for use on this project, as they share a lot of my optimism about local and open-source LLM adoption. The majority of the project was built using Kimi K2.5 via their privately hosted API, running on their GPU cluster. This meant very low latency, very fast LLM inference.</p>
+<p>I intentionally built Lex using tech I had no prior experience with (Elixir and Phoenix LiveView) to force myself to rely heavily on the agents to implement everything, and I never touched the code myself. The majority of the development was done using my task manager Ponder. On a few occasions I created a large backlog of tasks and just let it run overnight, waking up to thousands of new lines of tested, functional code.</p>
 <p>I went to see Bad Bunny in Sydney while LLM agents grinded away on my codebase just as tirelessly as the concert goers, once the <em>reggaeton</em> started.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -283,68 +336,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>DeBÍ TiRAR MáS FOToS is a great album, but I never learned el baile inolvidable.</figcaption>
 </figure>
 </div>
-<p>It took about 4 days worth of coding sessions and I had most of the application written, the rest was refinement over the next week. There were also a few subtle but important bugs that were not picked up in tests, which I only noticed digging around in the database. Fair warning that LLM code output is all very “plausible” looking, which makes it very difficult to find mistakes if they are not captured in tests. The agent will write a test based on a mistaken assumption (maybe due to a poorly specified description of the task), which bakes in the incorrect logic.</p>
-<p>Regardless, this would have been a month of work if I was an Elixir developer on day one, and more like 3 months learning the ropes without that prior experience. The product as written by me would also have had worse test coverage and documentation. Just being honest.</p>
-<p>At least I would have had mastery over the codebase if I wrote it myself… I had the agents create architecture diagrams for me to help understand what was built, but honestly? I’ll never get the level of understanding that naturally emerges as you write the code yourself, and I don’t think that experience is replaceable. Maybe I’ll build up understanding over time, but when I encounter a bug there is no alarm in my head saying <em>“that might be because of X function in this file, check there first”</em>, it’s usually more like <em>“clanker pls help my buton is not wokring, fix it”</em>. Even the database layer, that I normally take so much pride in, is obscure to me, written using Elixir’s ORM Ecto instead of my native SQL.</p>
+<p>It took about 4 days worth of coding sessions and I had most of the application written, the rest was refinement over the next week. There were also a few subtle but important bugs that were not picked up in tests, which I only noticed digging around in the database.</p>
+<p>Fair warning: LLM code output is all very “plausible” looking, which makes it very difficult to find mistakes if they are not captured in tests. The agent will write a test based on a mistaken assumption (maybe due to a poorly specified description of the task), which bakes in the incorrect logic. Good luck finding it.</p>
+<p>Regardless, this would have been a month of work if I was an Elixir developer on day one, and more like 3 months learning the ropes without that prior experience. The product as written by me would also have had worse test coverage and documentation… Just being honest.</p>
+<p>At least I would have had mastery over the codebase if I wrote it myself… I had the agents create architecture diagrams for me to help understand what was built, but honestly? I’ll never reach the level of familiarity that emerges as you write the code, and I don’t think that experience is replaceable.</p>
+<p>Maybe I’ll build up understanding over time, but when I encounter a bug there is no alarm in my head saying <em>“that might be because of X function in this file, check there first”</em>, it’s usually more like <em>“clanker pls help my buton is not wokring, fix it”</em>. Even the database layer, that I normally take so much pride in, is obscure to me, written using Elixir’s ORM “Ecto” instead of my native SQL.</p>
 <p>But it works!</p>
-<p>I’m using it <em>a lot</em> and having a great time. It is software built just for me that I never would have bothered building otherwise. Maybe others will stumble upon it and find some use in it, but that wasn’t my goal. I just wanted the thing, and now I have it.</p>
+<p>I’m using it <em>a lot</em> and having a great time. It is software built just for me that I never would have bothered building otherwise. Maybe others will stumble upon it and find it useful, but that wasn’t my goal. I just wanted the thing and now I have it.</p>
 <p>AI!</p>
-<p>And I did it almost entirely using open source models, for free in my case, but otherwise very cheap from other providers, using an open source agent harness. The technology is ready, already, and it’s basically free.</p>
-<p>Open source AI!</p>
-<p>Progress could grind to a halt tomorrow and things would still be irreversibly different to how they were a year ago. Regardless of the endless hype, this is a big deal.</p>
+<p>And I did it almost entirely using open-source models, for free in my case, but otherwise very cheap from other providers, using an open-source agent harness. The technology is ready, already, and it’s basically free.</p>
+<p>Open Source AI!</p>
+<p>Progress could grind to a halt tomorrow and things would still be irreversibly different to how they were a year ago. Regardless of the tiresome levels of hype, this is a big deal.</p>
 </section>
 </section>
 <section id="ponder" class="level1">
 <h1>Ponder</h1>
-<p>As I mentioned earlier, I was able to let the agents run semi-unsupervised for around 80% of the development using my agent task manager, Ponder.</p>
+<p>I mentioned earlier that I was able to let the agents run semi-unsupervised for most of the development of Lex using my agent task manager, Ponder. So, what is it?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/pondering-orb.png" class="img-fluid figure-img"></p>
-<figcaption>Me contributing to the project, ponderously</figcaption>
+<figcaption>Me pondering my level of contribution to this project</figcaption>
 </figure>
 </div>
-<p>Ponder is fairly simple in concept. Tasks (the orbs being pondered) are narrowly scoped units of work. They are stored in a SQLite database in a Directed Acyclic Graph <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>. Tasks have dependencies, and are only flagged as “available” if all dependencies are completed. This means that running multiple agents at once (I topped out at 4) becomes fairly simple, as agents only pick up available tasks, which are unlikely to clash given the dependency graph separating them. All other tasks are inaccessible.</p>
-<p>A worker agent assigned a task is told to write the code for the task spec, then write tests for it, and to iterate on the code until all the tests pass. Once the tests pass it commits its code changes to git, and stops. The cycle repeats for tasks across the graph as new dependencies are met. This cycle of validation is the reason this process works at all. Without strong validation checkpoints, models will often go off the rails and litter your code with bugs. Less capable models mean tighter validation loops are required.</p>
+<p>Ponder is fairly simple in concept. Tasks (the orbs being pondered) are narrowly scoped units of work. They are stored in a SQLite database in a Directed Acyclic Graph (<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>). Tasks have dependencies, and are only flagged as “available” if all dependencies are completed. This means that running multiple agents at once becomes fairly simple, as agents only pick up available tasks, which are unlikely to clash given the dependency graph separating them.</p>
+<p>A worker agent assigned a task is instructed to write the code to the task spec, then write tests for it. Then it must iterate on the code until all the tests pass. It then commits its code changes to git, and stops. The cycle repeats for tasks across the graph as new dependencies are met. This cycle of verification is the reason this process works at all. Without strong validation checkpoints, models will often go off the rails and litter your code with bugs. Less capable models mean tighter verification loops are required.</p>
 <p>I found I didn’t need git worktrees (a way of isolating the working environment for each agent) - it was rare that the agents had any issues working on the codebase in parallel. I would guess worktrees, or some other creative solution would be necessary north of 10 agents running in parallel, but it would depend on the size of the codebase and the testing framework. I can’t see myself needing to go much faster, either. Working like this is already exhausting enough.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/lex_development_screenshot.png" class="img-fluid figure-img"></p>
-<figcaption>Orbs shine purple when they are available for work, and turn gold when a worker is assigned to them. Blue orbs are done.</figcaption>
+<figcaption>Taken during the development process of Lex. Orbs shine purple when they are available for assignment, gold when a worker is assigned, blue when complete</figcaption>
 </figure>
 </div>
-<p>The tasks themselves are added to the graph by an orchestrator agent (the “Orbitor”) that I talk to in <a href="https://opencode.ai/">OpenCode</a>, the open source agentic coding tool that has become my tool of choice. Tasks are highly detailed specification documents. The Orbitor is instructed to interview me, grilling me for detail before committing to a plan. This might mean 15-20 technical questions before it is satisfied. At times I needed help even understanding what was being asked, being totally unfamiliar with Elixir and its conventions, but that is a part of the process. There are many decisions to be made about different architectural directions and their trade-offs. Once satisfied, the Orbitor commits a series of tasks into the graph, along with the dependencies between them, which worker agents are then assigned. While they work, I work with the Orbitor to define the next series of tasks.</p>
-<p>This process works very well (Ponder mostly built itself using it), but is mentally exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by stretches of relatively meditative coding, but now that is gone, and the next decision is minutes, not hours, away.</p>
-<p>I’m not sure if other developers share this experience, but I’m frequently exhausted after a few days working like this. Because it is so easy to get started on new projects I’ll often have 4 or 5 experiments in progress at any given time. It’s a lot to think about. The most effective engineers will be those who can manage all the context switching and decision making for longer stretches of time before burning out. The overlap of this quality with strong, clear visions of what to build (whether in a single person or a group of people), will create new companies that move mountains with this tech.</p>
-<p>As an aside, building Lex has taught me that Elixir is the great choice for agent orchestration projects like Ponder, and I would have used it if I had known better. The Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long running, highly concurrent and fault tolerant agent orchestration. Worker agents would be deployed with a <code>GenServer</code>, supervised by higher order processes (<code>DynamicSupervisor</code>) that spin them back up if they crash or get stuck. They’re literally called Supervisors in the language!</p>
+<p>The tasks themselves are added to the graph by an orchestrator agent (the “Orbitor”) that I talk to in <a href="https://opencode.ai/">OpenCode</a>, a popular open-source agentic coding tool. Tasks are highly detailed specification documents. The Orbitor is instructed to interview me, grilling me for detail before committing to a plan. This might mean 15-20 technical questions before it is satisfied.</p>
+<p>At times I needed help to even understand what was being asked, being totally unfamiliar with Elixir and its conventions, but that is a part of the process. Despite the agents actually writing the code, there are many decisions to be made, and trade-offs to consider…</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="media/will_smith_meme.jpg" class="img-fluid figure-img"></p>
-<figcaption>It’s right there!</figcaption>
+<p><img src="media/decisions_meme.jpg" class="img-fluid figure-img"></p>
+<figcaption>I’ll… uh… get back to you by COB</figcaption>
+</figure>
+</div>
+<p>Once satisfied, the Orbitor commits the series of tasks into the graph, along with the dependencies between them. Worker assignment then happens automatically. While they write the code, I work with the Orbitor to define the next series of tasks.</p>
+<p>Notice I’m not talking about “prompt engineering” like there is a special way of asking for things that unlocks AI’s secret potential. This is all conversational. The agent diligently writes out the detail better than I can, summarizing the key points of the interaction.</p>
+<p>This works stupidly well (Ponder mostly built itself using it), but is mentally exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by stretches of relatively meditative coding, but now that is gone, and the next decision is minutes, not hours, away.</p>
+<p>I’m not sure if other developers share this experience, but I’m usually exhausted after a few days working like this. Because it is so easy to get started on new projects I’ll often have 4 or 5 experiments in progress at any given time. It’s a lot to think about.</p>
+<p>The most effective adopters of this technology will be those who can manage all the context switching and prudent decision making for longer stretches of time before burning out. The overlap of this quality with a clear vision of what to build (whether in a single person or a group of people), will create new companies that move mountains with this stuff.</p>
+<p>As an aside, building Lex (or… watching it happen, at least) has taught me that Elixir is a great choice for agent orchestration projects like Ponder, and I would have chosen it if I had known better. The Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long running, concurrent and fault tolerant agent orchestration. Worker agents would be deployed with a <code>GenServer</code>, supervised by higher order processes (<code>DynamicSupervisor</code>) that spin them back up if they crash or get stuck. They’re literally called Supervisors in the language!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/boomer-reaction.gif" class="img-fluid figure-img"></p>
+<figcaption>Baby Boomers seeing kids building with 80s telecom technology</figcaption>
 </figure>
 </div>
 <p>I would bet some big frameworks are released using Elixir. I saw that OpenAI is <a href="https://github.com/openai/symphony/tree/main">building</a> with it while writing this.</p>
 <p>Tackling an enterprise grade agent orchestration framework for managing tasks and knowledge sharing, using ideas from Ponder and my experience creating Lex, is a likely next target for our work at LD Informatics.</p>
 </section>
-<section id="what-to-do" class="level1">
-<h1>What To Do?</h1>
-<p>AI is moving fast, and I imagine it is as disorienting to others as it has been to me, to the extent that often it is easier to just… look away. What I’m telling people close to me is that, while I don’t know what will happen or when, it is a good idea to start getting familiar and capable with AI tools, regardless of your profession. Don’t look away.</p>
-<p>Most people have a bad taste in their mouth from all the AI garbage being shoved into it day after day. All our feeds are full of AI generated slop. Infuriatingly cliched writing, pointless video clips, music stripped of its human soul. It all feels like a collosally disappointing waste of time and money, and in service of what end? Replacing us? I despise this stuff.</p>
+<section id="some-closing-thoughts" class="level1">
+<h1>Some Closing Thoughts</h1>
+<p>AI is moving fast, and I imagine it is as disorienting to others as it has been to me, to the extent that often it is easier to just… look away. What I’m telling people close to me is that, while I don’t know what will happen or when, it is a good idea to start getting familiar and capable with AI tools, regardless of your profession.</p>
+<p>Don’t look away.</p>
+<p>Most people have a bad taste in their mouth from all the AI garbage being shoved into it day after day. All our feeds are full of AI generated slop. Infuriatingly cliched writing, reply bots, synthetic video clips that range from pointless to politically destabilizing, music stripped of its human soul… It all feels like a colossally disappointing waste of time and money, and in service of what end? Replacing us? I despise this stuff.</p>
 <p>The technology feels different, though, when you ride out and confront it on your terms, and hold on to a feeling of authorship, ownership, and agency while working with it.</p>
-<p>Yes, we’re probably in a bubble. Yes, there is a great deal of hype filled nonsense. Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and best left ignored. But I’m not selling you anything, and I am telling you, deadset, that this technology is real, it can do a lot of real work, and it will do it faster and cheaper than any human can. If you give it the information and clear instructions it needs, it might just do your work better than you can.</p>
+<p>Yes, we’re probably in a bubble. Yes, there is a great deal of hype fueled nonsense. Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and best left ignored.</p>
+<p>But I’m not selling you anything, and I am telling you, deadset, that this technology is real, it can do real work, and it will do it faster and cheaper than any human can. If you give it the information and clear instructions it needs, it might just do your work better than you can.</p>
 <p>Regardless of how this feels, I think it is true, and it is better to adapt than to ignore it. People with AI proficiency will become very valuable in many industries.</p>
-<p>Don’t ask for something vague, with no context, and smugly watch the model fail. That is your ego preventing you from confronting it. Don’t dismiss it all as slop, that is a thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and then decide what you think based on direct experience.</p>
-<p>If you are in the legal profession, do yourself a favour and install a coding agent and <a href="https://typst.app/">Typst</a> (or ask the agent to install it for you), and give it the information it needs to work. Don’t rely on its model training - provide the documents so that it can read sources directly. When you see the perfectly templated PDF magically recompile after every change the agent makes, and you find yourself in what is essentially a live interview with the document and all supporting materials, you will realise the way you work has fundamentally changed.</p>
+<p>And I should be clear. <em>Completing tasks</em> is not the same as a human doing a job. A job is not a sequence of tasks. AI Agents have a long way to go, and maybe an impossible uphill climb, to actually become “agents” in a real sense, that can be relied on to do autonomous work over long time horizons. Ironically, they have no agency. They can’t learn. They make things up. They’re advanced pattern matchers in a loop that can use tools to do work. That’s it. These facts diminish them, but don’t fool yourself into thinking they are useless. They are <em>incredibly</em> useful.</p>
+<p>So, don’t ask for something vague and smugly watch the model fail to read your mind. That is your ego preventing you from confronting it. Don’t dismiss it all as slop, either. That is a thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and then decide what you think based on direct experience.</p>
+<p>If you are in the legal profession, install a coding agent and <a href="https://typst.app/">Typst</a> (or ask the agent to install it for you), and give it the information it needs to work. Don’t rely on its model training - provide the documents so that it can read sources directly. When you see the perfectly templated PDF magically recompile after every change the agent makes, and you find yourself in what is essentially a live interview with the document and all supporting materials, you will realise the way you work has fundamentally changed.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-    A[Source Documents]
-    A --&gt; C[Agent]
-    F[You] --&gt; C
-    C --&gt; D[Typst]
-    D --&gt; E[PDF]
+    F[You] --&gt; A
+    A[Documents]
+    A --&gt; C([Agent])
+    F &lt;--&gt; C
+    C --&gt; D([Typst])
+    D --&gt; E([PDF])
     E --&gt; F
 </pre>
 </div>
@@ -359,14 +428,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-    A[Source Data]
+    F[You] --&gt; A
+    A([Data])
     A --&gt; C[Agent]
-    F[You] --&gt; C
-    C --&gt; D[Typst]
-    C --&gt; G[Python]
-    G --&gt; H[Plots and Tables]
+    F &lt;--&gt; C
+    C --&gt; D([Typst])
+    C --&gt; G([Python])
+    G --&gt; H([Plots])
     H --&gt; D
-    D --&gt; E[PDF]
+    D --&gt; E([PDF])
     E --&gt; F
 </pre>
 </div>
@@ -377,9 +447,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If you run a small business and your invoicing or client management or whatever is a mess, install a coding agent and just talk to it about your problems and brainstorm what you can do to fix them. It might be as simple as organizing your file system, or it could be creating an automated invoicing system.</p>
 <p>OpenCode usually has models provided for free, so you don’t even have to pay to get started. You are a single command in your computer’s terminal away from trying it:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsSL</span> https://opencode.ai/install <span class="kw">|</span> <span class="fu">bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If you’re a software developer, you’re probably riding this wave already. If not - if you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming, and you resent the robot taking that away - try to shift your mental gears into a higher order of puzzle solving. I do miss coding by hand, I’ve been obsessed with it for years, but there is a lot of new fun to be had working with agents, as well.</p>
+<p>If you’re a software developer, you’re probably riding this wave already. If not - if you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming, and you resent the robot doing it for you - try to shift your mental gears into a higher order of puzzle solving. I do miss coding by hand, I’ve been obsessed with it for years, but there is a lot of new fun to be had building with agents, as well.</p>
 <p>Maybe you won’t be deliberating over individual function implementations, or objects and how they are wired together, but you will definitely be wrestling with software architecture, the technologies to use and the trade-offs between them. The grand vision you have for projects, the thing that motivates you to build them at all, will mean they will still feel like they are yours, even if you didn’t write every line of the code.</p>
-<p>Most would benefit from experimenting with AI. Regardless of how the next few years look, that is my recommendation.</p>
+<p>Most would benefit from experimenting with AI, regardless of how the next few years look. That is my advice, for what it is worth.</p>
 <p>Thanks again to Zai Node for the API access.</p>
 <p>And thanks for reading!</p>
 

@@ -50,6 +50,12 @@ dd {
   color: var(--warm-text);
 }
 
+figcaption,
+.figure-caption,
+.quarto-figure figcaption {
+  color: var(--warm-text-muted) !important;
+}
+
 a,
 .nav-link {
   color: var(--warm-gold-soft);
