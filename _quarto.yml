@@ -7,7 +7,7 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/dersley
+        href: https://github.com/nick-dorsch
       - icon: linkedin
         href: https://www.linkedin.com/in/nicholasjohndorsch/
 format:
