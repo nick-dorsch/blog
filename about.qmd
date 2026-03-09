@@ -1,39 +1,58 @@
 ---
 title: "About"
 image: media/profile.jpg
+format:
+  html:
+    toc: false
 about:
-  template: trestles
+  template: solana
   links:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/nicholasjohndorsch/
     - icon: github
       text: Github
-      href: https://github.com/dersley
+      href: https://github.com/nick-dorsch
 ---
 
-### Nicholas Dorsch - Geoscientist/Data Analyist
+#### Background
+
 I come from a geology and geophysics background working in the oil and gas industry, but
 over the years have developed a passion for bayesian statistics and data science more
 broadly. My skillset includes a mixture of geology and geophysics workflows as well as
 more general purpose statistical modelling. The intersection of these things has allowed
 me to work on fairly unique projects during my career. 
 
-I strongly believe that bayesian statistical models offer the most robust and flexible
-framework for uncertainty quantification, as well as decision making under uncertainty.
-For that reason they have become my career focus.
+I believe that bayesian statistical modelling offers the most robust and flexible
+framework for uncertainty quantification and decision making under uncertainty. For that
+reason it has become a primary career focus of mine.
 
-More recently I have developed more data engineering skills, working with database
-design and management. My goal is to become a "full stack" data scientist, capable of
-managing and deploying analytical processes end to end, to help organisations make the
-best use of their data.
+Effective data analytics require good data practices upstream, so along with my data
+science skillset I have developed a focus on relational database design and data
+engineering.
 
-### Contact information
-based in: Melbourne, Australia
+---
 
-availability: currently a full time employee of Karoon Energy
+#### LD Informatics
 
-email: nickjdorsch@gmail.com
+In 2026, together with my business partner Charlie Lu, I started [LD
+Informatics](https://ld-informatics.com/), a consultancy company focussed on developing
+data solutions for the energy sector. We specialize in deploying domain driven data
+solutions, from cloud infrastructure deployment and database architecture, through to
+business intelligence and analytics.
+
+With our combined experience and expertise, Charlie and I represent a full stack data
+team.
+
+---
+
+#### Contact information
+
+**based in:** Brisbane, Australia
+
+**availability:** consultancy and contract work
+
+**email:** nicholas.dorsch@ld-informatics.com
 
 
 

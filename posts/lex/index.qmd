@@ -1,7 +1,7 @@
 ---
 title: "Open Source AI is Ready for Real Work"
 author: "Nicholas Dorsch"
-date: 2026-03-07
+date: 2026-03-10
 categories: [coding, AI]
 image: media/lex_statistics_screenshot.png
 ---
@@ -23,16 +23,16 @@ the code I was producing, holding strong to the notion that, because I knew my w
 better than the stochastic parrot, I needed to keep my hands firmly on the wheel at all
 times. I also didn't really use it for anything other than coding help.
 
-And when working with clients my hands are still firmly on the wheel, if not hovering
-just above it. These things can do a lot of damage very quickly. I'm sure we're in for
-many disasters related to people letting the vibes take control at work. It is already
+And when working with clients my hands are still on the wheel, if not hovering just
+above it. These things can do a lot of damage very quickly. I'm sure we're in for many
+disasters related to people letting the vibes take control at work. It is already
 starting to
 [happen](https://alexeyondata.substack.com/p/how-i-dropped-our-production-database).
 
 It would be unwise to let coding agents loose without significant guardrails and
 environment separation in projects managing sensitive systems...
 
-In my own time, though? With no company data on the line?
+In my own time, though?
 
 ![It's... different](media/venjent-create.gif)
 
@@ -43,10 +43,10 @@ few years.
 
 I'm not an outlier and none of this is intended as a boast, because I don't think any of
 what I'm doing is particularly impressive, but it is what becomes achievable when you
-let go, you put the keyboard down and you open your mind to the army of digital gremlins
-that you can now summon to do your bidding.
+you put the keyboard down and open your mind to the army of digital gremlins that you
+can now summon to do your bidding.
 
-The gremlins have gotten very smart, and maybe more importantly, very good at following
+The gremlins have gotten smart, and maybe more importantly, very good at following
 instructions.
 
 In the last two months, since deciding to really push myself with AI, I have
@@ -104,24 +104,24 @@ waste of good material.
 Lex is the tool I've always wanted to help me read more difficult books, while keeping
 them comprehensible and enjoyable. It is heavily inspired by
 [LingQ](https://www.lingq.com/en/), which I've used a lot in the past, but designed to
-work locally with my ebook collection, with LLM assistance built in, and keyboard
+work locally with my eBook collection, with LLM assistance built in, and keyboard
 shortcuts customized to my exact tastes.
 
-![Linked to your ebook collection. Shown is a sample library using public domain books
-found in [Project
+![The library page, linked to my eBook collection. Shown is a sample library using
+public domain books found in [Project
 Gutenberg](https://www.gutenberg.org/)](media/lex_library_screenshot.png)
 
 It runs as a web app on my home server, which other devices like my phone or laptop can
-access via my [Tailscale](https://tailscale.com/) setup. It connects to my ebook library
+access via my [Tailscale](https://tailscale.com/) setup. It connects to my eBook library
 (using an open-source program called [Calibre](https://calibre-ebook.com/)), allowing
 quick imports into the database. The database tracks all the book content, as well as
 detailed statistics of the words I read, whether I know them or am still learning them,
 how many times I've seen them and so on. 
 
 It uses a Python based [natural language processing](https://spacy.io/) pipeline to
-ingest text into the database, so that the content can be organized by sentence and
-_lexeme_ (the abstract unit of meaning that words point to, like ["running", "ran",
-"runs"] = "run") to make language learning progress more meaningful. Hence, "Lex".
+ingest content into the database so that it can be organized by sentence and _lexeme_
+(the abstract unit of meaning that words point to, like ["running", "ran", "runs"] =
+"run") to make language learning progress more meaningful. Hence, "Lex".
 
 The Vim inspired keyboard shortcuts are: 
 
@@ -158,7 +158,7 @@ cents so far). Open Source models running on your own machine will soon be the b
 solution for these kind of applications, as they'll remove the network hop required to
 call external model APIs, though I found the latest Qwen 3.5 range of models to be
 either reliable but too slow, or fast but too unreliable. At least for now, Haiku gave
-me the best mix of speed and reliability. 
+me the best mix of speed and reliability.
 
 Everything feels very snappy and responsive, and the low contrast theme combined with
 big text makes long reading sessions comfortable.
@@ -267,13 +267,18 @@ and are only flagged as "available" if all dependencies are completed. This mean
 running multiple agents at once becomes fairly simple, as agents only pick up available
 tasks, which are unlikely to clash given the dependency graph separating them.
 
-A worker agent assigned a task is instructed to write the code to the task spec, then
-write tests for it. Then it must iterate on the code until all the tests pass. It then
-commits its code changes to git, and stops. The cycle repeats for tasks across the graph
-as new dependencies are met. This cycle of verification is the reason this process works
-at all. Without strong validation checkpoints, models will often go off the rails and
-litter your code with bugs. Less capable models mean tighter verification loops are
-required.
+Each worker follows a tight completion loop:
+
+- implement the task spec,
+- write tests,
+- iterate until the test suite passes,
+- commit the changes, then stop.
+
+That loop repeats across the graph as dependencies are resolved. These validation
+checkpoints are what make the process reliable. Without them, models will often drift
+and introduce bugs. Less capable models need tighter verification loops. Every LLM call
+is a random walk through token town... the tighter the loop, the less divergent results
+will be.
 
 I found I didn't need git worktrees (a way of isolating the working environment for each
 agent) - it was rare that the agents had any issues working on the codebase in parallel.
@@ -308,16 +313,17 @@ series of tasks.
 Notice I'm not talking about "prompt engineering" like there is a special way of asking
 for things that unlocks AI's secret potential. This is all conversational. The agent
 diligently writes out the detail better than I can, summarizing the key points of the
-interaction.
+interaction into the task spec and passing it to a worker.
 
 This works stupidly well (Ponder mostly built itself using it), but is mentally
 exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by
 stretches of relatively meditative coding, but now that is gone, and the next decision
 is minutes, not hours, away.
 
-I'm not sure if other developers share this experience, but I'm usually exhausted after
-a few days working like this. Because it is so easy to get started on new projects I'll
-often have 4 or 5 experiments in progress at any given time. It's a lot to think about.
+I'm not sure if other developers share this experience, but I'm often exhausted after a
+few days working like this. Because it is so easy to get started on new projects I'll
+often have 4 or 5 experiments in progress at any given time. It's a lot to think about,
+and getting lost in distracting rabbit holes is a real risk.
 
 The most effective adopters of this technology will be those who can manage all the
 context switching and prudent decision making for longer stretches of time before
@@ -347,8 +353,8 @@ next target for our work at LD Informatics.
 
 AI is moving fast, and I imagine it is as disorienting to others as it has been to me,
 to the extent that often it is easier to just... look away. What I'm telling people
-close to me is that, while I don't know what will happen or when, it is a good idea to
-start getting familiar and capable with AI tools, regardless of your profession. 
+close to me is that, while I don't know what will happen or when, if you spend a lot of
+work time at a computer, you should start getting familiar and capable with AI tools.
 
 Don't look away.
 
@@ -376,25 +382,26 @@ Regardless of how this feels, I think it is true, and it is better to adapt than
 ignore it. People with AI proficiency will become very valuable in many industries.
 
 And I should be clear. _Completing tasks_ is not the same as a human doing a job. A job
-is not a sequence of tasks. AI Agents have a long way to go, and maybe an impossible
-uphill climb, to actually become "agents" in a real sense, that can be relied on to do
-autonomous work over long time horizons. Ironically, they have no agency. They can't
-learn. They make things up. They're advanced pattern matchers in a loop that can use
-tools to do work. That's it. These facts diminish them, but don't fool yourself into
-thinking they are useless. They are _incredibly_ useful.
+is not a sequence of tasks. AI Agents have a long way to go to becoming "agents" in a
+real sense, that can be relied on to do autonomous work over long time horizons.
+Ironically, they have no agency. They can't learn. They make things up. They go
+completely off the rails. They're advanced pattern matchers in a loop that can use tools
+to do work. That's it. These facts diminish them, but don't fool yourself into thinking
+they are useless. They are _incredibly_ useful.
 
 So, don't ask for something vague and smugly watch the model fail to read your mind.
-That is your ego preventing you from confronting it. Don't dismiss it all as slop,
-either. That is a thought terminating cliche inviting you to stay ignorant. Give it a
-real, honest go, and then decide what you think based on direct experience.
+That is your ego preventing you from confronting it. Don't dismiss all its output as
+slop, either. That is a thought terminating cliche inviting you to stay ignorant. Give
+it a real, honest go, and then decide what you think based on direct experience.
 
-If you are in the legal profession, install a coding agent and
-[Typst](https://typst.app/) (or ask the agent to install it for you), and give it the
-information it needs to work. Don't rely on its model training - provide the documents
-so that it can read sources directly. When you see the perfectly templated PDF magically
-recompile after every change the agent makes, and you find yourself in what is
-essentially a live interview with the document and all supporting materials, you will
-realise the way you work has fundamentally changed.
+If you are in the legal profession, or work in any role that requires a lot of
+reporting, install a coding agent and [Typst](https://typst.app/) (or ask the agent to
+install it for you), and give it the information it needs to work. Don't rely on its
+model training, because it will hallucinate. Provide the documents so that it can read
+sources directly. When you see the perfectly templated PDF magically recompile after
+every change the agent makes, and you find yourself in what is essentially a live
+interview with the document and all its supporting materials, you will realise the way
+you work has fundamentally changed.
 
 ```{mermaid}
 flowchart LR
@@ -409,10 +416,11 @@ flowchart LR
 
 If you live in spreadsheets, install a coding agent, output your data to csv, explain
 the analysis you would run in Excel, and watch it recreate it with a short Python
-script, and output any plots or tables you want on the fly. Use Typst, compile it to a
-beautiful PDF. You can work differently and have a less painful life. Beautiful,
-colorful plots are how humans should interface with data, not tables of numbers. Tables
-of numbers are for the machines.
+script. Now ask for all the plots and summary tables you want. Use Typst, compile it to
+a beautiful PDF. You don't need to stare at a white grid of data 8 hours a day anymore.
+Beautiful, intuitive visualizations are how humans should interface with data, not
+tables of numbers. Tables of numbers are for the machines. You don't need a understand a
+line of code to start doing this right now.
 
 ```{mermaid}
 flowchart LR
@@ -428,11 +436,6 @@ flowchart LR
     E --> F
 ```
 
-If you run a small business and your invoicing or client management or whatever is a
-mess, install a coding agent and just talk to it about your problems and brainstorm what
-you can do to fix them. It might be as simple as organizing your file system, or it
-could be creating an automated invoicing system. 
-
 OpenCode usually has models provided for free, so you don't even have to pay to get
 started. You are a single command in your computer's terminal away from trying it:
 
@@ -440,21 +443,21 @@ started. You are a single command in your computer's terminal away from trying i
 curl -fsSL https://opencode.ai/install | bash
 ```
 
-If you're a software developer, you're probably riding this wave already. If not - if
-you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming,
-and you resent the robot doing it for you - try to shift your mental gears into a higher
-order of puzzle solving. I do miss coding by hand, I've been obsessed with it for years,
-but there is a lot of new fun to be had building with agents, as well. 
+If you're a software developer then you are probably riding this wave already. If not -
+if you are a tinkerer who enjoys solving puzzles in the peaceful solitude of
+programming, and you resent the robot doing it for you - try to shift your mental gears
+into a higher order of puzzle solving. I do miss coding by hand, I've been obsessed with
+it for years, but there is a lot of new fun to be had building with agents, as well. 
 
 Maybe you won't be deliberating over individual function implementations, or objects and
 how they are wired together, but you will definitely be wrestling with software
 architecture, the technologies to use and the trade-offs between them. The grand vision
 you have for projects, the thing that motivates you to build them at all, will mean they
-will still feel like they are yours, even if you didn't write every line of the code.
+will still feel like they are yours even if you didn't write every line of the code.
 
 Most would benefit from experimenting with AI, regardless of how the next few years
 look. That is my advice, for what it is worth.
 
-Thanks again to Zai Node for the API access.
+Thanks again to Zai Node for access to their API. 
 
 And thanks for reading!
