@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicholas Dorsch">
-<meta name="dcterms.date" content="2026-03-07">
+<meta name="dcterms.date" content="2026-03-10">
 
 <title>Open Source AI is Ready for Real Work – dorschblog</title>
 <style>
@@ -176,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 7, 2026</p>
+        <p class="date">March 10, 2026</p>
       </div>
     </div>
     
@@ -217,9 +217,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I spent last year in denial.</p>
 <p>I also spent last year with a job… and maybe not having one partially explains the last 2 months. It is a wild time to be experimenting, without a boss to answer to, or an office to shuffle to each morning.</p>
 <p>I was using LLMs every day, like most of us are, but I was always in tight control of the code I was producing, holding strong to the notion that, because I knew my work better than the stochastic parrot, I needed to keep my hands firmly on the wheel at all times. I also didn’t really use it for anything other than coding help.</p>
-<p>And when working with clients my hands are still firmly on the wheel, if not hovering just above it. These things can do a lot of damage very quickly. I’m sure we’re in for many disasters related to people letting the vibes take control at work. It is already starting to <a href="https://alexeyondata.substack.com/p/how-i-dropped-our-production-database">happen</a>.</p>
+<p>And when working with clients my hands are still on the wheel, if not hovering just above it. These things can do a lot of damage very quickly. I’m sure we’re in for many disasters related to people letting the vibes take control at work. It is already starting to <a href="https://alexeyondata.substack.com/p/how-i-dropped-our-production-database">happen</a>.</p>
 <p>It would be unwise to let coding agents loose without significant guardrails and environment separation in projects managing sensitive systems…</p>
-<p>In my own time, though? With no company data on the line?</p>
+<p>In my own time, though?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/venjent-create.gif" class="img-fluid figure-img"></p>
@@ -227,8 +227,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>Many are in denial about what is happening, like I was last year, but my recent experience with AI agents has made it clear to me that software development has fundamentally changed, and most other knowledge work will probably follow in the next few years.</p>
-<p>I’m not an outlier and none of this is intended as a boast, because I don’t think any of what I’m doing is particularly impressive, but it is what becomes achievable when you let go, you put the keyboard down and you open your mind to the army of digital gremlins that you can now summon to do your bidding.</p>
-<p>The gremlins have gotten very smart, and maybe more importantly, very good at following instructions.</p>
+<p>I’m not an outlier and none of this is intended as a boast, because I don’t think any of what I’m doing is particularly impressive, but it is what becomes achievable when you you put the keyboard down and open your mind to the army of digital gremlins that you can now summon to do your bidding.</p>
+<p>The gremlins have gotten smart, and maybe more importantly, very good at following instructions.</p>
 <p>In the last two months, since deciding to really push myself with AI, I have</p>
 <ul>
 <li><p>Built an agent orchestration “code factory” called <a href="https://github.com/nick-dorsch/ponder">Ponder</a>, inspired by the work of <a href="https://ghuntley.com/ralph/">Geoffrey Huntley</a> and <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge</a>. First in Python (it was early) and then in Go (when I realised I should use a better tool, and my inability to code in it didn’t matter). I’ll explain Ponder a bit more later in this post.</p></li>
@@ -249,15 +249,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Lex</h1>
 <p>Lex solves a problem I have. I love reading in Spanish, but it is really hard.</p>
 <p>Reading in your target language is a great way to learn but it can be frustrating. You are often caught in a trade-off between comprehension and enjoyment. You don’t want to read children’s books; you want to read the things you’d enjoy in your native language, but that is usually pretty advanced. Often you’ll miss context or subtext, through an inability to comprehend at a high enough level. Poetic language is especially difficult. This makes it harder to appreciate what you are reading, and that makes it feel like a waste of good material.</p>
-<p>Lex is the tool I’ve always wanted to help me read more difficult books, while keeping them comprehensible and enjoyable. It is heavily inspired by <a href="https://www.lingq.com/en/">LingQ</a>, which I’ve used a lot in the past, but designed to work locally with my ebook collection, with LLM assistance built in, and keyboard shortcuts customized to my exact tastes.</p>
+<p>Lex is the tool I’ve always wanted to help me read more difficult books, while keeping them comprehensible and enjoyable. It is heavily inspired by <a href="https://www.lingq.com/en/">LingQ</a>, which I’ve used a lot in the past, but designed to work locally with my eBook collection, with LLM assistance built in, and keyboard shortcuts customized to my exact tastes.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/lex_library_screenshot.png" class="img-fluid figure-img"></p>
-<figcaption>Linked to your ebook collection. Shown is a sample library using public domain books found in <a href="https://www.gutenberg.org/">Project Gutenberg</a></figcaption>
+<figcaption>The library page, linked to my eBook collection. Shown is a sample library using public domain books found in <a href="https://www.gutenberg.org/">Project Gutenberg</a></figcaption>
 </figure>
 </div>
-<p>It runs as a web app on my home server, which other devices like my phone or laptop can access via my <a href="https://tailscale.com/">Tailscale</a> setup. It connects to my ebook library (using an open-source program called <a href="https://calibre-ebook.com/">Calibre</a>), allowing quick imports into the database. The database tracks all the book content, as well as detailed statistics of the words I read, whether I know them or am still learning them, how many times I’ve seen them and so on.</p>
-<p>It uses a Python based <a href="https://spacy.io/">natural language processing</a> pipeline to ingest text into the database, so that the content can be organized by sentence and <em>lexeme</em> (the abstract unit of meaning that words point to, like [“running”, “ran”, “runs”] = “run”) to make language learning progress more meaningful. Hence, “Lex”.</p>
+<p>It runs as a web app on my home server, which other devices like my phone or laptop can access via my <a href="https://tailscale.com/">Tailscale</a> setup. It connects to my eBook library (using an open-source program called <a href="https://calibre-ebook.com/">Calibre</a>), allowing quick imports into the database. The database tracks all the book content, as well as detailed statistics of the words I read, whether I know them or am still learning them, how many times I’ve seen them and so on.</p>
+<p>It uses a Python based <a href="https://spacy.io/">natural language processing</a> pipeline to ingest content into the database so that it can be organized by sentence and <em>lexeme</em> (the abstract unit of meaning that words point to, like [“running”, “ran”, “runs”] = “run”) to make language learning progress more meaningful. Hence, “Lex”.</p>
 <p>The Vim inspired keyboard shortcuts are:</p>
 <ul>
 <li><code>j</code> and <code>k</code> move up and down sentences,</li>
@@ -362,7 +362,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>Ponder is fairly simple in concept. Tasks (the orbs being pondered) are narrowly scoped units of work. They are stored in a SQLite database in a Directed Acyclic Graph (<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>). Tasks have dependencies, and are only flagged as “available” if all dependencies are completed. This means that running multiple agents at once becomes fairly simple, as agents only pick up available tasks, which are unlikely to clash given the dependency graph separating them.</p>
-<p>A worker agent assigned a task is instructed to write the code to the task spec, then write tests for it. Then it must iterate on the code until all the tests pass. It then commits its code changes to git, and stops. The cycle repeats for tasks across the graph as new dependencies are met. This cycle of verification is the reason this process works at all. Without strong validation checkpoints, models will often go off the rails and litter your code with bugs. Less capable models mean tighter verification loops are required.</p>
+<p>Each worker follows a tight completion loop:</p>
+<ul>
+<li>implement the task spec,</li>
+<li>write tests,</li>
+<li>iterate until the test suite passes,</li>
+<li>commit the changes, then stop.</li>
+</ul>
+<p>That loop repeats across the graph as dependencies are resolved. These validation checkpoints are what make the process reliable. Without them, models will often drift and introduce bugs. Less capable models need tighter verification loops. Every LLM call is a random walk through token town… the tighter the loop, the less divergent results will be.</p>
 <p>I found I didn’t need git worktrees (a way of isolating the working environment for each agent) - it was rare that the agents had any issues working on the codebase in parallel. I would guess worktrees, or some other creative solution would be necessary north of 10 agents running in parallel, but it would depend on the size of the codebase and the testing framework. I can’t see myself needing to go much faster, either. Working like this is already exhausting enough.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -379,9 +386,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>Once satisfied, the Orbitor commits the series of tasks into the graph, along with the dependencies between them. Worker assignment then happens automatically. While they write the code, I work with the Orbitor to define the next series of tasks.</p>
-<p>Notice I’m not talking about “prompt engineering” like there is a special way of asking for things that unlocks AI’s secret potential. This is all conversational. The agent diligently writes out the detail better than I can, summarizing the key points of the interaction.</p>
+<p>Notice I’m not talking about “prompt engineering” like there is a special way of asking for things that unlocks AI’s secret potential. This is all conversational. The agent diligently writes out the detail better than I can, summarizing the key points of the interaction into the task spec and passing it to a worker.</p>
 <p>This works stupidly well (Ponder mostly built itself using it), but is mentally exhausting. Decision fatigue builds up very quickly. That fatigue used to be mediated by stretches of relatively meditative coding, but now that is gone, and the next decision is minutes, not hours, away.</p>
-<p>I’m not sure if other developers share this experience, but I’m usually exhausted after a few days working like this. Because it is so easy to get started on new projects I’ll often have 4 or 5 experiments in progress at any given time. It’s a lot to think about.</p>
+<p>I’m not sure if other developers share this experience, but I’m often exhausted after a few days working like this. Because it is so easy to get started on new projects I’ll often have 4 or 5 experiments in progress at any given time. It’s a lot to think about, and getting lost in distracting rabbit holes is a real risk.</p>
 <p>The most effective adopters of this technology will be those who can manage all the context switching and prudent decision making for longer stretches of time before burning out. The overlap of this quality with a clear vision of what to build (whether in a single person or a group of people), will create new companies that move mountains with this stuff.</p>
 <p>As an aside, building Lex (or… watching it happen, at least) has taught me that Elixir is a great choice for agent orchestration projects like Ponder, and I would have chosen it if I had known better. The Erlang BEAM virtual machine that Elixir is built on top of is a perfect match for long running, concurrent and fault tolerant agent orchestration. Worker agents would be deployed with a <code>GenServer</code>, supervised by higher order processes (<code>DynamicSupervisor</code>) that spin them back up if they crash or get stuck. They’re literally called Supervisors in the language!</p>
 <div class="quarto-figure quarto-figure-center">
@@ -395,16 +402,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="some-closing-thoughts" class="level1">
 <h1>Some Closing Thoughts</h1>
-<p>AI is moving fast, and I imagine it is as disorienting to others as it has been to me, to the extent that often it is easier to just… look away. What I’m telling people close to me is that, while I don’t know what will happen or when, it is a good idea to start getting familiar and capable with AI tools, regardless of your profession.</p>
+<p>AI is moving fast, and I imagine it is as disorienting to others as it has been to me, to the extent that often it is easier to just… look away. What I’m telling people close to me is that, while I don’t know what will happen or when, if you spend a lot of work time at a computer, you should start getting familiar and capable with AI tools.</p>
 <p>Don’t look away.</p>
 <p>Most people have a bad taste in their mouth from all the AI garbage being shoved into it day after day. All our feeds are full of AI generated slop. Infuriatingly cliched writing, reply bots, synthetic video clips that range from pointless to politically destabilizing, music stripped of its human soul… It all feels like a colossally disappointing waste of time and money, and in service of what end? Replacing us? I despise this stuff.</p>
 <p>The technology feels different, though, when you ride out and confront it on your terms, and hold on to a feeling of authorship, ownership, and agency while working with it.</p>
 <p>Yes, we’re probably in a bubble. Yes, there is a great deal of hype fueled nonsense. Yes, most AI chat buttons shoehorned into otherwise functional apps are annoying and best left ignored.</p>
 <p>But I’m not selling you anything, and I am telling you, deadset, that this technology is real, it can do real work, and it will do it faster and cheaper than any human can. If you give it the information and clear instructions it needs, it might just do your work better than you can.</p>
 <p>Regardless of how this feels, I think it is true, and it is better to adapt than to ignore it. People with AI proficiency will become very valuable in many industries.</p>
-<p>And I should be clear. <em>Completing tasks</em> is not the same as a human doing a job. A job is not a sequence of tasks. AI Agents have a long way to go, and maybe an impossible uphill climb, to actually become “agents” in a real sense, that can be relied on to do autonomous work over long time horizons. Ironically, they have no agency. They can’t learn. They make things up. They’re advanced pattern matchers in a loop that can use tools to do work. That’s it. These facts diminish them, but don’t fool yourself into thinking they are useless. They are <em>incredibly</em> useful.</p>
-<p>So, don’t ask for something vague and smugly watch the model fail to read your mind. That is your ego preventing you from confronting it. Don’t dismiss it all as slop, either. That is a thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and then decide what you think based on direct experience.</p>
-<p>If you are in the legal profession, install a coding agent and <a href="https://typst.app/">Typst</a> (or ask the agent to install it for you), and give it the information it needs to work. Don’t rely on its model training - provide the documents so that it can read sources directly. When you see the perfectly templated PDF magically recompile after every change the agent makes, and you find yourself in what is essentially a live interview with the document and all supporting materials, you will realise the way you work has fundamentally changed.</p>
+<p>And I should be clear. <em>Completing tasks</em> is not the same as a human doing a job. A job is not a sequence of tasks. AI Agents have a long way to go to becoming “agents” in a real sense, that can be relied on to do autonomous work over long time horizons. Ironically, they have no agency. They can’t learn. They make things up. They go completely off the rails. They’re advanced pattern matchers in a loop that can use tools to do work. That’s it. These facts diminish them, but don’t fool yourself into thinking they are useless. They are <em>incredibly</em> useful.</p>
+<p>So, don’t ask for something vague and smugly watch the model fail to read your mind. That is your ego preventing you from confronting it. Don’t dismiss all its output as slop, either. That is a thought terminating cliche inviting you to stay ignorant. Give it a real, honest go, and then decide what you think based on direct experience.</p>
+<p>If you are in the legal profession, or work in any role that requires a lot of reporting, install a coding agent and <a href="https://typst.app/">Typst</a> (or ask the agent to install it for you), and give it the information it needs to work. Don’t rely on its model training, because it will hallucinate. Provide the documents so that it can read sources directly. When you see the perfectly templated PDF magically recompile after every change the agent makes, and you find yourself in what is essentially a live interview with the document and all its supporting materials, you will realise the way you work has fundamentally changed.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -424,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If you live in spreadsheets, install a coding agent, output your data to csv, explain the analysis you would run in Excel, and watch it recreate it with a short Python script, and output any plots or tables you want on the fly. Use Typst, compile it to a beautiful PDF. You can work differently and have a less painful life. Beautiful, colorful plots are how humans should interface with data, not tables of numbers. Tables of numbers are for the machines.</p>
+<p>If you live in spreadsheets, install a coding agent, output your data to csv, explain the analysis you would run in Excel, and watch it recreate it with a short Python script. Now ask for all the plots and summary tables you want. Use Typst, compile it to a beautiful PDF. You don’t need to stare at a white grid of data 8 hours a day anymore. Beautiful, intuitive visualizations are how humans should interface with data, not tables of numbers. Tables of numbers are for the machines. You don’t need a understand a line of code to start doing this right now.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -447,13 +454,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If you run a small business and your invoicing or client management or whatever is a mess, install a coding agent and just talk to it about your problems and brainstorm what you can do to fix them. It might be as simple as organizing your file system, or it could be creating an automated invoicing system.</p>
 <p>OpenCode usually has models provided for free, so you don’t even have to pay to get started. You are a single command in your computer’s terminal away from trying it:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsSL</span> https://opencode.ai/install <span class="kw">|</span> <span class="fu">bash</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If you’re a software developer, you’re probably riding this wave already. If not - if you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming, and you resent the robot doing it for you - try to shift your mental gears into a higher order of puzzle solving. I do miss coding by hand, I’ve been obsessed with it for years, but there is a lot of new fun to be had building with agents, as well.</p>
-<p>Maybe you won’t be deliberating over individual function implementations, or objects and how they are wired together, but you will definitely be wrestling with software architecture, the technologies to use and the trade-offs between them. The grand vision you have for projects, the thing that motivates you to build them at all, will mean they will still feel like they are yours, even if you didn’t write every line of the code.</p>
+<p>If you’re a software developer then you are probably riding this wave already. If not - if you are a tinkerer who enjoys solving puzzles in the peaceful solitude of programming, and you resent the robot doing it for you - try to shift your mental gears into a higher order of puzzle solving. I do miss coding by hand, I’ve been obsessed with it for years, but there is a lot of new fun to be had building with agents, as well.</p>
+<p>Maybe you won’t be deliberating over individual function implementations, or objects and how they are wired together, but you will definitely be wrestling with software architecture, the technologies to use and the trade-offs between them. The grand vision you have for projects, the thing that motivates you to build them at all, will mean they will still feel like they are yours even if you didn’t write every line of the code.</p>
 <p>Most would benefit from experimenting with AI, regardless of how the next few years look. That is my advice, for what it is worth.</p>
-<p>Thanks again to Zai Node for the API access.</p>
+<p>Thanks again to Zai Node for access to their API.</p>
 <p>And thanks for reading!</p>
 
 
