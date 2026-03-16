@@ -1,0 +1,9 @@
+---
+title: "Enso: Streamlining Hydrocarbon Accounting with Graphs"
+author: "Nicholas Dorsch"
+date: 2026-03-10
+categories: [coding]
+image: media/enso_logo_dark.svg
+---
+
+TESTING
