@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nicholas Dorsch">
+<meta name="dcterms.date" content="2026-03-17">
+
+<title>enso: Graphs, GIS and Streamlined Hydrocarbon Accounting – dorschblog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4ef0ee26e9b1ef99c294d0255371148b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-45a449a52d6db8b6de115fa4721cc776.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">dorschblog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/nick-dorsch"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/nicholasjohndorsch/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">enso: Graphs, GIS and Streamlined Hydrocarbon Accounting</h1>
+            <p class="subtitle lead">… also opinions</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">LDI</div>
+                <div class="quarto-category">opinion</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Nicholas Dorsch </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 17, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivations" id="toc-motivations" class="nav-link active" data-scroll-target="#motivations">Motivations</a></li>
+  <li><a href="#what-is-enso" id="toc-what-is-enso" class="nav-link" data-scroll-target="#what-is-enso">What is enso?</a>
+  <ul class="collapse">
+  <li><a href="#how-does-enso-work" id="toc-how-does-enso-work" class="nav-link" data-scroll-target="#how-does-enso-work">How does enso work?</a></li>
+  <li><a href="#why-graphs" id="toc-why-graphs" class="nav-link" data-scroll-target="#why-graphs">Why graphs?</a>
+  <ul class="collapse">
+  <li><a href="#spreadsheet" id="toc-spreadsheet" class="nav-link" data-scroll-target="#spreadsheet">Spreadsheet</a></li>
+  <li><a href="#database-foreign-keys" id="toc-database-foreign-keys" class="nav-link" data-scroll-target="#database-foreign-keys">Database foreign keys</a></li>
+  <li><a href="#graph" id="toc-graph" class="nav-link" data-scroll-target="#graph">Graph</a></li>
+  </ul></li>
+  <li><a href="#why-gis" id="toc-why-gis" class="nav-link" data-scroll-target="#why-gis">Why GIS?</a></li>
+  </ul></li>
+  <li><a href="#ensos-capabilities" id="toc-ensos-capabilities" class="nav-link" data-scroll-target="#ensos-capabilities">Enso’s capabilities</a>
+  <ul class="collapse">
+  <li><a href="#hydrocarbon-accounting" id="toc-hydrocarbon-accounting" class="nav-link" data-scroll-target="#hydrocarbon-accounting">Hydrocarbon accounting</a></li>
+  <li><a href="#jv-management" id="toc-jv-management" class="nav-link" data-scroll-target="#jv-management">JV management</a></li>
+  <li><a href="#bi-and-gis-integration" id="toc-bi-and-gis-integration" class="nav-link" data-scroll-target="#bi-and-gis-integration">BI and GIS integration</a></li>
+  </ul></li>
+  <li><a href="#ensos-future" id="toc-ensos-future" class="nav-link" data-scroll-target="#ensos-future">Enso’s future</a>
+  <ul class="collapse">
+  <li><a href="#reservoir-management" id="toc-reservoir-management" class="nav-link" data-scroll-target="#reservoir-management">Reservoir management</a></li>
+  <li><a href="#production-planning" id="toc-production-planning" class="nav-link" data-scroll-target="#production-planning">Production planning</a></li>
+  <li><a href="#commercial-integrations" id="toc-commercial-integrations" class="nav-link" data-scroll-target="#commercial-integrations">Commercial integrations</a></li>
+  </ul></li>
+  <li><a href="#what-about-ai" id="toc-what-about-ai" class="nav-link" data-scroll-target="#what-about-ai">… What about AI?</a>
+  <ul class="collapse">
+  <li><a href="#effective-ai" id="toc-effective-ai" class="nav-link" data-scroll-target="#effective-ai">Effective AI</a></li>
+  <li><a href="#ai-in-enso" id="toc-ai-in-enso" class="nav-link" data-scroll-target="#ai-in-enso">AI in enso</a></li>
+  </ul></li>
+  <li><a href="#closing-thoughts" id="toc-closing-thoughts" class="nav-link" data-scroll-target="#closing-thoughts">Closing thoughts</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="motivations" class="level1">
+<h1>Motivations</h1>
+<p>Something my career has taught me so far is that in this industry, behind most data processes is an Excel spreadsheet that everyone is afraid of. There might be a database system in place, but a lack of user awareness and comfort with interacting with it (or a lockdown on that interaction via heavy handed data governance) means that we often go hide in our spreadsheets instead.</p>
+<p>But this has some… consequences.</p>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/hurt-locker-1.gif" class="img-fluid figure-img"></p>
+<figcaption>That one guy who knows how it works approaches the spreadsheet, preparing to open it</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>He sees #VALUE, breathes out slowly… and clicks</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/hurt-locker-2.gif" class="img-fluid figure-img"></p>
+<figcaption><code>=IF(AND($B$2&lt;&gt;"",OR(C3&gt;0,D4="",E5&lt;&gt;F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2</code> … it goes on for some time.</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p><em>“Who did this?”</em> He asks himself, <em>“What madman did this to us??”</em></p>
+</blockquote>
+<p>And then he remembers.</p>
+<blockquote class="blockquote">
+<p><em>“… I did.”</em></p>
+</blockquote>
+<hr>
+<p>The failure is in two silos that don’t really understand one another. The data team lacks the domain specificity to handle and present the data in the most useful way for the engineers, and the engineers have little to no experience interacting with databases.</p>
+<p>Engineers might view the database as a thing in the background that just… stores data. The data team knows that isn’t the case, but doesn’t have the domain expertise to really flex its capabilities.</p>
+<p>This creates a system of hand-pumps. Data is handed to engineers in spreadsheets, they do their calculations, and then (if the data team is lucky) they hand the data back for database storage… or they just store it on SharePoint, leaving the database as a forgotten afterthought. They have the data they need, after all.</p>
+<p>It looks something like this:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    DB[(Database)] --&gt; SS[Spreadsheet data copy]
+    SS --&gt; ENG[Engineers run calculations] --&gt; SS
+    SS --&gt; SP[SharePoint]
+    SP -.-&gt; DB
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>or worse:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    DB[(Database)] --&gt; SS1[Spreadsheet data copy]
+    SS1 --&gt; EMAIL[Data sent via email]
+  
+    EMAIL --&gt; SS2[Spreadsheet data copy]
+    SS2 --&gt; ENG[Engineers run calculations] --&gt; SS2
+    SS2 --&gt; SP[SharePoint]
+    SP -.-&gt; DB
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This is simplified example, but the cracks are already showing:</p>
+<ul>
+<li>Data is being replicated in at least 3 places (likely more as new versions of that SharePoint sheet start piling up)</li>
+<li>The end data is <strong>materialized</strong> with no logical connection to <strong>how it was generated</strong>. The spreadsheet contains the logic, so even if the database receives the data, it knows nothing about how it was created.</li>
+</ul>
+<p>This is what I mean by a hand-pumped system. When data is updated or inserted into the database (every day, we’re talking about a production system here), all downstream processes require manual-handling to keep downstream numbers in sync. If bad data entered the system six month ago? Have fun correcting it.</p>
+<p>…Oh? You already corrected it, but the data never made it back into the database?</p>
+<blockquote class="blockquote">
+<p><em>“Yeah, the database is totally wrong most of the time… we don’t really use it anymore.”</em></p>
+</blockquote>
+<p>Got it.</p>
+<p>The engineers have the logic they need locked down – that spreadsheet is probably a (somewhat terrifying) work of art. The problem isn’t the logic, but where it is stored and executed.</p>
+<p>Data hand-pumps don’t scale, are expensive and failure-prone. What companies need are data pipelines:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    RAW[(Database)] --&gt; CALC[Database runs calculations]
+    CALC --&gt; SS[Spreadsheet]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>In this system, the spreadsheet is a <strong>database artifact, not a store of data</strong>. The spreadsheet is disposable. Those “database calculations” are a series of deterministic computations executed on demand when data requested.</p>
+<p>That means data cannot be “out of sync”, the system doesn’t allow it.</p>
+<p>This sounds nice, but the reality of data flowing through an oil and gas company is a lot more complicated than the diagram above makes it appear. Meter data, operational data, production allocation, losses and efficiency, JV share calculations, regulatory compliance, reportable KPIs, reserves, forecasts…</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    MTR[Meter data] --&gt; ALLOC[Production allocation]
+    MTRERR[Metering error corrections] -.-&gt; MTR
+    OPS[Operational/Safety data] --&gt; ALLOC
+    ALLOC --&gt; LOSS[Production losses and efficiency]
+    ALLOC --&gt; JV[JV share calculations]
+    LOSS --&gt; KPI[Reportable KPIs]
+    COMM[Commercial data] ----&gt; KPI
+    JV --&gt; KPI
+    KPI --&gt; REG[Regulatory compliance]
+    KPI --&gt; SHARE[Shareholders]
+    OPS --&gt; KPI
+    MTR --&gt; KPI
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>… The list goes on, and you don’t want to hand-pump it.</p>
+<p>But because production systems are complicated and require a detailed domain model and orchestration, these kinds of systems are usually packaged up and sold to companies for a lot of money.</p>
+<p>Enso is our answer to this.</p>
+</section>
+<section id="what-is-enso" class="level1">
+<h1>What is enso?</h1>
+<p><img src="media/enso_logo_dark.svg" class="img-fluid"></p>
+<p><a href="https://ld-informatics.com/enso/">Enso</a> is both a product and a platform technical showcase.</p>
+<p>It is a product in the sense that it can be packaged up and sold, similar to competing offerings on the market (though significantly cheaper).</p>
+<p>It is a showcase in the sense that it is a <strong>series of patterns</strong> that can be deployed internally at companies that want to customize and control their process.</p>
+<p>The biggest pain points for off-the-shelf solutions are awkwardly fitting them into existing processes, and failing to integrate them effectively. Internal deployments allow the solution to be both customized to internal requirements, and also integrated into other systems so that data can flow between them automatically.</p>
+<p>This integration piece is vital. The magic technology solving all your data problems is significantly less useful if the rest of your company still needs someone babysitting spreadsheets to serve data downstream. Pipelines, not hand-pumps.</p>
+<section id="how-does-enso-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-enso-work">How does enso work?</h2>
+<p>The two central pillars of enso are:</p>
+<ol type="1">
+<li><strong>Dynamic Graphs</strong> - because your production system forms an evolving, interconnected network</li>
+<li><strong>GIS</strong> - because your production system has a geographic footprint, and that matters</li>
+</ol>
+<p>More concretely, the production network is encoded as a Directed Acyclic Graph (DAG), where fluid flows follow the edge direction between nodes. Each node in that graph is geolocated, allowing you to put the network in its geographic context on a map. The network evolves as wells are connected, taken offline, or production is rerouted.</p>
+</section>
+<section id="why-graphs" class="level2">
+<h2 class="anchored" data-anchor-id="why-graphs">Why graphs?</h2>
+<p>Take the production allocation workload as an example.</p>
+<p>Production allocation requires that sales point metering is allocated back to individual wellbores. It is a fundamental requirement for field modelling as it allows reservoir engineers to work with high accuracy estimates for how much each well is producing, and from which reservoirs in the subsurface production is coming from.</p>
+<p>There are various ways to perform these allocations, but fundamentally they require an estimate of each wellbore’s <strong>“production potential”</strong> on a given day. The calculation of production potential in turn (regardless of the particular method used), requires:</p>
+<ol type="1">
+<li>Identification of the set of wellbores connected to the downstream meter being allocated to</li>
+<li>A comparative measure, normalized across that set, to calculate the allocation factor of each wellbore</li>
+<li>Multiplication of the downstream meter value by the allocation factor for each wellbore</li>
+</ol>
+<p>In principle, a very simple procedure.</p>
+<p>For example, consider the following simple network:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    W1((Well A)) --&gt; MAN[Manifold]
+    W2((Well B)) --&gt; MAN
+    W3((Well C)) --&gt; MAN
+    MAN --&gt; COMP[Compressor]
+    COMP --&gt; FM((Fiscal Meter))
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Allocation on a given day could be performed by:</p>
+<section id="spreadsheet" class="level3">
+<h3 class="anchored" data-anchor-id="spreadsheet">Spreadsheet</h3>
+<ol type="1">
+<li>Get wellbore meter data</li>
+<li><strong>Use a VLOOKUP</strong> to find the fiscal meter each well is connected to</li>
+<li>Calculate allocated production</li>
+</ol>
+</section>
+<section id="database-foreign-keys" class="level3">
+<h3 class="anchored" data-anchor-id="database-foreign-keys">Database foreign keys</h3>
+<ol type="1">
+<li>Get the wellbore meter data</li>
+<li><strong>JOIN on the fiscal meter</strong> based on the wellbore -&gt; fiscal meter relationship</li>
+<li>Calculate allocated production</li>
+</ol>
+</section>
+<section id="graph" class="level3">
+<h3 class="anchored" data-anchor-id="graph">Graph</h3>
+<ol type="1">
+<li>Get the wellbore meter data</li>
+<li><strong>Traverse the graph</strong> to find each well’s downstream fiscal meter</li>
+<li>Calculate allocated production</li>
+</ol>
+<p>With such a simple network a spreadsheet performs fine. The graph implementation requires additional traversal logic, making it overkill for this example. But real production networks are much more complicated:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    W1((Oil A)) --&gt; M1[Manifold A]
+    W2((Oil B)) --&gt; M1
+    W3((Gas A)) ---&gt; M2[Manifold B]
+    W4((Gas B)) ---&gt; M2
+    W5((Gas C)) ---&gt; M2
+    M1 --&gt; SEP3[3-Phase Separator]
+    M2 --&gt; SEP2[2-Phase Separator]
+    SEP3 ---&gt; COMP[Compressor]
+    SEP2 --&gt; COMP
+    COMP --&gt; FLR((Gas Flare))
+    COMP --&gt; FMGAS((Gas Fiscal Meter))
+    SEP3 ---&gt; WD((Water Disposal))
+    SEP2 ---&gt; WD((Water Disposal))
+    SEP3 ---&gt; PUMP[Export Pump]
+    PUMP --&gt; FMOIL((Oil Fiscal Meter))
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This is where the graph representation of the network clearly pulls ahead. There are now <strong>4 terminal nodes</strong> (the oil fiscal meter, gas fiscal meter, gas flare, and water disposal) that all need to be accounted for to properly calculate the allocated production for each well, instead of the single fiscal meter in the previous example.</p>
+<p>The graph traversal logic resolves all of these relationships for us:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    FLR((Gas Flare))
+    FMGAS((Gas Fiscal Meter))
+    WD((Water Disposal))
+    FMOIL((Oil Fiscal Meter))
+
+    W1((Oil A)) --&gt; FMOIL
+    W1 --&gt; FMGAS
+    W1 ---&gt; WD
+    W1 ----&gt; FLR
+
+    W2((Oil B)) --&gt; FMOIL
+    W2 --&gt; FMGAS
+    W2 ---&gt; WD
+    W2 ----&gt; FLR
+
+    W3((Gas A)) --&gt; FMGAS
+    W3 ---&gt; WD
+    W3 ----&gt; FLR
+
+    W4((Gas B)) --&gt; FMGAS
+    W4 ---&gt; WD
+    W4 ----&gt; FLR
+
+    W5((Gas C)) --&gt; FMGAS
+    W5 ---&gt; WD
+    W5 ----&gt; FLR
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>This looks like a nightmare, but that’s the point! Encoding all of these relationships with VLOOKUPs or foreign keys quickly creates a mess. The allocation math is easy! The relationships are the difficult part. Define the graph and let it discover the relationships, instead.</p>
+<p>The allocation algorithm just repeats the same logic over each set created dynamically by the graph. Water allocation occurs over the full set, oil allocation occurs over the oil set, and so on. Databases are <strong>perfect</strong> for these kinds of set-based operations.</p>
+</section>
+</section>
+<section id="why-gis" class="level2">
+<h2 class="anchored" data-anchor-id="why-gis">Why GIS?</h2>
+<p>Hopefully the benefits of the graph are clear, but if your company manages a large asset, isn’t that network going to become a nightmare to maintain?</p>
+<p>… Yes!</p>
+<p>Imagine you have thousands of wells producing, and new wells coming online every other day. An abstract graph floating in space will quickly become impossible to navigate.</p>
+<p>So put it on a map.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/screenshots/map_page.png" class="img-fluid figure-img"></p>
+<figcaption>A (fictional) example production network in enso</figcaption>
+</figure>
+</div>
+<p>It’s that simple. The whole production network is laid out logically in the physical world, so represent it in the digital world the same way. Now, managing the network is about as complicated as choosing a restaurant for dinner on Google Maps.</p>
+<p>I’m a bit of a GIS fanatic, but for good reason. Maps are one of the most intuitive data interfaces that exist. We should be using them more! You can’t present these kinds of data effectively in a spreadsheet. Walls of numbers won’t give your team operational excellence, just eye-strain.</p>
+</section>
+</section>
+<section id="ensos-capabilities" class="level1">
+<h1>Enso’s capabilities</h1>
+<p>Built on a stable foundation, enso can perform many oil and gas data workloads. Because so much of the business is downstream of metered data, many of them are simply extensions of the computations performed by the system already.</p>
+<section id="hydrocarbon-accounting" class="level2">
+<h2 class="anchored" data-anchor-id="hydrocarbon-accounting">Hydrocarbon accounting</h2>
+<p>The production allocation process has been outlined already, but briefly:</p>
+<p>All terminal nodes (fiscal meters, gas flaring, water disposal, etc) are dynamically allocated back to their upstream connected wellbores. This means oil, gas and water production streams can be contextualized to their particular node (oil and gas sales, for example) or to wellbores (oil, gas and water streams are the sum of allocated production across all connected terminal nodes). This means wellbore production accounting also includes any gas flaring, injection, water disposal etc, with no additional complexity required. The graph handles the relationships, and the database logic handles the allocation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/screenshots/facility_page.png" class="img-fluid figure-img"></p>
+<figcaption>Facility level allocated production data, in its geographic context</figcaption>
+</figure>
+</div>
+<p>Because the data model is dynamic, it also handles error corrections seamlessly. If bad data enters the system, it can be corrected with all downstream data products updated along with it. A full audit trail is kept for all corrections. The system also provides diagnostics to help operators find erroneous data.</p>
+</section>
+<section id="jv-management" class="level2">
+<h2 class="anchored" data-anchor-id="jv-management">JV management</h2>
+<p>By themselves, Joint Venture partnerships are relatively straight-forward, but they change, and you might be managing many of them at any given time. Which wells fall under which partnership? Has that partnership been updated recently? Who is managing the spreadsheet that maps them to the production data and does all the calculations, again?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/screenshots/jv_page.png" class="img-fluid figure-img"></p>
+<figcaption>Enso can manage evolving Joint Venture partnerships, seamlessly integrating them into production allocation workloads</figcaption>
+</figure>
+</div>
+<p>Unifying the data model makes all of this straight forward. If the JV partnership data is up to date, <strong>so is everything else</strong>. JV shares of allocated production are all generated dynamically on demand, and all respect the historical changes in network topology, JV partner members and their shares, and everything else in the data model. Correcting faulty meter data from six months ago does not cause cascading data invalidation, the correction simply flows downstream to everything else.</p>
+<p>Pipelines, not hand-pumps.</p>
+</section>
+<section id="bi-and-gis-integration" class="level2">
+<h2 class="anchored" data-anchor-id="bi-and-gis-integration">BI and GIS integration</h2>
+<p>The technology stack enso is built on facilitates integration with other tools. Deployed internally, the enso database could be connected to GIS software suites like QGIS or ArcGIS. The integration of GIS data and a rich domain model mean that data can be enriched with business context and displayed in GIS software seamlessly. Business Intelligence suites like PowerBI or Tableau offer similar integrations.</p>
+<p>If a heatmap of last year’s water production, grouped by lease boundaries is what you need, that is a short SQL query away. If you want to model the distance between wellbores and available fiscal meters to look for network optimization opportunities, that data can be delivered directly into BI tools for interactive visualization. It all comes from the same underlying engine.</p>
+<p>The key theme is a rich, integrated, queryable data model.</p>
+</section>
+</section>
+<section id="ensos-future" class="level1">
+<h1>Enso’s future</h1>
+<p>Building on this foundation, enso is highly extensible. Some examples in the development pipeline include:</p>
+<section id="reservoir-management" class="level2">
+<h2 class="anchored" data-anchor-id="reservoir-management">Reservoir management</h2>
+<p>The production network graph can be extended downhole to connect wellbore completions and reservoirs. Well logs can be ingested into the database via a “flag pivot”, storing every individual sand/pay flag with statistical summaries of each log. Combined with stratigraphic top storage, sand summaries can be dynamically calculated on demand.</p>
+<p>Wiring sand intersections to pressure compartments will provide a highly detailed subsurface field model to interrogate, with all measured data stored in the same system.</p>
+<p>Cross referencing with pressure points, core plugs and other supporting datasets, makes bringing together many disparate datasets, organized by zone, trivial.</p>
+</section>
+<section id="production-planning" class="level2">
+<h2 class="anchored" data-anchor-id="production-planning">Production planning</h2>
+<p>Production is allocated to nodes in the network. Future production can be treated in the same way. Production forecasts and scenario modelling can be visualized, managed and audited in the same system that manages GIS layers and historical production data.</p>
+</section>
+<section id="commercial-integrations" class="level2">
+<h2 class="anchored" data-anchor-id="commercial-integrations">Commercial integrations</h2>
+<p>Querying price data either by API or integrating with internal price sources/price decks means historical and forecasted revenue estimates could be generated by the system seamlessly.</p>
+</section>
+</section>
+<section id="what-about-ai" class="level1">
+<h1>… What about AI?</h1>
+<p>Here’s the thing. Data engineering has never been more important than it is right now.</p>
+<p>If you want an LLM agent to actually work in your organisation without either doing nothing or blowing everything up, you need strong data practices. The stronger your underlying data infrastructure, the more leverage your company will have as AI is introduced.</p>
+<p>If your data is caught in a complicated spider web of SharePoint spreadsheets, powerpoints and word docs, your AI initiatives will fail to do anything useful. I guarantee it.</p>
+<p>Because your company AI, without rich data and context within its reach, is just a ChatGPT knock-off.</p>
+<p>What ChatGPT does not have, however, is your data.</p>
+<p>Even with your data though, it would be a big mistake to just ask AI agents to magically do calculations for you. Data infrastructure requires <strong>deterministic behaviour</strong>, and LLMs are <strong>stochastic gremlins</strong> who will ruin your day if you give them too much freedom.</p>
+<p>The agent needs access to your processes, too, so they can perform reliably.</p>
+<p>So what does “effective” AI look like, when you have your house in order?</p>
+<section id="effective-ai" class="level2">
+<h2 class="anchored" data-anchor-id="effective-ai">Effective AI</h2>
+<p>AI Agents will be most effective where:</p>
+<ul>
+<li>Data contracts are deterministic</li>
+<li>Common workflows are formalized with MCP Servers</li>
+</ul>
+<p>An AI agent operating in an environment where it can safely query data from a consolidated source, with access to tools to perform useful work, will be incredibly valuable to many organisations.</p>
+<p>An MCP (Model Context Protocol) Server is just a way of giving AI Agents access to deterministic tools to perform certain tasks. They “judge” whether to use the tool or not, and what arguments to pass, but the outcome of the tool use itself is deterministic given those arguments.</p>
+<p>For example, asking your AI “help me find anomalous flowmeter data in X field in the past 3 months”, the agent might call a tool like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"enso_find_anomalous_data"</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"arguments"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"X"</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"months"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"data_type"</span><span class="fu">:</span> <span class="st">"Q"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Returning JSON of the relevant data, which it can then relay to you and talk about. The agent isn’t rummaging around in the database itself, it is just running a tool call with a few arguments, which performs that work internally.</p>
+<p>More ad hoc query patterns would be supported by a SQL query building MCP Server that allows the agent to (safely) query the database for data based on what the user requests.</p>
+<p>The key is that the data contracts (I ask for this, you give me this back) are <em>secure and deterministic</em> because they are drawing on consolidated systems that are designed for providing them.</p>
+<p>But there is no magic MCP tool for:</p>
+<blockquote class="blockquote">
+<p>“Hey uh… get the latest data from this sharepoint link, i think its on slide 6. it’s a photo of a spreadsheet screenshotted from another report that I can’t find”</p>
+</blockquote>
+<p>Your AI assistant will say something like <em>“absolutely!”</em> and start running <code>bash</code> commands that look like something from the <em>Call of Cthulu</em>. You should quickly become extremely nervous and shut it down. No good will come of it.</p>
+<p>Agents will confidently hallucinate when left free to make things up. Context is the thing that chains them down to reality and makes them reliable enough to do real work with. Without this access to context, they will be more trouble than they are worth.</p>
+</section>
+<section id="ai-in-enso" class="level2">
+<h2 class="anchored" data-anchor-id="ai-in-enso">AI in enso</h2>
+<p>Enso (and all tools we develop at LD Informatics) will have MCP servers of some description. They are high leverage additions to most code bases, and make the “chat” interface something that can perform useful work. At least with enso, they would not expose write access to the database, they would only serve results in various formats based on user requests.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  ENSO[(enso)] --&gt; MCP[MCP Server]
+  MCP --&gt; AGENT[Agent]
+  AGENT --&gt; MCP
+  USER[User] --&gt; AGENT
+  AGENT --&gt; USER
+  AGENT --&gt; ARTI[Requested Outputs]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="closing-thoughts" class="level1">
+<h1>Closing thoughts</h1>
+<p>To close out this hot mess of a blogpost:</p>
+<p>Spreadsheets should not be doing critical data work, they can be <strong>outputs</strong>, not hand-pumps for manual data processing. Enso replaces hand-pumps with automated pipelines, such that data changes are propagated through the system seamlessly, from meter data through to Joint Venture share calculations. It is designed to save many data headaches.</p>
+<p>Our aim with enso is to provide a single integrated system for consolidating many oil and gas data management challenges in a platform that supports GIS and BI endpoints. It leans heavily on a graph representation of the production network, and displays it in a map interface to help make it efficient and intuitive for operators to work with.</p>
+<p>Successful AI integrations will leverage deterministic data contracts and formalized workflows via MCP tool use. Without these foundations in place, AI initiatives will likely be ineffective. Enso is designed to support these kinds of integrations.</p>
+<p>If your team is interested in enso and our broader approach to technical data management, don’t hesitate to <a href="https://ld-informatics.com/enso/">contact us</a>.</p>
+<p>And thanks for reading.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
