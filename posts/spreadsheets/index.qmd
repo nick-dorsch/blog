@@ -1,0 +1,232 @@
+---
+title: "... Show me the spreadsheet"
+author: "Nicholas Dorsch"
+date: 2026-03-17
+categories: [coding, opinion]
+image: media/suspicious.gif
+---
+
+Something my career has taught me so far is that in this industry, behind most data
+processes is an Excel spreadsheet that everyone is afraid of. There might be a database
+system in place, but a lack of user awareness and comfort with interacting with it (or a
+lockdown on that interaction via heavy handed data governance) means that we often go
+hide in our spreadsheets instead.
+
+Eventually, we might even start calling our spreadsheets by their fantasy collective
+noun... _the database_.
+
+![There's that word again...](media/suspicious.gif)
+
+But _database_ is not the collective noun for spreadsheets (it's _shitspread_), and
+doing this for too long has some... consequences.
+
+---
+
+![That one guy who knows how it works approaches the spreadsheet, preparing to open
+it](media/hurt-locker-1.gif)
+
+> He sees #VALUE, breathes out slowly... and clicks
+
+![
+`=IF(AND($B$2<>"",OR(C3>0,D4="",E5<>F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2`
+... it goes on for some time.](media/hurt-locker-2.gif)
+
+> _"... Who did this?"_ He asks himself, _"What madman did this to us??"_
+
+And then he remembers.
+
+> _"... I did."_
+
+---
+
+# Why does this keep happening?
+
+This seems very common in the oil and gas industry at least, but maybe it holds true for
+a lot of engineering disciplines. "Technical, but not tech" is a potential category to
+capture it, as I imagine most tech companies have better systems in place.
+
+The pattern is 
+
+> **Database:** _under-utilized, out of date, nobody trusts it, maybe doesn't even exist_
+>
+> **Spreadsheets:** _basically the core of the business_
+
+My theory for why this is boils down to two points, one obvious, and the other perhaps
+less so:
+
+1. Spreadsheets back-load complexity. Databases front-load it.
+
+2. Many people don't understand what databases are for (it's not storage) and what they
+   can do (basically everything)
+
+## Complexity Management
+
+Setting up a spreadsheet is a matter of double clicking the Excel logo... and that's
+kinda it. Put some numbers in it, add some functions, make a few charts. In 20 minutes,
+you are **cooking**. And in 20 years, if you keep going like this, you will be
+**drowning**, because life is not gonna stay easy in spreadsheet town forever.
+
+Why? Because as your data gets larger and more diverse, **maintaining valid state**
+becomes exponentially more difficult in spreadsheets. 
+
+What do I mean by valid state? That your data **makes sense**. 
+
+Things there should only be one of only logically exist once. The capital of Australia
+is not Canberra, canberra and Canbera. 
+
+Things that should only have one of something only in fact have one of that thing. My
+birthday can't be 11/06/1992 **and also** 11/06/1994. 
+
+Things that are numbers **are actually numbers**, not mostly numbers and also sometimes "..." or
+"check" or "?" or (my personal favourite) " ".
+
+Asking questions that require you to check various data sources under various
+constraints starts getting really difficult -- consider all the derived data your
+business needs that require you to actually calculate things? Maybe a particular KPI
+requires you to bring together 6 different datasets, and before you know it this
+happens:
+
+![
+`=IF(AND($B$2<>"",OR(C3>0,D4="",E5<>F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2`
+... There's 6 of them! I don't normally break a sweat while surrounded by between 0 and
+5 armed improvised explosives, but 6??](media/hurt-locker-2.gif)
+
+Databases require more set up (front loaded complexity) but are designed to handle all
+of this, hence my next point:
+
+## What are Databases For?
+
+**Question:** What is the most space efficient way to store data?
+
+**Answer:** Parquet files. Insanely efficient storage, very fast reads.
+
+Yeah, not a database. Databases are in general pretty heavy beasts. So... why all this
+fuss about them?
+
+Databases aren't for storing data. They are for enforcing a persistent, strict,
+logical data model that can be efficiently, and flexibly queried. The most important
+thing databases do is say 
+
+> **NO**. 
+
+They enforce invariants, they reject incorrect data, they **prevent invalid states**.
+
+![Thank you for maintaining the logical order of our data universe, computer!](media/computer-says-no.gif)
+
+Why is that so important?
+
+Because if you know your database rejects invalid states, you can fearlessly ask it a
+billion different questions and it will give you a billion logically coherent answers
+(unless you ask stupid questions -- not a problem I have, personally).
+
+![Honest AI feels different, man.](media/stupid-questions.gif)
+
+If you understand this, a database can do 90% of the data work you'll ever need for your
+business. That is **incredibly valuable** whether you have mountains of data or just a
+spreadsheet's worth, and it becomes more valuable the more complicated your data model
+becomes.
+
+## Where things break
+
+The failure is in two silos that don't really understand one another. The data team
+lacks the domain specificity to handle and present the data in the most useful way for
+the engineers, and the engineers have little to no experience interacting with
+databases.
+
+Engineers might view the database as a thing in the background that just... stores data.
+The data team knows that isn't the case, but doesn't have the domain expertise to really
+flex its capabilities. 
+
+This creates a system of hand-pumps. Data is handed to engineers in spreadsheets, they
+do their calculations, and then (if the data team is lucky) they hand the data back for
+database storage... or they just store it on SharePoint, leaving the database as a
+forgotten afterthought. They have the data they need, after all.
+
+It looks something like this:
+
+```{mermaid}
+flowchart TD
+    DB[(Database)] --> SS[Spreadsheet data copy]
+    SS --> ENG[Engineers run calculations] --> SS
+    SS --> SP[SharePoint]
+    SP -.-> DB
+```
+
+or worse:
+
+```{mermaid}
+flowchart TD
+    DB[(Database)] --> SS1[Spreadsheet data copy]
+    SS1 --> EMAIL[Data sent via email]
+  
+    EMAIL --> SS2[Spreadsheet data copy]
+    SS2 --> ENG[Engineers run calculations] --> SS2
+    SS2 --> SP[SharePoint]
+    SP -.-> DB
+```
+
+This is simplified example, but the cracks are already showing:
+
+-  Data is being replicated in at least 3 places (likely more as new versions of that
+SharePoint sheet start piling up)
+-  The end data is **materialized** with no logical connection to **how it was
+generated**. The spreadsheet contains the logic, so even if the database receives the
+data, it knows nothing about how it was created.
+
+This is what I mean by a hand-pumped system. When data is updated or inserted into the
+database (every day, we're talking about a production system here), all downstream
+processes require manual-handling to keep downstream numbers in sync. If bad data
+entered the system six month ago? Have fun correcting it. 
+
+...Oh? You already corrected it, but the data never made it back into the database? 
+
+> _"Yeah, the database is totally wrong most of the time... we don't really use it
+> anymore."_
+
+Got it.
+
+The engineers have the logic they need locked down -- that spreadsheet is probably a
+(somewhat terrifying) work of art. The problem isn't the logic, but where it is stored
+and executed.
+
+Data hand-pumps don't scale, are expensive and failure-prone. What companies need are
+data pipelines:
+
+```{mermaid}
+flowchart TD
+    RAW[(Database)] --> CALC[Database runs calculations]
+    CALC --> SS[Spreadsheet]
+```
+
+In this system, the spreadsheet is a **database artifact, not a store of data**. The
+spreadsheet is disposable. Those "database calculations" are a series of deterministic
+computations executed on demand when data is requested. 
+
+That means data cannot be "out of sync", the system doesn't allow it.
+
+This sounds nice, but the reality of data flowing through an oil and gas company is a
+lot more complicated than the diagram above makes it appear. Meter data, operational
+data, production allocation, losses and efficiency, JV share calculations, regulatory
+compliance, reportable KPIs, reserves, forecasts... 
+
+```{mermaid}
+flowchart TD
+    MTR[Meter data] --> ALLOC[Production allocation]
+    MTRERR[Metering error corrections] -.-> MTR
+    OPS[Operational/Safety data] --> ALLOC
+    ALLOC --> LOSS[Production losses and efficiency]
+    ALLOC --> JV[JV share calculations]
+    LOSS --> KPI[Reportable KPIs]
+    COMM[Commercial data] ----> KPI
+    JV --> KPI
+    KPI --> REG[Regulatory compliance]
+    KPI --> SHARE[Shareholders]
+    OPS --> KPI
+    MTR --> KPI
+```
+
+... The list goes on, and you don't want to hand-pump it.
+
+But because production systems are complicated and require a detailed domain model and
+orchestration, these kinds of systems are usually packaged up and sold to companies for
+a lot of money.
