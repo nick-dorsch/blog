@@ -3,7 +3,7 @@ title: "enso: Graphs, GIS and Streamlined Hydrocarbon Accounting"
 subtitle: "... also opinions"
 author: "Nicholas Dorsch"
 date: 2026-03-17
-categories: [ai, coding]
+categories: [AI, LDI, opinion]
 image: media/enso_logo_dark.svg
 ---
 
