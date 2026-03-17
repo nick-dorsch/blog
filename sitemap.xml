@@ -2,42 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nick-dorsch.github.io/blog/about.html</loc>
-    <lastmod>2026-03-10T01:14:24.794Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.874Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/outcomes/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.861Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.975Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/dirichlet_geo/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.840Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.920Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/copulas/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.839Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.919Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/welcome/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.863Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.978Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.794Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.874Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/enso/index.html</loc>
+    <lastmod>2026-03-17T05:57:18.925Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/spending/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.862Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.976Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/berkson/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.798Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.878Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/lex/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.844Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.958Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/coffee/index.html</loc>
-    <lastmod>2026-03-10T01:14:24.830Z</lastmod>
+    <lastmod>2026-03-17T05:57:18.910Z</lastmod>
   </url>
 </urlset>
