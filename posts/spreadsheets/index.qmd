@@ -6,18 +6,19 @@ categories: [coding, opinion]
 image: media/suspicious.gif
 ---
 
-Something my career has taught me so far is that in this industry, behind most data
-processes is an Excel spreadsheet that everyone is afraid of. There might be a database
-system in place, but a lack of user awareness and comfort with interacting with it (or a
-lockdown on that interaction via heavy handed data governance) means that we often go
-hide in our spreadsheets instead.
+Something my career has taught me so far is that in this industry, behind most important
+data is an Excel spreadsheet that everyone is afraid of. 
+
+There might be a database system in place, but a lack of user awareness and comfort with
+interacting with it (or a lockdown on that interaction via heavy handed data governance)
+means that we often go hide in our spreadsheets instead.
 
 Eventually, we might even start calling our spreadsheets by their fantasy collective
 noun... _the database_.
 
 ![There's that word again...](media/suspicious.gif)
 
-But _database_ is not the collective noun for spreadsheets (it's _shitspread_), and
+But _database_ is not the collective noun for spreadsheets (it's _sheetspread_), and
 doing this for too long has some... consequences.
 
 ---
@@ -25,7 +26,8 @@ doing this for too long has some... consequences.
 ![That one guy who knows how it works approaches the spreadsheet, preparing to open
 it](media/hurt-locker-1.gif)
 
-> He sees #VALUE, breathes out slowly... and clicks
+> He opens it. After 17 minutes it becomes responsive. He sees #VALUE, he breathes out
+> slowly... and clicks
 
 ![
 `=IF(AND($B$2<>"",OR(C3>0,D4="",E5<>F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2`
@@ -41,105 +43,241 @@ And then he remembers.
 
 # Why does this keep happening?
 
-This seems very common in the oil and gas industry at least, but maybe it holds true for
-a lot of engineering disciplines. "Technical, but not tech" is a potential category to
-capture it, as I imagine most tech companies have better systems in place.
+This seems common in the oil and gas industry, at least, but maybe it holds true for a
+lot of engineering disciplines. "Technical, but not tech" might capture it, as I imagine
+most tech companies have better systems in place.
 
 The pattern is 
 
 > **Database:** _under-utilized, out of date, nobody trusts it, maybe doesn't even exist_
 >
-> **Spreadsheets:** _basically the core of the business_
+> **Spreadsheets:** _the beating heart of the entire operation_
 
-My theory for why this is boils down to two points, one obvious, and the other perhaps
-less so:
+My theory for why it keeps happening boils down to two points, one obvious, and the
+other perhaps less so:
 
 1. Spreadsheets back-load complexity. Databases front-load it.
 
 2. Many people don't understand what databases are for (it's not storage) and what they
-   can do (basically everything)
+   can do (basically [everything](https://postgresforeverything.com/))
 
-## Complexity Management
+## Paying for complexity
 
 Setting up a spreadsheet is a matter of double clicking the Excel logo... and that's
-kinda it. Put some numbers in it, add some functions, make a few charts. In 20 minutes,
-you are **cooking**. And in 20 years, if you keep going like this, you will be
-**drowning**, because life is not gonna stay easy in spreadsheet town forever.
+kinda it. Put some numbers in it, add some functions, calculate the stuff you need, make
+a few charts. In 10 minutes, you are **cooking**. 
+
+... And in 10 years, if you keep going like this, you and your misbegotten company will
+be **drowning**, because life is not gonna stay easy in spreadsheet town for long.
 
 Why? Because as your data gets larger and more diverse, **maintaining valid state**
-becomes exponentially more difficult in spreadsheets. 
+will become exponentially more difficult. 
 
-What do I mean by valid state? That your data **makes sense**. 
+What do I mean by valid state? I mean that your data **makes logical sense**. 
 
-Things there should only be one of only logically exist once. The capital of Australia
-is not Canberra, canberra and Canbera. 
+Things that should be unique only logically exist once. The capital of Australia is not
+Canberra, canberra and Canbera. 
 
 Things that should only have one of something only in fact have one of that thing. My
 birthday can't be 11/06/1992 **and also** 11/06/1994. 
 
-Things that are numbers **are actually numbers**, not mostly numbers and also sometimes "..." or
-"check" or "?" or (my personal favourite) " ".
+Things that are numbers **are actually numbers**, not mostly numbers and also sometimes
+"..." or "check" or "?".
 
-Asking questions that require you to check various data sources under various
-constraints starts getting really difficult -- consider all the derived data your
-business needs that require you to actually calculate things? Maybe a particular KPI
-requires you to bring together 6 different datasets, and before you know it this
-happens:
+Physical quantities must be positive. Fractions must be between 0 and 1. 
+
+And so on.
+
+Exciting stuff.
+
+But answering business questions that require you to compile various data sources under
+various constraints starts getting very difficult without all this faff. Maybe a
+particular KPI requires you to bring together 6 different datasets, and before you know
+it we're here again:
 
 ![
 `=IF(AND($B$2<>"",OR(C3>0,D4="",E5<>F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2`
-... There's 6 of them! I don't normally break a sweat while surrounded by between 0 and
-5 armed improvised explosives, but 6??](media/hurt-locker-2.gif)
+... Look, being surrounded by between 0 and 5 armed improvised explosives I can handle,
+but 6?](media/hurt-locker-2.gif)
 
-Databases require more set up (front loaded complexity) but are designed to handle all
-of this, hence my next point:
+Databases require more set up and know-how (front loaded complexity) but are designed to
+handle all of this, hence my next point:
 
-## What are Databases For?
+## What are databases for?
 
 **Question:** What is the most space efficient way to store data?
 
-**Answer:** Parquet files. Insanely efficient storage, very fast reads.
+**Answer:** Parquet files.[^parquet]
+
+[^parquet]: Usually for analytical/tabular workloads, but exact storage efficiency
+depends on the data shape and access patterns.
 
 Yeah, not a database. Databases are in general pretty heavy beasts. So... why all this
-fuss about them?
+fuss about using them?
 
-Databases aren't for storing data. They are for enforcing a persistent, strict,
-logical data model that can be efficiently, and flexibly queried. The most important
-thing databases do is say 
+Databases aren't for storing data. Obviously they do... but that isn't what makes them
+useful. Databases are useful because they enforce a strict, logical data model that can
+be efficiently queried. The most important thing databases do is say 
 
-> **NO**. 
+> **NO.** 
 
 They enforce invariants, they reject incorrect data, they **prevent invalid states**.
 
-![Thank you for maintaining the logical order of our data universe, computer!](media/computer-says-no.gif)
+![Thank you for maintaining the logical order of our data universe,
+computer!](media/computer-says-no.gif)
+
+Any dumb process can just say yes to all your data dumping. What *doesn't* get in is
+just as critical.
 
 Why is that so important?
 
-Because if you know your database rejects invalid states, you can fearlessly ask it a
-billion different questions and it will give you a billion logically coherent answers
-(unless you ask stupid questions -- not a problem I have, personally).
+Because if you know your database rejects invalid states, then you know its internal
+model of the world is consistent, which means you can fearlessly ask it a billion
+different questions and it will give you a billion logically coherent answers (unless
+you ask stupid questions).
 
-![Honest AI feels different, man.](media/stupid-questions.gif)
+![My AI every 5 seconds if it wasn't a suck up.](media/stupid-questions.gif)
 
-If you understand this, a database can do 90% of the data work you'll ever need for your
-business. That is **incredibly valuable** whether you have mountains of data or just a
-spreadsheet's worth, and it becomes more valuable the more complicated your data model
-becomes.
+If you understand this and leverage it accordingly, a database can do 90% of the data
+work you'll ever need for your business. That is **very valuable** whether you have
+mountains of data or just a spreadsheet's worth, and it becomes more valuable the more
+complicated your data model becomes.
 
-## Where things break
+And the data model in oil and gas is... COMPLICATED.
 
-The failure is in two silos that don't really understand one another. The data team
-lacks the domain specificity to handle and present the data in the most useful way for
-the engineers, and the engineers have little to no experience interacting with
-databases.
+Data people in the business know what database technology can do, but technical staff
+often don't... So, death by spreadsheets ensues.
 
-Engineers might view the database as a thing in the background that just... stores data.
-The data team knows that isn't the case, but doesn't have the domain expertise to really
-flex its capabilities. 
+## A more concrete example
 
-This creates a system of hand-pumps. Data is handed to engineers in spreadsheets, they
-do their calculations, and then (if the data team is lucky) they hand the data back for
-database storage... or they just store it on SharePoint, leaving the database as a
+My examples above are trivial and might minimize the point, so here is an oil and gas
+specific example to better drive my point home:
+
+> _"Calculate our net revenue interest of the total barrels of oil equivalent production and
+> compare it to budget expectations, aggregated by month, looking back 5 years._
+
+Now, imagine you're living in spreadsheet land:
+
+1. You have high frequency meter data and hopefully daily summaries of it in a
+   spreadsheet somewhere
+2. You have some kind of allocation logic spreadsheet that consolidates individual
+   well/completion level production to high quality measurements at the fiscal meter
+3. This gives you another spreadsheet of production by well/completion each day
+4. Legal has an old spreadsheet tabulating joint venture agreements, their effective
+   dates, partner shares, etc
+5. You store a mapping between wells and joint venture agreements (if you're lucky) or
+   specific reservoir intersections and joint venture agreements (if the agreements are
+splitting hairs) in another spreadsheet somewhere
+6. You have budget production targets by year (and hopefully not just the current year)
+
+And imagine that in the last 5 years, the joint venture has changed several times,
+several new wells have come online, several completions have been shutin while others
+have been opened, and so on. Getting the correct numbers requires you to untangle all of
+that.
+
+How does that compare to working with a well designed database?
+
+Here's a SQL query doing the same work:
+
+```sql
+-- Get the desired data, calculating NRI share and variance to budget
+SELECT
+  DATE_TRUNC('month', p.production_date) AS month,
+  SUM(p.boe * wjv.partner_share) AS nri_boe,
+  SUM(b.budget_boe) AS budget_boe,
+  SUM(p.boe * wjv.partner_share) - SUM(b.budget_boe) AS variance_boe
+
+-- The base production table that other tables will be joined on
+FROM daily_well_production AS p
+
+-- Join well production to the correct joint ventures
+JOIN well_joint_ventures AS wjv
+  ON wjv.well_id = p.well_id
+  AND p.production_date >= wjv.effective_from
+  AND p.production_date < COALESCE(wjv.effective_to, DATE '9999-12-31')
+
+-- Join production data to budget targets
+JOIN budget_targets AS b
+  ON b.well_id = p.well_id
+  AND b.year = DATE_TRUNC('year', p.production_date)
+
+-- Filter on the last 5 years of data
+WHERE p.production_date >= CURRENT_DATE - INTERVAL '5 years'
+
+-- Aggregate by month
+GROUP BY month
+
+-- Order chronologically
+ORDER BY month ASC;
+```
+
+And look, I get it, there's some syntax here... but SQL is actually very easy to learn,
+and your AI can fill in the gaps. What, you think I wrote all that myself? Imaginary
+joins in an imaginary schema with imaginary data for an imaginary request? Do you think
+I'm completely insane?[^comment]
+
+[^comment]: I added the comments though :)
+
+Compare the experience of getting that query right to the spreadsheet fuelled
+alternative. 
+
+I can compare them! I've experienced both! 
+
+And the way that story ends is I build a god damned database and now spend some of my
+free time evangelising the benefits of doing so. 
+
+SO HEED MY WORDS, DEAR READER.
+
+It is worth the upfront cost in complexity to set this up.
+
+### ... But AI!
+
+_What about it?_
+
+How likely do you think it is that your AI can navigate all the
+spreadsheets above and get you the same answer, reliably?
+
+![
+`=IF(AND($B$2<>"",OR(C3>0,D4="",E5<>F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2`
+... Thinking for a better answer...](media/hurt-locker-2.gif)
+
+> _"Easy. Production x partner share by month."_
+>
+> _"Wait, that's wrong. JV changed mid-month."_
+>
+> _"Still wrong. Reservoir-level split. I need to create a bridging table."_
+>
+> _"Now budget got multiplied by 12. Wait. The budget numbers are monthly, not daily.
+> Let me try a different approach..."_
+>
+> _"The results are still all #VALUE..."_
+>
+> _"Wait... I never opened the spreadsheets! I can't access them. Let me try a different
+> approach..."_
+>
+> _"The user seems stressed and management is pressuring them for an answer. I should
+> provide a plausible placeholder."_
+>
+> "**Final answer:** NRI is up 7.4%, budget is on track. All systems green."
+
+!["Now you're asking the right questions, and honestly? That's rare... Yes, it's all
+made up."](media/made-it-up.gif)
+
+LLMs are fluent in SQL! They are not fluent in *your bullshit*.
+
+## How things go wrong
+
+Once it sinks in, the benefits are unbelievably, painfully clear. But spreadsheets still
+dominate.
+
+The failure, I think, is in two silos that don't really understand one another. The data
+team lacks the domain knowledge to handle and present the data in the most useful way
+for the engineers, and the engineers have little to no experience interacting with
+databases, so they don't know what is possible. To them, the database just stores data.
+
+So you end up with a system of hand-pumps. Data is handed to engineers in spreadsheets,
+they do their calculations, and then (if the data team is lucky) they hand the data back
+for database storage... or they just store it on SharePoint, leaving the database as a
 forgotten afterthought. They have the data they need, after all.
 
 It looks something like this:
@@ -174,9 +312,9 @@ generated**. The spreadsheet contains the logic, so even if the database receive
 data, it knows nothing about how it was created.
 
 This is what I mean by a hand-pumped system. When data is updated or inserted into the
-database (every day, we're talking about a production system here), all downstream
-processes require manual-handling to keep downstream numbers in sync. If bad data
-entered the system six month ago? Have fun correcting it. 
+database (every day, if we're talking about an oil and gas data management system), all
+downstream processes require manual work to keep numbers in sync. If bad data entered
+the system six month ago? Have fun correcting it. 
 
 ...Oh? You already corrected it, but the data never made it back into the database? 
 
@@ -185,12 +323,21 @@ entered the system six month ago? Have fun correcting it.
 
 Got it.
 
-The engineers have the logic they need locked down -- that spreadsheet is probably a
-(somewhat terrifying) work of art. The problem isn't the logic, but where it is stored
-and executed.
+![Average interaction between data and technical teams](media/i-dont-know-who-you-are.gif)
 
-Data hand-pumps don't scale, are expensive and failure-prone. What companies need are
-data pipelines:
+This is an example of **invalid state**. The data the engineers have is not logically
+consistent with the data in the database.
+
+The engineers have the logic they need locked down -- that spreadsheet is probably a
+(terrifying) work of art. The problem isn't the logic, but where it is stored and
+executed.
+
+So fix it.
+
+# The better way
+
+Data hand-pumps don't scale, they're expensive, error-prone and create invalid state.
+What companies need are data pipelines:
 
 ```{mermaid}
 flowchart TD
@@ -198,16 +345,18 @@ flowchart TD
     CALC --> SS[Spreadsheet]
 ```
 
-In this system, the spreadsheet is a **database artifact, not a store of data**. The
-spreadsheet is disposable. Those "database calculations" are a series of deterministic
-computations executed on demand when data is requested. 
+In this system, the spreadsheet is a **database artifact, not a data store**. It can
+be used to explore and visualize data in a nice, familiar interface, but nothing
+downstream depends on it. The spreadsheet is disposable. Those "database calculations"
+are a series of deterministic computations executed on demand when data is requested.
+They are where the work is done.
 
-That means data cannot be "out of sync", the system doesn't allow it.
+That means data cannot be "out of sync", the system doesn't allow it. No invalid state.
 
-This sounds nice, but the reality of data flowing through an oil and gas company is a
-lot more complicated than the diagram above makes it appear. Meter data, operational
-data, production allocation, losses and efficiency, JV share calculations, regulatory
-compliance, reportable KPIs, reserves, forecasts... 
+And this sounds nice in theory, but the reality of data flowing through an oil and gas
+company is a lot more complicated than the diagram above makes it appear. Metering,
+operational data, production allocation, losses and efficiency, JV share calculations,
+regulatory compliance, reportable KPIs, reserves, forecasts... 
 
 ```{mermaid}
 flowchart TD
@@ -225,8 +374,25 @@ flowchart TD
     MTR --> KPI
 ```
 
-... The list goes on, and you don't want to hand-pump it.
+... The list goes on, and you don't want to hand-pump it. This complexity is evidence
+for why you need a database centred system, not evidence against it.
 
-But because production systems are complicated and require a detailed domain model and
-orchestration, these kinds of systems are usually packaged up and sold to companies for
-a lot of money.
+The problem is that because production systems are complicated, require a detailed data
+model, some cloud engineering and data pipeline orchestration, these kinds of systems
+are usually packaged up and sold to companies for a lot of money. Then they get
+underutilized because the data consumers, who actually understand and work with the
+data, are still more comfortable in spreadsheets.
+
+But my contention is that this is, fundamentally, a solvable data engineering problem.
+Setting the system up just requires an overlap of software and data skills with the
+right domain knowledge.
+
+Finding people with those skills, internally or through consultant help, makes this
+possible. Once set up the system will pay dividends with minimal upkeep.
+
+LD Informatics is built around this business need, set up for either internal
+deployments or software as a service. My next article will explore our platform **enso**
+to show the design philosophy we have taken in solving these kinds of technical
+challenges.
+
+Thanks for reading.

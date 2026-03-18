@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -157,10 +191,15 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#why-does-this-keep-happening" id="toc-why-does-this-keep-happening" class="nav-link active" data-scroll-target="#why-does-this-keep-happening">Why does this keep happening?</a>
   <ul class="collapse">
-  <li><a href="#complexity-management" id="toc-complexity-management" class="nav-link" data-scroll-target="#complexity-management">Complexity Management</a></li>
-  <li><a href="#what-are-databases-for" id="toc-what-are-databases-for" class="nav-link" data-scroll-target="#what-are-databases-for">What are Databases For?</a></li>
-  <li><a href="#where-things-break" id="toc-where-things-break" class="nav-link" data-scroll-target="#where-things-break">Where things break</a></li>
+  <li><a href="#paying-for-complexity" id="toc-paying-for-complexity" class="nav-link" data-scroll-target="#paying-for-complexity">Paying for complexity</a></li>
+  <li><a href="#what-are-databases-for" id="toc-what-are-databases-for" class="nav-link" data-scroll-target="#what-are-databases-for">What are databases for?</a></li>
+  <li><a href="#a-more-concrete-example" id="toc-a-more-concrete-example" class="nav-link" data-scroll-target="#a-more-concrete-example">A more concrete example</a>
+  <ul class="collapse">
+  <li><a href="#but-ai" id="toc-but-ai" class="nav-link" data-scroll-target="#but-ai">… But AI!</a></li>
   </ul></li>
+  <li><a href="#how-things-go-wrong" id="toc-how-things-go-wrong" class="nav-link" data-scroll-target="#how-things-go-wrong">How things go wrong</a></li>
+  </ul></li>
+  <li><a href="#the-better-way" id="toc-the-better-way" class="nav-link" data-scroll-target="#the-better-way">The better way</a></li>
   </ul>
 </nav>
     </div>
@@ -171,7 +210,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Something my career has taught me so far is that in this industry, behind most data processes is an Excel spreadsheet that everyone is afraid of. There might be a database system in place, but a lack of user awareness and comfort with interacting with it (or a lockdown on that interaction via heavy handed data governance) means that we often go hide in our spreadsheets instead.</p>
+<p>Something my career has taught me so far is that in this industry, behind most important data is an Excel spreadsheet that everyone is afraid of.</p>
+<p>There might be a database system in place, but a lack of user awareness and comfort with interacting with it (or a lockdown on that interaction via heavy handed data governance) means that we often go hide in our spreadsheets instead.</p>
 <p>Eventually, we might even start calling our spreadsheets by their fantasy collective noun… <em>the database</em>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -179,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>There’s that word again…</figcaption>
 </figure>
 </div>
-<p>But <em>database</em> is not the collective noun for spreadsheets (it’s <em>shitspread</em>), and doing this for too long has some… consequences.</p>
+<p>But <em>database</em> is not the collective noun for spreadsheets (it’s <em>sheetspread</em>), and doing this for too long has some… consequences.</p>
 <hr>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -188,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 <blockquote class="blockquote">
-<p>He sees #VALUE, breathes out slowly… and clicks</p>
+<p>He opens it. After 17 minutes it becomes responsive. He sees #VALUE, he breathes out slowly… and clicks</p>
 </blockquote>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -206,42 +246,46 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 <section id="why-does-this-keep-happening" class="level1">
 <h1>Why does this keep happening?</h1>
-<p>This seems very common in the oil and gas industry at least, but maybe it holds true for a lot of engineering disciplines. “Technical, but not tech” is a potential category to capture it, as I imagine most tech companies have better systems in place.</p>
+<p>This seems common in the oil and gas industry, at least, but maybe it holds true for a lot of engineering disciplines. “Technical, but not tech” might capture it, as I imagine most tech companies have better systems in place.</p>
 <p>The pattern is</p>
 <blockquote class="blockquote">
 <p><strong>Database:</strong> <em>under-utilized, out of date, nobody trusts it, maybe doesn’t even exist</em></p>
-<p><strong>Spreadsheets:</strong> <em>basically the core of the business</em></p>
+<p><strong>Spreadsheets:</strong> <em>the beating heart of the entire operation</em></p>
 </blockquote>
-<p>My theory for why this is boils down to two points, one obvious, and the other perhaps less so:</p>
+<p>My theory for why it keeps happening boils down to two points, one obvious, and the other perhaps less so:</p>
 <ol type="1">
 <li><p>Spreadsheets back-load complexity. Databases front-load it.</p></li>
-<li><p>Many people don’t understand what databases are for (it’s not storage) and what they can do (basically everything)</p></li>
+<li><p>Many people don’t understand what databases are for (it’s not storage) and what they can do (basically <a href="https://postgresforeverything.com/">everything</a>)</p></li>
 </ol>
-<section id="complexity-management" class="level2">
-<h2 class="anchored" data-anchor-id="complexity-management">Complexity Management</h2>
-<p>Setting up a spreadsheet is a matter of double clicking the Excel logo… and that’s kinda it. Put some numbers in it, add some functions, make a few charts. In 20 minutes, you are <strong>cooking</strong>. And in 20 years, if you keep going like this, you will be <strong>drowning</strong>, because life is not gonna stay easy in spreadsheet town forever.</p>
-<p>Why? Because as your data gets larger and more diverse, <strong>maintaining valid state</strong> becomes exponentially more difficult in spreadsheets.</p>
-<p>What do I mean by valid state? That your data <strong>makes sense</strong>.</p>
-<p>Things there should only be one of only logically exist once. The capital of Australia is not Canberra, canberra and Canbera.</p>
+<section id="paying-for-complexity" class="level2">
+<h2 class="anchored" data-anchor-id="paying-for-complexity">Paying for complexity</h2>
+<p>Setting up a spreadsheet is a matter of double clicking the Excel logo… and that’s kinda it. Put some numbers in it, add some functions, calculate the stuff you need, make a few charts. In 10 minutes, you are <strong>cooking</strong>.</p>
+<p>… And in 10 years, if you keep going like this, you and your misbegotten company will be <strong>drowning</strong>, because life is not gonna stay easy in spreadsheet town for long.</p>
+<p>Why? Because as your data gets larger and more diverse, <strong>maintaining valid state</strong> will become exponentially more difficult.</p>
+<p>What do I mean by valid state? I mean that your data <strong>makes logical sense</strong>.</p>
+<p>Things that should be unique only logically exist once. The capital of Australia is not Canberra, canberra and Canbera.</p>
 <p>Things that should only have one of something only in fact have one of that thing. My birthday can’t be 11/06/1992 <strong>and also</strong> 11/06/1994.</p>
-<p>Things that are numbers <strong>are actually numbers</strong>, not mostly numbers and also sometimes “…” or “check” or “?” or (my personal favourite) ” “.</p>
-<p>Asking questions that require you to check various data sources under various constraints starts getting really difficult – consider all the derived data your business needs that require you to actually calculate things? Maybe a particular KPI requires you to bring together 6 different datasets, and before you know it this happens:</p>
+<p>Things that are numbers <strong>are actually numbers</strong>, not mostly numbers and also sometimes “…” or “check” or “?”.</p>
+<p>Physical quantities must be positive. Fractions must be between 0 and 1.</p>
+<p>And so on.</p>
+<p>Exciting stuff.</p>
+<p>But answering business questions that require you to compile various data sources under various constraints starts getting very difficult without all this faff. Maybe a particular KPI requires you to bring together 6 different datasets, and before you know it we’re here again:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/hurt-locker-2.gif" class="img-fluid figure-img"></p>
-<figcaption><code>=IF(AND($B$2&lt;&gt;"",OR(C3&gt;0,D4="",E5&lt;&gt;F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2</code> … There’s 6 of them! I don’t normally break a sweat while surrounded by between 0 and 5 armed improvised explosives, but 6??</figcaption>
+<figcaption><code>=IF(AND($B$2&lt;&gt;"",OR(C3&gt;0,D4="",E5&lt;&gt;F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2</code> … Look, being surrounded by between 0 and 5 armed improvised explosives I can handle, but 6?</figcaption>
 </figure>
 </div>
-<p>Databases require more set up (front loaded complexity) but are designed to handle all of this, hence my next point:</p>
+<p>Databases require more set up and know-how (front loaded complexity) but are designed to handle all of this, hence my next point:</p>
 </section>
 <section id="what-are-databases-for" class="level2">
-<h2 class="anchored" data-anchor-id="what-are-databases-for">What are Databases For?</h2>
+<h2 class="anchored" data-anchor-id="what-are-databases-for">What are databases for?</h2>
 <p><strong>Question:</strong> What is the most space efficient way to store data?</p>
-<p><strong>Answer:</strong> Parquet files. Insanely efficient storage, very fast reads.</p>
-<p>Yeah, not a database. Databases are in general pretty heavy beasts. So… why all this fuss about them?</p>
-<p>Databases aren’t for storing data. They are for enforcing a persistent, strict, logical data model that can be efficiently, and flexibly queried. The most important thing databases do is say</p>
+<p><strong>Answer:</strong> Parquet files.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Yeah, not a database. Databases are in general pretty heavy beasts. So… why all this fuss about using them?</p>
+<p>Databases aren’t for storing data. Obviously they do… but that isn’t what makes them useful. Databases are useful because they enforce a strict, logical data model that can be efficiently queried. The most important thing databases do is say</p>
 <blockquote class="blockquote">
-<p><strong>NO</strong>.</p>
+<p><strong>NO.</strong></p>
 </blockquote>
 <p>They enforce invariants, they reject incorrect data, they <strong>prevent invalid states</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -250,21 +294,106 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Thank you for maintaining the logical order of our data universe, computer!</figcaption>
 </figure>
 </div>
+<p>Any dumb process can just say yes to all your data dumping. What <em>doesn’t</em> get in is just as critical.</p>
 <p>Why is that so important?</p>
-<p>Because if you know your database rejects invalid states, you can fearlessly ask it a billion different questions and it will give you a billion logically coherent answers (unless you ask stupid questions – not a problem I have, personally).</p>
+<p>Because if you know your database rejects invalid states, then you know its internal model of the world is consistent, which means you can fearlessly ask it a billion different questions and it will give you a billion logically coherent answers (unless you ask stupid questions).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/stupid-questions.gif" class="img-fluid figure-img"></p>
-<figcaption>Honest AI feels different, man.</figcaption>
+<figcaption>My AI every 5 seconds if it wasn’t a suck up.</figcaption>
 </figure>
 </div>
-<p>If you understand this, a database can do 90% of the data work you’ll ever need for your business. That is <strong>incredibly valuable</strong> whether you have mountains of data or just a spreadsheet’s worth, and it becomes more valuable the more complicated your data model becomes.</p>
+<p>If you understand this and leverage it accordingly, a database can do 90% of the data work you’ll ever need for your business. That is <strong>very valuable</strong> whether you have mountains of data or just a spreadsheet’s worth, and it becomes more valuable the more complicated your data model becomes.</p>
+<p>And the data model in oil and gas is… COMPLICATED.</p>
+<p>Data people in the business know what database technology can do, but technical staff often don’t… So, death by spreadsheets ensues.</p>
 </section>
-<section id="where-things-break" class="level2">
-<h2 class="anchored" data-anchor-id="where-things-break">Where things break</h2>
-<p>The failure is in two silos that don’t really understand one another. The data team lacks the domain specificity to handle and present the data in the most useful way for the engineers, and the engineers have little to no experience interacting with databases.</p>
-<p>Engineers might view the database as a thing in the background that just… stores data. The data team knows that isn’t the case, but doesn’t have the domain expertise to really flex its capabilities.</p>
-<p>This creates a system of hand-pumps. Data is handed to engineers in spreadsheets, they do their calculations, and then (if the data team is lucky) they hand the data back for database storage… or they just store it on SharePoint, leaving the database as a forgotten afterthought. They have the data they need, after all.</p>
+<section id="a-more-concrete-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-more-concrete-example">A more concrete example</h2>
+<p>My examples above are trivial and might minimize the point, so here is an oil and gas specific example to better drive my point home:</p>
+<blockquote class="blockquote">
+<p><em>“Calculate our net revenue interest of the total barrels of oil equivalent production and compare it to budget expectations, aggregated by month, looking back 5 years.</em></p>
+</blockquote>
+<p>Now, imagine you’re living in spreadsheet land:</p>
+<ol type="1">
+<li>You have high frequency meter data and hopefully daily summaries of it in a spreadsheet somewhere</li>
+<li>You have some kind of allocation logic spreadsheet that consolidates individual well/completion level production to high quality measurements at the fiscal meter</li>
+<li>This gives you another spreadsheet of production by well/completion each day</li>
+<li>Legal has an old spreadsheet tabulating joint venture agreements, their effective dates, partner shares, etc</li>
+<li>You store a mapping between wells and joint venture agreements (if you’re lucky) or specific reservoir intersections and joint venture agreements (if the agreements are splitting hairs) in another spreadsheet somewhere</li>
+<li>You have budget production targets by year (and hopefully not just the current year)</li>
+</ol>
+<p>And imagine that in the last 5 years, the joint venture has changed several times, several new wells have come online, several completions have been shutin while others have been opened, and so on. Getting the correct numbers requires you to untangle all of that.</p>
+<p>How does that compare to working with a well designed database?</p>
+<p>Here’s a SQL query doing the same work:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Get the desired data, calculating NRI share and variance to budget</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  DATE_TRUNC(<span class="st">'month'</span>, p.production_date) <span class="kw">AS</span> <span class="dt">month</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(p.boe <span class="op">*</span> wjv.partner_share) <span class="kw">AS</span> nri_boe,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(b.budget_boe) <span class="kw">AS</span> budget_boe,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(p.boe <span class="op">*</span> wjv.partner_share) <span class="op">-</span> <span class="fu">SUM</span>(b.budget_boe) <span class="kw">AS</span> variance_boe</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- The base production table that other tables will be joined on</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> daily_well_production <span class="kw">AS</span> p</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- Join well production to the correct joint ventures</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> well_joint_ventures <span class="kw">AS</span> wjv</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> wjv.well_id <span class="op">=</span> p.well_id</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> p.production_date <span class="op">&gt;=</span> wjv.effective_from</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> p.production_date <span class="op">&lt;</span> <span class="fu">COALESCE</span>(wjv.effective_to, <span class="dt">DATE</span> <span class="st">'9999-12-31'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">-- Join production data to budget targets</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> budget_targets <span class="kw">AS</span> b</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> b.well_id <span class="op">=</span> p.well_id</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> b.<span class="dt">year</span> <span class="op">=</span> DATE_TRUNC(<span class="st">'year'</span>, p.production_date)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">-- Filter on the last 5 years of data</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> p.production_date <span class="op">&gt;=</span> <span class="fu">CURRENT_DATE</span> <span class="op">-</span> <span class="dt">INTERVAL</span> <span class="st">'5 years'</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">-- Aggregate by month</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">month</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">-- Order chronologically</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">month</span> <span class="kw">ASC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And look, I get it, there’s some syntax here… but SQL is actually very easy to learn, and your AI can fill in the gaps. What, you think I wrote all that myself? Imaginary joins in an imaginary schema with imaginary data for an imaginary request? Do you think I’m completely insane?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>Compare the experience of getting that query right to the spreadsheet fuelled alternative.</p>
+<p>I can compare them! I’ve experienced both!</p>
+<p>And the way that story ends is I build a god damned database and now spend some of my free time evangelising the benefits of doing so.</p>
+<p>SO HEED MY WORDS, DEAR READER.</p>
+<p>It is worth the upfront cost in complexity to set this up.</p>
+<section id="but-ai" class="level3">
+<h3 class="anchored" data-anchor-id="but-ai">… But AI!</h3>
+<p><em>What about it?</em></p>
+<p>How likely do you think it is that your AI can navigate all the spreadsheets above and get you the same answer, reliably?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/hurt-locker-2.gif" class="img-fluid figure-img"></p>
+<figcaption><code>=IF(AND($B$2&lt;&gt;"",OR(C3&gt;0,D4="",E5&lt;&gt;F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2</code> … Thinking for a better answer…</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p><em>“Easy. Production x partner share by month.”</em></p>
+<p><em>“Wait, that’s wrong. JV changed mid-month.”</em></p>
+<p><em>“Still wrong. Reservoir-level split. I need to create a bridging table.”</em></p>
+<p><em>“Now budget got multiplied by 12. Wait. The budget numbers are monthly, not daily. Let me try a different approach…”</em></p>
+<p><em>“The results are still all #VALUE…”</em></p>
+<p><em>“Wait… I never opened the spreadsheets! I can’t access them. Let me try a different approach…”</em></p>
+<p><em>“The user seems stressed and management is pressuring them for an answer. I should provide a plausible placeholder.”</em></p>
+<p>“<strong>Final answer:</strong> NRI is up 7.4%, budget is on track. All systems green.”</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/made-it-up.gif" class="img-fluid figure-img"></p>
+<figcaption>“Now you’re asking the right questions, and honestly? That’s rare… Yes, it’s all made up.”</figcaption>
+</figure>
+</div>
+<p>LLMs are fluent in SQL! They are not fluent in <em>your bullshit</em>.</p>
+</section>
+</section>
+<section id="how-things-go-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="how-things-go-wrong">How things go wrong</h2>
+<p>Once it sinks in, the benefits are unbelievably, painfully clear. But spreadsheets still dominate.</p>
+<p>The failure, I think, is in two silos that don’t really understand one another. The data team lacks the domain knowledge to handle and present the data in the most useful way for the engineers, and the engineers have little to no experience interacting with databases, so they don’t know what is possible. To them, the database just stores data.</p>
+<p>So you end up with a system of hand-pumps. Data is handed to engineers in spreadsheets, they do their calculations, and then (if the data team is lucky) they hand the data back for database storage… or they just store it on SharePoint, leaving the database as a forgotten afterthought. They have the data they need, after all.</p>
 <p>It looks something like this:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -307,14 +436,26 @@ ul.task-list li input[type="checkbox"] {
 <li>Data is being replicated in at least 3 places (likely more as new versions of that SharePoint sheet start piling up)</li>
 <li>The end data is <strong>materialized</strong> with no logical connection to <strong>how it was generated</strong>. The spreadsheet contains the logic, so even if the database receives the data, it knows nothing about how it was created.</li>
 </ul>
-<p>This is what I mean by a hand-pumped system. When data is updated or inserted into the database (every day, we’re talking about a production system here), all downstream processes require manual-handling to keep downstream numbers in sync. If bad data entered the system six month ago? Have fun correcting it.</p>
+<p>This is what I mean by a hand-pumped system. When data is updated or inserted into the database (every day, if we’re talking about an oil and gas data management system), all downstream processes require manual work to keep numbers in sync. If bad data entered the system six month ago? Have fun correcting it.</p>
 <p>…Oh? You already corrected it, but the data never made it back into the database?</p>
 <blockquote class="blockquote">
 <p><em>“Yeah, the database is totally wrong most of the time… we don’t really use it anymore.”</em></p>
 </blockquote>
 <p>Got it.</p>
-<p>The engineers have the logic they need locked down – that spreadsheet is probably a (somewhat terrifying) work of art. The problem isn’t the logic, but where it is stored and executed.</p>
-<p>Data hand-pumps don’t scale, are expensive and failure-prone. What companies need are data pipelines:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/i-dont-know-who-you-are.gif" class="img-fluid figure-img"></p>
+<figcaption>Average interaction between data and technical teams</figcaption>
+</figure>
+</div>
+<p>This is an example of <strong>invalid state</strong>. The data the engineers have is not logically consistent with the data in the database.</p>
+<p>The engineers have the logic they need locked down – that spreadsheet is probably a (terrifying) work of art. The problem isn’t the logic, but where it is stored and executed.</p>
+<p>So fix it.</p>
+</section>
+</section>
+<section id="the-better-way" class="level1">
+<h1>The better way</h1>
+<p>Data hand-pumps don’t scale, they’re expensive, error-prone and create invalid state. What companies need are data pipelines:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -329,9 +470,9 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>In this system, the spreadsheet is a <strong>database artifact, not a store of data</strong>. The spreadsheet is disposable. Those “database calculations” are a series of deterministic computations executed on demand when data is requested.</p>
-<p>That means data cannot be “out of sync”, the system doesn’t allow it.</p>
-<p>This sounds nice, but the reality of data flowing through an oil and gas company is a lot more complicated than the diagram above makes it appear. Meter data, operational data, production allocation, losses and efficiency, JV share calculations, regulatory compliance, reportable KPIs, reserves, forecasts…</p>
+<p>In this system, the spreadsheet is a <strong>database artifact, not a data store</strong>. It can be used to explore and visualize data in a nice, familiar interface, but nothing downstream depends on it. The spreadsheet is disposable. Those “database calculations” are a series of deterministic computations executed on demand when data is requested. They are where the work is done.</p>
+<p>That means data cannot be “out of sync”, the system doesn’t allow it. No invalid state.</p>
+<p>And this sounds nice in theory, but the reality of data flowing through an oil and gas company is a lot more complicated than the diagram above makes it appear. Metering, operational data, production allocation, losses and efficiency, JV share calculations, regulatory compliance, reportable KPIs, reserves, forecasts…</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -356,14 +497,24 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>… The list goes on, and you don’t want to hand-pump it.</p>
-<p>But because production systems are complicated and require a detailed domain model and orchestration, these kinds of systems are usually packaged up and sold to companies for a lot of money.</p>
+<p>… The list goes on, and you don’t want to hand-pump it. This complexity is evidence for why you need a database centred system, not evidence against it.</p>
+<p>The problem is that because production systems are complicated, require a detailed data model, some cloud engineering and data pipeline orchestration, these kinds of systems are usually packaged up and sold to companies for a lot of money. Then they get underutilized because the data consumers, who actually understand and work with the data, are still more comfortable in spreadsheets.</p>
+<p>But my contention is that this is, fundamentally, a solvable data engineering problem. Setting the system up just requires an overlap of software and data skills with the right domain knowledge.</p>
+<p>Finding people with those skills, internally or through consultant help, makes this possible. Once set up the system will pay dividends with minimal upkeep.</p>
+<p>LD Informatics is built around this business need, set up for either internal deployments or software as a service. My next article will explore our platform <strong>enso</strong> to show the design philosophy we have taken in solving these kinds of technical challenges.</p>
+<p>Thanks for reading.</p>
 
 
 </section>
-</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Usually for analytical/tabular workloads, but exact storage efficiency depends on the data shape and access patterns.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I added the comments though :)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
