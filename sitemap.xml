@@ -2,42 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nick-dorsch.github.io/blog/about.html</loc>
-    <lastmod>2026-03-17T07:48:05.447Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.283Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/outcomes/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.516Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.350Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/dirichlet_geo/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.493Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.328Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/copulas/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.493Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.328Z</lastmod>
   </url>
   <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/welcome/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.518Z</lastmod>
+    <loc>https://nick-dorsch.github.io/blog/posts/spreadsheets/index.html</loc>
+    <lastmod>2026-03-18T02:59:39.353Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.447Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.283Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/welcome/index.html</loc>
+    <lastmod>2026-03-18T02:59:39.399Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/spending/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.516Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.352Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/berkson/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.450Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.286Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/lex/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.499Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.334Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/coffee/index.html</loc>
-    <lastmod>2026-03-17T07:48:05.484Z</lastmod>
+    <lastmod>2026-03-18T02:59:39.318Z</lastmod>
   </url>
 </urlset>
