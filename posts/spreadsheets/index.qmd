@@ -1,9 +1,9 @@
 ---
 title: "... Show me the spreadsheet"
 author: "Nicholas Dorsch"
-date: 2026-03-17
+date: 2026-03-18
 categories: [coding, opinion]
-image: media/suspicious.gif
+image: media/hurt-locker-2.gif
 ---
 
 Something my career has taught me so far is that in this industry, behind most important
@@ -151,10 +151,10 @@ often don't... So, death by spreadsheets ensues.
 ## A more concrete example
 
 My examples above are trivial and might minimize the point, so here is an oil and gas
-specific example to better drive my point home:
+specific example to better drive it home:
 
-> _"Calculate our net revenue interest of the total barrels of oil equivalent production and
-> compare it to budget expectations, aggregated by month, looking back 5 years._
+> _"Calculate our net revenue interest of the total barrels of oil equivalent production
+> and compare it to budget expectations, aggregated by month, looking back 5 years._
 
 Now, imagine you're living in spreadsheet land:
 
@@ -390,7 +390,7 @@ right domain knowledge.
 Finding people with those skills, internally or through consultant help, makes this
 possible. Once set up the system will pay dividends with minimal upkeep.
 
-LD Informatics is built around this business need, set up for either internal
+LD Informatics is built around capabilities, set up for either consultancy and internal
 deployments or software as a service. My next article will explore our platform **enso**
 to show the design philosophy we have taken in solving these kinds of technical
 challenges.
