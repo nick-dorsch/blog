@@ -390,9 +390,9 @@ right domain knowledge.
 Finding people with those skills, internally or through consultant help, makes this
 possible. Once set up the system will pay dividends with minimal upkeep.
 
-LD Informatics is built around capabilities, set up for either consultancy and internal
-deployments or software as a service. My next article will explore our platform **enso**
-to show the design philosophy we have taken in solving these kinds of technical
+LD Informatics is built around these capabilities, set up for either consultancy and
+internal deployments or software as a service. My next article will explore our platform
+**enso** to show the design philosophy we have taken in solving these kinds of technical
 challenges.
 
 Thanks for reading.
