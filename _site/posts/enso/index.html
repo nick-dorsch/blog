@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicholas Dorsch">
-<meta name="dcterms.date" content="2026-03-17">
+<meta name="dcterms.date" content="2026-03-22">
 
-<title>enso: Graphs, GIS and Streamlined Hydrocarbon Accounting – dorschblog</title>
+<title>enso: Streamlining Petroleum Data Management with Graphs and GIS – dorschblog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -152,12 +152,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">enso: Graphs, GIS and Streamlined Hydrocarbon Accounting</h1>
-            <p class="subtitle lead">… also opinions</p>
+      <h1 class="title">enso: Streamlining Petroleum Data Management with Graphs and GIS</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">AI</div>
                 <div class="quarto-category">LDI</div>
-                <div class="quarto-category">opinion</div>
+                <div class="quarto-category">data</div>
+                <div class="quarto-category">AI</div>
               </div>
                   </div>
   </div>
@@ -175,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 17, 2026</p>
+        <p class="date">March 22, 2026</p>
       </div>
     </div>
     
@@ -191,17 +190,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#motivations" id="toc-motivations" class="nav-link active" data-scroll-target="#motivations">Motivations</a></li>
-  <li><a href="#what-is-enso" id="toc-what-is-enso" class="nav-link" data-scroll-target="#what-is-enso">What is enso?</a>
+  <li><a href="#what-is-enso" id="toc-what-is-enso" class="nav-link active" data-scroll-target="#what-is-enso">What is enso?</a>
   <ul class="collapse">
-  <li><a href="#how-does-enso-work" id="toc-how-does-enso-work" class="nav-link" data-scroll-target="#how-does-enso-work">How does enso work?</a></li>
-  <li><a href="#why-graphs" id="toc-why-graphs" class="nav-link" data-scroll-target="#why-graphs">Why graphs?</a>
-  <ul class="collapse">
-  <li><a href="#spreadsheet" id="toc-spreadsheet" class="nav-link" data-scroll-target="#spreadsheet">Spreadsheet</a></li>
-  <li><a href="#database-foreign-keys" id="toc-database-foreign-keys" class="nav-link" data-scroll-target="#database-foreign-keys">Database foreign keys</a></li>
-  <li><a href="#graph" id="toc-graph" class="nav-link" data-scroll-target="#graph">Graph</a></li>
-  </ul></li>
-  <li><a href="#why-gis" id="toc-why-gis" class="nav-link" data-scroll-target="#why-gis">Why GIS?</a></li>
+  <li><a href="#who-is-enso-for" id="toc-who-is-enso-for" class="nav-link" data-scroll-target="#who-is-enso-for">Who is enso for?</a></li>
   </ul></li>
   <li><a href="#ensos-capabilities" id="toc-ensos-capabilities" class="nav-link" data-scroll-target="#ensos-capabilities">Enso’s capabilities</a>
   <ul class="collapse">
@@ -214,13 +205,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#reservoir-management" id="toc-reservoir-management" class="nav-link" data-scroll-target="#reservoir-management">Reservoir management</a></li>
   <li><a href="#production-planning" id="toc-production-planning" class="nav-link" data-scroll-target="#production-planning">Production planning</a></li>
   <li><a href="#commercial-integrations" id="toc-commercial-integrations" class="nav-link" data-scroll-target="#commercial-integrations">Commercial integrations</a></li>
+  <li><a href="#petex-and-other-software-integrations" id="toc-petex-and-other-software-integrations" class="nav-link" data-scroll-target="#petex-and-other-software-integrations">PETEX and other software integrations</a></li>
+  <li><a href="#ai-integrations" id="toc-ai-integrations" class="nav-link" data-scroll-target="#ai-integrations">AI Integrations</a></li>
   </ul></li>
-  <li><a href="#what-about-ai" id="toc-what-about-ai" class="nav-link" data-scroll-target="#what-about-ai">… What about AI?</a>
+  <li><a href="#how-does-enso-work" id="toc-how-does-enso-work" class="nav-link" data-scroll-target="#how-does-enso-work">How does enso work?</a>
   <ul class="collapse">
-  <li><a href="#effective-ai" id="toc-effective-ai" class="nav-link" data-scroll-target="#effective-ai">Effective AI</a></li>
-  <li><a href="#ai-in-enso" id="toc-ai-in-enso" class="nav-link" data-scroll-target="#ai-in-enso">AI in enso</a></li>
+  <li><a href="#why-graphs" id="toc-why-graphs" class="nav-link" data-scroll-target="#why-graphs">Why graphs?</a>
+  <ul class="collapse">
+  <li><a href="#production-allocation" id="toc-production-allocation" class="nav-link" data-scroll-target="#production-allocation">Production Allocation</a></li>
+  <li><a href="#networks-changes" id="toc-networks-changes" class="nav-link" data-scroll-target="#networks-changes">Networks changes</a></li>
+  <li><a href="#integrated-network-modelling" id="toc-integrated-network-modelling" class="nav-link" data-scroll-target="#integrated-network-modelling">Integrated Network Modelling</a></li>
   </ul></li>
-  <li><a href="#closing-thoughts" id="toc-closing-thoughts" class="nav-link" data-scroll-target="#closing-thoughts">Closing thoughts</a></li>
+  <li><a href="#why-gis" id="toc-why-gis" class="nav-link" data-scroll-target="#why-gis">Why GIS?</a></li>
+  <li><a href="#the-everything-data-bagel" id="toc-the-everything-data-bagel" class="nav-link" data-scroll-target="#the-everything-data-bagel">The Everything Data Bagel</a></li>
+  </ul></li>
+  <li><a href="#our-plans" id="toc-our-plans" class="nav-link" data-scroll-target="#our-plans">Our plans</a></li>
   </ul>
 </nav>
     </div>
@@ -231,160 +230,139 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="motivations" class="level1">
-<h1>Motivations</h1>
-<p>Something my career has taught me so far is that in this industry, behind most data processes is an Excel spreadsheet that everyone is afraid of. There might be a database system in place, but a lack of user awareness and comfort with interacting with it (or a lockdown on that interaction via heavy handed data governance) means that we often go hide in our spreadsheets instead.</p>
-<p>But this has some… consequences.</p>
-<hr>
+<p>In my <a href="https://nick-dorsch.github.io/blog/posts/spreadsheets/">previous post</a> I waxed lyrical/incoherently ranted about the benefits of relational databases and good data modelling, comparing it to the pains I’ve experienced doing data work in spreadsheets.</p>
+<p>It is hard to fully communicate the benefits of this kind of work to someone outside of the data engineering space, and I know this because earlier in my career I was totally oblivious to it as well.</p>
+<p>I had my <code>DataFrame</code> and I could do whatever I wanted with it with <code>pandas</code>, so why would I have cared about the database? It just stores the data, right? The magic happens downstream in code. (Substitute in spreadsheets as you like.)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="media/hurt-locker-1.gif" class="img-fluid figure-img"></p>
-<figcaption>That one guy who knows how it works approaches the spreadsheet, preparing to open it</figcaption>
+<p><img src="media/incorrect.gif" class="img-fluid figure-img"></p>
+<figcaption>Wrong!</figcaption>
 </figure>
 </div>
-<blockquote class="blockquote">
-<p>He sees #VALUE, breathes out slowly… and clicks</p>
-</blockquote>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="media/hurt-locker-2.gif" class="img-fluid figure-img"></p>
-<figcaption><code>=IF(AND($B$2&lt;&gt;"",OR(C3&gt;0,D4="",E5&lt;&gt;F6)),SUMPRODUCT(($G$2:$G$17+H$2:H$17)*(IFERROR($I$2:$I$17,0)+IF(J$2</code> … it goes on for some time.</figcaption>
-</figure>
-</div>
-<blockquote class="blockquote">
-<p><em>“Who did this?”</em> He asks himself, <em>“What madman did this to us??”</em></p>
-</blockquote>
-<p>And then he remembers.</p>
-<blockquote class="blockquote">
-<p><em>“… I did.”</em></p>
-</blockquote>
-<hr>
-<p>The failure is in two silos that don’t really understand one another. The data team lacks the domain specificity to handle and present the data in the most useful way for the engineers, and the engineers have little to no experience interacting with databases.</p>
-<p>Engineers might view the database as a thing in the background that just… stores data. The data team knows that isn’t the case, but doesn’t have the domain expertise to really flex its capabilities.</p>
-<p>This creates a system of hand-pumps. Data is handed to engineers in spreadsheets, they do their calculations, and then (if the data team is lucky) they hand the data back for database storage… or they just store it on SharePoint, leaving the database as a forgotten afterthought. They have the data they need, after all.</p>
-<p>It looks something like this:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-    DB[(Database)] --&gt; SS[Spreadsheet data copy]
-    SS --&gt; ENG[Engineers run calculations] --&gt; SS
-    SS --&gt; SP[SharePoint]
-    SP -.-&gt; DB
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p>or worse:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-    DB[(Database)] --&gt; SS1[Spreadsheet data copy]
-    SS1 --&gt; EMAIL[Data sent via email]
-  
-    EMAIL --&gt; SS2[Spreadsheet data copy]
-    SS2 --&gt; ENG[Engineers run calculations] --&gt; SS2
-    SS2 --&gt; SP[SharePoint]
-    SP -.-&gt; DB
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p>This is simplified example, but the cracks are already showing:</p>
-<ul>
-<li>Data is being replicated in at least 3 places (likely more as new versions of that SharePoint sheet start piling up)</li>
-<li>The end data is <strong>materialized</strong> with no logical connection to <strong>how it was generated</strong>. The spreadsheet contains the logic, so even if the database receives the data, it knows nothing about how it was created.</li>
-</ul>
-<p>This is what I mean by a hand-pumped system. When data is updated or inserted into the database (every day, we’re talking about a production system here), all downstream processes require manual-handling to keep downstream numbers in sync. If bad data entered the system six month ago? Have fun correcting it.</p>
-<p>…Oh? You already corrected it, but the data never made it back into the database?</p>
-<blockquote class="blockquote">
-<p><em>“Yeah, the database is totally wrong most of the time… we don’t really use it anymore.”</em></p>
-</blockquote>
-<p>Got it.</p>
-<p>The engineers have the logic they need locked down – that spreadsheet is probably a (somewhat terrifying) work of art. The problem isn’t the logic, but where it is stored and executed.</p>
-<p>Data hand-pumps don’t scale, are expensive and failure-prone. What companies need are data pipelines:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-    RAW[(Database)] --&gt; CALC[Database runs calculations]
-    CALC --&gt; SS[Spreadsheet]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p>In this system, the spreadsheet is a <strong>database artifact, not a store of data</strong>. The spreadsheet is disposable. Those “database calculations” are a series of deterministic computations executed on demand when data requested.</p>
-<p>That means data cannot be “out of sync”, the system doesn’t allow it.</p>
-<p>This sounds nice, but the reality of data flowing through an oil and gas company is a lot more complicated than the diagram above makes it appear. Meter data, operational data, production allocation, losses and efficiency, JV share calculations, regulatory compliance, reportable KPIs, reserves, forecasts…</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-    MTR[Meter data] --&gt; ALLOC[Production allocation]
-    MTRERR[Metering error corrections] -.-&gt; MTR
-    OPS[Operational/Safety data] --&gt; ALLOC
-    ALLOC --&gt; LOSS[Production losses and efficiency]
-    ALLOC --&gt; JV[JV share calculations]
-    LOSS --&gt; KPI[Reportable KPIs]
-    COMM[Commercial data] ----&gt; KPI
-    JV --&gt; KPI
-    KPI --&gt; REG[Regulatory compliance]
-    KPI --&gt; SHARE[Shareholders]
-    OPS --&gt; KPI
-    MTR --&gt; KPI
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p>… The list goes on, and you don’t want to hand-pump it.</p>
-<p>But because production systems are complicated and require a detailed domain model and orchestration, these kinds of systems are usually packaged up and sold to companies for a lot of money.</p>
-<p>Enso is our answer to this.</p>
-</section>
+<p>Because a database isn’t a digital filing cabinet – a database is a declarative interface to a highly optimized and parallelized computational engine that is the culmination of half a century of research. Your spreadsheet isn’t a replacement. Neither is your Python code.</p>
+<p>The things I have built in the past 2 years would be a completely impractical mess without their heavy reliance on the wide range of functionality that relational databases provide out of the box.</p>
+<p>At LD Informatics we’ve taken a lot of my learnings while working as an employee and made them concrete in an oil and gas data platform called <strong>enso</strong>. I think it is a strong showcase of both databases generally, as well as the kind of services and capabilities we can provide to the industry.</p>
 <section id="what-is-enso" class="level1">
 <h1>What is enso?</h1>
 <p><img src="media/enso_logo_dark.svg" class="img-fluid"></p>
-<p><a href="https://ld-informatics.com/enso/">Enso</a> is both a product and a platform technical showcase.</p>
-<p>It is a product in the sense that it can be packaged up and sold, similar to competing offerings on the market (though significantly cheaper).</p>
-<p>It is a showcase in the sense that it is a <strong>series of patterns</strong> that can be deployed internally at companies that want to customize and control their process.</p>
+<p><a href="https://ld-informatics.com/enso/">Enso</a> is a GIS enabled data management platform for oil and gas operators that integrates with historian metering systems. It does not just store this data, but doubles as a computational engine for workloads like production allocation, hydrocarbon accounting and JV management.</p>
+<p>It is designed from the ground up to radically streamline the calculations of a wide range of important quantities and metrics by vertically integrating data management through the upstream production lifecycle, while providing a GIS interface for efficient data exploration, visualization and network management.</p>
+<p>Enso is both a product and a technical showcase.</p>
+<p>It is a product in the sense that it can be packaged up and sold with a Platform as a Service model, similar to competing offerings on the market.</p>
+<p>It is a showcase in the sense that it is a repeatable set of technologies and practices that can be implemented internally at companies that want to better use their data, while customizing and controlling their process.</p>
 <p>The biggest pain points for off-the-shelf solutions are awkwardly fitting them into existing processes, and failing to integrate them effectively. Internal deployments allow the solution to be both customized to internal requirements, and also integrated into other systems so that data can flow between them automatically.</p>
-<p>This integration piece is vital. The magic technology solving all your data problems is significantly less useful if the rest of your company still needs someone babysitting spreadsheets to serve data downstream. Pipelines, not hand-pumps.</p>
-<section id="how-does-enso-work" class="level2">
-<h2 class="anchored" data-anchor-id="how-does-enso-work">How does enso work?</h2>
-<p>The two central pillars of enso are:</p>
+<p>This integration piece is crucial. The magic technology solving all your data problems is significantly less useful if the rest of your company still needs someone babysitting spreadsheets to serve data downstream. You need information pipelines, not hand-pumps.</p>
+<section id="who-is-enso-for" class="level2">
+<h2 class="anchored" data-anchor-id="who-is-enso-for">Who is enso for?</h2>
+<p>The pattern I have noticed during my career is that data is often underutilized in this industry, regardless of company size.</p>
+<p>By that I mean large companies certainly have data infrastructure, but it is often underutilized due to the inability to integrate simple data storage demands with domain specific workflow automations that maximize its value. There is a “skill overlap gap” between data and technical.</p>
+<p>This is the <em>“we mostly ignore the database”</em> problem.</p>
+<p>Smaller companies may not even have a database, because the overhead of setting up a data team and cloud infrastructure is too difficult to justify given a lean operating model. There are simply too many other concerns being juggled to carve out the time and budget for it, so engineers make do with the tools they are familiar with.</p>
+<p>This is the <em>“excel is our database”</em> problem.</p>
+<p>Enso, and LD Informatics more generally, exist to help solve these problems, by</p>
 <ol type="1">
-<li><strong>Dynamic Graphs</strong> - because your production system forms an evolving, interconnected network</li>
-<li><strong>GIS</strong> - because your production system has a geographic footprint, and that matters</li>
+<li>Deploying internal solutions for companies that want control of cloud infrastructure and data</li>
+<li>Providing a platform as a service model for companies that are not ready for internal cloud infrastructure management</li>
 </ol>
-<p>More concretely, the production network is encoded as a Directed Acyclic Graph (DAG), where fluid flows follow the edge direction between nodes. Each node in that graph is geolocated, allowing you to put the network in its geographic context on a map. The network evolves as wells are connected, taken offline, or production is rerouted.</p>
+<p>So, what can enso actually do?</p>
 </section>
+</section>
+<section id="ensos-capabilities" class="level1">
+<h1>Enso’s capabilities</h1>
+<p>Enso can perform many oil and gas data workloads. Because so much of the business is downstream of operational metering, which enso manages, the platform provides a strong foundation for a vertically integrated system of data pipelines to serve different departments of the business.</p>
+<p>Some examples include:</p>
+<section id="hydrocarbon-accounting" class="level2">
+<h2 class="anchored" data-anchor-id="hydrocarbon-accounting">Hydrocarbon accounting</h2>
+<p>Enso uses a spatiotemporal graph (explored in a bit more detail in <a href="#why-graphs">this section</a>) to efficiently perform production allocation. It connects to data historian systems that manage high frequency meter data and ingests daily snapshots for production accounting purposes. Tag data is associated with a node in the network, placing measurements in their network and spatial context.</p>
+<p>All “terminal nodes” (fiscal meters, gas flaring, water disposal, etc) are dynamically allocated back to their upstream connected wellbores. This means oil, gas and water production streams can be contextualized to their particular node (oil and gas sales, for example) or to wellbores (oil, gas and water streams are the sum of allocated production across all connected terminal nodes).</p>
+<p>This means wellbore production accounting also includes any gas flaring, injection, water disposal etc, with no additional complexity required. The graph handles the relationships, and the database engine handles the allocation. As the network grows, the only overhead is keeping it up to date (and enso provides interactive tooling to do this), the calculation workloads are automated.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/screenshots/facility_page.png" class="img-fluid figure-img"></p>
+<figcaption>Facility level allocated production data, in its geographic context</figcaption>
+</figure>
+</div>
+<p>Because the data model is dynamic, it also handles error correction seamlessly. If bad data enters the system, it can be corrected with all downstream data products updated along with it. A full audit trail is kept for all corrections made and why. The system also provides diagnostics to flag potentially erroneous measurements, to prevent a “needle in the haystack” problem when hunting through large quantities of tag data.</p>
+<p>Building on production allocation, the next natural workload to take on is calculated Joint Venture shares of it.</p>
+</section>
+<section id="jv-management" class="level2">
+<h2 class="anchored" data-anchor-id="jv-management">JV management</h2>
+<p>By themselves, Joint Venture partnerships are relatively straight-forward, but they change, and you might be managing many of them at any given time. Which wells fall under which partnership? Has that partnership been updated recently? Who is managing the spreadsheet that maps them to the production data and does all the calculations, again?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/screenshots/jv_page.png" class="img-fluid figure-img"></p>
+<figcaption>Enso can manage evolving Joint Venture partnerships, seamlessly integrating them into production allocation workloads</figcaption>
+</figure>
+</div>
+<p>Unifying the data model makes all of this straight forward. If the JV partnership data is up to date, <strong>so is everything else</strong>. JV shares of allocated production are all generated dynamically on demand, and all respect the historical changes in network topology, JV partner members and their shares, and everything else in the data model. Correcting faulty meter data from six months ago does not cause cascading data invalidation, the correction simply flows downstream to everything else.</p>
+</section>
+<section id="bi-and-gis-integration" class="level2">
+<h2 class="anchored" data-anchor-id="bi-and-gis-integration">BI and GIS integration</h2>
+<p>The technology stack enso is built on facilitates integration with other tools. Deployed internally, the enso database can be connected to Geographic Information System (GIS) software suites like QGIS or ArcGIS. The integration of GIS data and a rich domain model mean that data can be enriched with business context and displayed in GIS software seamlessly. Business Intelligence (BI) suites like PowerBI or Tableau offer similar integrations.</p>
+<p>If a heatmap of last year’s water production, grouped by lease boundaries is what you need, that is a short SQL query away. If you want to model the distance between wellbores and available fiscal meters to look for network optimization opportunities, that data can be delivered directly into BI tools for interactive visualization. It all comes from the same underlying engine.</p>
+<p>The key theme is a rich, integrated, queryable data model.</p>
+</section>
+</section>
+<section id="ensos-future" class="level1">
+<h1>Enso’s future</h1>
+<p>Building on the foundation we have, enso is highly extensible. Some examples in our development pipeline include:</p>
+<section id="reservoir-management" class="level2">
+<h2 class="anchored" data-anchor-id="reservoir-management">Reservoir management</h2>
+<p>The production network graph can be extended downhole to connect wellbore completions and reservoirs. Well logs can be ingested into the database via a “flag pivot”, storing every individual sand/pay flag with statistical summaries of each log over the interval. Combined with stratigraphic top storage, sand summaries can be dynamically calculated on demand.</p>
+<p>Wiring sand intersections to pressure compartments will provide a highly detailed subsurface field model, with all metered data stored in the same system. Cross referencing with pressure points, core plugs and other supporting datasets, will make bringing together many disparate datasets, organized by zone, trivial.</p>
+</section>
+<section id="production-planning" class="level2">
+<h2 class="anchored" data-anchor-id="production-planning">Production planning</h2>
+<p>Production in enso is allocated to nodes in the network, and future production (forecasts) can be treated in the same way. Production forecasts and scenario modelling can be visualized, managed and audited in the same system that manages GIS layers and historical production data. This naturally lends itself to comparisons between predicted and actual production.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/screenshots/planning_page.png" class="img-fluid figure-img"></p>
+<figcaption>Early stage development of the production planner in enso, which allows operators to test different drill phasing and planned shut down timing in an interactive interface</figcaption>
+</figure>
+</div>
+</section>
+<section id="commercial-integrations" class="level2">
+<h2 class="anchored" data-anchor-id="commercial-integrations">Commercial integrations</h2>
+<p>Querying price data either by API or integrating with internal price sources/price decks means historical and forecasted revenue estimates can be generated by the system seamlessly. It also means that measures of production efficiency and production losses can be quantified as lost revenue, to put outages and disruptions in their commercial context.</p>
+</section>
+<section id="petex-and-other-software-integrations" class="level2">
+<h2 class="anchored" data-anchor-id="petex-and-other-software-integrations">PETEX and other software integrations</h2>
+<p>Storing network topology and metered data in the same system makes enso a perfect fit for rapid configuration of industry standard integrated modelling solutions like Petex’s PROSPER, MBAL and GAP, and was another primary motivation for the graph based design. I write more about this <a href="#integrated-network-modelling">here</a>.</p>
+</section>
+<section id="ai-integrations" class="level2">
+<h2 class="anchored" data-anchor-id="ai-integrations">AI Integrations</h2>
+<p>It is not a good idea to ask a fundamentally probabilistic LLM agent to do accounting for you. Deterministic systems built for domains where accuracy is paramount should stay deterministic.</p>
+<p>That being said, incorporating AI agents into user service level elements of software is an area of increasing importance. Our plans for enso are to provide agent driven (read only) database access, so that data reports can be generated in response to natural language prompts. This means no SQL skills would be required to get answers to detailed data questions.</p>
+<p>Combine this with tools that allow the AI to build visualizations, and a “generative UI” style interface becomes possible, where users can ask for dashboards built to answer specific queries to be generated on the fly.</p>
+<p>There is also the fundamental piece of programmatic access for agents (or other programs) to facilitate information flows between enso and other internal systems.</p>
+<p>I am building with a near term future in mind where much of software interaction is occurring via agentic processes, and less by UIs built for humans. With the way things are moving, modern software needs to account for both human and agent ergonomics.</p>
+</section>
+</section>
+<section id="how-does-enso-work" class="level1">
+<h1>How does enso work?</h1>
+<p>The three design pillars that make enso possible are:</p>
+<ol type="1">
+<li><strong>Database Centric Architecture</strong> - computations primarily occur in the database engine, not in external services</li>
+<li><strong>Spatiotemporal Graphs</strong> - because production systems form an evolving, interconnected network laid out in space</li>
+<li><strong>GIS</strong> - because production systems (and oil and gas assets in general) have a geographic footprint, and maps are the most intuitive way of interfacing with them</li>
+</ol>
+<p>More concretely, the production network is encoded as a Directed Acyclic Graph (DAG), where fluid flows follow the edge direction between nodes. Each node in that graph is geolocated, allowing you to place the network in its geographic context on a map. The network evolves as wells are connected, taken offline, or production is rerouted. The historical network topology is stored.</p>
+<p>The wider relational data model is joined to the nodes to allow for flexible querying between the graph and other key entities, which places all of them in their network context seamlessly.</p>
 <section id="why-graphs" class="level2">
 <h2 class="anchored" data-anchor-id="why-graphs">Why graphs?</h2>
-<p>Take the production allocation workload as an example.</p>
-<p>Production allocation requires that sales point metering is allocated back to individual wellbores. It is a fundamental requirement for field modelling as it allows reservoir engineers to work with high accuracy estimates for how much each well is producing, and from which reservoirs in the subsurface production is coming from.</p>
-<p>There are various ways to perform these allocations, but fundamentally they require an estimate of each wellbore’s <strong>“production potential”</strong> on a given day. The calculation of production potential in turn (regardless of the particular method used), requires:</p>
+<p>Fundamentally, <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graphs</a> are the optimal data modelling choice for a platform like enso, because they map most naturally to the problem space. Production networks are well represented by graphs, and that coherence leads to more elegant solutions for many data workloads.</p>
+<p>For example:</p>
+<section id="production-allocation" class="level3">
+<h3 class="anchored" data-anchor-id="production-allocation">Production Allocation</h3>
+<p>Production allocation requires that high accuracy metering is allocated back to individual wellbores, such that their production is consistent with the downstream measurement.</p>
+<p>It is a fundamental requirement for field modelling as it allows reservoir engineers to work with high accuracy estimates for how much each well is producing, and from which reservoirs in the subsurface production is coming from.</p>
+<p>There are various ways to do it, but fundamentally the process requires an estimate of each wellbore’s <strong>“production potential”</strong> on a given day. The calculation of production potential in turn (regardless of the particular method used), requires:</p>
 <ol type="1">
 <li>Identification of the set of wellbores connected to the downstream meter being allocated to</li>
-<li>A comparative measure, normalized across that set, to calculate the allocation factor of each wellbore</li>
+<li>A comparative measure, normalized across that set, to calculate the allocation factor of each wellbore (commonly individual well meters, or the most recent production test for each well)</li>
 <li>Multiplication of the downstream meter value by the allocation factor for each wellbore</li>
 </ol>
-<p>In principle, a very simple procedure.</p>
+<p>In principle, a very simple procedure, but as the network grows an increasingly difficult one.</p>
 <p>For example, consider the following simple network:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -404,30 +382,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Allocation on a given day could be performed by:</p>
-<section id="spreadsheet" class="level3">
-<h3 class="anchored" data-anchor-id="spreadsheet">Spreadsheet</h3>
+<section id="spreadsheet" class="level4">
+<h4 class="anchored" data-anchor-id="spreadsheet">Spreadsheet</h4>
 <ol type="1">
 <li>Get wellbore meter data</li>
 <li><strong>Use a VLOOKUP</strong> to find the fiscal meter each well is connected to</li>
 <li>Calculate allocated production</li>
 </ol>
 </section>
-<section id="database-foreign-keys" class="level3">
-<h3 class="anchored" data-anchor-id="database-foreign-keys">Database foreign keys</h3>
+<section id="database-foreign-keys" class="level4">
+<h4 class="anchored" data-anchor-id="database-foreign-keys">Database foreign keys</h4>
 <ol type="1">
 <li>Get the wellbore meter data</li>
-<li><strong>JOIN on the fiscal meter</strong> based on the wellbore -&gt; fiscal meter relationship</li>
+<li><strong>JOIN on the fiscal meter</strong> based on a direct wellbore -&gt; fiscal meter foreign key</li>
 <li>Calculate allocated production</li>
 </ol>
 </section>
-<section id="graph" class="level3">
-<h3 class="anchored" data-anchor-id="graph">Graph</h3>
+<section id="graph" class="level4">
+<h4 class="anchored" data-anchor-id="graph">Graph</h4>
 <ol type="1">
 <li>Get the wellbore meter data</li>
 <li><strong>Traverse the graph</strong> to find each well’s downstream fiscal meter</li>
 <li>Calculate allocated production</li>
 </ol>
-<p>With such a simple network a spreadsheet performs fine. The graph implementation requires additional traversal logic, making it overkill for this example. But real production networks are much more complicated:</p>
+<p>With such a simple network a spreadsheet works fine. The graph implementation requires additional traversal logic, making it overkill for this example. But real production networks are much more complicated:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -445,17 +423,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     SEP2 --&gt; COMP
     COMP --&gt; FLR((Gas Flare))
     COMP --&gt; FMGAS((Gas Fiscal Meter))
+    COMP --&gt; FGC((Gas Fuel))
     SEP3 ---&gt; WD((Water Disposal))
     SEP2 ---&gt; WD((Water Disposal))
     SEP3 ---&gt; PUMP[Export Pump]
     PUMP --&gt; FMOIL((Oil Fiscal Meter))
+    PUMP --&gt; FGP((Gas Fuel))
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
-<p>This is where the graph representation of the network clearly pulls ahead. There are now <strong>4 terminal nodes</strong> (the oil fiscal meter, gas fiscal meter, gas flare, and water disposal) that all need to be accounted for to properly calculate the allocated production for each well, instead of the single fiscal meter in the previous example.</p>
+<p>This is where the graph representation of the network clearly pulls ahead. There are now <strong>6 terminal nodes</strong> (the oil fiscal meter, gas fiscal meter, gas flare, water disposal, and two fuel gas nodes) that all need to be accounted for to properly calculate the allocated production for each well, instead of the single fiscal meter in the previous example.</p>
+<p>For example, for a given well the gas production is not just the gas allocated from the fiscal gas node, but the sum of allocated flare gas, fuel gas and sales gas. Headache!</p>
 <p>The graph traversal logic resolves all of these relationships for us:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -467,26 +448,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     FMGAS((Gas Fiscal Meter))
     WD((Water Disposal))
     FMOIL((Oil Fiscal Meter))
+    FGC((Gas Fuel))
+    FGP((Gas Fuel))
 
     W1((Oil A)) --&gt; FMOIL
     W1 --&gt; FMGAS
+    W1 ----&gt; FGC
+    W1 ----&gt; FGP
     W1 ---&gt; WD
     W1 ----&gt; FLR
 
     W2((Oil B)) --&gt; FMOIL
     W2 --&gt; FMGAS
+    W2 ----&gt; FGC
+    W2 ----&gt; FGP
     W2 ---&gt; WD
     W2 ----&gt; FLR
 
     W3((Gas A)) --&gt; FMGAS
+    W3 ----&gt; FGC
     W3 ---&gt; WD
     W3 ----&gt; FLR
 
     W4((Gas B)) --&gt; FMGAS
+    W4 ----&gt; FGC
     W4 ---&gt; WD
     W4 ----&gt; FLR
 
     W5((Gas C)) --&gt; FMGAS
+    W5 ----&gt; FGC
     W5 ---&gt; WD
     W5 ----&gt; FLR
 </pre>
@@ -495,15 +485,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This looks like a nightmare, but that’s the point! Encoding all of these relationships with VLOOKUPs or foreign keys quickly creates a mess. The allocation math is easy! The relationships are the difficult part. Define the graph and let it discover the relationships, instead.</p>
-<p>The allocation algorithm just repeats the same logic over each set created dynamically by the graph. Water allocation occurs over the full set, oil allocation occurs over the oil set, and so on. Databases are <strong>perfect</strong> for these kinds of set-based operations.</p>
+<p>This looks like a nightmare, but that’s the point! Encoding all of these relationships with VLOOKUPs or foreign keys quickly creates a mess.</p>
+<p>The allocation math is easy! The <strong>relationships</strong> are the difficult part. Define the graph and let it discover the relationships for you.</p>
+<p>The allocation algorithm just repeats the same logic over each set created dynamically by the graph. Water allocation occurs over the full set, oil allocation occurs over the oil set, and so on. Databases are built for these kinds of set-based operations.</p>
+</section>
+</section>
+<section id="networks-changes" class="level3">
+<h3 class="anchored" data-anchor-id="networks-changes">Networks changes</h3>
+<p>Imagine a manifold is rerouted to a different facility and fiscal metering end point, maybe as a result of a production optimization effort.</p>
+<p>How would you handle this?</p>
+<section id="spreadsheet-1" class="level4">
+<h4 class="anchored" data-anchor-id="spreadsheet-1">Spreadsheet</h4>
+<ol type="1">
+<li>Find all wells that are affected by the network change</li>
+<li>Remap all of those wells to the correct downstream meter via updates to VLOOKUPs</li>
+<li>Maintain the history of production network changes, so that data before the change and data after remain correct in the event things need to be rerun retrospectively (or just hope that never happens)</li>
+</ol>
+</section>
+<section id="enso" class="level4">
+<h4 class="anchored" data-anchor-id="enso">Enso</h4>
+<ol type="1">
+<li>Update an ‘edge’ to reroute the network</li>
+</ol>
+<p>That’s it. All the well groupings, network change history and production allocation will keep working just as before. And not just for sales points, by the way, the same allocation logic is being updated for all flaring, fuel and water disposal accounting, as well.</p>
+<p>The network change history is retained and fully auditable, and all production accounting is reproducible throughout the lifecycle of the asset.</p>
+</section>
+</section>
+<section id="integrated-network-modelling" class="level3">
+<h3 class="anchored" data-anchor-id="integrated-network-modelling">Integrated Network Modelling</h3>
+<p>Even I’m not crazy enough to advocate GAP style network modelling being done in a database. There is a fairly clear dividing line between where database logic ends and application logic begins, and complex optimization problems fall very clearly on the application side.</p>
+<p>That being said… How are you getting all that data into your GAP model? In my experience it is a large piece of work to even configure the thing to run. Doing it manually by hunting through spreadsheets and finding good representative data across your network would be a complete nightmare, and make iterating on network modelling, or updating the model at a decent cadence, basically impossible.</p>
+<p>So here’s an idea… Your data platform does it for you. Enso stores the network topology and all metered data (at daily resolution), which makes a database connector to GAP models via OpenServer a largely automatic process.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    ENSO[(enso)]
+    OPENSERVER[OpenServer]
+    GAP[GAP]
+    PROSPER[PROSPER]
+    APP[Controller]
+    FORECAST[Forecasts]
+
+    ENSO &lt;--&gt; APP
+    APP --&gt; OPENSERVER
+    OPENSERVER --&gt; PROSPER
+    PROSPER --&gt; GAP
+    OPENSERVER --&gt; GAP
+    GAP --&gt; FORECAST
+    FORECAST --&gt; ENSO
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>A thin application layer acts as a controller that translates data outputs from the database to OpenServer <code>DoSet</code> calls, which configure PROSPER and GAP models. The operator just chooses the representative date they want the data to come from.</p>
+<p>If the selection process requires more nuance, the best place to encode it is in a database function. A set of boolean flags can help filter out unwanted data points, and the database can find more appropriate data as close as it can to the target date, for example.</p>
+<p>This is all facilitated by enso’s domain coherent approach to data modelling. The system knows the production network, and it organizes all data to support it. In data nerd talk, the impedence boundary between the data and downstream application workloads is minimized. In normal person talk – no more spreadsheet nightmares, and dramatically faster cycle times for network modelling.</p>
 </section>
 </section>
 <section id="why-gis" class="level2">
 <h2 class="anchored" data-anchor-id="why-gis">Why GIS?</h2>
-<p>Hopefully the benefits of the graph are clear, but if your company manages a large asset, isn’t that network going to become a nightmare to maintain?</p>
+<p>Hopefully the benefits of the graph are clear, and quite manageable for smaller assets, but if your company manages a large asset, isn’t that network going to become a nightmare to maintain?</p>
 <p>… Yes!</p>
-<p>Imagine you have thousands of wells producing, and new wells coming online every other day. An abstract graph floating in space will quickly become impossible to navigate.</p>
+<p>Imagine you have thousands of wells producing, and new wells coming online every other day. An abstract floating graph with thousands of nodes will quickly become impossible to navigate.</p>
 <p>So put it on a map.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -512,130 +560,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>It’s that simple. The whole production network is laid out logically in the physical world, so represent it in the digital world the same way. Now, managing the network is about as complicated as choosing a restaurant for dinner on Google Maps.</p>
-<p>I’m a bit of a GIS fanatic, but for good reason. Maps are one of the most intuitive data interfaces that exist. We should be using them more! You can’t present these kinds of data effectively in a spreadsheet. Walls of numbers won’t give your team operational excellence, just eye-strain.</p>
+<p>I’m admittedly a bit of a GIS fanatic, but for good reason. Maps are one of the most intuitive data interfaces we have. Subsurface workers live and breathe 2D and 3D GIS canvases, but something gets lost as you move to surface engineering, for some reason. The same GIS awareness of assets should be shared across technical teams.</p>
+<p>You can’t present these kinds of data effectively in a spreadsheet. Walls of numbers will give your team eye-strain, not operational excellence.</p>
+<p>Place everything in its geographic context, and onboarding a new team member is more <em>“take a look at the map”</em>, and less <em>“lets find a time next week to go through the master spreadsheet, please don’t open it unsupervised before then”</em>.</p>
 </section>
-</section>
-<section id="ensos-capabilities" class="level1">
-<h1>Enso’s capabilities</h1>
-<p>Built on a stable foundation, enso can perform many oil and gas data workloads. Because so much of the business is downstream of metered data, many of them are simply extensions of the computations performed by the system already.</p>
-<section id="hydrocarbon-accounting" class="level2">
-<h2 class="anchored" data-anchor-id="hydrocarbon-accounting">Hydrocarbon accounting</h2>
-<p>The production allocation process has been outlined already, but briefly:</p>
-<p>All terminal nodes (fiscal meters, gas flaring, water disposal, etc) are dynamically allocated back to their upstream connected wellbores. This means oil, gas and water production streams can be contextualized to their particular node (oil and gas sales, for example) or to wellbores (oil, gas and water streams are the sum of allocated production across all connected terminal nodes). This means wellbore production accounting also includes any gas flaring, injection, water disposal etc, with no additional complexity required. The graph handles the relationships, and the database logic handles the allocation.</p>
+<section id="the-everything-data-bagel" class="level2">
+<h2 class="anchored" data-anchor-id="the-everything-data-bagel">The Everything Data Bagel</h2>
+<p>Enso is built on <code>PostgreSQL</code> and <code>PostGIS</code>. The extensibility that <code>PostgreSQL</code> supports makes it an extremely flexible and powerful data modelling playground.</p>
+<p>Enso is leveraging it for many purposes, including:</p>
+<ol type="1">
+<li>Relational data storage and querying</li>
+<li>GIS</li>
+<li>Graph based spatiotemporal network modelling</li>
+<li>The production allocation engine (along with almost all data calculations downstream of it)</li>
+<li>Many data aggregation tasks used in the frontend (cards, chart data preparation etc)</li>
+<li>Security guarantees via RLS policies</li>
+</ol>
+<p>This may sound like too much for a single service to handle, but keep in mind that we are talking about a single tenant data platform serving maybe 1000 users at most, this is all completely manageable by a single database server.</p>
+<p>Although graph traversal in SQL requires the use of recursive CTEs, which are quite verbose, being able to integrate GIS, graphs and relational data modelling in a single system more than makes up for it. The main graph traversal logic is stored as views, so in practice it adds very little complexity for us developing it and operators using it.</p>
+<p>Importantly, the system does not <em>lose</em> anything by incorporating geospatial, it is really all upside from a platform capability perspective.</p>
+<p>The ability to serve GeoJSON from the database directly to GIS software or your custom frontend with queries as simple as this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> json_build_object(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Query level metadata</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'type'</span>, <span class="st">'FeatureCollection'</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'count'</span>, <span class="fu">COUNT</span>(e.<span class="op">*</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- List of features</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'features'</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  jsonb_agg(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    jsonb_build_object(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">'type'</span>, <span class="st">'Feature'</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="co">-- create lines between the nodes each edge is connected to</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">'geometry'</span>, ST_AsGeoJSON(n1.geom, n2.geom)):<span class="ch">:jsonb</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="co">-- edge metadata</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">'properties'</span>, jsonb_build_object(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'edge_webid'</span>, e.webid,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'from_node_webid'</span>, n1.webid,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'to_node_webid'</span>, n2.webid,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'from_node_name'</span>, n1.name,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'to_node_name'</span>, n2.name,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="kw">public</span>.edges <span class="kw">AS</span> e</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> <span class="kw">public</span>.nodes <span class="kw">AS</span> n1 <span class="kw">ON</span> n1.<span class="kw">id</span> <span class="op">=</span> e.from_node_id</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> <span class="kw">public</span>.nodes <span class="kw">AS</span> n2 <span class="kw">ON</span> n2.<span class="kw">id</span> <span class="op">=</span> e.to_node_id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>… it’s enough to turn you into a fanatic.</p>
+<p>Oh, we need a bounding box filter? Make the query a function, add a simple bounding box CTE and join on it with <code>ST_Intersects()</code>. It’s just SQL joins! But in SPACE?! I mean, are you kidding?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="media/screenshots/facility_page.png" class="img-fluid figure-img"></p>
-<figcaption>Facility level allocated production data, in its geographic context</figcaption>
+<p><img src="media/just-passing-through.gif" class="img-fluid figure-img"></p>
+<figcaption>All the perfectly prebaked JSON hitting the enso backend</figcaption>
 </figure>
 </div>
-<p>Because the data model is dynamic, it also handles error corrections seamlessly. If bad data enters the system, it can be corrected with all downstream data products updated along with it. A full audit trail is kept for all corrections. The system also provides diagnostics to help operators find erroneous data.</p>
-</section>
-<section id="jv-management" class="level2">
-<h2 class="anchored" data-anchor-id="jv-management">JV management</h2>
-<p>By themselves, Joint Venture partnerships are relatively straight-forward, but they change, and you might be managing many of them at any given time. Which wells fall under which partnership? Has that partnership been updated recently? Who is managing the spreadsheet that maps them to the production data and does all the calculations, again?</p>
+<p>And with that in mind, remember that the rest of the relational data model is sitting there, waiting for whatever arbitrary geospatial computation or visualization you could ever want.</p>
+<p>Quarterly cumulative production bubble maps at facilities? Done.</p>
+<p>Allocation factor heatmaps at wells for quick visual diagnosis? No problem.</p>
+<p>Inverse distance weighted reservoir properties cross referenced to stratigraphic interval, aggregated across prospect polygons simultaneously calculating screening volumetrics for 120 leads, combined with distance to nearest tieback point and turned into a lease by lease potential heat map?</p>
+<p>I WON’T SAY NO PROBLEM.</p>
+<p>BUT I WILL SAY I’VE DONE IT.</p>
+<p><code>PostGIS</code> is an unbelievably powerful tool.</p>
+<p>All coming direct from your database to your GIS interface with a single SQL query.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="media/screenshots/jv_page.png" class="img-fluid figure-img"></p>
-<figcaption>Enso can manage evolving Joint Venture partnerships, seamlessly integrating them into production allocation workloads</figcaption>
+<p><img src="media/absolute-cinema.gif" class="img-fluid figure-img"></p>
+<figcaption>I will not apologise for my deranged levels of excitement.</figcaption>
 </figure>
 </div>
-<p>Unifying the data model makes all of this straight forward. If the JV partnership data is up to date, <strong>so is everything else</strong>. JV shares of allocated production are all generated dynamically on demand, and all respect the historical changes in network topology, JV partner members and their shares, and everything else in the data model. Correcting faulty meter data from six months ago does not cause cascading data invalidation, the correction simply flows downstream to everything else.</p>
-<p>Pipelines, not hand-pumps.</p>
-</section>
-<section id="bi-and-gis-integration" class="level2">
-<h2 class="anchored" data-anchor-id="bi-and-gis-integration">BI and GIS integration</h2>
-<p>The technology stack enso is built on facilitates integration with other tools. Deployed internally, the enso database could be connected to GIS software suites like QGIS or ArcGIS. The integration of GIS data and a rich domain model mean that data can be enriched with business context and displayed in GIS software seamlessly. Business Intelligence suites like PowerBI or Tableau offer similar integrations.</p>
-<p>If a heatmap of last year’s water production, grouped by lease boundaries is what you need, that is a short SQL query away. If you want to model the distance between wellbores and available fiscal meters to look for network optimization opportunities, that data can be delivered directly into BI tools for interactive visualization. It all comes from the same underlying engine.</p>
-<p>The key theme is a rich, integrated, queryable data model.</p>
 </section>
 </section>
-<section id="ensos-future" class="level1">
-<h1>Enso’s future</h1>
-<p>Building on this foundation, enso is highly extensible. Some examples in the development pipeline include:</p>
-<section id="reservoir-management" class="level2">
-<h2 class="anchored" data-anchor-id="reservoir-management">Reservoir management</h2>
-<p>The production network graph can be extended downhole to connect wellbore completions and reservoirs. Well logs can be ingested into the database via a “flag pivot”, storing every individual sand/pay flag with statistical summaries of each log. Combined with stratigraphic top storage, sand summaries can be dynamically calculated on demand.</p>
-<p>Wiring sand intersections to pressure compartments will provide a highly detailed subsurface field model to interrogate, with all measured data stored in the same system.</p>
-<p>Cross referencing with pressure points, core plugs and other supporting datasets, makes bringing together many disparate datasets, organized by zone, trivial.</p>
-</section>
-<section id="production-planning" class="level2">
-<h2 class="anchored" data-anchor-id="production-planning">Production planning</h2>
-<p>Production is allocated to nodes in the network. Future production can be treated in the same way. Production forecasts and scenario modelling can be visualized, managed and audited in the same system that manages GIS layers and historical production data.</p>
-</section>
-<section id="commercial-integrations" class="level2">
-<h2 class="anchored" data-anchor-id="commercial-integrations">Commercial integrations</h2>
-<p>Querying price data either by API or integrating with internal price sources/price decks means historical and forecasted revenue estimates could be generated by the system seamlessly.</p>
-</section>
-</section>
-<section id="what-about-ai" class="level1">
-<h1>… What about AI?</h1>
-<p>Here’s the thing. Data engineering has never been more important than it is right now.</p>
-<p>If you want an LLM agent to actually work in your organisation without either doing nothing or blowing everything up, you need strong data practices. The stronger your underlying data infrastructure, the more leverage your company will have as AI is introduced.</p>
-<p>If your data is caught in a complicated spider web of SharePoint spreadsheets, powerpoints and word docs, your AI initiatives will fail to do anything useful. I guarantee it.</p>
-<p>Because your company AI, without rich data and context within its reach, is just a ChatGPT knock-off.</p>
-<p>What ChatGPT does not have, however, is your data.</p>
-<p>Even with your data though, it would be a big mistake to just ask AI agents to magically do calculations for you. Data infrastructure requires <strong>deterministic behaviour</strong>, and LLMs are <strong>stochastic gremlins</strong> who will ruin your day if you give them too much freedom.</p>
-<p>The agent needs access to your processes, too, so they can perform reliably.</p>
-<p>So what does “effective” AI look like, when you have your house in order?</p>
-<section id="effective-ai" class="level2">
-<h2 class="anchored" data-anchor-id="effective-ai">Effective AI</h2>
-<p>AI Agents will be most effective where:</p>
-<ul>
-<li>Data contracts are deterministic</li>
-<li>Common workflows are formalized with MCP Servers</li>
-</ul>
-<p>An AI agent operating in an environment where it can safely query data from a consolidated source, with access to tools to perform useful work, will be incredibly valuable to many organisations.</p>
-<p>An MCP (Model Context Protocol) Server is just a way of giving AI Agents access to deterministic tools to perform certain tasks. They “judge” whether to use the tool or not, and what arguments to pass, but the outcome of the tool use itself is deterministic given those arguments.</p>
-<p>For example, asking your AI “help me find anomalous flowmeter data in X field in the past 3 months”, the agent might call a tool like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"enso_find_anomalous_data"</span><span class="fu">,</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"arguments"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"X"</span><span class="fu">,</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"months"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"data_type"</span><span class="fu">:</span> <span class="st">"Q"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Returning JSON of the relevant data, which it can then relay to you and talk about. The agent isn’t rummaging around in the database itself, it is just running a tool call with a few arguments, which performs that work internally.</p>
-<p>More ad hoc query patterns would be supported by a SQL query building MCP Server that allows the agent to (safely) query the database for data based on what the user requests.</p>
-<p>The key is that the data contracts (I ask for this, you give me this back) are <em>secure and deterministic</em> because they are drawing on consolidated systems that are designed for providing them.</p>
-<p>But there is no magic MCP tool for:</p>
-<blockquote class="blockquote">
-<p>“Hey uh… get the latest data from this sharepoint link, i think its on slide 6. it’s a photo of a spreadsheet screenshotted from another report that I can’t find”</p>
-</blockquote>
-<p>Your AI assistant will say something like <em>“absolutely!”</em> and start running <code>bash</code> commands that look like something from the <em>Call of Cthulu</em>. You should quickly become extremely nervous and shut it down. No good will come of it.</p>
-<p>Agents will confidently hallucinate when left free to make things up. Context is the thing that chains them down to reality and makes them reliable enough to do real work with. Without this access to context, they will be more trouble than they are worth.</p>
-</section>
-<section id="ai-in-enso" class="level2">
-<h2 class="anchored" data-anchor-id="ai-in-enso">AI in enso</h2>
-<p>Enso (and all tools we develop at LD Informatics) will have MCP servers of some description. They are high leverage additions to most code bases, and make the “chat” interface something that can perform useful work. At least with enso, they would not expose write access to the database, they would only serve results in various formats based on user requests.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-  ENSO[(enso)] --&gt; MCP[MCP Server]
-  MCP --&gt; AGENT[Agent]
-  AGENT --&gt; MCP
-  USER[User] --&gt; AGENT
-  AGENT --&gt; USER
-  AGENT --&gt; ARTI[Requested Outputs]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="closing-thoughts" class="level1">
-<h1>Closing thoughts</h1>
-<p>To close out this hot mess of a blogpost:</p>
-<p>Spreadsheets should not be doing critical data work, they can be <strong>outputs</strong>, not hand-pumps for manual data processing. Enso replaces hand-pumps with automated pipelines, such that data changes are propagated through the system seamlessly, from meter data through to Joint Venture share calculations. It is designed to save many data headaches.</p>
-<p>Our aim with enso is to provide a single integrated system for consolidating many oil and gas data management challenges in a platform that supports GIS and BI endpoints. It leans heavily on a graph representation of the production network, and displays it in a map interface to help make it efficient and intuitive for operators to work with.</p>
-<p>Successful AI integrations will leverage deterministic data contracts and formalized workflows via MCP tool use. Without these foundations in place, AI initiatives will likely be ineffective. Enso is designed to support these kinds of integrations.</p>
-<p>If your team is interested in enso and our broader approach to technical data management, don’t hesitate to <a href="https://ld-informatics.com/enso/">contact us</a>.</p>
-<p>And thanks for reading.</p>
+<section id="our-plans" class="level1">
+<h1>Our plans</h1>
+<p>Unhinged rants aside, we are very proud of what we’ve built with enso. It is deployment ready and we are continuing to enhance it.</p>
+<p>We are ready to work with companies to deploy our solutions. If you read this, and some of the pain points resonated with your experiences at work, and you can see the potential I am writing about, don’t hesitate to contact us.</p>
 
 
 </section>
