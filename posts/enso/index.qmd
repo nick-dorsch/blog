@@ -1,13 +1,13 @@
 ---
 title: "enso: Streamlining Petroleum Data Management with Graphs and GIS"
 author: "Nicholas Dorsch"
-date: 2026-03-22
+date: 2026-03-23
 categories: [LDI, data, AI]
 image: media/screenshots/logo_color.png
 ---
 
 In my [previous post](https://nick-dorsch.github.io/blog/posts/spreadsheets/) I waxed
-lyrical/incoherently ranted about the benefits of relational databases and good data
+lyrical/incoherently rambled about the benefits of relational databases and good data
 modelling, comparing it to the pains I've experienced doing data work in spreadsheets.
 
 It is hard to fully communicate the benefits of this kind of work to someone outside of
@@ -38,7 +38,7 @@ capabilities we can provide to the industry.
 
 ![](media/enso_logo_dark.svg)
 
-[Enso](https://ld-informatics.com/enso/) is a GIS enabled data management platform for
+[Enso](https://ld-informatics.com/enso/) is a GIS-enabled data management platform for
 oil and gas operators that integrates with historian metering systems. It does not just
 store this data, but doubles as a computational engine for workloads like production
 allocation, hydrocarbon accounting and JV management. 
@@ -72,7 +72,7 @@ The pattern I have noticed during my career is that data is often underutilized 
 industry, regardless of company size.
 
 By that I mean large companies certainly have data infrastructure, but it is often
-underutilized due to the inability to integrate simple data storage demands with domain
+underutilized due to the inability to integrate simple data storage demands with domain-
 specific workflow automations that maximize its value. There is a "skill overlap gap"
 between data and technical. 
 
@@ -118,7 +118,7 @@ for example) or to wellbores (oil, gas and water streams are the sum of allocate
 production across all connected terminal nodes). 
 
 This means wellbore production accounting also includes any gas flaring, injection,
-water disposal etc, with no additional complexity required. The graph handles the
+water disposal, etc., with no additional complexity required. The graph handles the
 relationships, and the database engine handles the allocation. As the network grows, the
 only overhead is keeping it up to date (and enso provides interactive tooling to do
 this), the calculation workloads are automated.
@@ -137,7 +137,7 @@ Joint Venture shares of it.
 
 ## JV management
 
-By themselves, Joint Venture partnerships are relatively straight-forward, but they
+By themselves, Joint Venture partnerships are relatively straightforward, but they
 change, and you might be managing many of them at any given time. Which wells fall under
 which partnership? Has that partnership been updated recently? Who is managing the
 spreadsheet that maps them to the production data and does all the calculations, again?
@@ -145,7 +145,7 @@ spreadsheet that maps them to the production data and does all the calculations,
 ![Enso can manage evolving Joint Venture partnerships, seamlessly integrating them into
 production allocation workloads](media/screenshots/jv_page.png)
 
-Unifying the data model makes all of this straight forward. If the JV partnership data
+Unifying the data model makes all of this straightforward. If the JV partnership data
 is up to date, **so is everything else**. JV shares of allocated production are all
 generated dynamically on demand, and all respect the historical changes in network
 topology, JV partner members and their shares, and everything else in the data model.
@@ -156,9 +156,9 @@ invalidation, the correction simply flows downstream to everything else.
 
 The technology stack enso is built on facilitates integration with other tools. Deployed
 internally, the enso database can be connected to Geographic Information System (GIS)
-software suites like QGIS or ArcGIS. The integration of GIS data and a rich domain model
-mean that data can be enriched with business context and displayed in GIS software
-seamlessly. Business Intelligence (BI) suites like PowerBI or Tableau offer similar
+software suites like QGIS or ArcGIS. The integration of GIS data and a relational data
+model mean that data can be enriched with business context and displayed in GIS software
+seamlessly. Business Intelligence (BI) suites like Power BI or Tableau offer similar
 integrations. 
 
 If a heatmap of last year's water production, grouped by lease boundaries is what you
@@ -167,7 +167,7 @@ wellbores and available fiscal meters to look for network optimization opportuni
 that data can be delivered directly into BI tools for interactive visualization. It all
 comes from the same underlying engine.
 
-The key theme is a rich, integrated, queryable data model.
+The central theme is a rich, integrated, queryable data model.
 
 # Enso's future
 
@@ -211,7 +211,7 @@ context.
 
 Storing network topology and metered data in the same system makes enso a perfect fit
 for rapid configuration of industry standard integrated modelling solutions like Petex's
-PROSPER, MBAL and GAP, and was another primary motivation for the graph based design.
+PROSPER, MBAL and GAP, and was another primary motivation for the graph-based design.
 I write more about this [here](#integrated-network-modelling).
 
 ## AI Integrations
@@ -220,11 +220,11 @@ It is not a good idea to ask a fundamentally probabilistic LLM agent to do accou
 for you. Deterministic systems built for domains where accuracy is paramount should stay
 deterministic. 
 
-That being said, incorporating AI agents into user service level elements of software is
-an area of increasing importance. Our plans for enso are to provide agent driven (read
-only) database access, so that data reports can be generated in response to natural
-language prompts. This means no SQL skills would be required to get answers to detailed
-data questions. 
+That being said, incorporating AI agents into user service-level elements of software is
+an area of increasing importance. Our plans for enso are to provide agent-driven
+(read-only, and indirect) database access, so that data reports can be generated in
+response to natural language queries. This means no SQL skills would be required to get
+answers to detailed data questions. 
 
 Combine this with tools that allow the AI to build visualizations, and a "generative UI"
 style interface becomes possible, where users can ask for dashboards built to answer
@@ -244,7 +244,7 @@ The three design pillars that make enso possible are:
 1. **Database Centric Architecture** - computations primarily occur in the database
    engine, not in external services
 2. **Spatiotemporal Graphs** - because production systems form an evolving,
-   interconnected network laid out in space
+   interconnected network laid out in the physical world
 3. **GIS** - because production systems (and oil and gas assets in general) have a
    geographic footprint, and maps are the most intuitive way of interfacing with them
 
@@ -278,14 +278,14 @@ work with high accuracy estimates for how much each well is producing, and from 
 reservoirs in the subsurface production is coming from. 
 
 There are various ways to do it, but fundamentally the process requires an estimate of
-each wellbore's **"production potential"** on a given day. The calculation of production
+each wellbore's "production potential" on a given day. The calculation of production
 potential in turn (regardless of the particular method used), requires:
 
 1. Identification of the set of wellbores connected to the downstream meter being
    allocated to
 2. A comparative measure, normalized across that set, to calculate the allocation factor
-   of each wellbore (commonly individual well meters, or the most recent production test
-for each well)
+   of each fluid phase at each wellbore (commonly individual well meters, or the most
+recent production test for each well)
 3. Multiplication of the downstream meter value by the allocation factor for each
    wellbore
 
@@ -402,15 +402,15 @@ This looks like a nightmare, but that's the point! Encoding all of these relatio
 with VLOOKUPs or foreign keys quickly creates a mess. 
 
 The allocation math is easy! The **relationships** are the difficult part. Define the
-graph and let it discover the relationships for you.
+graph and let it resolve the relationships for you.
 
 The allocation algorithm just repeats the same logic over each set created dynamically
 by the graph. Water allocation occurs over the full set, oil allocation occurs over the
 oil set, and so on. Databases are built for these kinds of set-based operations.
 
-### Networks changes
+### Network changes
 
-Imagine a manifold is rerouted to a different facility and fiscal metering end point,
+Imagine a manifold is rerouted to a different facility and fiscal metering endpoint,
 maybe as a result of a production optimization effort. 
 
 How would you handle this?
@@ -474,15 +474,15 @@ A thin application layer acts as a controller that translates data outputs from 
 database to OpenServer `DoSet` calls, which configure PROSPER and GAP models. The
 operator just chooses the representative date they want the data to come from. 
 
-If the selection process requires more nuance, the best place to encode it is in a
-database function. A set of boolean flags can help filter out unwanted data points, and
-the database can find more appropriate data as close as it can to the target date, for
+If the selection process requires more nuance, they can be encoded in the query that
+provides the data. A set of boolean flags can help filter out unwanted data points, and
+the database can find more appropriate data as close as possible to the target date, for
 example.
 
 This is all facilitated by enso's domain coherent approach to data modelling. The system
 knows the production network, and it organizes all data to support it. In data nerd
-talk, the impedence boundary between the data and downstream application workloads is
-minimized. In normal person talk -- no more spreadsheet nightmares, and dramatically
+talk, the impedance boundary between the data and downstream application workloads is
+minimized. In normal person talk -- no more data wrangling nightmares, and dramatically
 faster cycle times for network modelling.
 
 ## Why GIS?
@@ -514,10 +514,10 @@ You can't present these kinds of data effectively in a spreadsheet. Walls of num
 will give your team eye-strain, not operational excellence.
 
 Place everything in its geographic context, and onboarding a new team member is more
-_"take a look at the map"_, and less _"lets find a time next week to go through the
+_"take a look at the map"_, and less _"let's find a time next week to go through the
 master spreadsheet, please don't open it unsupervised before then"_.
 
-## The Everything Data Bagel 
+## The Everything Database
 
 Enso is built on `PostgreSQL` and `PostGIS`. The extensibility that `PostgreSQL`
 supports makes it an extremely flexible and powerful data modelling playground.
@@ -526,20 +526,22 @@ Enso is leveraging it for many purposes, including:
 
 1. Relational data storage and querying
 2. GIS
-3. Graph based spatiotemporal network modelling
+3. Graph-based spatiotemporal network modelling
 4. The production allocation engine (along with almost all data calculations downstream
    of it)
-5. Many data aggregation tasks used in the frontend (cards, chart data preparation etc)
+5. Many data aggregation tasks used in the frontend (map layers, cards, chart data
+   preparation)
 6. Security guarantees via RLS policies
 
-This may sound like too much for a single service to handle, but keep in mind that we
-are talking about a single tenant data platform serving maybe 1000 users at most, this is
-all completely manageable by a single database server.
+This may sound like too much for one service to handle, but keep in mind that we are
+talking about a single-tenant data platform serving maybe 500 users at most. This is all
+manageable by a single database server and a connection pooler.
 
-Although graph traversal in SQL requires the use of recursive CTEs, which are quite
-verbose, being able to integrate GIS, graphs and relational data modelling in a single
-system more than makes up for it. The main graph traversal logic is stored as views, so
-in practice it adds very little complexity for us developing it and operators using it.
+Although graph traversal in SQL requires the use of recursive CTEs, which are pretty
+verbose and scary-looking, being able to integrate GIS, graphs and relational data
+modelling in a single system more than makes up for it. The main graph traversal logic
+is stored as views, so in practice it adds very little complexity for us developing it
+and operators using it.
 
 Importantly, the system does not _lose_ anything by incorporating geospatial, it is really
 all upside from a platform capability perspective.
@@ -598,7 +600,7 @@ Allocation factor heatmaps at wells for quick visual diagnosis? No problem.
 Inverse distance weighted reservoir properties cross referenced to stratigraphic
 interval, aggregated across prospect polygons simultaneously calculating screening
 volumetrics for 120 leads, combined with distance to nearest tieback point and turned
-into a lease by lease potential heat map?
+into a lease potential heat map?
 
 I WON'T SAY NO PROBLEM.
 
@@ -610,11 +612,18 @@ All coming direct from your database to your GIS interface with a single SQL que
 
 ![I will not apologise for my deranged levels of excitement.](media/absolute-cinema.gif)
 
-# Our plans
+# To conclude
 
-Unhinged rants aside, we are very proud of what we've built with enso. It is deployment
-ready and we are continuing to enhance it. 
+Nerd-ranting aside, we are very proud of what we've built with enso. It is
+deployment ready and we are continuing to enhance it.
 
-We are ready to work with companies to deploy our solutions. If you read this, and some
-of the pain points resonated with your experiences at work, and you can see the
-potential I am writing about, don't hesitate to contact us.
+Enso utilizes a specific technology stack and data modelling approach to radically
+streamline oil and gas data workloads. It is both a platform and a set of practices that
+companies can use to improve their data management and utilization. It also provides a
+foundation for more sophisticated analytics and agentic AI workloads.
+
+We are ready to work with companies to help solve data challenges. This article isn't a
+sales pitch, but if you read it and some of the pain points resonated with your
+experiences at work, don't hesitate to contact us.
+
+Thanks for reading.
