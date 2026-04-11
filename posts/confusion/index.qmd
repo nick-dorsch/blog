@@ -1,0 +1,123 @@
+---
+title: "DHI Confusion"
+subtitle: "DHIs, confusion matrices, and a fun Bayesian twist on them"
+author: "Nicholas Dorsch"
+date: "2026-04-11"
+categories: [draft]
+image: thumbnail.png
+---
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+from ldstats import DirichletConfusionMatrix
+
+counts = {
+    "tp": 28,
+    "fp": 10,
+    "fn": 6,
+    "tn": 56,
+}
+
+prior_alpha = 1.0
+n_simulations = 20_000
+```
+
+```{python}
+cm = DirichletConfusionMatrix.binary(
+    tp=counts["tp"],
+    fp=counts["fp"],
+    fn=counts["fn"],
+    tn=counts["tn"],
+    positive_state_label="hc",
+    negative_state_label="no_hc",
+    positive_observation="dhi",
+    negative_observation="no_dhi",
+    prior_alpha=prior_alpha,
+    n_simulations=n_simulations,
+)
+
+prior_positive = np.linspace(0.001, 0.999, 200)
+prior_states = np.column_stack([1.0 - prior_positive, prior_positive])
+
+
+def summarize(samples: np.ndarray) -> dict[str, np.ndarray]:
+    return {
+        "mean": np.mean(samples, axis=1),
+        "q005": np.quantile(samples, 0.005, axis=1),
+        "q995": np.quantile(samples, 0.995, axis=1),
+        "q10": np.quantile(samples, 0.10, axis=1),
+        "q90": np.quantile(samples, 0.90, axis=1),
+        "q25": np.quantile(samples, 0.25, axis=1),
+        "q75": np.quantile(samples, 0.75, axis=1),
+    }
+
+
+posterior_dhi = cm.posterior_state_distribution(
+    state="hc",
+    prior_states=prior_states,
+    observation="dhi",
+    size=n_simulations,
+)
+posterior_no_dhi = cm.posterior_state_distribution(
+    state="hc",
+    prior_states=prior_states,
+    observation="no_dhi",
+    size=n_simulations,
+)
+
+summary_dhi = summarize(posterior_dhi)
+summary_no_dhi = summarize(posterior_no_dhi)
+
+fig, ax = plt.subplots(figsize=(6.8, 6.8))
+
+series = [
+    (summary_dhi, "DHI observed", "tab:green"),
+    (summary_no_dhi, "No DHI observed", "tab:red"),
+]
+
+ax.plot([0, 1], [0, 1], linestyle="--", color="0.4", linewidth=1.2, label="x = y")
+
+for summary, label, color in series:
+    ax.fill_between(
+        prior_positive,
+        summary["q005"],
+        summary["q995"],
+        color=color,
+        alpha=0.08,
+        label=f"{label} 99% interval",
+    )
+    ax.fill_between(
+        prior_positive,
+        summary["q10"],
+        summary["q90"],
+        color=color,
+        alpha=0.14,
+        label=f"{label} 80% interval",
+    )
+    ax.fill_between(
+        prior_positive,
+        summary["q25"],
+        summary["q75"],
+        color=color,
+        alpha=0.24,
+        label=f"{label} 50% interval",
+    )
+    ax.plot(
+        prior_positive,
+        summary["mean"],
+        color=color,
+        linewidth=2.0,
+        label=f"{label} mean",
+    )
+
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_aspect("equal", adjustable="box")
+ax.set_xlabel("Prior P(hc)")
+ax.set_ylabel("Posterior P(hc)")
+ax.grid(alpha=0.25)
+plt.tight_layout()
+plt.show()
+```

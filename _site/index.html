@@ -191,7 +191,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="QUk=">AI <span class="quarto-category-count">(2)</span></div><div class="category" data-category="TERJ">LDI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kaW5n">coding <span class="quarto-category-count">(7)</span></div><div class="category" data-category="ZGF0YQ==">data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmluYW5jZQ==">finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Z2VvbG9neQ==">geology <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3Bpbmlvbg==">opinion <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c3RhdGlzdGljcw==">statistics <span class="quarto-category-count">(5)</span></div><div class="category" data-category="c3R1cGlk">stupid <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dXBkYXRlcw==">updates <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="QUk=">AI <span class="quarto-category-count">(2)</span></div><div class="category" data-category="TERJ">LDI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kaW5n">coding <span class="quarto-category-count">(7)</span></div><div class="category" data-category="ZGF0YQ==">data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZHJhZnQ=">draft <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmluYW5jZQ==">finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Z2VvbG9neQ==">geology <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3Bpbmlvbg==">opinion <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c3RhdGlzdGljcw==">statistics <span class="quarto-category-count">(5)</span></div><div class="category" data-category="c3R1cGlk">stupid <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dXBkYXRlcw==">updates <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -205,7 +205,55 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="TERJJTJDZGF0YSUyQ0FJ" data-listing-date-sort="1774188000000" data-listing-file-modified-sort="1774229128647" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="4000">
+<div class="quarto-post image-right" data-index="0" data-categories="ZHJhZnQ=" data-listing-date-sort="1775829600000" data-listing-file-modified-sort="1775868593780" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="480">
+<div class="thumbnail">
+<p><a href="./posts/confusion/index.html" class="no-external"></a></p><a href="./posts/confusion/index.html" class="no-external">
+<p><img loading="lazy" src="./posts/confusion/thumbnail.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/confusion/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/confusion/index.html" class="no-external">DHI Confusion</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/confusion/index.html" class="no-external">DHIs, confusion matrices, and a fun Bayesian twist on them</a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZHJhZnQ='); return false;">
+draft
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/confusion/index.html" class="no-external">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"></span>
+<span id="cb1-4"><span class="im">from</span> ldstats <span class="im">import</span> DirichletConfusionMatrix</span>
+<span id="cb1-5"></span>
+<span id="cb1-6">counts <span class="op">=</span> {</span>
+<span id="cb1-7">    <span class="st">"tp"</span>: <span class="dv">28</span>,</span>
+<span id="cb1-8">    <span class="st">"fp"</span>: <span class="dv">10</span>,</span>
+<span id="cb1-9">    <span class="st">"fn"</span>: <span class="dv">6</span>,</span>
+<span id="cb1-10">    <span class="st">"tn"</span>: <span class="dv">56</span>,</span>
+<span id="cb1-11">}</span>
+<span id="cb1-12"></span>
+<span id="cb1-13">…<span class="op"></span><span class="fl"></span></span><span id="cb1-14"><span class="op"></span><span class="dv"></span></span></code></pre></div></details></a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/confusion/index.html" class="no-external">
+<div class="listing-date">
+Apr 11, 2026
+</div>
+<div class="listing-author">
+Nicholas Dorsch
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="TERJJTJDZGF0YSUyQ0FJ" data-listing-date-sort="1774188000000" data-listing-file-modified-sort="1774229128647" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="4000">
 <div class="thumbnail">
 <p><a href="./posts/enso/index.html" class="no-external"></a></p><a href="./posts/enso/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/enso/media/screenshots/logo_color.png" class="thumbnail-image"></p>
@@ -244,7 +292,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Y29kaW5nJTJDb3Bpbmlvbg==" data-listing-date-sort="1773756000000" data-listing-file-modified-sort="1773804899546" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2202">
+<div class="quarto-post image-right" data-index="2" data-categories="Y29kaW5nJTJDb3Bpbmlvbg==" data-listing-date-sort="1773756000000" data-listing-file-modified-sort="1773804899546" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2202">
 <div class="thumbnail">
 <p><a href="./posts/spreadsheets/index.html" class="no-external"></a></p><a href="./posts/spreadsheets/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/spreadsheets/media/hurt-locker-2.gif" class="thumbnail-image"></p>
@@ -280,7 +328,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="Y29kaW5nJTJDQUk=" data-listing-date-sort="1773064800000" data-listing-file-modified-sort="1773105159804" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3756">
+<div class="quarto-post image-right" data-index="3" data-categories="Y29kaW5nJTJDQUk=" data-listing-date-sort="1773064800000" data-listing-file-modified-sort="1773105159804" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3756">
 <div class="thumbnail">
 <p><a href="./posts/lex/index.html" class="no-external"></a></p><a href="./posts/lex/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/lex/media/lex_statistics_screenshot.png" class="thumbnail-image"></p>
@@ -316,7 +364,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="b3BpbmlvbiUyQ3N0YXRpc3RpY3M=" data-listing-date-sort="1750860000000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3258">
+<div class="quarto-post image-right" data-index="4" data-categories="b3BpbmlvbiUyQ3N0YXRpc3RpY3M=" data-listing-date-sort="1750860000000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3258">
 <div class="thumbnail">
 <p><a href="./posts/berkson/index.html" class="no-external"></a></p><a href="./posts/berkson/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/berkson/thumbnail.png" class="thumbnail-image"></p>
@@ -352,7 +400,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="c3R1cGlkJTJDZmluYW5jZSUyQ2NvZGluZw==" data-listing-date-sort="1750428000000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4280">
+<div class="quarto-post image-right" data-index="5" data-categories="c3R1cGlkJTJDZmluYW5jZSUyQ2NvZGluZw==" data-listing-date-sort="1750428000000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4280">
 <div class="thumbnail">
 <p><a href="./posts/coffee/index.html" class="no-external"></a></p><a href="./posts/coffee/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/coffee/thumbnail.png" class="thumbnail-image"></p>
@@ -391,7 +439,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcyUyQ2dlb2xvZ3k=" data-listing-date-sort="1749218400000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4235">
+<div class="quarto-post image-right" data-index="6" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcyUyQ2dlb2xvZ3k=" data-listing-date-sort="1749218400000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4235">
 <div class="thumbnail">
 <p><a href="./posts/dirichlet_geo/index.html" class="no-external"></a></p><a href="./posts/dirichlet_geo/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/dirichlet_geo/media/bouma_sequence.jpg"  class="thumbnail-image card-img"/></p>
@@ -430,7 +478,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcw==" data-listing-date-sort="1748786400000" data-listing-file-modified-sort="1772956109348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3254">
+<div class="quarto-post image-right" data-index="7" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcw==" data-listing-date-sort="1748786400000" data-listing-file-modified-sort="1772956109348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3254">
 <div class="thumbnail">
 <p><a href="./posts/spending/index.html" class="no-external"></a></p><a href="./posts/spending/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/spending/thumbnail.png" class="thumbnail-image"></p>
@@ -466,7 +514,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcw==" data-listing-date-sort="1748700000000" data-listing-file-modified-sort="1772956109347" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="865">
+<div class="quarto-post image-right" data-index="8" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcw==" data-listing-date-sort="1748700000000" data-listing-file-modified-sort="1772956109347" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="865">
 <div class="thumbnail">
 <p><a href="./posts/outcomes/index.html" class="no-external"></a></p><a href="./posts/outcomes/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/outcomes/thumbnail.png" class="thumbnail-image"></p>
@@ -502,7 +550,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcw==" data-listing-date-sort="1748613600000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1265">
+<div class="quarto-post image-right" data-index="9" data-categories="Y29kaW5nJTJDc3RhdGlzdGljcw==" data-listing-date-sort="1748613600000" data-listing-file-modified-sort="1772956109345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1265">
 <div class="thumbnail">
 <p><a href="./posts/copulas/index.html" class="no-external"></a></p><a href="./posts/copulas/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/copulas/thumbnail.png" class="thumbnail-image"></p>
@@ -538,7 +586,7 @@ Nicholas Dorsch
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="dXBkYXRlcw==" data-listing-date-sort="1748354400000" data-listing-file-modified-sort="1772956109348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="33">
+<div class="quarto-post image-right" data-index="10" data-categories="dXBkYXRlcw==" data-listing-date-sort="1748354400000" data-listing-file-modified-sort="1772956109348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="33">
 <div class="thumbnail">
 <p><a href="./posts/welcome/index.html" class="no-external"></a></p><a href="./posts/welcome/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/welcome/thumbnail.png" class="thumbnail-image"></p>
