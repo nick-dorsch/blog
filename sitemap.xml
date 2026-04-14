@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nick-dorsch.github.io/blog/about.html</loc>
-    <lastmod>2026-03-23T01:28:10.004Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/outcomes/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.130Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/dirichlet_geo/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.050Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/copulas/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.049Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/spreadsheets/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.133Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/enso/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.055Z</lastmod>
-  </url>
-  <url>
     <loc>https://nick-dorsch.github.io/blog/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.004Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/welcome/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.179Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/spending/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.131Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/berkson/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.007Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nick-dorsch.github.io/blog/posts/lex/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.113Z</lastmod>
+    <lastmod>2026-04-14T00:43:08.396Z</lastmod>
   </url>
   <url>
     <loc>https://nick-dorsch.github.io/blog/posts/coffee/index.html</loc>
-    <lastmod>2026-03-23T01:28:10.040Z</lastmod>
+    <lastmod>2026-04-14T00:43:08.430Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/spreadsheets/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.520Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/berkson/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.399Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/confusion/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.439Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/enso/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.445Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/welcome/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.566Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/outcomes/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.518Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/spending/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.519Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/lex/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.503Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/copulas/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.440Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/posts/dirichlet_geo/index.html</loc>
+    <lastmod>2026-04-14T00:43:08.441Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nick-dorsch.github.io/blog/about.html</loc>
+    <lastmod>2026-04-14T00:43:08.396Z</lastmod>
   </url>
 </urlset>
