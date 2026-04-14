@@ -7,9 +7,10 @@ name = "blog"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "altair>=5.5.0",
+    "ldstats",
     "matplotlib>=3.10.1",
     "numpy>=2.2.4",
     "pandas>=2.2.3",
@@ -19,6 +20,9 @@ dependencies = [
     "seaborn>=0.13.2",
     "yfinance>=0.2.61",
 ]
+
+[tool.uv.sources]
+ldstats = { path = "../ldi/libraries/ldstats", editable = true }
 
 [tool.setuptools.packages.find]
 where = ["."]
