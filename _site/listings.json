@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/databasin/index.html",
       "/posts/confusion/index.html",
       "/posts/enso/index.html",
       "/posts/spreadsheets/index.html",

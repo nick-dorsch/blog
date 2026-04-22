@@ -306,6 +306,30 @@ hr,
   stroke: var(--warm-border) !important;
 }
 
+/* Mermaid subgraph readability */
+.mermaid svg g.cluster > rect,
+.mermaid svg .cluster rect,
+.mermaid svg rect[class*="cluster"] {
+  fill: transparent !important;
+  fill-opacity: 0 !important;
+  stroke: var(--warm-border) !important;
+  stroke-opacity: 0.8 !important;
+}
+
+.mermaid svg g.cluster foreignObject,
+.mermaid svg g.cluster foreignObject div,
+.mermaid svg g.cluster .label-container {
+  background: transparent !important;
+  fill: transparent !important;
+}
+
+.mermaid svg .cluster .label,
+.mermaid svg .cluster-label text,
+.mermaid svg .cluster .label text {
+  fill: var(--warm-text) !important;
+  color: var(--warm-text) !important;
+}
+
 #quarto-search .aa-DetachedSearchButton {
   background-color: transparent !important;
   border: none !important;
