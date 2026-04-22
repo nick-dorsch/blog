@@ -1,6 +1,6 @@
 ---
-title: "Bringing it all together: Databasin"
-subtitle: "Building a data platform starter-kit"
+title: "The DataBasin"
+subtitle: "A digital transformation bootstrap system for the oil and gas sector"
 author: "Nicholas Dorsch"
 date: today
 categories: [LDI, data, AI]
@@ -12,82 +12,411 @@ image: media/databasin-australia.png
 > 
 > --- Jensen Huang at the 2026 NVIDIA GTC keynote
 
-I've written [before](https://nick-dorsch.github.io/blog/posts/spreadsheets/) about the
-problem of relying on spreadsheets for storing and processing important data. Many
-smaller companies in this industry fall into this trap because of the large investment
-in cloud infrastructure, data and software professionals and maintenance burden that
-comes with the territory. The benefits are known, though perhaps a little unclear, but
-the pathway to reach this level of capability causes hesitation. 
+I've [written before](https://nick-dorsch.github.io/blog/posts/spreadsheets/) about the
+problem of relying on spreadsheets for storing and processing business critical
+data---and honestly that statement, or a blog post about it, aren't enough to communicate
+how deep this problem goes. 
 
-With all the recent buzz around agentic AI systems, the need for a system of record that
-can guarantee access to accurate and current business data has become clearer than ever
-before.
+Many smaller companies in this industry fall into the data trap because of the large
+investment in cloud infrastructure, data professionals and maintenance burden that comes
+with the territory.
 
-The distributed nightmare of spreadsheets scattered around sharepoint, surrounded by
+The benefits of better systems are known---though perhaps a little unclear---but the
+pathway to reach them causes friction and delay. 
+
+With all the recent (mostly well-founded) buzz around agentic AI systems, the need for
+an integrated system of record that can guarantee access to accurate and current
+business data has become clearer than ever before---though even before the AI hype cycle
+it was already obvious.
+
+The distributed nightmare of spreadsheets scattered around SharePoint, surrounded by
 poorly integrated systems for handling workloads like GIS, hydrocarbon accounting and
-business intelligence reporting, cause humans and AI alike massive friction in using
-data effectively.
+business intelligence reporting, causes humans and AI alike massive friction in using
+data effectively. Minimizing this kind of friction is a key part of the LD Informatics
+ethos.
 
 I've been building a bootstrapping kit that allows a company to go from zero to _very
-high capability_ in a matter of days, instead of months to years. The vision is to
-initialize the system of record and an entire automated platform around it with small
-set of configurations and a single command.
+high capability_ in a matter of days, instead of months to years---and continue building
+capability steadily from that foundation. The vision is to initialize the system of
+record and an entire automated platform around it with a small set of configurations and
+a single command.
 
-It is not the kind of thing that needs a name, because it will likely be rebranded for
-each client, but I'm calling the bootstrapper **Databasin**.
+All of the design choices made are informed by the fact that, for most of my career, I
+have been a _consumer_ of these kinds of data. I know all the things I've always wanted
+to do my job effectively but I've never had them, so now we're building them.
 
-![Overview of Australian GIS datasets](media/databasin-australia.png)
+Maybe it isn't the kind of project that necessarily needs a "brand", because it will
+likely be rebranded for each client rollout, but I'm calling the bootstrapper
+**DataBasin**.
 
-## What is Databasin?
+![Overview of some of the Australian GIS datasets that the bootstrapper
+includes.](media/databasin-australia.png)
 
-Databasin is a data platform bootstrapping system that brings together a multi-purpose
-database built on PostgreSQL, a detailed data schema, a configurable data governance
-model, multiple services streaming useful public sources of data, and a presentation
-layer for GIS and BI applications.
+## What is DataBasin?
+
+DataBasin is a data platform bootstrapping system that brings together a multi-purpose
+database, a rich data schema, a configurable data governance model, multiple services
+streaming public sources of data, and a presentation layer for GIS and BI applications.
+
+It provides the ideal foundation for an efficient digital transformation, rapidly taking a
+company from spreadsheet hell to best-in-class data infrastructure, ready for technical
+workers, data professionals and AI agents alike to leverage it.
+
+DataBasin is not a general-purpose toolkit. It is a toolkit built specifically for the
+oil and gas industry and its problem domains. It is not an off-the-shelf solution for
+your business to contort itself into, but a foundation for your own. 
 
 ### Out of the Box
 
-With minor configuration and a single command, you get
+With minor configuration (what parts of the world you care about) and a single command,
+the bootstrapper initializes:
 
-1. The Databasin database
-2. A full suite of GIS layers over your operating regions, including pipelines and
-   tenements boundaries
+1. The DataBasin database
+2. A suite of GIS layers over your operating regions, including pipelines, tenements
+   boundaries, wellbore locations, and sedimentary basin outlines
 3. Historical commodity prices, updated daily
 4. Live vessel tracking (tankers, cargo ships), globally or over your specific area of
    interest
-5. Supporting technical datasets like eustatic sea level curves and canonical geological
-   time periods
+5. Supporting technical datasets like the geological timescale, eustatic sea level
+   curves and stratigraphic systems
 6. A hydrocarbon accounting platform to take measured data through to allocated,
    reportable production
-7. A well log LAS file pipeline for generating detailed sand statistics in a structured
-   format, grouped by interval based on tops, ready for downstream technical workflows
-8. Core domain logic for computing key business metrics
-9. A semantic layer of clean data ready for use directly in business intelligence tools
+7. A well log petrophysics pipeline for generating detailed sand statistics, grouped by
+   litho or chrono interval based on tops, ready for downstream technical workflows
+8. Core domain logic for computing key business metrics, configurable to business needs
+9. A semantic layer of clean data, ready for use directly in business intelligence tools
    (PowerBI, Tableau, etc) as well as spreadsheets
 10. An observability system for monitoring data pipelines and platform health
-11. Role based access control for data security and governance.
+11. A granular access control model to provide a foundation for data security and
+    governance.
 
-Databasin is the foundation that provides all of this functionality, but everything is
-configurable to particular business requirements on a case by case basis.. 
+DataBasin is the foundation that provides all of this functionality, but everything is
+configurable to particular business requirements on a case by case basis.
 
-### Value from day one
+## What makes this work?
+
+DataBasin is built around a foundation of opinionated architecture, supported by
+configurable and extensible services. The functionality that PostgreSQL provides makes
+it a clear choice for the core of the platform, as it provides all the benefits of
+relational data modelling with best-in-class GIS support, rich extensibility, data
+security, and much more.
+
+Below is a data infrastructure focussed overview of the system:
+
+```{mermaid}
+flowchart BT
+    public_data[Public Data]
+    market_data_etl[Markets]
+    aisstream_tanker_tracker[Vessel Tracker]
+    las_processor[LAS Processor]
+    pi[Pi Connector]
+    services[Custom Services]
+
+    postgres[(Database)]
+    security[Data Security Model]
+    presentation[Presentation Layer]
+
+    bi[BI Tools]
+    gis[GIS Tools]
+    excel[Spreadsheets]
+    petex[Petex]
+    integration[Other Integrations]
+    analytics[Advanced Analytics]
+
+    security --> analytics
+
+    public_data ----> postgres
+    market_data_etl ---> postgres
+    aisstream_tanker_tracker --> postgres
+    las_processor --> postgres
+    pi ---> postgres
+    services ----> postgres
+
+    postgres --> security ---> presentation
+    presentation --> excel
+    presentation --> bi
+    presentation --> gis
+    presentation --> petex
+    presentation --> integration
+```
+
+On a client-by-client basis, additional supporting services can be developed and
+deployed, integrating with existing systems, providing custom analytics, and much more.
+
+## This looks complicated
+
+Implementations are complicated, but the concepts are not.
+
+Fundamentally, the platform does 4 things:
+
+1. Stores data and relationships between data in tables
+2. Provisions data ingestion pipelines to automatically keep them correct and current
+3. Automates data transformation logic to perform critical business data workloads
+4. Provides a presentation layer for rich, clean data endpoints
+
+It is a maintainable and configurable system. There is a reason it is built the way it
+is---it is not a pile of impossible to track spaghetti application code, or a cobweb of
+interconnected spreadsheets and macros---it is a data platform built for a domain, and
+it does its job efficiently and elegantly.
+
+Other industries provisioning services to customers and other businesses, with
+potentially billions of transactions to manage, have a whole swathe of data engineering
+challenges that simply do not apply here. DataBasin models a physical domain where data
+is generally _sparse and expensive to acquire_, and is served to a small technical
+community. 
+
+Small data---dense, integrated schema. 
+
+This creates a different playbook, and it is one I've spent most of my career
+refining---first in spreadsheets, then in python scripts, and now in this data platform.
+
+## Integration is everything
+
+![Sedimentary basins of australia, color graded by age of earliest
+deposition](media/sedimentary-basins.png)
+
+The key philosophy guiding all of this is data integration. Aggregating a bunch of data
+sources can be useful, but the real power of bringing things into a single system is
+_integration_. Cross-referenced datasets, held together in a rich relational model,
+make the system much more than a storage solution---it becomes a queryable
+representation of the physical and commercial domains of the business. 
+
+Business departments may separate teams into technical silos---treating reservoir
+engineering, geology, geophysics and commercial as separate disciplines---but this
+siloing should be avoided when it comes to data. All data is interrelated---from the
+physical systems being modelled in the subsurface, to the production facilities above
+them, to the business operations that ultimately deliver value to shareholders.
+Vertically integrate the data stack, and your business will reap the benefits.
+
+Maybe you sense that you don't have the internal technical chops to actually make use of
+that level of data integration, but AI agents will. If your data model can handle it,
+the limit is the creativity of your staff---but without it, humans and AI alike will be
+bottlenecked navigating distributed, opaque systems with no guarantees of data currency,
+consistency or accuracy.
+
+## Example Functionality
+
+Here are some examples of why I'm so focussed on data integration.
+
+### Hydrocarbon accounting 
+
+The [enso](https://nick-dorsch.github.io/blog/posts/enso/) graph-based production
+allocation and accounting system is fully portable into DataBasin, allowing the platform
+to serve as the canonical source of meter to reportable production data if the client
+desires the system to perform that workload. 
+
+The allocation and accounting systems sit alongside the GIS system, along with all
+technical and commercial data, so canonical production data does not need to be moved
+somewhere else so that subsurface and commercial teams can benefit from it---it is
+already where it needs to be.
+
+If an existing system is already set up, DataBasin can integrate with it instead,
+providing an integrated system-of-record alongside the existing allocation system,
+providing the same data integration benefits.
+
+### Fluid Composition/PVT data management
+
+Because porous intervals, stratigraphic/chronostratigraphic tops, wellbores and fluid
+samples are all mapped in the database, fluid compositional data can be placed in both
+its reservoir and geographic context seamlessly. DataBasin utilizes a normalized
+geochemistry schema to flexibly store lab data of this kind, allowing canonical
+oil/gas/water geochemistry data to be presented as preconfigured views based on the
+particular client requirements. This flexibility allows generic PVT data loaders to work
+with the wide variety of formats that this data is received in.
+
+Place rich fluid compositional data on a map, or a 3D canvas, or cross plot it in BI
+software, or build advanced analytics on top of it. Everything is integrated and
+structured to serve whatever endpoints are desired.
+
+### Automated, enhanced sand statistics
+
+This example is the original inspiration for the name "DataBasin".
+
+The LAS pipeline that DataBasin includes allows for detailed summary statistics to be
+generated dynamically. Combined with the numerous supporting technical datasets that are
+ingested during the bootstrapping process, this becomes an extremely powerful system.
+
+```{mermaid}
+flowchart TD
+    las[LAS files] --> qc[QC + parse curves]
+    qc --> flags[Lithology flagging]
+    flags --> db[(DataBasin)]
+    db --> stats[Compute sand statistics]
+    db --> enrich[Enrich with geochronology, reference datasets, GIS]
+    db --> tops[Cross reference to litho/chrono tops]
+    enrich --> stats
+    tops --> stats
+    stats --> outputs[GIS / BI / analytics]
+```
+
+Sand intervals (along with coal, carbonate, shale, or whatever other lithological flags
+are used) are loaded into the database as "porous intervals", which store a top and base
+depth, along with summary statistics of key log derived properties.
+
+These are generated directly by the pipeline from LAS files, allowing hundreds to
+thousands of logs to be processed in minutes, storing canonical data cross referenced to
+wellbores at the individual flag level.
+
+Combining this with stratigraphic or chronostratigraphic intervals interpreted at
+wellbores allows for summary statistics by interval and lithology, like the count of
+porous intervals, the total thickness across them, and thickness-weighted average
+properties, to be calculated dynamically by a database view and served to any endpoint
+for analysis. 
+
+This includes geospatial analysis, since the interval picks are geolocated, allowing for
+geostatistical workflows to consume perfectly formatted and preprocessed data, with zero
+data wrangling required.
+
+If matching to chronostratigraphic intervals, the database can also provide estimates of
+sedimentation rates, mean eustatic sea level and paleoclimatic conditions based on
+canonical reference data, modelled and loaded as part of the platform bootstrapping
+process. 
+
+If chronostratigraphic intervals have a geographic estimate of sediment provenance in a
+particular basin, then every porous interval can also have an estimated transport
+distance associated with it, calculated dynamically by the GIS engine. 
+
+Since the database can output geographic layers seamlessly, all of this can be
+represented as not only clean, tabular data, but map layers in GIS software as well.
+
+This kind of data enrichment is one of the key benefits of an integrated technical data
+platform. Data integration turns month long research projects into SQL queries that run
+almost instantly, and leverage the latest data available.
+
+### Perforation level reservoir properties
+
+Organizing porous intervals and tops in this way also allows every interval to be cross
+referenced to wellbore perforations, giving subsurface technical workers a detailed view
+of perforated reservoir, exposed interburden, and the reservoir properties evaluated
+across them.
+
+GIS, PVT and production data are modelled right alongside those porous intervals,
+allowing all of these datasets to be used in tandem to create tables or maps based on a
+user's requirements.
+
+### Flag-level pressure compartment analysis
+
+Porous intervals can be associated with pressure compartments, allowing for highly
+granular interpretations of what intervals are connected to draining reservoirs, with
+essentially zero upscaling. This allows subsurface teams to build extremely detailed,
+canonical reservoir models, which downstream workflows like dynamic reservoir simulation
+can upscale from.
+
+```{mermaid}
+flowchart TD
+    intervals[Porous interval flags] --> link[Interval to compartment links]
+    pressures[Pressure measurements] --> link
+    link --> compartments[Pressure compartment map]
+    compartments --> model[Reservoir connectivity model]
+    model --> simulation[Dynamic simulation inputs]
+    model --> outputs[GIS and BI outputs]
+```
+
+This may sound like an unrealistic level of detail, but---considering the AI tools we
+now have access to---I don't think that is the case. Wiring up a thousand porous
+intervals to the correct pressure compartments across a mature field is an agentic AI
+workflow problem now, rather than a laborious exercise that nobody would ever bother
+attempting. 
+
+### Automated prospect screening
+
+Prospect polygons can draw from the porous interval database, utilizing inverse distance
+weighted averages to provide plausible rock property parameters. Combined with the area
+of the polygon and some composition and depth-based formation volume factor
+calculations, screening volumetrics can be run to provide a quick-look prospect ranking
+system. 
+
+This can enable hundreds of prospects to be evaluated automatically, allowing for high
+grading of opportunities for further study. As a dynamically calculated layer, these
+metrics will be available for all prospect polygons ingested into the database, with no
+additional work required.
+
+If a lease level roll-up is desired to help inform new ventures teams where
+opportunities are concentrated, those boundaries are sitting in the database as well,
+ready to be aggregated across and presented as heat maps.
+
+### Live vessel tracking + vector and projected positions
+
+The database stores live vessel positions, which are frequently updated with a
+lightweight service. This information allows for plotting vessel positions
+geographically, while also generating vector stream diagrams indicating speed and bearing,
+as well as projected position indicators that dynamically estimate current locations
+based on the last known speed and bearing.
+
+![PostGIS configured to output a vector from last known position to forward projected
+position using the bearing and speed of each vessel.](media/vessel-vectors.png)
+
+Ports are also geolocated. The intention here is that clients can specify key vessels
+and ports to allow for dynamic tracking and time/distance to final destination
+calculations. Commercial teams can leverage this kind of information to get ahead of
+disruptions in business, taking predictive, rather than reactionary, measures.
+
+> If you're wondering, yes, this data integration was inspired by the ongoing situation
+> in the Strait of Hormuz.
+
+### Data maps
+
+Production data coexisting with GIS capability means production metrics can be reported
+in intuitive, geospatial formats like bubble maps, 3D geographic bar charts, heat maps
+etc. The same applies for all technical datasets stored in the system. 
+
+Tabular data is map data---just enrich the GIS vectors with the data you want to
+visualize.
+
+### Efficient, organized GIS
+
+Managing mountains of shape files is hell. Storing canonical layers within the system of
+record makes a single database connection in QGIS or ArcGIS the source of truth for
+everyone, sitting alongside all the other rich technical datasets that the system
+manages. 
+
+Because layers are served directly from the database, and not from files or web
+services, performance is also lightning fast.
+
+### BI reporting
+
+The presentation layer that DataBasin provides makes semantic models trivial to import
+into business intelligence tools, allowing for flexible dashboarding and reporting
+across the rich domain model that the platform manages. These tools are all receiving
+live data, so as new data comes in, all associated calculations and visuals in
+dashboards are updated, too.
+
+All of these workflows grow in usefulness as more data is ingested and integrated into
+the system. It is all day one functionality---just add data!
+
+## Deployment Patterns
+
+The intention is for DataBasin to be deployed on company cloud infrastructure, whether
+that is AWS, GCS or Azure. The use of the Infrastructure as Code (IaC) solution
+Terraform means the deployment pattern is rapid and repeatable.
+
+On-premises or managed solutions can also be deployed where that is the best fit for the
+business.
+
+The operating standard is that no "Click Ops" is ever used (configuring cloud services
+manually using provider web interfaces). Everything is version controlled, auditable and
+repeatable as code.
+
+A dedicated secure subnet, where all server provisioning and inter-service networking is
+preconfigured out of the box, makes deployment highly efficient, requiring only a
+network connection from the DataBasin subnet to the company internal network.
 
 Migration to a new system inevitably takes time as legacy systems are moonlit in favor
-of database centred operations... but Databasin is built to deliver value from day one,
+of database centred operations... but DataBasin is built to deliver value from day one,
 getting more and more valuable as it is integrated into the business, eventually
 becoming the canonical system of record.
 
+A roughly mapped out engagement looks something like this:
+
 ```{mermaid}
 sequenceDiagram
-    autonumber
     participant Ops as Business Operations
     participant Legacy as Existing Systems
-    participant DB as Databasin
+    participant DB as DataBasin
     participant LDI as LD Informatics
 
     LDI->>Ops: Assess current systems and define Day 1 scope
     Ops->>Legacy: Continue existing workflows
-    Legacy-->>Ops: Ongoing outputs
 
     LDI->>DB: Deploy starter kit + configure platform
     DB-->>Ops: Day 1 GIS and supporting datasets 
@@ -98,148 +427,24 @@ sequenceDiagram
 
     LDI->>Ops: Validate parity/enhancement vs legacy outputs
     Ops->>Legacy: Sunset legacy workflows
-    Ops->>DB: Databasin becomes system of record
+    Ops->>DB: DataBasin becomes system of record
     DB-->>Ops: Existing + enhanced analytics and reporting
     DB->>LDI: Platform health observability
     LDI-->>DB: Ongoing support and iterative improvements
 ```
 
-## What makes this work?
+The intention is to develop and deploy in parallel with existing systems, until the time
+that existing systems can be decommissioned. This guarantees business as usual operations
+during the deployment process. Parity with existing data endpoints + enhancement is the
+baseline business outcome expectation---we would consider anything less than that a
+project failure.
 
-Databasin is built around a foundation of opinionated architecture, supported by
-configurable and extensible services. The functionality that PostgreSQL provides makes
-it a clear choice for the system, as it provides all the benefits of relational data
-modelling with best-in-class GIS support and extensibility.
+# Contact us
 
-### Architecture Diagram
+This post is about technical sharing more so than marketing, but---if your team is
+looking for a foundational data system, or struggling with existing systems, or filling
+gaps with spreadsheets---reach out to us, we can build and deploy capability fast.
 
-```{mermaid}
-flowchart BT
-    public_gis_elt[Public GIS]
-    market_data_etl[Markets]
-    aisstream_tanker_tracker[Vessel Tracker]
-    las_processor[LAS Processor]
-    pi[Pi Connector]
+[nicholas.dorsch@ld-informatics.com](mailto:nicholas.dorsch@ld-informatics.com)
 
-    postgres[(PostgreSQL)]
-    security[Data Security Model]
-    presentation[Presentation Layer]
-
-    bi[BI Tools]
-    gis[GIS Tools]
-    excel[Spreadsheets]
-    petex[Petex]
-    analytics[Advanced Analytics]
-
-    security --> analytics
-
-    public_gis_elt --> postgres
-    market_data_etl --> postgres
-    aisstream_tanker_tracker --> postgres
-    las_processor --> postgres
-    pi --> postgres
-
-    postgres --> security ---> presentation
-    presentation --> excel
-    presentation --> bi
-    presentation --> gis
-    presentation --> petex
-```
-
-## Deployment Pattern
-
-The intention is for Databasin to be deployed on company cloud infrastructure, whether
-that is AWS or Azure. The use of the Infrastructure as Code (IaC) solution Terraform
-means the deployment pattern is rapid and repeatable.
-
-The operating standard is that no "Click Ops" is ever used (configuring cloud services
-manually using provider web interfaces). Everything is version controlled, auditable and
-repeatable as code.
-
-A dedicated secure subnet, where all server provisioning and inter-service networking is
-preconfigured out of the box, makes deployment highly efficient.
-
-## Example Functionality
-
-Here are a few example workflows that Databasin comes with out of the box.
-
-### Hydrocarbon accounting 
-
-The [enso](https://nick-dorsch.github.io/blog/posts/enso/) graph-based production
-allocation and accounting system is fully ported into Databasin, allowing the platform
-to serve as the canonical source of meter to reportable production data if the client
-desires the system to perform that workload. 
-
-If an existing system is already set up, Databasin can integrate with it instead,
-providing an integrated source-of-record while not performing the allocation workload
-internally.
-
-### Automated sand summary statistics
-
-The LAS pipeline that Databasin supports allows for detailed summary statistics to be
-generated dynamically. 
-
-Sand intervals (along with coal, carbonate, shale, or whatever other lithological flags
-are used) are loaded into the database as "porous intervals", which have a top and base
-depth, a location, and summary statistics of key log derived properties.
-
-These are generated directly by the pipeline from LAS files, allowing hundreds to
-thousands of logs to be processed in minutes, storing canonical data cross referenced to
-wellbores at the individual flag level.
-
-Combining this with stratigraphic or chronostratigraphic intervals picked at wellbores
-allows for summary statistics by interval and lithology, like the count of porous
-intervals, the total thickness across them, and thickness weighted average properties,
-to be calculated dynamically by a database view and served to any end point for
-analysis. 
-
-This includes geospatial analysis, since the interval picks are geolocated, allowing for
-geostatistical workflows to consume perfectly formatted and preprocessed data, with zero
-data wrangling required.
-
-If matching to chronostratigraphic intervals, the database also provides mean sea level
-estimates based on canonical sea level curves.
-
-It also allows every porous interval to be cross referenced to wellbore perforations,
-giving subsurface workers a detailed view of perforated intervals and the reservoir
-properties evaluated across them.
-
-### Automated prospect screening
-
-Prospect polygons can draw from the porous interval database, utilizing inverse distance
-weighted averages to provide plausible rock property parameters. Combined with the area
-of the polygon and some depth based formation volume factor calculations, screening
-volumetrics can be run to provide a quick-look prospect ranking system. This enables
-hundreds of prospects to be evaluated automatically, allowing for high grading of
-opportunities for further study. As a dynamically calculated layer, these metrics will
-be available for all prospect polygons ingested into the database, with no additional
-work required.
-
-### Live vessel tracking + vector and projected positions
-
-The database stores live vessel positions, which are frequently updated with a dedicated
-service. This information allows for plotting vessel positions geographically, but also
-vector stream diagrams indicating speed and bearing, as well as projected position
-indicators that dynamically estimate current locations based on the last known speed and
-bearing.
-
-![PostGIS configured to output a vector from last known position to forward projected
-position using the bearing and speed of each vessel.](media/vessel-vectors.png)
-
-Ports are also geolocated. The intention here is that clients can specify key vessels
-and ports to allow for dynamic tracking and time/distance to final destination
-calculations.
-
-### Production bubble maps
-
-Production data coexisting with GIS capability means production metrics can be reported
-in intuitive, geospatial formats like bubble maps, 3D geographic bar charts, heat maps
-etc.
-
-### BI reporting
-
-The presentation layer that Databasin provides means that semantic models are trivial to
-import into business intelligence tools, allowing for flexible dashboarding and
-reporting across the rich domain model that the platform manages.
-
-All of these workflows grow in usefulness as more data is ingested into the system.
+Thanks for reading.
