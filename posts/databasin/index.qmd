@@ -1,6 +1,6 @@
 ---
 title: "The DataBasin"
-subtitle: "A digital transformation bootstrap system for the oil and gas sector"
+subtitle: "A digital transformation bootstrapping system for the oil and gas sector"
 author: "Nicholas Dorsch"
 date: today
 categories: [LDI, data, AI]
@@ -335,7 +335,7 @@ If a lease level roll-up is desired to help inform new ventures teams where
 opportunities are concentrated, those boundaries are sitting in the database as well,
 ready to be aggregated across and presented as heat maps.
 
-### Live vessel tracking + vector and projected positions
+### Live vessel tracking
 
 The database stores live vessel positions, which are frequently updated with a
 lightweight service. This information allows for plotting vessel positions
