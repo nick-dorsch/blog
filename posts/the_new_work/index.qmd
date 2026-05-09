@@ -44,7 +44,7 @@ what role these tools have left.
 For example, when I need a professional document, it might be internal documentation, or
 a contract, or a scope of work---documents where my writing voice doesn't really
 matter[^voice], I just need to get information professionally formatted and sent to some
-stakeholder---I don't open a word document and start typing. I chat to my agent. I
+stakeholder---I don't open a Word document and start typing. I chat to my agent. I
 explain what I need done and I say I need it compiled to a PDF report. The agent knows
 my formatting and templating, it knows where to do this work, it knows what tools to use
 to compile to PDF, and it is an expert at the syntax required to do so. I work on the
@@ -60,7 +60,7 @@ iterate on slide content with it. If the agent needs detailed background on the 
 I tell it where the code lives, and it reads up. No more explanation required.
 
 If I need some numbers crunched, I don't open Excel and give myself eye strain. I open a
-chat. I point my agent to where the data lives, whether its on my machine or the web,
+chat. I point my agent to where the data lives, whether it's on my machine or the web,
 and it inspects the data, generates a script on the fly to analyze it, and gives me the
 information I asked for in a minute or so. 
 
@@ -80,15 +80,15 @@ there's still huge money to make in the meantime.
 And I've not just replaced those old tools... I'm also doing a bunch of things that I
 never would have bothered with before.
 
-I don't take take notes. Or at least I didn't... But now taking notes means _opening a
-chat_. The agent commits the notes into my obsidian vault, which stores a knowledge
+I don't take notes. Or at least I didn't... But now taking notes means _opening a
+chat_. The agent commits the notes into my Obsidian vault, which stores a knowledge
 graph of all the goings on in my business, key projects I'm working on, areas of
 learning, blog post ideas, and whatever else I throw at it. The agent can also read
 email exchanges from my business account, sends me daily nudges about priorities, and
 keeps the knowledge graph up to date without me needing to ask.
 
 I can ask my agent to research a topic I'm interested in and create an HTML or PDF
-report for me to read. I'll go out for a run and when I get back its all done, and I
+report for me to read. I'll go out for a run and when I get back it's all done, and I
 have not only the report, but a conversation partner juiced to the gills with the
 relevant context.
 
@@ -96,8 +96,8 @@ I do a lot of this from my phone. I don't need to open apps, move files around, 
 and drag elements on a screen... All that is over for me. And good riddance!
 
 This isn't AI psychosis---I'm not running 1000s of agents overnight, maxing out multiple
-anthropic subscriptions on bonkers projects for clout on X. I'm just doing the stuff
-that helps me work better, and it's currently cosing me 20 bucks a month. The rest of
+Anthropic subscriptions on bonkers projects for clout on X. I'm just doing the stuff
+that helps me work better, and it's currently costing me 20 bucks a month. The rest of
 the engagement-bait oriented stuff falls away pretty quickly when it doesn't actually
 help you get good work done. Experiment, keep the good stuff, drop the rest, and move
 on.
@@ -175,7 +175,7 @@ solved.
 Big tech will invest billions into cracking this market, because they're already working
 in the new way, and they know there is no going back.
 
-Meanwhile, at least outside of silicon valley, start up founders and the... curious
+Meanwhile, at least outside of Silicon Valley, startup founders and the... curious
 unemployed (I drift each day on which of those categories I place myself in) are the
 ones playing around most actively in the real AI sandpit, and discovering the new shape
 of work.
@@ -186,9 +186,9 @@ wild (AKA, my couch).
 [^voice]: For any emails, messages, social media posting or this blog---basically
 anywhere with an expectation that it is _me_ communicating---AI writing is a strict
 no-no for me. I find AI writing (at least in the context of social media engagement
-farming) pretty awful to read and think its dishonest use is disingenuous and
-disrespectful.  AI generated posting without clear disclaimers should be shunned and
-removed from social media sites, in my view. When I catch myself using a "it's not just
-this---it's also _that_" framing, a part of me dies inside, but it does happen. I also
-enjoy em-dashes and think they help my writing flow better, though my writing skills are
-a work in progress.
+farming) pretty awful to read, and I think using it without declaring it is dishonest,
+disingenuous, and disrespectful.  AI generated posting without clear disclaimers should
+be shunned and removed from social media sites, in my view. When I catch myself using a
+"it's not just this---it's also _that_" framing, a part of me dies inside, but it does
+happen. I also enjoy em-dashes and think they help my writing flow better, though my
+writing skills are a work in progress.
