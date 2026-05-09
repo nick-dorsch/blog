@@ -2,7 +2,7 @@
 title: "The DataBasin"
 subtitle: "A digital transformation bootstrapping system for the oil and gas sector"
 author: "Nicholas Dorsch"
-date: today
+date: 2026-04-23
 categories: [LDI, data, AI]
 image: media/databasin-australia.png
 ---
