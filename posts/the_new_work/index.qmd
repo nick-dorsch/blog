@@ -3,7 +3,7 @@ title: "The New Shape of Work"
 subtitle: "Field notes from my couch"
 author: "Nicholas Dorsch"
 date: 2026-05-09
-categories: [data, AI, opinions]
+categories: [data, AI, opinion]
 image: media/the-dude.gif
 ---
 
