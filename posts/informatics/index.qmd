@@ -1,0 +1,249 @@
+---
+title: 'What do I mean by "Informatics"?'
+subtitle: 'Making your data pay rent'
+author: "Nicholas Dorsch"
+date: today
+categories: [data, AI, LDI]
+image: media/sand-grains.jpg
+---
+
+> **Inform**, from the latin _informare_: to give form to the mind.
+>
+> **-atics**: use technology to do it automatically and fast.
+>
+> **Informatics**: use technology to distribute accurate forms of the mind across
+> the brains of decision makers, automatically and fast.
+
+I decided to name my company _LD Informatics_, or just LDI. Why did I do that? What a
+weird name... What a weird guy... I know.
+
+Before the company, _informatics_ was a term, loosely defined, that had been bouncing
+around in my brain for the past few years. It is a blurry picture of an overarching
+philosophy I have about data in business, which connects my various obsessions---like
+domain driven data modelling, software engineering, Bayesian inference, and uncertainty
+quantification more generally---into a cohesive whole. In my head, these things fall
+under the umbrella of _informatics_.
+
+I can learn about a client's systems, and might think to myself that this company has
+"good" or "bad" informatics. I think that means the term compresses a bunch of useful
+concepts together, so maybe it's worth exploring.
+
+This post is me trying to explain (to myself, maybe) what I mean.
+
+## Data is worthless
+
+Data is abundant, and---robbed of its context---worthless. 
+
+Even _in_ its context, without understanding and integrating it into decision making, it
+is still worthless. You could spend millions on data gathering and fail to use it to
+make the right call, and your money would have been wasted. Maybe it kept some nerds
+like me busy for a while, and I'll take it, but the money was still wasted, the data
+didn't ultimately serve your goals.
+
+The data isn't the point. I don't actually care about data. That might seem like a weird
+thing to say, coming from someone who spends all his time buried in it, but it's true.
+
+I care very much about _information_. I think that is what we all actually care about.
+We use information to understand _what is going on_ in a messy and complicated
+operation, and our understanding of that helps us make better decisions. The value of
+data is inextricably tied to the quality of decision making it enables.
+
+So isn't data information? What's the difference?
+
+## Counting sand grains
+
+Let's say, for some reason, I'm interested in the average size of sand grains at a local
+beach. Data is each measurement of a grain. How many grains do I measure? How valuable
+is my data gathering process? Well, the _information_ I gain from each grain is falling
+off at a rate of one over the square root of the count of grains I've measured so far,
+so the question of when to stop depends on my goals.[^weather]
+
+![Get counting, data boy.](media/sand-grains.jpg)
+
+There is a _fact_ about the true average grain size on that beach---we could spend
+millions of dollars excavating and measuring every grain, and in 10 years arrive at the
+precise value to 60 decimal places---but we don't care enough to do it.[^council]
+
+The data only serves us insofar as it provides the information we need, at the level of
+confidence we need. Maybe we are world leading sand afficionados and we've been hired by
+a firm for a large sum of money to demonstrate that the local beach has larger sand
+grains than the next beach along the coast. If after 1000 grains we still can't be sure,
+we'll keep measuring grains until we are.
+
+Stupid example? Maybe. But how many business contexts involve questions about
+information gathering and its value? 
+
+When do we stop counting sand grains? How do we know when to stop?
+
+Or, translated to a business context:
+
+What data gathering processes are we paying for? 
+
+Are we using them effectively? 
+
+And, maybe a useful mental refrain:
+
+_Is our data paying rent?_
+
+My career experience so far has shown me that the answer is, often, no. 
+
+I'm building a company to help other companies do this better, and (in conversations
+with myself, or others if I have a third glass of wine) I call the endeavour
+_informatics_.
+
+## Real business problems
+
+Real business problems are far more multifaceted and complex than a research question
+about beach sand. 
+
+The "informatics" of a business might require the integration of hundreds of different
+data streams, propagated through complex business logic, aggregated to the resolution
+that best serves the decision at hand, and delivered to just the right people at just
+the right time. It might require jumping out of the core data system and into highly
+sophisticated software platforms for specialized technical work---but the information
+that comes out of them should be represented back in the core system, automatically, or
+your informatics will sprout a leak.
+
+Informatics is the engineering challenge of integrating a vertical stack of data
+streams---transforming them, analyzing them, visualizing them---all in service of
+injecting the right information into the right brains at the right time, to _hopefully_
+increase the probability of good decisions being made.
+
+Informatics is cloud infrastructure, it's data engineering, data analysis, data science,
+it's business "semantics" and "ontology", it's database design and machine learning and
+Bayesian statistics, it's pretty plots and dashboards, it's GIS, it's risk management.
+It's all of those things, deployed in service of that goal. Help a business make good
+decisions. 
+
+Informatics requires a lot of different skills. In an unfamiliar industry, it also
+requires a lot of ground work in even understanding the problems. Consultants who don't
+understand your business can disguise that reality by calling it _semantics_ or
+_ontology_, but that is consultant speak for "we don't get it, and we're going to need
+months of meetings with your people before we can even start". Maybe I'm wrong, but
+that's... what I have observed.
+
+![When you realise that when the consultant guy says "business logic" he basically means
+"your job"](media/dexter.gif)
+
+I'm starting my informatics career focussed on oil and gas, because I've already done
+most of that groundwork---I know a lot of the problems back to front, and am package up
+solutions in [DataBasin](https://nick-dorsch.github.io/blog/posts/databasin/)---but my
+goals extend beyond my native industry. Different industries, different problem
+topologies, same guiding principles.
+
+The information must flow. 
+
+Make the data pay rent.
+
+## Are we uncertain? Do we care?
+
+### We care
+
+I love Bayesian methods, but I don't need them to estimate the average grain size on a
+beach, I'm happy with basic arithmetic... But if someone puts a gun to my head, demands
+a good estimate, and only lets me count 20 grains? Well, that changes
+things.[^grains-guy]
+
+Now my uncertainty quantification requirements have gone from, at best, an opportunity
+to teach something cool about statistics, to a question of life or death.
+
+I know it's still a dumb example. 
+
+My point is that uncertainty is interesting to us insofar as we are exposed to its
+consequences. 
+
+Sometimes, business decisions involve putting hundreds of millions of dollars on the
+line. If I had to boil down why the oil and gas industry is so interesting to me, it's
+that somehow people convince themselves, despite _devastating_ levels of uncertainty, to
+spend that money, knowing full well there is a good chance it will return no value.
+That, warts and all, is a triumph of human cooperation, evidenced by the continuing
+function of human civilization.
+
+But when you are gambling with a hundred million bucks, your uncertainty about _what
+will happen_ is, let's say... of material interest to stakeholders.
+
+So in that context, throw the bloody supercomputer at the problem, pay your best and
+brightest to do a great job of, ultimately, _quantifying the uncertainty_, so that
+decision makers have the right information in their heads when they say _"yes"_ or
+_"no"_ or _"that one, not this one"_. Good decision making under that level of
+uncertainty requires that information. The sufficient information is not a number, it is
+a distribution. That is the fit for purpose informatic endpoint for that business
+problem. 
+
+Are you going to tell me your managers don't understand probability distributions? I
+don't believe you, but fine. That just means the informatics of this business problem
+includes _making distributions understandable to everyone who needs to understand them_.
+That is what good visualizations and good technical communication is for. That is still
+informatics.
+
+Get the information into the right brains. That's the objective.
+
+### We don't care
+
+When do I not care about probability distributions? Well, production accounting is an
+example of a collapsible uncertainty, because we just need agreed upon canonical
+numbers---for regulators, for joint venture partners, for our own sanity---not a
+distribution over them. Yes, measurements across your production network are imperfect,
+including the high accuracy fiscal metering at the end of the line. The allocation back
+to each well or reservoir is absolutely uncertain! How important is that uncertainty?
+Can we use it? Does information about that uncertainty need to enter a decision maker's
+brain to enable them to better navigate? 
+
+Maybe in some contexts the answer is yes! Well, hell yeah, let's do it! 
+
+Otherwise, just do the accounting. Do it automatically. Do it so it's done forever, and
+the informatics of your metering, your production allocation, your joint venture
+accounting and production adjacent reporting can be ticked off. Next problem.
+
+Informatics can mean machine learning, it can mean Bayesian statistics, it can mean
+basic arithmetic. It doesn't matter. Get the right information into the right brains,
+and make it efficient.
+
+## Does your company have "good informatics"?
+
+Here are the sorts of things that lead me to judge the current state of informatics at a
+company.[^crazy-person]
+
+Are key signals (like operational metering) integrated into downstream reporting
+(good!), or do they only appear in a web-app dashboard that three people look at,
+manually exported, reshaped and sent downstream in spreadsheets or similar
+(bad!)[^spreadsheets].
+
+Are the non-negotiatble reporting lines (to regulators, joint venture partners, key
+stakeholders) managed in spreadsheets (bad!) or is there a database set up to store the
+key records and the reporting logic that those data customers demand
+(good!)[^spreadsheets].
+
+Is there a system-of-record that brings together data streams into a single, queriable
+place (good!), or is data scattered across multiple SaaS offerings, with only manual
+data handling to integrate between them (bad!).
+
+Is SharePoint, or a network drive, featuring a deeply nested folder structure that
+requires drilling down to the centre of the earth to find some work a consultant
+performed 2 months ago, the primary means of sharing numerical information (bad!), or
+are technical teams interfacing with a database to get those figures (good!).
+
+Are reports being sent as spreadsheets, PowerPoints, or screenshots of spreadsheets or
+PowerPoints to upper management (bad!), or is there a Business Intelligence solution in
+place that managers visit to get the information they need (good!).
+
+Is the GIS team drowning in versioned shape files (bad!) or do they have a GIS database
+in place that they read and write from (good!).
+
+Does anyone in your organisation, when hearing the term ["tidy
+data"](https://r4ds.had.co.nz/tidy-data.html) respond with a knowing smile (good!), or
+do they stare blankly/fall asleep/run away (bad!).
+
+If you scored less than 6/6 on this quiz, call the local informatics
+specialist![^call-me]
+
+
+
+[^weather]: and maybe the weather, if I forgot my hat.
+[^council]: council approvals might also be a challenge.
+[^grains-guy]: I thought I was the craziest sand guy... but there are levels to this game.
+[^crazy-person]: Let's ignore the fact that nobody knows what the hell I'm talking about
+when I say "informatics" and pretend I'm just speaking like a well-adjusted, sane
+person.
+[^spreadsheets]: I've covered this [before](https://nick-dorsch.github.io/blog/posts/spreadsheets/)
+[^call-me]: ... There's only one. It's me. Call me.
