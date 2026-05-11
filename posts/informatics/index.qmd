@@ -29,7 +29,7 @@ the umbrella of _informatics_.
 And yes, it sounds nerdy and pretentious and a bit sci-fi, and creates adjacency with
 super technical fields like bioinformatics and geoinformatics, but give a man his word.
 
-![My workstation looks like this, so I... can pretend I'm in a
+![My workstation looks like this, so I can... pretend I'm in a
 spaceship.](media/screenshot.png)
 
 I can learn about a client's systems, and might think to myself that this company has
@@ -91,9 +91,9 @@ precise value to 60 decimal places---but we don't care enough to do it.[^council
 
 The data only serves us insofar as it provides the information we need, at the level of
 confidence we need. Maybe we are world-leading sand aficionados and we've been hired by
-a firm for a large sum of money to demonstrate that the local beach has larger sand
-grains than the next beach along the coast. If after 1000 grains we still can't be sure,
-we'll keep measuring grains until we are.
+a firm for a large sum of money to demonstrate that the local beach has finer sand
+grains than the next beach along the coast to attract instagram people, or something. If
+after 1000 grains we still can't be sure, we'll keep measuring grains until we are.
 
 Stupid example? Maybe. But how many business contexts involve questions about
 information gathering and its value? 
@@ -309,7 +309,9 @@ alt.Chart(df_unequal).mark_line(strokeWidth=3).encode(
 ).properties(width="container", height=300)
 ```
 
-Trickier! And it depends! Maybe I can add some contextual flair to drive the point home:
+Trickier! And it depends! 
+
+But if it's not clear yet, I can add some visual touches to help:
 
 ```{python}
 y_max = df_unequal["pdf"].max()
@@ -348,6 +350,8 @@ labels = alt.Chart(thresholds).mark_text(align="left", dx=6, dy=-4, fontWeight=7
 (base + rules + labels).properties(width="container", height=300)
 ```
 
+We don't want to land left of those lines. You don't need probability theory to get it.
+
 The uncertainty matters. It doesn't matter if the manager understands how probability
 distributions work, it matters that they understand what consequences they are exposed
 to, given a chosen course of action.
@@ -357,7 +361,7 @@ Get the information into the brains that need it to navigate. That's the objecti
 ### When we don't care
 
 So I like probability distributions and I'm handy with a Monte Carlo model in a pinch,
-but when do I not care about them? 
+but when do I _not_ care about them? 
 
 Well, production accounting is an example of an uncertainty we tend to ignore, because
 we just need to agree on canonical numbers---for regulators, for joint venture partners,
@@ -369,7 +373,7 @@ reservoir is absolutely uncertain! How important is that uncertainty? Can we use
 Does information about that uncertainty need to enter a decision maker's brain to enable
 them to better navigate? 
 
-Maybe in some contexts the answer is yes! Well, hell yeah. Let's do it.
+Maybe in some contexts the answer is yes! Then let's do it.
 
 Otherwise, just do the accounting. Automate it, so it's done forever, and the
 informatics of your metering, your production allocation, your joint venture accounting
@@ -403,9 +407,9 @@ methodologies, and it won't shut up:
 
 ![Genuinely learning a few things here...](media/allocation-chanty.png)
 
-I don't think ontologies are going to matter, is my point. If your counterargument is
-that LLMs are probabilistic and might hallucinate when things are unclear... just make a
-skill, guys. It's a markdown file, not months of meetings.
+I don't think ontologies are going to matter much, is my point. If your counterargument
+is that LLMs are probabilistic and might hallucinate when things are unclear... just
+make a skill, guys. It's a markdown file, not months of meetings.
 
 But I digress.
 
@@ -416,9 +420,10 @@ all. If by some digital Indiana Jones miracle it finally emerges, breathless and
 defeated, to tell you what a horrible time it had, but here you go, your answer... it
 got the answer wrong anyway (wrong spreadsheet, the up to date one is on Gary's laptop).
 
-Agents are going to be incredibly valuable in companies that clean up their
-informatics, because clean informatics means easily accessible business context, which
-means reliable AI agent operations. It's early, but this is the wave that is coming.
+Agents are going to be incredibly valuable in companies that clean up their informatics,
+because clean informatics means easily accessible business context, which means reliable
+AI agent operations. It's early, but this is the wave that is coming. There is reality
+behind the hype, but preparation is needed.
 
 ## Does your company have "good informatics"?
 
@@ -459,17 +464,17 @@ do they stare blankly/fall asleep/run away (bad!).
 If you scored less than 7/7 on this quiz, call the local informatics
 specialist, you need some help![^call-me]
 
-## In closing
+## Closing thoughts
 
-I'm obviously making a bit of a bet, starting a company. But all I am really doing is
-bringing all the skills and experience I've acquired into a repeatable execution model,
-one that I think many companies could really benefit from.
+I'm obviously taking a punt, starting a company. But all I am really doing is bringing
+all the skills and experience I've acquired into a repeatable execution pattern, one that
+I think many companies could really benefit from.
 
 There are too many skill sets, too many knowledge silos. The coordination problem of
 doing informatics right is seriously challenging. But, I think I'm well positioned to do
 it...
 
-After all, I just made up the term. 
+After all, I made up the term. 
 
 I'm an expert in a field of one.
 
