@@ -1,0 +1,63 @@
+---
+title: "Be careful what you vibe for"
+author: "Nicholas Dorsch"
+date: today
+categories: [AI, opinion]
+image: media/the-dude.gif
+---
+
+I'm on the AI software development train like everyone else. I can't deny the
+productivity boost---it's too dramatic, too undeniable at this point to avoid---but a
+whole raft of new challenges is coming along for the ride, and I want to get some of my
+early thoughts down.
+
+I'm building a company, so I'm not just making weekend toys for personal use (although
+I've done some of that, [too](https://nick-dorsch.github.io/blog/posts/lex/)). My career
+and my reputation are on the line, I have skin in the game, so I can't just vibe and
+pray that the LLM slot machine keeps delivering what I need to provide value to clients,
+I need systems and guiding principles for navigating.
+
+This is doubly true for enterprise grade data systems, which is what I specialize in,
+but it applies to any project where your ass is on the line, and the reliable
+functioning of the system _actually matters_.
+
+I should state at the outset that I don't have decades of experience to draw from, my
+career is 9 years long, and programming has only been a part of that for about 4. I
+learn quickly, but I can't claim any special wisdom, either. I'm just trying to navigate
+responsibly. From what I've gathered, these challenges seem to be applying to engineers
+across a range of different experience levels.
+
+So, for whatever it's worth, I've been mentally noting my internal clench-o-meter for
+the last six months while doing different kinds of work, and I've started crystallizing
+some thoughts:
+
+## Software engineering and the Blues
+
+> _"It's not the notes you play, it's the notes you don't play"_
+>       --- Myles Davis (maybe)
+
+I've played guitar since I was 10.
+
+The thing about learning to play guitar, is that once you can play fast, you spend about
+10 years before you finally shut the fuck up.
+
+I shut the fuck up about 3 years ago, and nowadays I play blues, funk, and a bit of jazz
+and samba.
+
+With the guitar, your fingers kind of... babble. Certain ergonomic shapes and patterns
+are the path of least resistance for your brain, so you end up repeating "licks" a lot.
+The problem is that those ergonomic patterns often don't map to sounds that people
+actually want to hear.
+
+Freebird is cool, Eddie Van Halen is cool, but sometimes... you know, just... shut the
+fuck up.
+
+I think we've all suddenly been given the Devil's hands and become facemelting
+shredders, and things are getting _really noisy_.
+
+This will happen outside of software soon, too. It won't be long until the office is
+overflowing with the HTML equivalewnt of Freebird at max volume on repeat.
+
+## Where can your system withstand the vibes?
+
+
