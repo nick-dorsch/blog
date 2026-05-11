@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/informatics/index.html",
       "/posts/the_new_work/index.html",
       "/posts/databasin/index.html",
       "/posts/confusion/index.html",
