@@ -196,7 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#database" id="toc-database" class="nav-link" data-scroll-target="#database">Database</a></li>
   <li><a href="#infrastructure" id="toc-infrastructure" class="nav-link" data-scroll-target="#infrastructure">Infrastructure</a></li>
   </ul></li>
-  <li><a href="#dont-stop-vibing" id="toc-dont-stop-vibing" class="nav-link" data-scroll-target="#dont-stop-vibing">Don’t stop vibing</a></li>
+  <li><a href="#dont-stop-vibing-though" id="toc-dont-stop-vibing-though" class="nav-link" data-scroll-target="#dont-stop-vibing-though">Don’t stop vibing, though</a></li>
   </ul>
 </nav>
     </div>
@@ -208,11 +208,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>I’m on the AI software development train like everyone else. I can’t deny the productivity boost—it’s too dramatic, too undeniable at this point to avoid—but a whole raft of new challenges is coming along for the ride, and I want to get some of my early thoughts down.</p>
-<p>I’m building a company, so I’m not just making weekend toys for personal use (although I’ve done some of that, <a href="https://nick-dorsch.github.io/blog/posts/lex/">too</a>). My career and my reputation are on the line, I have skin in the game, so I can’t just vibe and pray that the LLM slot machine keeps delivering what I need to provide value to clients, I need systems and guiding principles for navigating an uncertain terrain.</p>
-<p>This is doubly true for enterprise data systems, which is what I specialize in, but it applies to any project where your ass is on the line, and the efficient, reliable, maintainable functioning of the system <em>actually really matters</em>.</p>
+<p>I’m building a company, so I’m not just making weekend toys for personal use (although I’ve done some of that, <a href="https://nick-dorsch.github.io/blog/posts/lex/">too</a>). My career and my reputation are on the line, I have skin in the game, so I can’t just vibe and pray that the LLM slot machine keeps delivering what I need to provide value to clients, I need systems and guiding principles for navigating all this stuff.</p>
+<p>This is true for enterprise data systems, which is what I specialize in, but it applies to any project where your ass is on the line, and the efficient, reliable, maintainable functioning of the system <em>actually really matters</em>.</p>
 <p>I should state at the outset that I don’t have decades of experience to draw from, my career is 9 years long, and programming has only been a part of that for about 5. I learn quickly, but I can’t claim any special wisdom.</p>
 <p>I’m just trying to navigate responsibly. From what I’ve gathered, these challenges seem shared across a range of different experience levels.</p>
-<p>So, for whatever it’s worth, I’ve been mentally noting my internal clench-o-meter for the last six months while doing different kinds of work, and I’ve started crystallizing some thoughts:</p>
+<p>So, for whatever it’s worth, I’ve been mentally noting my internal clench-o-meter for the last six months while doing different kinds of work in full stack applications, and I’ve crystallized some thoughts below.</p>
 <section id="software-and-the-blues" class="level2">
 <h2 class="anchored" data-anchor-id="software-and-the-blues">Software and the Blues</h2>
 <blockquote class="blockquote">
@@ -232,8 +232,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>All of a sudden there is no friction and we can all move fast in any language, on any project. I think the earliest stage of AI psychosis is when you realise this, get extremely excited, and immediately start taking on projects that are just wayyyyy out of your wheelhouse, because you think you can do anything, now.</p>
-<p>But you do a second rate job, and just kind of… waste time, before returning to what you know. Learn new things, sure, but it takes time to get familiar enough with a domain to produce worthwhile contributions to it.</p>
-<p>This will happen outside of software, too. It won’t be long until the office is overflowing with the HTML equivalent of Freebird at max volume on repeat.</p>
+<p>But you do a second rate job, and just kind of… waste time, before returning to what you know. Learn new things, sure, but it takes time to get familiar enough with a domain to produce good work.</p>
+<p>Every domain crossing interloper sounds the same if all the output is LLM generated, coaxed along with <em>“sounds good, let’s implement”</em>, it’s regression to the model mean.</p>
+<p>But we still do it, producing huge amounts of code, burning billions of tokens, seeing if anything worthwhile comes of it.</p>
+<p>This will happen outside of software, too. It won’t be long until the office is overflowing with the HTML equivalent of Freebird at max volume on repeat, because everyone will start realizing how little friction there is to doing it.</p>
 <div class="freebird-chaos" aria-label="Maximum volume HTML chaos">
   <style>
     .freebird-chaos {
@@ -337,10 +339,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   <div class="fire">🔥🔥🔥🔥 🦅🎸🦅🎸🦅🎸🦅🎸🦅 🔥🔥🔥🔥</div>
 </div>
-<p>Can you feel the future yet?</p>
+<p>See? Can you feel the future yet?</p>
 <p>My point is… we probably all need to learn restraint. The best blues players know when to flex their chops, but can still send shivers down your spine with the right four note phrase.</p>
 <p>Good blues playing is all about restraint, leaving space, tension and release. Play less, feel more. It is considered. It’s not automatic. It’s not a stream of tokens.</p>
-<p>The actual <em>feel</em> of the blues is subtle in execution and maybe not well understood by the casual listener. It’s all about micro bends up to a critical zone between the minor and major third and seventh, all ascent, <em>never</em> descent (that kills the effect), vibrato, dynamics, space… subtle things that combine to tingle our souls and make us happy to be sad, or sad to be happy… but we share it, and it feels like things will be alright.</p>
+<p>The actual <em>feel</em> of the blues is subtle in its execution and maybe not well understood by the casual listener. It’s all about micro bends up to a critical zone between the minor and major third and seventh, all ascent, <em>never</em> descent (that kills the effect), vibrato, dynamics, space… subtle things that combine to tingle our souls and make us happy to be sad, or sad to be happy… but we share the feeling, something primal, and it feels like things will be alright.</p>
 <p>It takes a long time to develop that subtlety, you can’t really fake it. It takes <em>work</em>.</p>
 <p>AI let’s us skip the work, if we don’t want to do it… But I don’t think that will go well, in art, in music, in science or in engineering.</p>
 </section>
@@ -350,22 +352,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>“They know the words but not the music.”</em></p>
 <p>—Robert Hare, <em>Without Conscience</em> (encountered in Peter Watts’ <em>Blindsight</em>)</p>
 </blockquote>
-<p>For any feature I develop, I find myself thinking that I want to get to it with as little code as possible. The more services and unused code paths I let creep in, the faster the code expands beyond my cognition, and I’m back at <em>Freebird</em> again.</p>
+<p>For any feature I develop, I find myself thinking that I want to implement it with as little code as possible. The more services and unused code paths I let creep in, the faster the code expands beyond my cognition, and I’m back at <em>Freebird</em> again.</p>
 <p>This has led me to favour database centric design for data workloads (avoiding application logic in favour of views and RPCs), which I know is controversial (in the web-dev community, at least) but for my domain it leads to less code and keeps system understanding high.</p>
 <p><em>No business logic in the database!</em> is what I hear… but, it just works too well for me, in my problem context, to listen.</p>
-<p>A SQL script, even if you don’t like the syntax, is a very self-contained and well-behaved piece of logic. There is no ambiguity about the data contract coming in, the execution plan, and the data contract coming out, because it is all internal to its own system. The database just says <em>“here you go”</em> or <em>“no can do”</em>, and it will work forever once you get it right, because the system’s internal contracts are solid as a rock.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>This makes a web API, for example, a pass-through of the work the database is doing. There are obviously cases where this can’t work, like authentication flows, but if I can do it, it’s my favoured approach.</p>
-<p>Compared with an application based data workload… and suddenly you have external dependencies, error handling, and data being generated somewhere else on the network, which needs to get back to the database. That means contending with distributed systems challenges—incomplete execution, retries, back-off, cache invalidation—I like to avoid all that (as long as I can), because it’s just simpler.</p>
-<p>I have the luxury of focussing on the C and A in <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, because of the kind of problems I work on (lucky me).</p>
-<p>My point here is… The LLM isn’t giving me this without extra, careful work. You could sneeze on your keyboard and come back 5 minutes later to a fully tested backend API written in Python, and if you don’t have strong opinions on the matter you might say “looks good to me” and keep moving forward.</p>
+<p>A SQL script, even if you don’t like the syntax, is a very self-contained and well-behaved piece of logic. There is no ambiguity about the data contract coming in, the execution plan, and the data contract coming out, because it is all internal to its own system. The database just says <em>“here you go”</em> or <em>“no can do”</em>, and it will work forever once you get it right, because the system’s internal contracts are so stable.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>This makes a web API, for example, a simple pass-through of the work the database is doing. There are obviously cases where this can’t work, like authentication flows, but if I can do it, it’s my favoured approach. That backend is so simple that even a human could code it.</p>
+<p>Compared with an application based data workload… and suddenly you have a bunch of procedural logic, code paths, external dependencies, error handling, and data being generated somewhere else on the network, which needs to get back to the database. That means contending with distributed systems challenges—incomplete execution, retries, back-off, cache invalidation—I like to avoid all that (as long as I can), because it’s just simpler.</p>
+<p>I have the luxury of focussing on the C and A in <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, because of the kind of problems and scale I work at (lucky me).</p>
+<p>My point here is… The LLM isn’t giving me this without extra, careful work. You could sneeze on your keyboard and come back 5 minutes later to a fully tested backend API written in Python, and if you don’t have strong opinions on the matter you might say “looks good to me” and keep moving forward. That would be a huge mistake.</p>
 <p>I’m not kidding when I say that I have generated and deleted entire web APIs from a few of my projects, multiple times, because I let the LLM vibe, but I just didn’t like the way it was doing things.</p>
-<p>That experience is why, if I notice I’m just accepting everything the robot is giving me, my clench-o-meter spikes, and I <a href="https://mariozechner.at/posts/2026-03-25-thoughts-on-slowing-the-fuck-down/">slow the fuck down</a>. Because I don’t have an opinion, which means I’m not ready to proceed. I’ll come back when I have one.</p>
+<p>That experience is why, if I notice I’m just accepting everything the robot is giving me, my clench-o-meter spikes, and I <a href="https://mariozechner.at/posts/2026-03-25-thoughts-on-slowing-the-fuck-down/">slow the fuck down</a>. Because I don’t have an opinion, which means I’m not ready to proceed, yet. I’ll come back when I have one.</p>
 <p>The model knows all the words, but it can’t hear your music. So slow down, or get slopped.</p>
 </section>
 <section id="what-parts-of-your-system-are-slop-tolerant" class="level2">
 <h2 class="anchored" data-anchor-id="what-parts-of-your-system-are-slop-tolerant">What parts of your system are slop-tolerant?</h2>
-<p>All vibes are not created equal. Different parts of your system are more or less sensitive to the slop, and their tolerance depends on where they sit in the interconnected network of computation and logical dependencies that couples data storage, transformation, interactivity and presentation in your system.</p>
-<p>Visualize it like a tree, from roots (infrastructure, database, state) to leaves (artifacts, plots, data presentation).</p>
+<p>All vibes are not created equal. Different parts of your system are more or less sensitive to the slop, and their tolerance depends on where they sit in the dependency chain that links data storage, transformation, presentation and interaction in your system.</p>
+<p>Visualize it like a tree, from roots (infrastructure, database, state) to branches (services, user interfaces) to leaves (artifacts, plots, data presentations).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="media/tree.webp" class="img-fluid figure-img"></p>
@@ -436,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><em>Freebird</em></li>
 </ol>
 <p>And do you notice this before deploying? Or are you just seeing it now?</p>
-<p>The most <em>insane</em>, <em>unhinged</em> shit I have ever seen LLMs do is usually surrounding the database. I think because databases are very stateful, and LLM’s understand the gravity of making changes, they tend to <em>dodge</em> instead of <em>deal</em> with problems. Relatable.</p>
+<p>The most <em>insane</em>, <em>unhinged</em> shit I have ever seen LLMs do is usually surrounding the database. I think because databases are very stateful, and LLM’s understand the gravity of making changes, they tend to <em>dodge</em> instead of <em>deal</em> with problems. Very relatable, very bad during development.</p>
 <p>If you’re developing and have zero customers and zero data, they won’t know that unless you explain it, so they’ll take these extremely defensive, extremely silly actions by default. Super sensitive to vibes, super slop intolerant. Early decisions matter a lot. So go slow.</p>
 </section>
 <section id="infrastructure" class="level3">
@@ -457,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>AI isn’t burdened with these concerns.</p>
 <p>AI doesn’t have concerns outside of</p>
 <p><em>“next token is terr-”</em></p>
-<p><em>“and then -afform”</em></p>
+<p><em>“… and then it’s -afform”</em></p>
 <p><em>“and then… plan? … apply? des? … destroy!”</em></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -465,18 +467,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>At least the LLM confessed… Which server rack was it running on again? For the court hearing.</figcaption>
 </figure>
 </div>
-<p>So… however unlikely it may be, you are just one “you’re absolutely right!” down a divergent path through token-town away from <em>fucked</em> every morning when that cron job runs… maybe we should let the humans do those checks.</p>
+<p>So… however unlikely it may be, you are just one bad turn down a dark alley in token-town away from <em>fucked</em> every morning when that cron job runs… maybe we should let the humans do those checks.</p>
 <p>Autonomous agents probably shouldn’t be running on a machine with a control surface over critical infrastructure. It would be like keeping a gerbil inside the nuclear football—sure, it’s not likely to press all the buttons in the right order to convince the subs to launch… but can we just not do that?</p>
 <p>I’m not a cloud guy—there are experts that can think through these things better than me—I just know from experience that we’re all susceptible to exposing ourselves to risk when hype, KPIs, FOMO, and other corporate politics seep into our judgment.</p>
 </section>
 </section>
-<section id="dont-stop-vibing" class="level2">
-<h2 class="anchored" data-anchor-id="dont-stop-vibing">Don’t stop vibing</h2>
+<section id="dont-stop-vibing-though" class="level2">
+<h2 class="anchored" data-anchor-id="dont-stop-vibing-though">Don’t stop vibing, though</h2>
 <p>The answer to all these challenges is most definitely not <em>stop using AI</em>. I want to move forward with technology and remain up to date with the latest tools. But I think the unthinking, tokenmaxxing version of AI (dark factories, agents reviewing other agents, never looking at code) is something I still reject. Not because my ego hurts because a robot codes faster and better than me (I’m well past that), but because I think it genuinely invites big problems into the software engineering discipline.</p>
-<p>My setup is extremely barebones. I use Pi, with old models as far as I can get away with it, I talk with the agent and I <code>/tree</code> through our plans. It works. I’m in control. I can slow down, speed up, as I need. I don’t need to go faster. I’ve experienced enough AI work to start to have a sense of when to open the throttle, and when to hit the brakes.</p>
+<p>My setup is extremely barebones. I use Pi, with old models as far as I can get away with it, I talk with the agent and I <code>/tree</code> through our plans. It works so well. I’m in control. I can slow down, I can speed up, as I need.</p>
+<p>I don’t need to go any faster.</p>
+<p>I’ve experienced enough AI work to start to have a sense of when to open the throttle, and when to hit the brakes.</p>
 <p>Maybe my attitudes are related to my belief that AI is not some kind of new really smart person living on a GPU. AI is doing a thing that is very different to human judgement under uncertainty with exposure to risk. These things are jittering through token-town, and while they do an astounding job of making sense, they <em>don’t hear the music</em>.</p>
-<p>To do responsible technical work, I think humans still need to be in the studio playing—or at the very least, keeping their ear to the wall—with one hand on the plug, ready to shut things down when the music goes bad.</p>
-<p>Becase these things know all the damn words, but they don’t care about the music.</p>
+<p>To do responsible technical work, I think we still need to be in the studio playing along—or at the very least, keeping an ear to the wall—with one hand on the plug, ready to shut things down when the music starts sounding bad.</p>
+<p>Becase these things know all the words, but they don’t care about the music.</p>
 
 
 </section>
