@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nicholas Dorsch">
+<meta name="dcterms.date" content="2026-05-12">
+
+<title>Be careful what you vibe for – dorschblog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4ef0ee26e9b1ef99c294d0255371148b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-45a449a52d6db8b6de115fa4721cc776.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">dorschblog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/nick-dorsch"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/nicholasjohndorsch/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Be careful what you vibe for</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">opinion</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Nicholas Dorsch </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 12, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#software-and-the-blues" id="toc-software-and-the-blues" class="nav-link active" data-scroll-target="#software-and-the-blues">Software and the Blues</a></li>
+  <li><a href="#the-llms-are-following-token-streams-not-your-dreams" id="toc-the-llms-are-following-token-streams-not-your-dreams" class="nav-link" data-scroll-target="#the-llms-are-following-token-streams-not-your-dreams">The LLMs are following token streams, not your dreams</a></li>
+  <li><a href="#what-parts-of-your-system-are-slop-tolerant" id="toc-what-parts-of-your-system-are-slop-tolerant" class="nav-link" data-scroll-target="#what-parts-of-your-system-are-slop-tolerant">What parts of your system are slop-tolerant?</a>
+  <ul class="collapse">
+  <li><a href="#artifacts" id="toc-artifacts" class="nav-link" data-scroll-target="#artifacts">Artifacts</a></li>
+  <li><a href="#frontend" id="toc-frontend" class="nav-link" data-scroll-target="#frontend">Frontend</a></li>
+  <li><a href="#backend" id="toc-backend" class="nav-link" data-scroll-target="#backend">Backend</a></li>
+  <li><a href="#database" id="toc-database" class="nav-link" data-scroll-target="#database">Database</a></li>
+  <li><a href="#infrastructure" id="toc-infrastructure" class="nav-link" data-scroll-target="#infrastructure">Infrastructure</a></li>
+  </ul></li>
+  <li><a href="#dont-stop-vibing-though" id="toc-dont-stop-vibing-though" class="nav-link" data-scroll-target="#dont-stop-vibing-though">Don’t stop vibing, though</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>I’m on the AI software development train like everyone else. I can’t deny the productivity boost—it’s too dramatic, too undeniable at this point to avoid—but a whole raft of new challenges is coming along for the ride, and I want to get some of my early thoughts down.</p>
+<p>I’m building a company, so I’m not just making weekend toys for personal use (although I’ve done some of that, <a href="https://nick-dorsch.github.io/blog/posts/lex/">too</a>). My career and my reputation are on the line, I have skin in the game, so I can’t just vibe and pray that the LLM slot machine keeps delivering what I need to provide value to clients, I need systems and guiding principles for navigating all this stuff.</p>
+<p>This is true for enterprise data systems, which is what I specialize in, but it applies to any project where your ass is on the line, and the efficient, reliable, maintainable functioning of the system <em>actually really matters</em>.</p>
+<p>I should state at the outset that I don’t have decades of experience to draw from, my career is 9 years long, and programming has only been a part of that for about 5. I learn quickly, but I can’t claim any special wisdom.</p>
+<p>I’m just trying to navigate responsibly. From what I’ve gathered, these challenges seem shared across a range of different experience levels.</p>
+<p>So, for whatever it’s worth, I’ve been mentally noting my internal clench-o-meter for the last six months while doing different kinds of work in full stack applications, and I’ve crystallized some thoughts below.</p>
+<section id="software-and-the-blues" class="level2">
+<h2 class="anchored" data-anchor-id="software-and-the-blues">Software and the Blues</h2>
+<blockquote class="blockquote">
+<p><em>“It’s not the notes you play, it’s the notes you don’t play”</em></p>
+<p>— Miles Davis (maybe)</p>
+</blockquote>
+<p>I’ve been playing guitar since I was 10.</p>
+<p>The thing about playing guitar is that once you learn to play fast, it takes about 10 more years before you finally learn to shut the fuck up.</p>
+<p>I shut the fuck up about 3 years ago, and nowadays I play blues, funk, and a bit of jazz and samba. Genre isn’t the point, though, the point is knowing that less is usually better.</p>
+<p>With the guitar, your fingers kind of… babble. Certain ergonomic shapes and patterns are the path of least resistance for your brain, so you end up repeating “licks” a lot. The problem is that those ergonomic patterns often don’t map to sounds that people actually want to hear.</p>
+<p>Freebird is cool, Eddie Van Halen is cool, but sometimes… you know, just… shut the fuck up?</p>
+<p>I think we’ve all just been given the Devil’s hands and become facemelting shredders, most of us without the decades of developing taste, and things are getting noisy.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/devil-went-down-to-georgia.jpg" class="img-fluid figure-img"></p>
+<figcaption>People are going to <em>love</em> hearing how fast I burn tokens with these new hands that literally everyone else has access to now! (Art by Guiliano Bròcani)</figcaption>
+</figure>
+</div>
+<p>All of a sudden there is no friction and we can all move fast in any language, on any project. I think the earliest stage of AI psychosis is when you realise this, get extremely excited, and immediately start taking on projects that are just wayyyyy out of your wheelhouse, because you think you can do anything, now.</p>
+<p>But you do a second rate job, and just kind of… waste time, before returning to what you know. Learn new things, sure, but it takes time to get familiar enough with a domain to produce good work.</p>
+<p>Every domain crossing interloper sounds the same if all the output is LLM generated, coaxed along with <em>“sounds good, let’s implement”</em>, it’s regression to the model mean.</p>
+<p>But we still do it, producing huge amounts of code, burning billions of tokens, seeing if anything worthwhile comes of it.</p>
+<p>This will happen outside of software, too. It won’t be long until the office is overflowing with the HTML equivalent of Freebird at max volume on repeat, because everyone will start realizing how little friction there is to doing it.</p>
+<div class="freebird-chaos" aria-label="Maximum volume HTML chaos">
+  <style>
+    .freebird-chaos {
+      position: relative;
+      margin: 2rem 0;
+      padding: 1.25rem;
+      border: 4px dashed #ff00aa;
+      background:
+        radial-gradient(circle at 20% 20%, #ffea00 0 10%, transparent 30%),
+        radial-gradient(circle at 80% 30%, #00f0ff 0 12%, transparent 32%),
+        linear-gradient(135deg, #130013, #2d001a 40%, #001b2d);
+      color: #fff;
+      font-family: "Impact", "Arial Black", system-ui, sans-serif;
+      text-transform: uppercase;
+      overflow: hidden;
+      box-shadow: 0 0 20px #ff00aa, 0 0 40px #ff5e00;
+      animation: ampShake 0.08s infinite alternate;
+    }
+
+    .freebird-chaos .title {
+      font-size: clamp(1.4rem, 5vw, 2.8rem);
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 8px #fff, 0 0 24px #ff4d00, 0 0 42px #ff00aa;
+      animation: neonPulse 0.25s infinite alternate;
+    }
+
+    .freebird-chaos .riff {
+      margin-top: 0.65rem;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: clamp(1rem, 3.4vw, 1.6rem);
+      color: #ffea00;
+      text-shadow: 0 0 10px #ff7a00;
+      background: none;
+    }
+
+    .freebird-chaos .riff-track {
+      display: inline-flex;
+      width: max-content;
+      animation: soloRun 12s linear infinite;
+    }
+
+    .freebird-chaos .riff-track span {
+      padding-right: 2rem;
+    }
+
+    .freebird-chaos .fire {
+      margin-top: 0.8rem;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      filter: drop-shadow(0 0 8px #ff2a00);
+      animation: fireDance 0.25s infinite steps(2);
+    }
+
+    .freebird-chaos .strobe {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent 0 18px,
+        rgba(255,255,255,0.11) 18px 22px
+      );
+      mix-blend-mode: screen;
+      animation: strobeSweep 0.6s linear infinite;
+    }
+
+    @keyframes ampShake {
+      from { transform: translate(0, 0) rotate(-0.2deg); }
+      to   { transform: translate(1px, -1px) rotate(0.2deg); }
+    }
+
+    @keyframes neonPulse {
+      from { transform: scale(1); }
+      to   { transform: scale(1.03); }
+    }
+
+    @keyframes soloRun {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @keyframes fireDance {
+      from { transform: translateY(0) scale(1); }
+      to   { transform: translateY(-2px) scale(1.05); }
+    }
+
+    @keyframes strobeSweep {
+      from { transform: translateX(-30px); }
+      to   { transform: translateX(30px); }
+    }
+  </style>
+
+  <div class="strobe"></div>
+  <div class="title">🔥 Freebird.html @ MAX VOLUME EVERYDAY 4EVA YEEEEEEEEEAAAAAAAH 🔥</div>
+  <div class="riff" aria-hidden="true">
+    <div class="riff-track">
+      <span>DIDDLEDEDO-DIDDLEDEDO-DIDDLEDEDO • WEEEWEEWEEEWEEE • DIDDLEDEDO-DIDDLEDEDO • FACE-MELT MODE ENGAGED • DIDDLEDEDO-DIDDLEDEDO-DIDDLEDEDO • </span>
+      <span>DIDDLEDEDO-DIDDLEDEDO-DIDDLEDEDO • WEEEWEEWEEEWEEE • DIDDLEDEDO-DIDDLEDEDO • FACE-MELT MODE ENGAGED • DIDDLEDEDO-DIDDLEDEDO-DIDDLEDEDO • </span>
+      <span>DIDDLEDEDO-DIDDLEDEDO-DIDDLEDEDO • WEEEWEEWEEEWEEE • DIDDLEDEDO-DIDDLEDEDO • FACE-MELT MODE ENGAGED • DIDDLEDEDO-DIDDLEDEDO-DIDDLEDEDO • </span>
+    </div>
+  </div>
+  <div class="fire">🔥🔥🔥🔥 🦅🎸🦅🎸🦅🎸🦅🎸🦅 🔥🔥🔥🔥</div>
+</div>
+<p>See? Can you feel the future yet?</p>
+<p>My point is… we probably all need to learn restraint. The best blues players know when to flex their chops, but can still send shivers down your spine with the right four note phrase.</p>
+<p>Good blues playing is all about restraint, leaving space, tension and release. Play less, feel more. It is considered. It’s not automatic. It’s not a stream of tokens.</p>
+<p>The actual <em>feel</em> of the blues is subtle in its execution and maybe not well understood by the casual listener. It’s all about micro bends up to a critical zone between the minor and major third and seventh, all ascent, <em>never</em> descent (that kills the effect), vibrato, dynamics, space… subtle things that combine to tingle our souls and make us happy to be sad, or sad to be happy… but we share the feeling, something primal, and it feels like things will be alright.</p>
+<p>It takes a long time to develop that subtlety, you can’t really fake it. It takes <em>work</em>.</p>
+<p>AI let’s us skip the work, if we don’t want to do it… But I don’t think that will go well, in art, in music, in science or in engineering.</p>
+</section>
+<section id="the-llms-are-following-token-streams-not-your-dreams" class="level2">
+<h2 class="anchored" data-anchor-id="the-llms-are-following-token-streams-not-your-dreams">The LLMs are following token streams, not your dreams</h2>
+<blockquote class="blockquote">
+<p><em>“They know the words but not the music.”</em></p>
+<p>—Robert Hare, <em>Without Conscience</em> (encountered in Peter Watts’ <em>Blindsight</em>)</p>
+</blockquote>
+<p>For any feature I develop, I find myself thinking that I want to implement it with as little code as possible. The more services and unused code paths I let creep in, the faster the code expands beyond my cognition, and I’m back at <em>Freebird</em> again.</p>
+<p>This has led me to favour database centric design for data workloads (avoiding application logic in favour of views and RPCs), which I know is controversial (in the web-dev community, at least) but for my domain it leads to less code and keeps system understanding high.</p>
+<p><em>No business logic in the database!</em> is what I hear… but, it just works too well for me, in my problem context, to listen.</p>
+<p>A SQL script, even if you don’t like the syntax, is a very self-contained and well-behaved piece of logic. There is no ambiguity about the data contract coming in, the execution plan, and the data contract coming out, because it is all internal to its own system. The database just says <em>“here you go”</em> or <em>“no can do”</em>, and it will work forever once you get it right, because the system’s internal contracts are so stable.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>This makes a web API, for example, a simple pass-through of the work the database is doing. There are obviously cases where this can’t work, like authentication flows, but if I can do it, it’s my favoured approach. That backend is so simple that even a human could code it.</p>
+<p>Compared with an application based data workload… and suddenly you have a bunch of procedural logic, code paths, external dependencies, error handling, and data being generated somewhere else on the network, which needs to get back to the database. That means contending with distributed systems challenges—incomplete execution, retries, back-off, cache invalidation—I like to avoid all that (as long as I can), because it’s just simpler.</p>
+<p>I have the luxury of focussing on the C and A in <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, because of the kind of problems and scale I work at (lucky me).</p>
+<p>My point here is… The LLM isn’t giving me this without extra, careful work. You could sneeze on your keyboard and come back 5 minutes later to a fully tested backend API written in Python, and if you don’t have strong opinions on the matter you might say “looks good to me” and keep moving forward. That would be a huge mistake.</p>
+<p>I’m not kidding when I say that I have generated and deleted entire web APIs from a few of my projects, multiple times, because I let the LLM vibe, but I just didn’t like the way it was doing things.</p>
+<p>That experience is why, if I notice I’m just accepting everything the robot is giving me, my clench-o-meter spikes, and I <a href="https://mariozechner.at/posts/2026-03-25-thoughts-on-slowing-the-fuck-down/">slow the fuck down</a>. Because I don’t have an opinion, which means I’m not ready to proceed, yet. I’ll come back when I have one.</p>
+<p>The model knows all the words, but it can’t hear your music. So slow down, or get slopped.</p>
+</section>
+<section id="what-parts-of-your-system-are-slop-tolerant" class="level2">
+<h2 class="anchored" data-anchor-id="what-parts-of-your-system-are-slop-tolerant">What parts of your system are slop-tolerant?</h2>
+<p>All vibes are not created equal. Different parts of your system are more or less sensitive to the slop, and their tolerance depends on where they sit in the dependency chain that links data storage, transformation, presentation and interaction in your system.</p>
+<p>Visualize it like a tree, from roots (infrastructure, database, state) to branches (services, user interfaces) to leaves (artifacts, plots, data presentations).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/tree.webp" class="img-fluid figure-img"></p>
+<figcaption>Tree</figcaption>
+</figure>
+</div>
+<section id="artifacts" class="level3">
+<h3 class="anchored" data-anchor-id="artifacts">Artifacts</h3>
+<p>You can shake a few branches up in the canopy, and sure, some HTML leaves might come loose… but who cares? Vibe your throwaway HTML docs, vibe your plots, you’d be crazy to hand write them at this point. The rest of the tree won’t notice.</p>
+</section>
+<section id="frontend" class="level3">
+<h3 class="anchored" data-anchor-id="frontend">Frontend</h3>
+<p>Your frontend interface… buttons, widgets, styling… well, you can vibe it, but you might not love the results, so taking your time is still worthwhile. A badly coded hook might not perform well in client browsers, maybe React is rendering everything twice, maybe there’s jitter in page navigation… but that isn’t all systems red, it’s just not ideal.</p>
+<p>Taken to an extreme, an absolute nightmare of vibe coded spaghetti for a frontend is… bad, obviously, but it isn’t armageddon. You can saw off your frontend completely and the trunk and roots of your system can stay put. If you were in that situation, would you try and fix the nightmare, or just start again? I know what I’d do (have done).</p>
+<p>So your frontend is, relatively speaking, slop tolerant. Vibe away.</p>
+<p>What about your backend?</p>
+</section>
+<section id="backend" class="level3">
+<h3 class="anchored" data-anchor-id="backend">Backend</h3>
+<p>Your API doesn’t really care about your frontend, just send the response back and shut up, or don’t, it doesn’t care. If your frontend is slop, the backend has authentication and rate limiting and CORS to protect against the worst consequences of that.</p>
+<p>But now there is a lot more slop exposure. What if your backend is a pile of shit? Maybe you have several downstream services depending on it. What if you want to completely rework the API design, six months later when you look closely at it for the first time, and cry? Now you’re chainsawing the trunk of the tree, or grafting a new trunk to it, and it’s not going to be fun. Your backend is not very slop tolerant. <em>Slow down and make carefully considered choices</em>, do not <em>Freebird</em> that shit.</p>
+<p>… And your database?</p>
+</section>
+<section id="database" class="level3">
+<h3 class="anchored" data-anchor-id="database">Database</h3>
+<p><em>… Laaawwwwwwwwwwwwd.</em></p>
+<p>If you vibe code your database schema, and your system is not so simple you could run it out of a google sheet, you better start mentally preparing yourself for the slop-pocalypse, because the database is your root system, and <em>vibes</em> at that level of stability is otherwise known as a <em>fucking earthquake</em>, my guy.</p>
+<p>How many dead Supabase projects out there are just sitting with fully public APIs because the vibes never included Row Level Security policies? How many live ones? Hopefully not too many.</p>
+<p>Zero slop tolerance.</p>
+<p>Every table. Every column. Every constraint. Every policy. Every decision. If you are not on top of all of it, you are asking for pain.</p>
+<p>If a composite unique constraint is left out or misspecified on an important table, for example, (a tiny, one line, easy to miss mistake), and you plow ahead with data ingestion, the rest of the system is all cooked.</p>
+<p>How many extra checks will downstream application logic need to run when they can’t rely on the database’s internal model of how the data works? You can’t trust the invariants from the deepest roots of your system. Have fun watching your LLM committing 1,000s of extra lines of code, working around the mistake (or maybe you’re not watching).</p>
+<p>You might say, <em>Nick, we just fix it up in the database, it’s one migration script, it’s not a big deal.</em></p>
+<p>But we’re living in the vibes era… You didn’t notice the mistake, that’s the problem!</p>
+<p>Play out what happens next:</p>
+<ol type="1">
+<li>You tell your LLM to write a new backend route</li>
+<li>The LLM writes it, along with a test to verify behaviour</li>
+<li>The database data is wrong, (multiple entities, route expects one) so the test fails</li>
+<li>LLM thinks about how to work around it, and starts writing:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> DoingSomething.PerfectlyReasonable.ThatShouldNeverFail:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="st">'FUCKING_SLOP'</span>) <span class="kw">in</span> Database.EarlyHighCommitmentDecisions:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      query <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ss">          your_soul</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ss">          purgatory</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">        JOIN</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">          the_rest_of_your_illbegotten_kind AS yibgk</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">          ON</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">            (300 lines of SQL subqueries go here)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">      """</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      ...</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> SlopSlopException:</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="st">"Slop was detected, first line of slop countermeasures failed..."</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      ...</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> SlopException:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"Just start over, dude."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>… and so on, all over your backend code.</p>
+<ol start="5" type="1">
+<li>The next LLM learns the pattern and keeps doing this on repeat</li>
+<li><em>Freebird</em></li>
+</ol>
+<p>And do you notice this before deploying? Or are you just seeing it now?</p>
+<p>The most <em>insane</em>, <em>unhinged</em> shit I have ever seen LLMs do is usually surrounding the database. I think because databases are very stateful, and LLM’s understand the gravity of making changes, they tend to <em>dodge</em> instead of <em>deal</em> with problems. Very relatable, very bad during development.</p>
+<p>If you’re developing and have zero customers and zero data, they won’t know that unless you explain it, so they’ll take these extremely defensive, extremely silly actions by default. Super sensitive to vibes, super slop intolerant. Early decisions matter a lot. So go slow.</p>
+</section>
+<section id="infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="infrastructure">Infrastructure</h3>
+<p>Ok the database is important… so the infrastructure that the database is running on is even more important. If the database is the root system, the infrastructure is the earth itself. In this environment, an agent <em>can</em> create <a href="https://www.theguardian.com/technology/2026/apr/29/claude-ai-deletes-firm-database">armageddon</a> because a <code>terraform destroy</code> is basically that, for cloud infrastructure (the name is a hint).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/destroy-it.gif" class="img-fluid figure-img"></p>
+<figcaption><em>… Absolutely!</em> (Excerpt from conversations Claude has with itself)</figcaption>
+</figure>
+</div>
+<p>I’m not sure how to think about a <em>low</em> probability that your entire production environment gets deleted while an agent on a cron job does some checks one morning… other than that from a simple risk analysis perspective, don’t fucking do that.</p>
+<p>Humans have a clench-o-meter. If I’m working in a repository with terraform code in it, and I see <code>make</code> commands called things like</p>
+<p><code>restart-prod</code></p>
+<p><code>init-prod</code></p>
+<p><code>init-prod-run-this-once-only-because-it-deletes-everything-hehe</code></p>
+<p>I get a bit nervous. I clench. Because I don’t want to blow up the production environment. Because I like my job… because I like money… because I like being alive. Humans have skin in the game.</p>
+<p>AI isn’t burdened with these concerns.</p>
+<p>AI doesn’t have concerns outside of</p>
+<p><em>“next token is terr-”</em></p>
+<p><em>“… and then it’s -afform”</em></p>
+<p><em>“and then… plan? … apply? des? … destroy!”</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/explosion.gif" class="img-fluid figure-img"></p>
+<figcaption>At least the LLM confessed… Which server rack was it running on again? For the court hearing.</figcaption>
+</figure>
+</div>
+<p>So… however unlikely it may be, you are just one bad turn down a dark alley in token-town away from <em>fucked</em> every morning when that cron job runs… maybe we should let the humans do those checks.</p>
+<p>Autonomous agents probably shouldn’t be running on a machine with a control surface over critical infrastructure. It would be like keeping a gerbil inside the nuclear football—sure, it’s not likely to press all the buttons in the right order to convince the subs to launch… but can we just not do that?</p>
+<p>I’m not a cloud guy—there are experts that can think through these things better than me—I just know from experience that we’re all susceptible to exposing ourselves to risk when hype, KPIs, FOMO, and other corporate politics seep into our judgment.</p>
+</section>
+</section>
+<section id="dont-stop-vibing-though" class="level2">
+<h2 class="anchored" data-anchor-id="dont-stop-vibing-though">Don’t stop vibing, though</h2>
+<p>The answer to all these challenges is most definitely not <em>stop using AI</em>. I want to move forward with technology and remain up to date with the latest tools. But I think the unthinking, tokenmaxxing version of AI (dark factories, agents reviewing other agents, never looking at code) is something I still reject. Not because my ego hurts because a robot codes faster and better than me (I’m well past that), but because I think it genuinely invites big problems into the software engineering discipline.</p>
+<p>My setup is extremely barebones. I use Pi, with old models as far as I can get away with it, I talk with the agent and I <code>/tree</code> through our plans. It works so well. I’m in control. I can slow down, I can speed up, as I need.</p>
+<p>I don’t need to go any faster.</p>
+<p>I’ve experienced enough AI work to start to have a sense of when to open the throttle, and when to hit the brakes.</p>
+<p>Maybe my attitudes are related to my belief that AI is not some kind of new really smart person living on a GPU. AI is doing a thing that is very different to human judgement under uncertainty with exposure to risk. These things are jittering through token-town, and while they do an astounding job of making sense, they <em>don’t hear the music</em>.</p>
+<p>To do responsible technical work, I think we still need to be in the studio playing along—or at the very least, keeping an ear to the wall—with one hand on the plug, ready to shut things down when the music starts sounding bad.</p>
+<p>Becase these things know all the words, but they don’t care about the music.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Until a <a href="https://clerk.com/blog/2026-02-19-system-outage-postmortem">query plan flip</a> brings your platform to a grinding halt, at least. More reason for careful consideration, not vibes.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Yeah, I picked up that second edish of <em>Designing Data Intensive Applications</em>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
