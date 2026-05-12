@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/vibes/index.html",
       "/posts/informatics/index.html",
       "/posts/the_new_work/index.html",
       "/posts/databasin/index.html",
