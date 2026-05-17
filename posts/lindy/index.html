@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nicholas Dorsch">
+<meta name="dcterms.date" content="2026-05-17">
+
+<title>The Lindy Effect – dorschblog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-35673c1328022ec05f8a1bab69fe76b7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-fad9a8d121846c7dea4b71d0142aabf4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<meta name="shinylive:serviceworker_dir" content="../..">
+<script src="../../site_libs/quarto-contrib/shinylive-0.10.9/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../../site_libs/quarto-contrib/shinylive-0.10.9/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../../site_libs/quarto-contrib/shinylive-0.10.9/shinylive/shinylive.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">dorschblog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/nick-dorsch"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/nicholasjohndorsch/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">The Lindy Effect</h1>
+            <p class="subtitle lead">What do we learn from the test of time?</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">statistics</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Nicholas Dorsch </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 17, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#a-bayesian-interpretation" id="toc-a-bayesian-interpretation" class="nav-link active" data-scroll-target="#a-bayesian-interpretation">A Bayesian Interpretation</a></li>
+  <li><a href="#changing-hazards" id="toc-changing-hazards" class="nav-link" data-scroll-target="#changing-hazards">Changing hazards</a></li>
+  <li><a href="#fun-with-conjugate-models" id="toc-fun-with-conjugate-models" class="nav-link" data-scroll-target="#fun-with-conjugate-models">Fun with conjugate models</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>The <a href="https://en.wikipedia.org/wiki/Lindy_effect">Lindy effect</a> states that the future longevity of something is roughly proportional to its current age. The more time something has <em>been</em> around, the more time it will <em>stick</em> around.</p>
+<p>When we say something has “stood the test of time”, we are nodding, maybe unknowingly, at this effect.</p>
+<p>To make this concrete, consider the long-term relevance of books like the Bible, <em>Harry Potter</em>, and (googling current BookTok trends) <em>The Fourth Wing</em> by Rebecca Yarros. We have a sense that the Bible is here to stay, for something on the order of thousands of years or more into the future. <em>Harry Potter</em> isn’t on that level… but it seems to have some real staying power, so maybe we’ll still be talking about it in, say, 100 years?</p>
+<p><em>The Fourth Wing</em> might be a cultural phenomenon that is talked about for decades, or it might be a short-lived fad. We don’t really know yet… but maybe we can develop a judgement ahead of time based on its quality, themes, audience size and so forth.</p>
+<p>Men in offices are still wearing business suits—a Victorian era style—so the suit is very <em>Lindy</em>. Viral fashion trends tend to spike in popularity, before disappearing out of the public consciousness fairly quickly—not very <em>Lindy</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/suits-2.jpg" class="img-fluid figure-img"></p>
+<figcaption><em>“How fare our quarterlies, Charles? Line continue to go up, I trust?”</em></figcaption>
+</figure>
+</div>
+<p>So, suits as formal attire will probably still be around in another 200 years. That’s the idea, anyway.</p>
+<p>The Lindy effect can be seen as something of a <em>“huh, isn’t that interesting!”</em>, but there are real statistical ideas behind it. It turns out that the effect is actually a mathematical consequence of a certain kind of survival model, that emerges when we take age as evidence for resilience.</p>
+<p>If you know me, you know I’m about to bring up Bayes again.</p>
+<section id="a-bayesian-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="a-bayesian-interpretation">A Bayesian Interpretation</h2>
+<p>The longer something survives, the more <em>information</em> we have about its resilience.</p>
+<p>The notion of something’s age being a testament to its durability isn’t difficult to wrap your head around. The thing has survived this long, therefore must have been capable of doing so… there are no claims about the future, here. The part that is less intuitive at first is that the thing having survived for this long tells us about how long it might endure into the future.</p>
+<p>In a Bayesian framing, the Lindy effect fits neatly into something called a Gamma-Exponential survival model.</p>
+<p>If we take <span class="math inline">\(T\)</span> as the lifetime of something, we can model its survival as:</p>
+<p><span class="math display">\[
+\begin{aligned}
+T \mid \lambda &amp;\sim \mathrm{Exponential}(\lambda) \\
+\lambda &amp;\sim \mathrm{Gamma}(\alpha, \beta) \\
+\Pr(T &gt; t \mid \lambda) &amp;= e^{-\lambda t} \\
+\lambda \mid (T&gt;t) &amp;\sim \mathrm{Gamma}(\alpha, \beta + t)
+\end{aligned}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(T\)</span> is total lifetime.</li>
+<li><span class="math inline">\(\lambda\)</span> is the annual hazard (destruction/failure probability), modelled with a Gamma distribution.</li>
+<li><span class="math inline">\(\alpha\)</span> is the prior shape parameter (how concentrated beliefs are).</li>
+<li><span class="math inline">\(\beta\)</span> is the prior rate parameter (baseline scale of hazard).</li>
+<li><span class="math inline">\(t\)</span> is observed age (years survived so far).</li>
+</ul>
+<p>Because this is an example of something called a <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate model</a>, the posterior hazard is convenient to calculate. After observing survival to age <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+\lambda \mid (T&gt;t) \sim \mathrm{Gamma}(\alpha,\,\beta+t)
+\]</span></p>
+<p>So age is simply added to the prior rate parameter to calculate the posterior rate parameter, which is why the posterior survival behavior can be computed analytically with simple equations. Very neat!</p>
+<p>Statistical notation and Gamma distributions might make this feel intimidating, but the concept is not so difficult. The exponential survival function says:</p>
+<blockquote class="blockquote">
+<p><em>“at each time step <span class="math inline">\(t\)</span>, there is a probability of destruction <span class="math inline">\(\lambda\)</span>”</em></p>
+</blockquote>
+<p>That means that over time, the probability of survival tails off at an exponential rate:</p>
+<p><span class="math display">\[
+e^{-\lambda t}
+\]</span></p>
+<p>Since we don’t know what that <span class="math inline">\(\lambda\)</span> value is, as Bayesians we try to learn it with evidence while preserving our uncertainty about it. That uncertainty is what the Gamma distribution is capturing.</p>
+<p>With the applet below you can play around with the age of the thing and the prior Gamma parameters, to see how they affect the survival function:</p>
+<pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| viewerHeight: 520
+
+from shiny import App, render, ui
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+from scipy.stats import gamma as gamma_dist
+from matplotlib.ticker import PercentFormatter
+from datetime import date
+
+CURRENT_YEAR = date.today().year
+
+app_ui = ui.page_fluid(
+
+    ui.layout_columns(
+        ui.input_slider("creation_year", "Creation year", min=1900, max=CURRENT_YEAR, value=1990, sep=""),
+        ui.input_slider("alpha", "Prior shape α", min=1, max=20, value=3),
+        ui.input_slider("beta", "Prior rate β", min=1, max=100, value=20),
+        col_widths=[4, 4, 4],
+    ),
+
+    ui.layout_columns(
+        ui.output_plot("plot_gamma"),
+        ui.output_plot("plot_survival"),
+        col_widths=[6, 6],
+    ),
+)
+
+
+def server(input, output, session):
+    @render.plot
+    def plot_gamma():
+        creation_year = float(input.creation_year())
+        t = max(0.0, float(CURRENT_YEAR) - creation_year)
+        a = float(input.alpha())
+        b = float(input.beta())
+
+        post_b = b + t
+
+        post_mean = a / post_b
+
+        # Cap x-range to prior gamma q=0.99 using analytic quantile (PPF)
+        lam_max = max(float(gamma_dist.ppf(0.99, a=a, scale=1.0 / b)), 0.02)
+        lam = np.linspace(1e-6, lam_max, 500)
+
+        # Gamma(shape=a, rate=b) and Gamma(shape=a, rate=b+t) densities
+        coef_prior = (b ** a) / math.gamma(a)
+        pdf_prior = coef_prior * (lam ** (a - 1)) * np.exp(-b * lam)
+
+        coef_post = (post_b ** a) / math.gamma(a)
+        pdf_post = coef_post * (lam ** (a - 1)) * np.exp(-post_b * lam)
+
+        fig, ax = plt.subplots(figsize=(7, 5))
+        ax.plot(lam, pdf_prior, linestyle=":", linewidth=2, color="#F58518", label="Prior Gamma(α, β)")
+        ax.plot(lam, pdf_post, linewidth=2, color="#4C78A8", label="Posterior Gamma(α, β+t)")
+        ax.fill_between(lam, 0, pdf_post, color="#4C78A8", alpha=0.18)
+        ax.set_xlabel("Annual hazard rate (%)")
+        ax.xaxis.set_major_formatter(PercentFormatter(xmax=1))
+        ax.set_title(r"Hazard rate ($\lambda$)")
+        ax.set_xlim(0, lam_max)
+        ax.set_ylim(bottom=0)
+        ax.set_yticks([])
+        ax.set_ylabel("")
+        ax.spines["left"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["top"].set_visible(False)
+        ax.grid(alpha=0.25)
+        ax.legend()
+        return fig
+
+    @render.plot
+    def plot_survival():
+        creation_year = float(input.creation_year())
+        t = max(0.0, float(CURRENT_YEAR) - creation_year)
+        a = float(input.alpha())
+        b = float(input.beta())
+        hmax = max(1.0, 5 * t)
+
+        post_b = b + t
+        h = np.linspace(0, hmax, 400)
+
+        # Credible bands + p50 (median) exponential survival curve
+        # λ | data ~ Gamma(shape=a, rate=post_b)
+        lam_lo95 = gamma_dist.ppf(0.025, a=a, scale=1.0 / post_b)
+        lam_hi95 = gamma_dist.ppf(0.975, a=a, scale=1.0 / post_b)
+        lam_lo50 = gamma_dist.ppf(0.25, a=a, scale=1.0 / post_b)
+        lam_hi50 = gamma_dist.ppf(0.75, a=a, scale=1.0 / post_b)
+        lam_p50 = gamma_dist.ppf(0.5, a=a, scale=1.0 / post_b)
+
+        # Since exp(-λh) decreases in λ, bounds swap:
+        s_upper95 = np.exp(-lam_lo95 * h)
+        s_lower95 = np.exp(-lam_hi95 * h)
+        s_upper50 = np.exp(-lam_lo50 * h)
+        s_lower50 = np.exp(-lam_hi50 * h)
+        s_p50 = np.exp(-lam_p50 * h)
+
+        fig, ax = plt.subplots(figsize=(7, 5))
+        ax.fill_between(h, s_lower95, s_upper95, color="#4C78A8", alpha=0.14, label="95% credible exponential band")
+        ax.fill_between(h, s_lower50, s_upper50, color="#4C78A8", alpha=0.28, label="50% credible exponential band")
+        ax.plot(h, s_p50, label="P50 exponential survival", linewidth=2, color="#4C78A8")
+        ax.set_xlabel("Additional years h")
+        ax.set_ylabel("Survival probability")
+        ax.set_title(f"Remaining survival years (age={int(t)})")
+        ax.set_xlim(0, hmax)
+        ax.set_ylim(0, 1)
+        ax.grid(alpha=0.25)
+        ax.legend()
+        return fig
+
+
+app = App(app_ui, server)</code></pre>
+<p>Because we’re Bayesing here, we get a full posterior distribution of survival rates from our input parameters and the thing’s age.</p>
+<p>For a <em>new thing</em>, we don’t have much information about its resilience… so we rely more on our priors. For older things, their survival time gives us more information, which Bayes happily slurps up into a tighter posterior <span class="math inline">\(\lambda\)</span> estimate. That tightens our uncertainty about the hazard rate, which in turn tightens up our uncertainty about the length of time something will be sticking around in the future.</p>
+<p>To make this a bit more intuitive, consider something that has survived for 1000 years. If the hazard rate was 30% per year, how likely is it that it would have survived for so long? Incredibly small. But at 0.01%? That sounds more likely.</p>
+<p>And it <em>is</em> more likely, mathematically! The 0.01% has a much higher likelihood, which, combined with our prior, gives us a posterior estimate. Repeat for all hazard rates (or rather, integrate over them) and you get a posterior distribution of <span class="math inline">\(\lambda\)</span>.</p>
+<p>Notice that the hazard rate parameter <span class="math inline">\(\lambda\)</span>—although represented with a distribution—is still a single value in the model. It doesn’t change through time. This is where the model breaks down. For most physical systems, we can’t assume failure rates stay flat.</p>
+<p>So… don’t plug your birth year into that widget and get your hopes up.</p>
+<p>Humanity is Lindy! But you aren’t. Sorry.</p>
+</section>
+<section id="changing-hazards" class="level2">
+<h2 class="anchored" data-anchor-id="changing-hazards">Changing hazards</h2>
+<p>Lindy isn’t always the right mental model. If you are driving a car from 2005 and it has never broken down on you, you could reasonably say the car has been very reliable. It <em>has</em> stood the test of time. The Lindy framing would then say “and therefore, it will likely still be running in another few decades!”</p>
+<p>But this strikes us as wrong, because physical things like cars get less reliable as they age.</p>
+<p>The Lindy effect is most applicable to things like technology, ideas, cultural practices, fashion, trends; things that lack clear physical limits.</p>
+<p>I used the example of books earlier because they store ideas, and if those ideas are still relevant in the culture, those books will keep getting printed, which is a proxy for the Lindy-ness of what’s in them. A single <em>copy</em> of a book is not Lindy—it is going to start to fall apart in 30 or so years.</p>
+<p>With examples like this, the hazard parameter <span class="math inline">\(\lambda\)</span> is not a constant—it is increasing over time. That requires a different model, which, lacking a closed form solution, requires numerical methods (such as <a href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo">MCMC</a>), to get Bayesy with.</p>
+<p>Examples like human lifespan are more complicated still, as we are especially vulnerable as infants, then kind of hang out for 50 years, then start getting vulnerable again as we enter our golden years. This creates a <a href="https://en.wikipedia.org/wiki/Bathtub_curve">“bathtub curve”</a> of hazard rates.</p>
+<p>Lindy is too simple a model for cases like this, and in reality is <em>just a model</em>, like any other. It is useful insofar as our assumptions apply.</p>
+<p>Books? Eh, good enough.</p>
+<p>Human lifespan? <em>No, you idiot.</em></p>
+</section>
+<section id="fun-with-conjugate-models" class="level2">
+<h2 class="anchored" data-anchor-id="fun-with-conjugate-models">Fun with conjugate models</h2>
+<p>Subject to how much compute you can get your hands on, you can do Bayes on any statistical model, but most of the time it isn’t all squeaky-clean like the Gamma-Exponential survival model shown here.</p>
+<p>Conjugate models are very fun to play with, though, and are very useful in certain contexts. I often use Beta-Binomials and their multivariate big brother Dirichlet-Multinomials for probabilistic analyses where that kind of uncertainty is worth preserving.</p>
+<p>Conjugate models often have a satisfying “trick” that makes them very easy and fun to work with (like the “just add the age” trick shown above)… so once you know it, you can integrate them into your work and impress your friends.</p>
+<p>Haha! Just kidding, nobody will care, and your boss just wanted a number anyway.</p>
+<p>Thanks for reading.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/nick-dorsch\.github\.io\/blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
