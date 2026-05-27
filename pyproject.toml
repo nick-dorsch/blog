@@ -22,6 +22,7 @@ dependencies = [
     "shiny>=1.6.1",
     "shinylive>=0.8.7",
     "yfinance>=0.2.61",
+    "jupyter-cache>=1.0.1",
 ]
 
 [tool.uv.sources]

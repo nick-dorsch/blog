@@ -1,0 +1,339 @@
+---
+title: "Resgo"
+subtitle: "Prospect evaluation end to end"
+author: "Nicholas Dorsch"
+date: today
+categories: [LDI, statistics]
+image: media/resgo_logo_white.svg
+execute:
+  echo: false
+  cache: true
+---
+
+```{python}
+PLOTTING_BACKEND = "altair"
+
+CHAINS = 4
+DRAWS = 500
+N_RESERVOIRS = 9
+N_PRODUCERS = 25
+
+import altair as alt
+from src.plotting import theme
+
+alt.data_transformers.disable_max_rows()
+theme.apply_lex_altair_theme()
+```
+
+![The current working Resgo logo.](media/resgo_logo_white.svg)
+
+This post is intended as an end to end demonstration of the Resgo probabilistic prospect
+evaluation toolkit, and my motivations for building it.
+
+Resgo is my attempt to make prospect evaluation probabilistic all the way
+down---uncertain geology, uncertain field development performance, uncertain
+economics---all in an integrated simulation model.
+
+It is desigend for probabilistic assessment of exploration and early development
+opportunities, preserving uncertainty from subsurface volumes through to commercial
+outcomes.
+
+It does this by integrating volumetrics, field production, and commercial modelling in a
+single vectorized model, optimized for highly iterative, scenario based workloads.
+
+## Motivations
+
+Resgo encapsulates my approach to technical work and the general idea of "informatics".
+Reporting a single number NPV for a project as complex as an oil and gas field
+development, ahead of drilling, is not a good idea. There is no single number that
+captures the uncertainty (and exposure) inherent in such a complex undertaking, so the
+decision appropriate information is not a point estimate, but a series of distributions
+that capture the uncertainties involved.
+
+Traditionally these uncertainties are almost impossible to integrate end to end. Static
+volumetric models feeding into dynamic simulation models very rarely propagate
+uncertainty up the chain through to economic modelling. The undertaking is simply too
+slow and clumsy to be done. 
+
+Resgo provides that integration. It does so by making some simplifying assumptions about
+reservoir behaviour, but in low information contexts---before drilling or early in field
+development---I would argue that simpler models are more appropriate. Not because they
+model reservoir physics rigorously (that would require dynamic simulation), but because
+they are flexible enough to configure quickly, and iterate on.
+
+This will become clear with an example.
+
+# Example
+
+The following example is for a large, stacked reservoir field development, with 9 target
+reservoirs and 25 planned producers. 
+
+```{python}
+#| output: false
+from datetime import datetime
+from resgo.model import (
+    Prospect, 
+    VolumetricModel, 
+    FieldDevelopmentModel, 
+    EconomicModel,
+    FlatPriceModel,
+    FlatRoyaltyModel,
+    ProgressiveTaxModel,
+    LeverageModel
+)
+from resgo.plotting import ProspectPlotter
+
+prospect = Prospect.default(
+    name="Resgo Blog Demo",
+    num_reservoirs=N_RESERVOIRS,
+    num_producers=N_PRODUCERS,
+    dependency=0.4,
+    years=30,
+)
+
+prospect.volumetric_model = VolumetricModel.default(
+    num_reservoirs=N_RESERVOIRS,
+    dependency=0.4,
+)
+
+prospect.field_development_model = FieldDevelopmentModel.simple_development(
+    num_producers=N_PRODUCERS,
+    start_date=datetime(2027, 1, 1),
+    month_offset=12,
+    drill_to_online_months=9,
+    max_oil_rate_stbpd=20_000,
+    max_gas_rate_mscfpd=90_000,
+    gas_development=False,
+    producer_capex_USD=45e6,
+    years=30,
+)
+
+prospect.economic_model = EconomicModel(
+    price_model=FlatPriceModel(oil_price_USD_stb=70.0, gas_price_USD_mmbtu=3.5),
+    royalty_model=FlatRoyaltyModel(royalty_rate=0.12),
+    tax_model=ProgressiveTaxModel(tax_tiers={0: 0.15, 10e6: 0.25, 15e6: 0.4}),
+    leverage_model=LeverageModel(debt_to_equity_ratio=1.0, interest_rate=0.06, loan_term_years=15),
+    infrastructure_capex_USD=60e6,
+    annual_discount_rate=0.10,
+    annual_inflation_rate=0.025,
+    annual_opex_USD=2_000_000,
+    producer_abandonment_cost_USD=500_000,
+)
+
+simpack = prospect.simulate(risked=True, levered=True, chains=CHAINS, draws=DRAWS)
+plotter = ProspectPlotter(prospect, simpack)
+```
+
+## Volumetric Simulation
+
+Resgo models begin with a stochastic volumetric simulation of each reservoir, separated
+into Oil, Gas, Solution Gas and Condensate in place. The Solution Gas and Condensate are
+derived from the Oil and Gas volumes and their respective Fluid GOR/CGR distributions.
+Reservoirs can be single phase or separated into oil and gas legs via a Gas Cap Fraction
+parameter.
+
+Each reservoir and fluid parameter is represented with a probability distribution, with
+flexible copula models used to capture correlations between them. A few examples are
+shown below:
+
+```{python}
+fig = plotter.forest_plot(
+    "Net (m)", 
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+```{python}
+fig = plotter.forest_plot(
+    "Porosity", 
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+```{python}
+fig = plotter.forest_plot(
+    "Water Saturation", 
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+Each reservoir in the simulated stack has a series of risk factors applied, which
+together with a dependency parameter (capturing the correlation of risk across
+reservoirs) is used to simulate the success or failure of each targeted reservoir.
+
+Here are the individual zone success case oil volumes:
+
+```{python}
+fig = plotter.forest_plot(
+    "STOIIP (stb)", 
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+And the overall total visualized with an ECDF plot:
+
+```{python}
+fig = plotter.prospect_volumetric_ecdf_plot(
+    figsize=(650, 250),
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+The Total STOIIP in the example shown above represents the simulated range of STOIIP
+outcomes across simulated trials. The geological risk factor of each individual Zone is
+visualized here as the y-intercept of each ECDF.
+
+## Field Development Simulation
+
+Resgo is designed to support multi-well developments, as realistic end to end economic
+modelling is not achievable without a simulation of multiple wells producing a field,
+with the CAPEX/OPEX associated with each.
+
+This includes complex phased developments targetting multiple reservoirs with oil and
+gas caps at different stages of development. Producers can be scheduled specifically,
+with defined drill and online dates, or they can be automatically sequenced on a defined
+cadence, coming online after an assumed drill-to-online period.
+
+The field production simulation utilizes Decline Curve Analysis (DCA) formulae in a
+stochastic model, constrained by static volumes (simulated in the volumetric model),
+initial rate and recovery factor distributions. The model is configured to ensure that
+the produced volumes in a given month are consistent with each producer's share of the
+reservoir volumes it produces from in that month. This means that the total field
+production (Ultimate Recovery) across all producers will be consistent with the Ultimate
+Recovery implied by the static volume multiplied by the recovery factor for that
+reservoir.
+
+This consistency guarantee is what makes Resgo so powerful. It is a physically
+consistent, stochastic material balance simulation of the field that runs in seconds.
+
+Dynamic simulation modelling traditionally takes weeks of configuration, and hours to
+run. This makes iteration extremely inefficient. Resgo can simulate hundreds of
+different scenarios, each taking seconds, to fully explore the optionality of field
+development.
+
+```{python}
+fig = plotter.combined_production_plot(
+    figsize=(650, 250),
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+The oil and gas streams are plotted as stochastic time series plots, showing wells
+coming online through the development of the field.
+
+As more wells are brought online, the decline of the field steepens as more producers
+exploit the shared resource. The simulation also "cancels" planned wells dynamically
+when remaining field volumes do not justify continued development. This avoids unfairly
+penalizing results with unrealistic poor decision making, which feeds into economics.
+
+All field production results are fed directly into the economic model, so options are
+assessed on their commercial basis, not proxies of it like EUR or STOIIP.
+
+## Economic Simulation
+
+In this phase we set price, royalty, tax, opex/capex assumptions, then run economics
+on top of production.
+
+The Resgo economic model runs full OPEX/CAPEX, royalty, tax, financing, price and
+depreciation modelling, fully integrated with the rest of the stochastic model upstream.
+
+It includes configurable tax and royalty schemes, as well as optional correlated oil and
+gas price stochastic forecasting using Geometric Brownian Motion or Ornstein Uhlenbeck
+mean reverting stochastic processes.
+
+This flexibility allows full stochastic analysis through to commercial metrics like IRR,
+NPV, PI, and payback time.
+
+Below, nominal discounted cash flows are shown, which sum to project NPV.
+
+```{python}
+fig = plotter.combined_cash_flow_plot(
+    figsize=(650, 250),
+    backend=PLOTTING_BACKEND
+)
+fig.show()
+```
+
+The cumulative discounted flows shown in the bottom chart here reflect the project value
+through time, with NPV being the end of project distribution of cumulative cash
+flows.
+
+## Decision Analysis
+
+- Provide decision metrics for whether the opportunity should be pursued or not.
+
+## Why do I report such wide confidence intervals?
+
+As a habit I visualize wide uncertainty ranges, from P99 to P1. The reason I do this is
+simple: hundreds of millions of dollars are on the line. I don't want to be 90% sure
+that a project requiring me to commit a billion dollars of capital will make a return, I
+want to be 99.99% sure. If I don't have that luxury, fine, but showing that I do in fact
+have it, is extremely valuable, as it means a _safe decision_ can be made. These models
+should enable more effective decision making, a P90-P10 range is not a sufficient
+description. I want to know what happens if shit completely hits the fan! If there is a
+real possibility of losing money, I want to know how much, and how likely we think that
+is. Point metrics provide none of this.
+
+The other reason is that often people consider probabilistic analyses as worthless
+because all the uncertainties stack up to something approximating _"we have no bloody
+idea what will happen"_. This _is_ a possible result of a stochastic analysis (and if
+it's a good one, you should probably take it seriously and avoid doing anything
+drastic), but much more often the uncertainties flow through into something that
+actually represents a good representative range of outcomes.
+
+Uncertainties don't blow up into infinite doubt as you stack them---they converge.
+Correlation across uncertain quantities complicates this somewhat, but the correlations
+are rarely so dramatic that uncertainty blows up. Being explicit about the range the
+model produces (through wide confidence intervals, probability visualisations or
+whatever else) is a mark of confidence that the range it is producing is actually
+meaningful.
+
+And if your uncertainty range is well defined, and never crosses _"we go bankrupt"_, or
+(less dramatically) _"we lose money"_, that is _very valuable information_.
+
+Because decision making under uncertainty is not _"project A has a higher NPV than
+project B, so let's do A"_, it is _"project A exposes us to financial ruin, project B is
+a safe bet. So let's do B"_. 
+
+Ignoring uncertainty in decision making is insane. Glossing over uncertainty with poorly
+constrained metrics is not good enough.
+
+### Back of the envelope, or throwing the whole textbook
+
+Resgo can be a "back of the envelope" exercise on steroids, as it allows a technical
+team to see the consequences of their assumptions propagate all the way through to
+commercial outcomes in seconds. A geologist might argue that a reservoir is much riskier
+than previously supposed, and 10 seconds later can have their opinion reflected in
+project NPV. This creates laser focus in a technical team, as _what really matters_ is
+identifiable in seconds, instead of argued about for months.
+
+The model can be calibrated rigorously based on geostatistical offset analysis, or it
+can be run on lower effort back of the envelope assumptions. Either way, the information
+put into the model will flow through to its logical consequences. Add high confidence
+assumptions, get tighter commercial results.
+
+That configurability means that new information is also very easy to integrate into the
+analysis. New reservoir data, new offset analyses, new analogues, new commercial
+information---just rerun the model. It will only take 10 seconds.
+
+Just add information until a decision can be made. Then make the decision.
+
+## Future Plans
+
+Resgo is currenly a backend tool that I use in a consultancy capacity. It is not yet a
+standalone offering. It may become one eventually, but I am focussed on working on data
+platform offerings ahead of specialized analytical tools for now. 
+
+That being said, it integrates very well with a good data system, and my intention for
+deployments would be to utilize the GIS database and geostatistical modelling to infer
+appropriate distributions for properties using well offsets where available. 
+
+Prospect evaluation occurs in many different information contexts, often very
+information poor ones. Flexibility is key, so it sits comfortably on its own, rolled out
+when I need it.
