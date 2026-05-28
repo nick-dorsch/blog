@@ -252,7 +252,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>Economic model</td>
 <td>Prices, costs, taxes, royalties, financing, depreciation</td>
-<td>Cahs flows, NPV, IRR, PI, EMV, payback time</td>
+<td>Cash flows, NPV, IRR, PI, EMV, payback time</td>
 </tr>
 <tr class="even">
 <td>Decision analysis</td>
@@ -798,7 +798,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>The cumulative discounted flows shown in the bottom chart here reflect the project value through time, with NPV being the end of project distribution. Note that the above plots are showing the geological success case outcomes. Failures are represented with a separate cost of failure parameter for cases where the prospect fails at the outset (by default the CAPEX of the first well drilled).</p>
 <p>To emphasize what is being shown here, this is a time-discounted, full accounting of cash flows, including royalties, taxation, financing, debt servicing tranches, depreciation scheduling and product sales.</p>
-<p>Why go this far? Because high stakes decisions shouldn’t be made on subsurface, or field production based indicators, they should be made based on commercial outcomes. That requires full accounting. Usually those commercial metrics are provided as point estimates after a handoff from reservoir engineers, but here they are part of the same integrated model. Uncertainties are preserved, end to end.</p>
+<p>Why go this far? Because high-stakes decisions should not be made on subsurface or production-based proxies. They should be made based on commercial outcomes. That requires full accounting. Usually those commercial metrics are provided as point estimates after a handoff from reservoir engineers, but here they are part of the same integrated model. Uncertainties are preserved, end-to-end.</p>
 </section>
 <section id="decision-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="decision-analysis">Decision Analysis</h2>
@@ -1208,7 +1208,7 @@ ul.task-list li input[type="checkbox"] {
 </script>
 </div>
 </div>
-<p>Lot’s of upside potential, sure, but a decent chunk of the distribution is left of the break-even line.</p>
+<p>Lots of upside potential, sure, but a decent chunk of the distribution is left of the break-even line.</p>
 <p>Let’s suppose the company cannot survive a loss of more than $300M. We can encode that constraint as a loss-adjusted NPV function that is linear at ordinary outcomes (i.e., loss-adjusted NPV = NPV), but becomes hyperbolic as the result approaches the company <em>oh shit</em> threshold. The function below is capped at -$5B for the sake of plotting clarity:</p>
 <div id="88313c0a" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
@@ -1282,7 +1282,7 @@ ul.task-list li input[type="checkbox"] {
 </script>
 </div>
 </div>
-<p>The point here is that exposure to a $300M <em>gain</em> is very, very different to exposure to a $300M <em>loss</em>. If we had $3B in the bank, we would have a different loss function and might be happy to take that bet, but right now losing it would be existential.</p>
+<p>The point here is that exposure to a $300M <em>gain</em> is very, very different from exposure to a $300M <em>loss</em>. If we had $3B in the bank, we would have a different loss function and might be happy to take that bet, but right now losing it would be existential.</p>
 <p>Running the simulated NPV distribution through our loss function allows us to consider the project again, but this time placed into the important context of our company’s loss tolerance.</p>
 <div id="4fd0ce6f" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
@@ -1356,17 +1356,17 @@ ul.task-list li input[type="checkbox"] {
 </script>
 </div>
 </div>
-<p>And this paints a very different picture! Maybe those positive P90 and above results looked too good to pass up, but if we’re honest about our financial situation… we can see that the undertaking could sink us.</p>
+<p>And this paints a very different picture! Maybe the headline commercial metrics looked too good to pass up, but if we’re honest about our financial situation… we can see that the undertaking could sink us.</p>
 <p>So we pass on the opportunity, or we diversify our risk by farming in joint venture partners, because there’s still opportunity on the table, we just can’t bear the risk on our own.</p>
-<p>So that’s Resgo. Subsurface, production, infrastructure and commercial uncertainties propagated all the way through to loss adjusted NPV distributions in one giant stochastic monster.</p>
+<p>So that’s Resgo. Subsurface, production, infrastructure and commercial uncertainties propagated all the way through to loss-adjusted NPV distributions in one giant stochastic monster.</p>
 </section>
 <section id="back-of-the-envelope" class="level2">
 <h2 class="anchored" data-anchor-id="back-of-the-envelope">Back of the Envelope</h2>
 <p>Resgo can act as a “back of the envelope” exercise on steroids, because it enables a technical team to see the consequences of their assumptions propagate all the way through to commercial outcomes in seconds. A geologist might argue that a reservoir is much riskier than previously supposed, and 10 seconds later can have their opinion reflected in project NPV.</p>
 <p>This creates laser focus in a technical team, as <em>what really matters</em> is identifiable in seconds, not argued about for months.</p>
-<p>The model can be calibrated rigorously based on geostatistical offset analysis, or it can be run on back-of-the-envelope assumptions. Either way, the information put into the model will flow through to its logical consequences. Add high confidence assumptions, get tighter commercial results.</p>
+<p>The model can be calibrated rigorously based on geostatistical offset analysis, or it can be run on back-of-the-envelope assumptions. Either way, the information put into the model will flow through to its logical consequences. Add high-confidence assumptions, get tighter commercial results.</p>
 <p>That configurability also means that new information is very easy to integrate into the analysis. New reservoir data, new analogs, new commercial assumptions—just rerun the model. It will only take 10 seconds.</p>
-<p>And once a set of development concepts have been high-graded, if data permits they can be taken through the traditional static to dynamic simulation modelling workflow for cross-checks.</p>
+<p>And once a set of development concepts have been high-graded, if data permits they can be taken through the traditional static-to-dynamic simulation modeling workflow for cross-checks.</p>
 </section>
 <section id="future-plans" class="level2">
 <h2 class="anchored" data-anchor-id="future-plans">Future Plans</h2>

@@ -82,7 +82,7 @@ flowchart TD
 |---|---|---|
 | Volumetric model | Net, porosity, saturation, gas cap fractions, fluid properties, risk | STOIIP/GIIP, recoverable resource, and geological success distributions |
 | Field development model | Wells, timing, reservoir targets, facility constraints, recovery assumptions | Oil and gas production time series, well activity, CAPEX/OPEX timing |
-| Economic model | Prices, costs, taxes, royalties, financing, depreciation | Cahs flows, NPV, IRR, PI, EMV, payback time |
+| Economic model | Prices, costs, taxes, royalties, financing, depreciation | Cash flows, NPV, IRR, PI, EMV, payback time |
 | Decision analysis | Commercial metrics, company risk tolerance | Decision metrics, downside exposure, loss-adjusted value |
 
 The following example is for a stacked reservoir field development, with 12 target
@@ -308,11 +308,11 @@ To emphasize what is being shown here, this is a time-discounted, full accountin
 cash flows, including royalties, taxation, financing, debt servicing tranches,
 depreciation scheduling and product sales.
 
-Why go this far? Because high stakes decisions shouldn't be made on subsurface, or
-field production based indicators, they should be made based on commercial outcomes.
-That requires full accounting. Usually those commercial metrics are provided as point
+Why go this far? Because high-stakes decisions should not be made on subsurface or
+production-based proxies. They should be made based on commercial outcomes. That
+requires full accounting. Usually those commercial metrics are provided as point
 estimates after a handoff from reservoir engineers, but here they are part of the same
-integrated model. Uncertainties are preserved, end to end.
+integrated model. Uncertainties are preserved, end-to-end.
 
 ## Decision Analysis
 
@@ -453,7 +453,7 @@ fig = alt.layer(histogram, break_even)
 fig.show()
 ```
 
-Lot's of upside potential, sure, but a decent chunk of the distribution is left of the
+Lots of upside potential, sure, but a decent chunk of the distribution is left of the
 break-even line. 
 
 Let's suppose the company cannot survive a loss of more than $300M. We can encode that
@@ -527,8 +527,8 @@ fig = alt.layer(loss_function, bankruptcy_threshold)
 fig.show()
 ```
 
-The point here is that exposure to a $300M _gain_ is very, very different to exposure to
-a $300M _loss_. If we had $3B in the bank, we would have a different loss function and
+The point here is that exposure to a $300M _gain_ is very, very different from exposure
+to a $300M _loss_. If we had $3B in the bank, we would have a different loss function and
 might be happy to take that bet, but right now losing it would be existential.
 
 Running the simulated NPV distribution through our loss function allows us to consider
@@ -569,16 +569,16 @@ fig = alt.layer(loss_histogram, break_even_loss)
 fig.show()
 ```
 
-And this paints a very different picture! Maybe those positive P90 and above results
-looked too good to pass up, but if we're honest about our financial situation... we can
-see that the undertaking could sink us. 
+And this paints a very different picture! Maybe the headline commercial metrics looked
+too good to pass up, but if we're honest about our financial situation... we can see
+that the undertaking could sink us. 
 
 So we pass on the opportunity, or we diversify our risk by farming in joint venture
 partners, because there's still opportunity on the table, we just can't bear the risk on
 our own.
 
 So that's Resgo. Subsurface, production, infrastructure and commercial uncertainties
-propagated all the way through to loss adjusted NPV distributions in one giant
+propagated all the way through to loss-adjusted NPV distributions in one giant
 stochastic monster.
 
 ## Back of the Envelope
@@ -594,7 +594,7 @@ in seconds, not argued about for months.
 
 The model can be calibrated rigorously based on geostatistical offset analysis, or it
 can be run on back-of-the-envelope assumptions. Either way, the information put into the
-model will flow through to its logical consequences. Add high confidence assumptions,
+model will flow through to its logical consequences. Add high-confidence assumptions,
 get tighter commercial results.
 
 That configurability also means that new information is very easy to integrate into the
@@ -602,7 +602,7 @@ analysis. New reservoir data, new analogs, new commercial assumptions---just rer
 model. It will only take 10 seconds.
 
 And once a set of development concepts have been high-graded, if data permits they can
-be taken through the traditional static to dynamic simulation modelling workflow for
+be taken through the traditional static-to-dynamic simulation modeling workflow for
 cross-checks.
 
 ## Future Plans
