@@ -463,7 +463,11 @@ _oh shit_ threshold. The function below is capped at -$5B for the sake of plotti
 clarity:
 
 $$
-L(x) = \frac{T x}{T + x}
+L(x) =
+\begin{cases}
+x, & x > 0 \\
+\dfrac{T x}{T + x}, & x \le 0
+\end{cases}
 $$
 
 where:

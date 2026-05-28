@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicholas Dorsch">
-<meta name="dcterms.date" content="2026-05-28">
+<meta name="dcterms.date" content="2026-05-29">
 
 <title>Resgo – dorschblog</title>
 <style>
@@ -174,7 +174,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 28, 2026</p>
+        <p class="date">May 29, 2026</p>
       </div>
     </div>
     
@@ -295,7 +295,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="volumetric-simulation">Volumetric Simulation</h2>
 <p>Resgo models start with a stochastic volumetric simulation of each reservoir. Reservoirs can be single phase or separated into oil and gas legs via a Gas Cap Fraction parameter. Associated condensate and solution gas are captured as outputs along with their primary product streams.</p>
 <p>Each parameter is represented with a probability distribution, with flexible copula models used to capture correlations between them. A few examples are shown below:</p>
-<div id="549583de" class="cell" data-execution_count="3">
+<div id="549583de" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -367,7 +367,7 @@ window.Quarto = {
 </script>
 </div>
 </div>
-<div id="7a1fa64d" class="cell" data-execution_count="4">
+<div id="7a1fa64d" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -439,7 +439,7 @@ window.Quarto = {
 </script>
 </div>
 </div>
-<div id="6e13230b" class="cell" data-execution_count="5">
+<div id="6e13230b" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -514,7 +514,7 @@ window.Quarto = {
 <p>These forest plots show the P99, P90, P50, P10, and P1 quantiles for each variable of each reservoir.</p>
 <p>Each reservoir in the simulated stack has a series of risk factors applied, which together with a dependency parameter (capturing the correlation of risk across reservoirs) is used to simulate the success or failure of each target, aggregating results stochastically and propagating them into the field production simulator.</p>
 <p>Here are the individual zone success case oil volumes:</p>
-<div id="1fab2a8d" class="cell" data-execution_count="6">
+<div id="1fab2a8d" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -587,7 +587,7 @@ window.Quarto = {
 </div>
 </div>
 <p>And the overall total visualized with an ECDF plot:</p>
-<div id="d586dc5d" class="cell" data-execution_count="7">
+<div id="d586dc5d" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -669,7 +669,7 @@ window.Quarto = {
 <p>That is a mouthful, but what it means is total field production (Ultimate Recovery) across all producers will be equivalent to the Ultimate Recovery implied by the static volume multiplied by the recovery factor for each reservoir.</p>
 <p>This consistency guarantee makes Resgo very powerful. It provides a physically consistent, stochastic material balance simulation of the field that runs in seconds.</p>
 <p>Dynamic simulation modeling traditionally takes weeks of configuration, and hours to run. This makes iteration extremely inefficient. Resgo models can be used to simulate hundreds of different scenarios, each with thousands of iterations, efficiently exploring field development options.</p>
-<div id="5008683f" class="cell" data-execution_count="8">
+<div id="5008683f" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -753,7 +753,7 @@ window.Quarto = {
 <p>It includes configurable tax and royalty schemes, as well as stochastic oil and gas price forecasting using Geometric Brownian Motion or Ornstein-Uhlenbeck mean reverting stochastic processes. Flat pricing assumptions or price decks can also be used.</p>
 <p>This flexibility allows full stochastic analysis through to commercial metrics like IRR, NPV, PI, and payback time.</p>
 <p>Below, nominal discounted cash flows are shown, which sum to project NPV.</p>
-<div id="37fd599c" class="cell" data-execution_count="9">
+<div id="37fd599c" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -834,7 +834,7 @@ window.Quarto = {
 <p>Resgo provides rich reporting functionality so that outputs can be either visualized or tabulated.</p>
 <section id="volumetrics" class="level3">
 <h3 class="anchored" data-anchor-id="volumetrics">Volumetrics</h3>
-<div id="45b52fb7" class="cell" data-execution_count="10">
+<div id="45b52fb7" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display" data-execution_count="27">
 <div>
 
@@ -912,7 +912,7 @@ window.Quarto = {
 </section>
 <section id="oil-eur" class="level3">
 <h3 class="anchored" data-anchor-id="oil-eur">Oil EUR</h3>
-<div id="9a1a9a7f" class="cell" data-execution_count="11">
+<div id="9a1a9a7f" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="28">
 <div>
 
@@ -947,7 +947,7 @@ window.Quarto = {
 </div>
 <section id="by-reservoir" class="level4">
 <h4 class="anchored" data-anchor-id="by-reservoir">By Reservoir</h4>
-<div id="3e49a98a" class="cell" data-execution_count="12">
+<div id="3e49a98a" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="29">
 <div>
 
@@ -1074,7 +1074,7 @@ window.Quarto = {
 </section>
 <section id="nominal-npv" class="level3">
 <h3 class="anchored" data-anchor-id="nominal-npv">Nominal NPV</h3>
-<div id="8297720e" class="cell" data-execution_count="13">
+<div id="8297720e" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="30">
 <div>
 
@@ -1110,7 +1110,7 @@ window.Quarto = {
 </section>
 <section id="nominal-emv" class="level3">
 <h3 class="anchored" data-anchor-id="nominal-emv">Nominal EMV</h3>
-<div id="0eea26f7" class="cell" data-execution_count="14">
+<div id="0eea26f7" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="31">
 <div>
 
@@ -1165,7 +1165,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="loss-functions">Loss Functions</h2>
 <p>The loss function formalizes a company’s financial position and risk tolerance. It maps simulated commercial outcomes to how good (or, more importantly, how <em>bad</em>) their consequences are for the company.</p>
 <p>Before defining the function, it is worth looking directly at the simulated NPV distribution:</p>
-<div id="e7f16691" class="cell" data-execution_count="15">
+<div id="e7f16691" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -1240,7 +1240,11 @@ window.Quarto = {
 <p>Lots of upside potential, sure, but a decent chunk of the distribution is left of the break-even line.</p>
 <p>Let’s suppose the company cannot survive a loss of more than $300M. We can encode that constraint as a loss-adjusted NPV function that is linear at ordinary outcomes (i.e., loss-adjusted NPV = NPV), but becomes hyperbolic as the result approaches the company <em>oh shit</em> threshold. The function below is capped at -$5B for the sake of plotting clarity:</p>
 <p><span class="math display">\[
-L(x) = \frac{T x}{T + x}
+L(x) =
+\begin{cases}
+x, &amp; x &gt; 0 \\
+\dfrac{T x}{T + x}, &amp; x \le 0
+\end{cases}
 \]</span></p>
 <p>where:</p>
 <ul>
@@ -1248,7 +1252,7 @@ L(x) = \frac{T x}{T + x}
 <li><span class="math inline">\(L(x)\)</span> is the loss-adjusted NPV</li>
 <li><span class="math inline">\(T\)</span> is the maximum survivable loss, or bankruptcy threshold</li>
 </ul>
-<div id="2d7c0167" class="cell" data-execution_count="16">
+<div id="2d7c0167" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 
 <style>
@@ -1322,7 +1326,7 @@ L(x) = \frac{T x}{T + x}
 </div>
 <p>The point here is that exposure to a $300M <em>gain</em> is very, very different from exposure to a $300M <em>loss</em>. If we had $3B in the bank, we would have a different loss function and might be happy to take that bet, but right now losing it would be existential.</p>
 <p>Running the simulated NPV distribution through our loss function allows us to consider the project again, but this time placed into the important context of our company’s loss tolerance.</p>
-<div id="462fad02" class="cell" data-execution_count="17">
+<div id="462fad02" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 
 <style>
