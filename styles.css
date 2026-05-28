@@ -210,6 +210,42 @@ td {
   color: var(--warm-text);
 }
 
+/* Vega / Altair hover tooltips */
+#vg-tooltip-element,
+.vg-tooltip {
+  background: var(--warm-surface-strong) !important;
+  border: 1px solid var(--warm-border-strong) !important;
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.35) !important;
+  color: var(--warm-text) !important;
+  font-family: "Merriweather", "Times New Roman", serif !important;
+}
+
+#vg-tooltip-element table,
+.vg-tooltip table,
+#vg-tooltip-element tr,
+.vg-tooltip tr,
+#vg-tooltip-element td,
+.vg-tooltip td,
+#vg-tooltip-element th,
+.vg-tooltip th {
+  background: transparent !important;
+  border-color: var(--warm-border) !important;
+  color: var(--warm-text) !important;
+}
+
+#vg-tooltip-element .key,
+.vg-tooltip .key,
+#vg-tooltip-element th {
+  color: var(--warm-text-muted) !important;
+  font-weight: 600 !important;
+}
+
+#vg-tooltip-element .value,
+.vg-tooltip .value,
+#vg-tooltip-element td {
+  color: var(--warm-text) !important;
+}
+
 .btn,
 .btn-primary,
 .btn-secondary {
