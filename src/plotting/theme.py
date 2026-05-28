@@ -73,14 +73,14 @@ def _lex_theme() -> dict:
             },
             "range": {
                 "category": [
-                    WARM_GOLD,
-                    WARM_GOLD_SOFT,
-                    "#a2743e",
-                    "#8c6740",
-                    "#c9a472",
-                    "#7b6149",
-                    "#b79e81",
-                    "#d5c2a6",
+                    "#5DA5DA",  # blue
+                    "#F28E2B",  # orange
+                    "#59C36A",  # green
+                    "#E15759",  # red
+                    "#B07AA1",  # purple
+                    "#4ECDC4",  # cyan
+                    "#FF9DA7",  # pink
+                    "#EDC948",  # yellow
                 ]
             },
         }

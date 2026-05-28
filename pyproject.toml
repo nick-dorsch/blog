@@ -11,6 +11,7 @@ requires-python = ">=3.12"
 dependencies = [
     "altair>=5.5.0",
     "ldstats",
+    "resgo",
     "matplotlib>=3.10.1",
     "numpy>=2.2.4",
     "pandas>=2.2.3",
@@ -21,10 +22,12 @@ dependencies = [
     "shiny>=1.6.1",
     "shinylive>=0.8.7",
     "yfinance>=0.2.61",
+    "jupyter-cache>=1.0.1",
 ]
 
 [tool.uv.sources]
-ldstats = { path = "../ldi/libraries/ldstats", editable = true }
+ldstats = { path = "../ldstats", editable = true }
+resgo = { path = "../resgo/backend/", editable = true}
 
 [tool.setuptools.packages.find]
 where = ["."]
