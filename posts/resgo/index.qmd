@@ -1,6 +1,6 @@
 ---
 title: "Resgo"
-subtitle: "Prospect evaluation end to end"
+subtitle: "Prospect evaluation end-to-end"
 author: "Nicholas Dorsch"
 date: today
 categories: [LDI, geology, geophysics, statistics]
@@ -14,10 +14,10 @@ execute:
 PLOTTING_BACKEND = "altair"
 SEED = 42
 
-CHAINS = 4
-DRAWS = 1000
-N_RESERVOIRS = 6
-N_PRODUCERS = 20
+CHAINS = 10
+DRAWS = 500
+N_RESERVOIRS = 10
+N_PRODUCERS = 25
 
 import altair as alt
 from src.plotting import theme
@@ -35,38 +35,58 @@ Resgo is my attempt to make complex prospect evaluation probabilistic all the wa
 down---uncertain geology, uncertain field development performance, uncertain
 economics---packaged into an integrated simulation model.
 
-It is designed for probabilistic assessment of exploration and early development
-opportunities, preserving uncertainty from subsurface volumes through to commercial
-outcomes.
+In practical terms, Resgo lets me define uncertain reservoir properties---geological
+risks, development plans, production behavior, prices, taxes, royalties, financing, and
+costs---then simulate thousands of internally consistent project outcomes. Instead of
+asking _“what is the project NPV?”_, it asks _“what is the range of possible commercial
+outcomes?”_
 
-It does this by integrating volumetrics, field production, and commercial modelling in a
-single vectorized model, optimized for highly iterative, scenario based workloads.
+It is designed to do this extremely fast, allowing iterative exploration of different
+development concepts in a way that would not be feasible without it.
 
 ## Motivations
 
-Reporting a single number, or three numbers, as NPV for a project as complex as an oil
-and gas field development, is... not a good idea. There is no single number that
-captures the uncertainty inherent in such a complex undertaking, so the decision
-appropriate information to present is not a point estimate, but a series of
-distributions that capture the uncertainties involved.
+Reporting a single number or a low/mid/high, as the basis for decision making for a
+project as risky and complex as an oil and gas field development, is... not ideal. There
+is no single number that captures the uncertainty inherent in such a complex
+undertaking, so the appropriate information to present for decision-making is not a set
+of point estimates, but a series of distributions that capture the uncertainties
+involved.
 
-Traditionally these uncertainties are almost impossible to integrate end to end. Static
-volumetric models feeding into dynamic simulation models very rarely propagate
-uncertainty up the chain through to economic modelling. The undertaking is simply too
+Traditionally these uncertainties are almost impossible to integrate end-to-end. Static
+structural models feeding into dynamic simulation models very rarely propagate
+uncertainty up the chain through to commercial metrics. The undertaking is simply too
 slow and clumsy to be done with traditional tools. 
 
 Resgo provides that integration. It does so by making some simplifying assumptions about
-reservoir behaviour, but in low information contexts---before drilling or early in field
+reservoir behavior, but in low information contexts---before drilling or early in field
 development---I would argue that simpler models are more appropriate. Not because they
-model reservoir physics rigorously (that would require dynamic simulation), but because
-they are flexible enough to configure quickly, model multiple scenarios, and iterate on.
+model reservoir physics rigorously, but because they are flexible enough to configure
+quickly, model many scenarios, and iterate on.
 
 This should become clear with an example.
 
 # Example
 
-The following example is for a stacked reservoir field development, with 6 target
-reservoirs and 20 planned producers.
+At a high level, the model flow looks like this:
+
+```{mermaid}
+flowchart TD
+    A[Volumetrics] --> B[Geological risk]
+    B --> C[Field development / production simulation]
+    C --> D[Economics]
+    D --> E[Decision metrics / loss function]
+```
+
+| Module | Inputs | Outputs |
+|---|---|---|
+| Volumetric model | Net, porosity, saturation, gas cap fractions, fluid properties, risk | STOIIP/GIIP, recoverable resource, and geological success distributions |
+| Field development model | Wells, timing, reservoir targets, facility constraints, recovery assumptions | Oil and gas production time series, well activity, CAPEX/OPEX timing |
+| Economic model | Prices, costs, taxes, royalties, financing, depreciation | Cahs flows, NPV, IRR, PI, EMV, payback time |
+| Decision analysis | Commercial metrics, company risk tolerance | Decision metrics, downside exposure, loss-adjusted value |
+
+The following example is for a stacked reservoir field development, with 12 target
+reservoirs and 25 planned producers.
 
 ```{python}
 #| output: false
@@ -102,9 +122,9 @@ prospect.field_development_model = FieldDevelopmentModel.simple_development(
     month_offset=12,
     drill_to_online_months=9,
     max_oil_rate_stbpd=20_000,
-    max_gas_rate_mscfpd=90_000,
+    max_gas_rate_mscfpd=60_000,
     gas_development=False,
-    producer_capex_USD=45e6,
+    producer_capex_USD=80e6,
     years=30,
 )
 
@@ -113,11 +133,11 @@ prospect.economic_model = EconomicModel(
     royalty_model=FlatRoyaltyModel(royalty_rate=0.12),
     tax_model=ProgressiveTaxModel(tax_tiers={0: 0.15, 10e6: 0.25, 15e6: 0.4}),
     leverage_model=LeverageModel(debt_to_equity_ratio=1.0, interest_rate=0.06, loan_term_years=15),
-    infrastructure_capex_USD=60e6,
+    infrastructure_capex_USD=350e6,
     annual_discount_rate=0.10,
     annual_inflation_rate=0.025,
-    annual_opex_USD=2_000_000,
-    producer_abandonment_cost_USD=500_000,
+    annual_opex_USD=2e6,
+    producer_abandonment_cost_USD=0.5e6,
 )
 
 simpack = prospect.simulate(
@@ -199,17 +219,17 @@ stochastically.
 
 ## Field Development Simulation
 
-Resgo is designed to support multi-well developments, as realistic end to end modelling
+Resgo is designed to support multi-well developments, as realistic end-to-end modeling
 is not fully achievable without a simulation of multiple wells producing a field, with
 volume sharing, production profiles and CAPEX/OPEX associated with each.
 
-This includes complex, phased projects targetting multiple reservoirs with oil and gas
+This includes complex, phased projects targeting multiple reservoirs with oil and gas
 caps at different stages of development. Producers can be scheduled specifically, with
 defined drill and online dates, or they can be automatically sequenced on a defined
 cadence, coming online after an assumed drill-to-online period. The choice of how in
 depth to go with field development sequencing is left to the user.
 
-The field production simulation uses Decline Curve Analysis (DCA) formulae in a
+The field production simulation uses Decline Curve Analysis (DCA) formulas in a
 stochastic model, constrained by static volumes (simulated in the volumetric model),
 initial rate and recovery factor distributions. The simulation is designed to ensure
 produced volumes in a given month are consistent with each producer's share of the
@@ -222,7 +242,7 @@ volume multiplied by the recovery factor for each reservoir.
 This consistency guarantee makes Resgo very powerful. It provides a physically
 consistent, stochastic material balance simulation of the field that runs in seconds.
 
-Dynamic simulation modelling traditionally takes weeks of configuration, and hours to
+Dynamic simulation modeling traditionally takes weeks of configuration, and hours to
 run. This makes iteration extremely inefficient. Resgo models can be used to simulate
 hundreds of different scenarios, each with thousands of iterations, efficiently
 exploring field development options.
@@ -241,25 +261,25 @@ producers coming online through the development of the field.
 As more wells are brought online, the decline of the field steepens as more producers
 exploit the shared resource. The field production has constraints on maximum oil and gas
 throughput, which curtails peak production while remaining consistent with ultimate
-recoveries. This allows modelling tradeoffs between different facility concepts,
+recoveries. This allows modeling tradeoffs between different facility concepts,
 weighing their CAPEX/OPEX against the peak throughput they are capable of sustaining.
 
 The simulation also "cancels" planned wells dynamically when remaining field volumes do
 not justify continued development. This avoids unfairly penalizing results with
-unrealistically poor operational decision making. This is important for the economics
+unrealistically poor operational decision-making. This is important for the economics
 model, as CAPEX/OPEX spend is tied to wells actually drilled.
 
 Because all field production is fed directly into the economic model, development
 scenarios are compared on their commercial basis directly, not with proxies of it like
 EUR or STOIIP. 
 
-This also means that there no need for BOE (barrels of oil equivalent) or MEPS (minimum
+This also means that there is no need for BOE (barrels of oil equivalent) or MEPS (minimum
 economic pool size) metrics, as everything is simulated through to cash flows.
 
 ## Economic Simulation
 
 The Resgo economic model runs full OPEX/CAPEX, royalty, tax, financing, price and
-depreciation modelling, fully integrated with the rest of the stochastic model.
+depreciation modeling, fully integrated with the rest of the stochastic model.
 
 It includes configurable tax and royalty schemes, as well as stochastic oil and gas
 price forecasting using Geometric Brownian Motion or Ornstein-Uhlenbeck mean reverting
@@ -284,14 +304,15 @@ are showing the geological success case outcomes. Failures are represented with 
 separate cost of failure parameter for cases where the prospect fails at the outset (by
 default the CAPEX of the first well drilled).
 
-To emphasize what is being shown here, this is a time discounted, full accounting of
-cashflows, including royalties, taxation, lending, depreciation scheduling and product
-sales.
+To emphasize what is being shown here, this is a time-discounted, full accounting of
+cash flows, including royalties, taxation, financing, debt servicing tranches,
+depreciation scheduling and product sales.
 
-Why go this far? Because decisions should not be made on subsurface, or field production
-based indicators, they should be made based on commercial outcomes. That requires full
-acounting. Usually those commercial metrics are provided as point estimates after a
-handoff from reservoir engineers, but here they are part of the same integrated model.
+Why go this far? Because high stakes decisions shouldn't be made on subsurface, or
+field production based indicators, they should be made based on commercial outcomes.
+That requires full accounting. Usually those commercial metrics are provided as point
+estimates after a handoff from reservoir engineers, but here they are part of the same
+integrated model. Uncertainties are preserved, end to end.
 
 ## Decision Analysis
 
@@ -328,11 +349,11 @@ reporter.tabler.npv_table()
 reporter.tabler.emv_table()
 ```
 
-On the basis of these results the prospect looks attractive, though not a slam dunk.
-The project is commercial in the P50 case at around USD $570M, and has a P(Commercial)
-of 89%. That all sounds good!
+On the basis of these results the prospect looks quite attractive. The project is
+commercial in the P50 case at around USD $890M, and has a P(Commercial) of 95%. It is
+even NPV positive in the P90 case! This all sounds pretty good!
 
-Note the hugely negative P99 result, though. We will get to that next.
+Note the large, negative P99 result, though. We will get to that next.
 
 ### Why do I report such wide confidence intervals?
 
@@ -342,51 +363,51 @@ sure that a project requiring me to commit a billion dollars of capital will mak
 return, I want to be 99.99% sure. If I don't have that luxury, fine, but showing that I
 do, in fact, have it is extremely valuable, as it means an easy decision can be made.
 
-These models should enable more effective decision making, a P90-P10 range is not a
+These models should enable more effective decision-making, a P90-P10 range is not a
 sufficient description. I want to know what happens if shit completely hits the fan! If
 there is a real possibility of losing money, I want to know how much, and how likely we
 think that is. Point estimates don't provide that. 
 
 The other reason is that often probabilistic analyses are treated with skepticism
 because all the uncertainties stack up to something approximating _"we have no bloody
-idea what will happen"_. That _is_ a possible result of a model (and if it's a good one,
-you should probably take it seriously, and avoid doing anything drastic), but much more
-often the uncertainties flow through into something that actually represents a good
-representative range of outcomes.
+idea what will happen"_. That's a possible result of a model (and if it's a good one,
+you should probably take it seriously and avoid doing anything drastic), but much more
+often the uncertainties flow through into something that actually represents a plausible
+range of outcomes.
 
 Uncertainties don't blow up into infinite doubt as you stack them---they converge.
-Correlation across uncertainties complicates this somewhat, but the correlations are
-rarely so dramatic that uncertainty blows up. Being explicit about the range the model
-produces (through wide confidence intervals, probability visualisations or whatever
-else) is a mark of confidence that the range it is producing is actually meaningful and
-worth consideration.
+Correlations across uncertainties complicate this a bit, but they are rarely dramatic
+enough to blow up the uncertainty. Being explicit about the range the model produces is
+a mark of confidence that the range is actually meaningful and worth consideration.
 
-If your uncertainty range is well defined, and never crosses _"we go bankrupt"_, or
-(less dramatically) _"we lose money"_, that is _very valuable information_.
+If your uncertainty range is well defined, and never crosses _"we go bankrupt"_, that is
+very valuable information!
 
-Because decision making under uncertainty should not be _"project A has a higher NPV
+Because decision-making under uncertainty should not be _"project A has a higher NPV
 than project B, so let's do A"_, but something closer to _"project A exposes us to
 financial ruin, project B is a safe bet. So let's do B"_. 
 
-Ignoring uncertainty in high stakes decision making is crazy, and glossing over it with
-a few point estimated metrics is asking for big trouble.
+Ignoring uncertainty in high-stakes decision-making is crazy, and glossing over it with
+a few point-estimate metrics hides the reality of the situation.
 
-So to get to the point, should this prospect be FID'd or not? 
+So, to get to the point, should this prospect be FID'd or not? 
 
 Well, it depends on whether the company can survive such a large loss. This can be
 reasoned about quantitatively by defining a company _loss function_, which is the final
-stage of Resgo modelling (though admittedly I've never seen a company do this before, so
-most of the time project NPV would be the end of the line).
+stage of Resgo modeling. 
+
+Admittedly I've never seen a company do this before, so most of the time project NPV
+would be the end of the line.
 
 Let's do it anyway though, because it's neat.
 
 ## Loss Functions
 
-A loss function in this context formalizes a company's financial position and risk
-tolerance. It maps simulated commercial outcomes to how bad (or good) they are for the
-company.
+The loss function formalizes a company's financial position and risk tolerance. It maps
+simulated commercial outcomes to how good (or, more importantly, how _bad_) their
+consequences are for the company.
 
-Before defining the function, it is useful to look directly at the simulated NPV
+Before defining the function, it is worth looking directly at the simulated NPV
 distribution:
 
 ```{python}
@@ -432,10 +453,14 @@ fig = alt.layer(histogram, break_even)
 fig.show()
 ```
 
+Lot's of upside potential, sure, but a decent chunk of the distribution is left of the
+break-even line. 
+
 Let's suppose the company cannot survive a loss of more than $300M. We can encode that
-constraint as a loss-adjusted NPV function that is linear at ordinary outcomes (ie loss
-adjusted NPV = NPV), but becomes hyperbolic as the result approaches ruin. The
-function below is capped at -$5B for the sake of plotting clarity:
+constraint as a loss-adjusted NPV function that is linear at ordinary outcomes (i.e.,
+loss-adjusted NPV = NPV), but becomes hyperbolic as the result approaches the company
+_oh shit_ threshold. The function below is capped at -$5B for the sake of plotting
+clarity:
 
 ```{python}
 BANKRUPTCY_THRESHOLD_USD = 300e6
@@ -498,23 +523,17 @@ bankruptcy_threshold = (
     .encode(x="npv_usd_mm:Q")
 )
 
-loss_floor = (
-    alt.Chart(pd.DataFrame({"loss_adjusted_npv_usd_mm": [LOSS_FLOOR_USD / 1e6]}))
-    .mark_rule(color="red", strokeDash=[2, 4], strokeWidth=1)
-    .encode(y="loss_adjusted_npv_usd_mm:Q")
-)
-
-fig = alt.layer(loss_function, bankruptcy_threshold, loss_floor)
+fig = alt.layer(loss_function, bankruptcy_threshold)
 fig.show()
 ```
 
-The point here is that, exposure to a $300M _gain_ is very, very different to exposure
-to a $300M _loss_. If we had $3B in the bank, we might have a very different loss
-function and be happy to take that bet, but right now losing it would be existential.
+The point here is that exposure to a $300M _gain_ is very, very different to exposure to
+a $300M _loss_. If we had $3B in the bank, we would have a different loss function and
+might be happy to take that bet, but right now losing it would be existential.
 
 Running the simulated NPV distribution through our loss function allows us to consider
-the project again, this time placed into the important context of our company's
-tolerance for ruin:
+the project again, but this time placed into the important context of our company's
+loss tolerance.
 
 ```{python}
 loss_df = pd.DataFrame(
@@ -550,54 +569,58 @@ fig = alt.layer(loss_histogram, break_even_loss)
 fig.show()
 ```
 
-And this paints a very different picture! Maybe those P50 to P10 outcomes looked too
-good to pass up, but if we're honest about our financial situation, we have to admit
-that the undertaking could sink us. 
+And this paints a very different picture! Maybe those positive P90 and above results
+looked too good to pass up, but if we're honest about our financial situation... we can
+see that the undertaking could sink us. 
 
-So we pass up the opportunity, or we diversify our risk by farming in joint venture
+So we pass on the opportunity, or we diversify our risk by farming in joint venture
 partners, because there's still opportunity on the table, we just can't bear the risk on
 our own.
 
-And that is Resgo!
+So that's Resgo. Subsurface, production, infrastructure and commercial uncertainties
+propagated all the way through to loss adjusted NPV distributions in one giant
+stochastic monster.
 
-## Back of the envelope, or throw the whole textbook
+## Back of the Envelope
 
-Resgo can be a "back of the envelope" exercise on steroids, as it allows a technical
-team to see the consequences of their assumptions propagate all the way through to
-commercial outcomes in seconds. A geologist might argue that a reservoir is much riskier
-than previously supposed, and 10 seconds later can have their opinion reflected in
-project NPV. 
+Resgo can act as a "back of the envelope" exercise on steroids, because it enables a
+technical team to see the consequences of their assumptions propagate all the way
+through to commercial outcomes in seconds. A geologist might argue that a reservoir is
+much riskier than previously supposed, and 10 seconds later can have their opinion
+reflected in project NPV. 
 
 This creates laser focus in a technical team, as _what really matters_ is identifiable
 in seconds, not argued about for months.
 
 The model can be calibrated rigorously based on geostatistical offset analysis, or it
-can be run on back of the envelope assumptions. Either way, the information put into the
+can be run on back-of-the-envelope assumptions. Either way, the information put into the
 model will flow through to its logical consequences. Add high confidence assumptions,
 get tighter commercial results.
 
 That configurability also means that new information is very easy to integrate into the
-analysis. New reservoir data, new analogues, new commercial assumptions---just rerun the
+analysis. New reservoir data, new analogs, new commercial assumptions---just rerun the
 model. It will only take 10 seconds.
 
-Add information until a decision can be made. Then make the decision.
+And once a set of development concepts have been high-graded, if data permits they can
+be taken through the traditional static to dynamic simulation modelling workflow for
+cross-checks.
 
 ## Future Plans
 
 Resgo is currently a backend tool that I use as a consultant. It is not yet a sellable
-production. It may become one eventually, but for now I am focussed on data platform
+product. It may become one eventually, but for now I am focused on data platform
 offerings ahead of specialized analytical tools. 
 
 That being said, it integrates very well with a good data system, and my intention for
-deployments would be to utilize a GIS database and geostatistical modelling to infer
+deployments would be to utilize a GIS database and geostatistical modeling to infer
 appropriate distributions for properties using well offsets where available. Databasin
-and Resgo fit together very nicely.
+and Resgo fit together very nicely from that perspective.
 
-But prospect evaluation occurs in many different information contexts, often very
-information poor ones. Flexibility is key, so it sits comfortably on its own, rolled out
-when I need it.
+But prospect evaluation occurs in many different contexts, and often in very
+information-sparse ones. Flexibility is key, so Resgo sits comfortably on its own,
+rolled out when I need it.
 
-If you are looking for this level of technical analysis of oil and gas developments, or
-have experience in this area and have feedback to share, don't hesitate to reach out.
+If you are looking for technical analysis of oil and gas developments, or have
+experience in this area and feedback to share, don't hesitate to reach out.
 
 Thanks for reading!
