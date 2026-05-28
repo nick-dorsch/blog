@@ -12,7 +12,7 @@ execute:
 
 ```{python}
 PLOTTING_BACKEND = "altair"
-SEED = 42
+SEED = 43
 
 CHAINS = 10
 DRAWS = 500
@@ -462,6 +462,16 @@ loss-adjusted NPV = NPV), but becomes hyperbolic as the result approaches the co
 _oh shit_ threshold. The function below is capped at -$5B for the sake of plotting
 clarity:
 
+$$
+L(x) = \frac{T x}{T + x}
+$$
+
+where:
+
+- $x$ is the project NPV
+- $L(x)$ is the loss-adjusted NPV
+- $T$ is the maximum survivable loss, or bankruptcy threshold
+
 ```{python}
 BANKRUPTCY_THRESHOLD_USD = 300e6
 LOSS_FLOOR_USD = -5e9
@@ -491,9 +501,12 @@ loss_function_df = pd.DataFrame(
         "loss_adjusted_npv_usd_mm": loss_adjusted_npv_USD(x_usd) / 1e6,
     }
 )
+loss_function_plot_df = loss_function_df[
+    loss_function_df["loss_adjusted_npv_usd_mm"] > LOSS_FLOOR_USD / 1e6
+]
 
 loss_function = (
-    alt.Chart(loss_function_df)
+    alt.Chart(loss_function_plot_df)
     .mark_line(color="#FACC15", strokeWidth=3)
     .encode(
         x=alt.X("npv_usd_mm:Q", title="Nominal discounted NPV ($USD MM)"),
