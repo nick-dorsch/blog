@@ -276,8 +276,8 @@ Just make the computer go _brrrrrr_.
 # Learning from Data
 
 It might appear that I've diverged from the point of this post (using Bayes to solve
-technical problems and improve decision making) but the Monte Carlo method begs a
-question:
+technical problems and improve decision making) but the Monte Carlo method is a good
+entry point, because it begs a question:
 
 How do we decide what distributions to use? And how do we parametrize them?
 
@@ -498,7 +498,8 @@ with pm.Model() as volumetrics_model:
     )
 ```
 
-Here is a graph representation of the statistical model, grey nodes indicate observations:
+Here is a graph representation of the statistical model, grey nodes indicate
+observations (data) and white nodes are latent (unobserved) model parameters:
 
 ```{python}
 pm.model_to_graphviz(volumetrics_model)
@@ -923,6 +924,11 @@ alt.Chart(contact_depth_df).mark_area(
 
 Neat!
 
+Now this range can be used when assessing trapping geometries, whether through showing a
+range on a single depth map, or simulating depth map iterations with this uncertainty
+fed in. This may have a dramatic effect on volumetric estimates, depending on how
+sensitive the trapping geometry is to changes in the contact.
+
 ## Fluid compositional modelling
 
 A Dirichlet model can be fit to a dataset of fluid samples to model uncertainty in
@@ -935,21 +941,21 @@ Again, we start with some synthetic data:
 ```{python}
 rng = np.random.default_rng(42)
 
-components = ["C1", "C2", "C3", "C4", "C5", "C6", "C7+"]
+components = ["C1", "C2", "C3", "iC4", "nC4", "iC5", "nC5", "C6", "C7+"]
 
 reservoir_profiles = {
-    "Reservoir A": np.array([0.72, 0.10, 0.06, 0.04, 0.03, 0.02, 0.03]),
-    "Reservoir B": np.array([0.34, 0.11, 0.10, 0.26, 0.06, 0.04, 0.09]),
-    "Reservoir C": np.array([0.24, 0.10, 0.09, 0.08, 0.08, 0.07, 0.34]),
+    "Reservoir A": np.array([0.72, 0.10, 0.06, 0.015, 0.025, 0.012, 0.018, 0.02, 0.03]),
+    "Reservoir B": np.array([0.34, 0.11, 0.10, 0.10, 0.16, 0.025, 0.035, 0.04, 0.09]),
+    "Reservoir C": np.array([0.24, 0.10, 0.09, 0.03, 0.05, 0.035, 0.045, 0.07, 0.34]),
 }
 
 reservoir_concentration = {
-    "Reservoir A": 120,
-    "Reservoir B": 80,
-    "Reservoir C": 60,
+    "Reservoir A": 30,
+    "Reservoir B": 20,
+    "Reservoir C": 10,
 }
 
-base_samples_per_reservoir = 8
+base_samples_per_reservoir = 5
 replicate_concentration = 1_500
 replicate_probabilities = [0.65, 0.25, 0.10]
 replicate_counts = [1, 2, 3]
@@ -1021,7 +1027,7 @@ alt.Chart(mean_composition).mark_bar().encode(
 ```
 
 Note these are the _average_ compositions of the three reservoirs, in reality we have
-several fluid samples (and replicates) in a dataset of 238 total samples.
+several fluid samples (and replicates) in a dataset of 21 total samples.
 
 So how can we model the average properties by reservoir, and the variability we see
 within sample intervals and across them?
@@ -1097,8 +1103,7 @@ pm.model_to_graphviz(composition_model)
 
 ```{python}
 #| output: false
-histogram_bins = np.linspace(0, 1, 250)
-histogram_rows = []
+interval_rows = []
 
 for reservoir in reservoir_names:
     reservoir_alpha = (
@@ -1110,78 +1115,258 @@ for reservoir in reservoir_names:
     reservoir_composition = reservoir_alpha / reservoir_alpha.sum(axis=1, keepdims=True)
 
     for component_idx, component in enumerate(components):
-        density, edges = np.histogram(
+        low, mid, high = np.quantile(
             reservoir_composition[:, component_idx],
-            bins=histogram_bins,
-            density=True,
+            [0.025, 0.5, 0.975],
         )
-        histogram_rows.extend(
+        interval_rows.append(
             {
                 "reservoir": reservoir,
                 "component": component,
-                "fraction": edges[i],
-                "density": density[i],
+                "fraction_low": low,
+                "fraction_mid": mid,
+                "fraction_high": high,
                 "component_order": component_idx,
             }
-            for i in range(len(density))
         )
 
-reservoir_composition_hist = pd.DataFrame(histogram_rows)
+reservoir_composition_intervals = pd.DataFrame(interval_rows)
 
-component_color = alt.Color(
-    "component:N",
-    sort=components,
+reservoir_color = alt.Color(
+    "reservoir:N",
     scale=alt.Scale(
-        domain=components,
-        range=["#ddb06d", "#9bd3e6", "#f4a6a6", "#8fbc8f", "#b58fd3", "#f0c987", "#5b6770"],
+        domain=list(reservoir_names),
+        range=["#9bd3e6", "#ddb06d", "#8fbc8f"],
     ),
-    legend=alt.Legend(title=None),
+    legend=alt.Legend(
+        title=None,
+        orient="top-right",
+        direction="vertical",
+    ),
 )
 
+base = alt.Chart(reservoir_composition_intervals).encode(
+    x=alt.X(
+        "component:N",
+        title="Component",
+        sort=components,
+        axis=alt.Axis(labelAngle=0, grid=False),
+    ),
+    xOffset=alt.XOffset("reservoir:N", sort=list(reservoir_names)),
+    color=reservoir_color,
+)
 
-def reservoir_composition_histogram(reservoir):
-    reservoir_hist = reservoir_composition_hist[
-        reservoir_composition_hist["reservoir"] == reservoir
-    ]
+composition_interval_rules = base.mark_rule(strokeWidth=2).encode(
+    y=alt.Y(
+        "fraction_low:Q",
+        title="Posterior mole fraction",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y2="fraction_high:Q",
+    tooltip=[
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("component:N", title="Component"),
+        alt.Tooltip("fraction_low:Q", title="2.5%", format=".1%"),
+        alt.Tooltip("fraction_mid:Q", title="Median", format=".1%"),
+        alt.Tooltip("fraction_high:Q", title="97.5%", format=".1%"),
+    ],
+)
 
-    return alt.Chart(reservoir_hist).mark_line(
-        interpolate="step-after",
-        strokeWidth=2,
-    ).encode(
-        x=alt.X(
-            "fraction:Q",
-            title="Posterior mole fraction",
-            scale=alt.Scale(domain=[0, 1]),
-            axis=alt.Axis(format="%", grid=False),
-        ),
-        y=alt.Y(
-            "density:Q",
-            title=None,
-            axis=alt.Axis(labels=False, ticks=False, grid=False),
-        ),
-        color=component_color,
-        tooltip=[
-            alt.Tooltip("reservoir:N", title="Reservoir"),
-            alt.Tooltip("component:N", title="Component"),
-            alt.Tooltip("fraction:Q", title="Posterior fraction", format=".1%"),
-            alt.Tooltip("density:Q", title="Density", format=".2f"),
-        ],
-    ).properties(
-        title=reservoir,
-        width="container",
-        height=260,
-    )
+composition_interval_points = base.mark_circle(size=80, opacity=0.9).encode(
+    y=alt.Y(
+        "fraction_mid:Q",
+        title="Posterior mole fraction",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    tooltip=[
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("component:N", title="Component"),
+        alt.Tooltip("fraction_low:Q", title="2.5%", format=".1%"),
+        alt.Tooltip("fraction_mid:Q", title="Median", format=".1%"),
+        alt.Tooltip("fraction_high:Q", title="97.5%", format=".1%"),
+    ],
+)
+
+composition_forest_plot = (
+    composition_interval_rules + composition_interval_points
+).properties(
+    width="container",
+    height=360,
+)
+```
+
+A hierarchical or multi-level model allows for information to flow between observation
+groups. Here we are trying to learn about the average compositions of samples collected
+across a field, from particular reservoirs, with repeated observations over some
+intervals. That leads to a natural hierarchy of Field to Reservoir to Sample Group. 
+
+Intuitively we know that replications over the same interval should be clustered more
+tightly than samples from different reservoirs. The hierarchical model reflects this.
+Information flows from the global (field) level, down to the reservoir level, down to
+the sample group level in a kind of prior pass-the-parcel in the model. This regularizes
+estimates across each group, so that the bias caused by a naive arithmetic averaging
+approach over repeated samples is removed from the statistical estimate.
+
+```{python}
+composition_forest_plot
+```
+
+The Dirichlet distribution is useful here because it is a distribution over the unit
+simplex. This just means that a sample from the distribution generates a vector of
+values that sum to 1, which matches compositional data nicely. In real examples there
+would be additional mole fractions included, but I've left them out here for the sake of
+keeping plots readable.
+
+## Side Wall Core Analysis
+
+Side wall cores are a very rich dataset that lend themselves to hierarchical analyses as
+well. The cores are taken over a field, in reservoirs in particular wellbore
+intersections. Routine Core Analysis provides lab measured porosity, permeability and
+saturations, often with sampling error included.
+
+Measurement error is another area that Bayesian modelling really shines. I'll focus on
+the porosity for this example, but this can easily be extended to a
+porosity-permeability model as well.
+
+Again, let's start by creating a synthetic dataset:
+
+```{python}
+rng = np.random.default_rng(42)
+
+wells = [f"Well-{i:02d}" for i in range(1, 9)]
+core_reservoirs = ["Reservoir A", "Reservoir B", "Reservoir C"]
+
+reservoir_depth_ref_mss = {
+    "Reservoir A": -1450.0,
+    "Reservoir B": -1625.0,
+    "Reservoir C": -1810.0,
+}
+
+# Porosity decreases with depth. Since subsea depth is negative down, a positive
+# slope against centered depth means deeper samples have lower porosity.
+reservoir_porosity_at_ref = {
+    "Reservoir A": 0.25,
+    "Reservoir B": 0.10,
+    "Reservoir C": 0.15,
+}
+reservoir_logit_slope_per_100m = 0.14
+
+well_structural_offset_m = dict(zip(wells, rng.normal(0, 35, len(wells))))
+well_porosity_offset = dict(zip(wells, rng.normal(0, 0.25, len(wells))))
+
+
+def logit(p):
+    return np.log(p / (1 - p))
+
+
+def inv_logit(x):
+    return 1 / (1 + np.exp(-x))
+
+
+core_rows = []
+for well in wells:
+    for reservoir in core_reservoirs:
+        n_cores = rng.integers(5, 9)
+        reservoir_ref_depth = reservoir_depth_ref_mss[reservoir]
+        core_depths = (
+            reservoir_ref_depth
+            + well_structural_offset_m[well]
+            + rng.uniform(-45, 45, n_cores)
+        )
+
+        depth_centered_100m = (core_depths - reservoir_ref_depth) / 100
+        true_logit_porosity = (
+            logit(reservoir_porosity_at_ref[reservoir])
+            + reservoir_logit_slope_per_100m * depth_centered_100m
+            + well_porosity_offset[well]
+        )
+        true_porosity = inv_logit(true_logit_porosity)
+
+        porosity_stdev = rng.uniform(0.004, 0.018, n_cores)
+        measured_porosity = np.clip(
+            rng.normal(true_porosity, porosity_stdev),
+            0.02,
+            0.40,
+        )
+
+        for core_idx in range(n_cores):
+            core_rows.append(
+                {
+                    "core_id": f"{well}-{reservoir[-1]}-{core_idx + 1:02d}",
+                    "well": well,
+                    "reservoir": reservoir,
+                    "depth_mss": core_depths[core_idx],
+                    "porosity": measured_porosity[core_idx],
+                    "porosity_stdev": porosity_stdev[core_idx],
+                    "true_porosity": true_porosity[core_idx],
+                }
+            )
+
+sidewall_cores = pd.DataFrame(core_rows)
 ```
 
 ```{python}
-reservoir_composition_histogram("Reservoir A")
+sidewall_cores_plot_data = sidewall_cores.assign(
+    porosity_low=lambda df: df["porosity"] - df["porosity_stdev"],
+    porosity_high=lambda df: df["porosity"] + df["porosity_stdev"],
+)
+
+core_reservoir_color = alt.Color(
+    "reservoir:N",
+    scale=alt.Scale(
+        domain=core_reservoirs,
+        range=["#9bd3e6", "#ddb06d", "#8fbc8f"],
+    ),
+    legend=alt.Legend(title=None, orient="top-right"),
+)
+
+core_error_bars = alt.Chart(sidewall_cores_plot_data).mark_rule(opacity=0.35).encode(
+    x=alt.X(
+        "porosity_low:Q",
+        title="Measured porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    x2="porosity_high:Q",
+    y=alt.Y(
+        "depth_mss:Q",
+        title="Depth, mSS",
+        scale=alt.Scale(zero=False),
+        axis=alt.Axis(grid=False),
+    ),
+    color=core_reservoir_color,
+)
+
+core_points = alt.Chart(sidewall_cores_plot_data).mark_circle(size=45, opacity=0.8).encode(
+    x=alt.X(
+        "porosity:Q",
+        title="Measured porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=alt.Y(
+        "depth_mss:Q",
+        title="Depth, mSS",
+        scale=alt.Scale(zero=False),
+        axis=alt.Axis(grid=False),
+    ),
+    color=core_reservoir_color,
+    tooltip=[
+        alt.Tooltip("core_id:N", title="Core"),
+        alt.Tooltip("well:N", title="Well"),
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("depth_mss:Q", title="Depth, mSS", format=".1f"),
+        alt.Tooltip("porosity:Q", title="Porosity", format=".1%"),
+        alt.Tooltip("porosity_stdev:Q", title="Sampling error", format=".1%"),
+    ],
+)
+
+(core_error_bars + core_points).properties(width="container", height=420)
 ```
 
-```{python}
-reservoir_composition_histogram("Reservoir B")
-```
+Reservoir A appears to be the highest porosity reservoir in the dataset, with Reservoir
+B significantly poorer in quality. Lab measurement error is included with each data
+point.
 
-```{python}
-reservoir_composition_histogram("Reservoir C")
-```
+We can fit a hierarchical model with measurement error included to this dataset to model
+the relationship between porosity and depth for each reservoir.
+
 
