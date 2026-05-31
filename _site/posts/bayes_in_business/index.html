@@ -218,7 +218,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#my-introduction-to-bayes" id="toc-my-introduction-to-bayes" class="nav-link active" data-scroll-target="#my-introduction-to-bayes">My introduction to Bayes</a></li>
-  <li><a href="#the-core-of-my-thinking" id="toc-the-core-of-my-thinking" class="nav-link" data-scroll-target="#the-core-of-my-thinking">The core of my thinking</a></li>
+  <li><a href="#the-core-of-it" id="toc-the-core-of-it" class="nav-link" data-scroll-target="#the-core-of-it">The core of it</a></li>
   <li><a href="#monte-carlo-models" id="toc-monte-carlo-models" class="nav-link" data-scroll-target="#monte-carlo-models">Monte Carlo models</a>
   <ul class="collapse">
   <li><a href="#back-of-the-envelope-thinking" id="toc-back-of-the-envelope-thinking" class="nav-link" data-scroll-target="#back-of-the-envelope-thinking">Back of the envelope thinking</a></li>
@@ -228,6 +228,12 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#markov-chain-monte-carlo-models" id="toc-markov-chain-monte-carlo-models" class="nav-link" data-scroll-target="#markov-chain-monte-carlo-models">Markov Chain Monte Carlo models</a></li>
   <li><a href="#what-about-machine-learning-and-ai" id="toc-what-about-machine-learning-and-ai" class="nav-link" data-scroll-target="#what-about-machine-learning-and-ai">What about Machine Learning and AI?</a></li>
+  </ul></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a>
+  <ul class="collapse">
+  <li><a href="#oil-field-volumetrics" id="toc-oil-field-volumetrics" class="nav-link" data-scroll-target="#oil-field-volumetrics">Oil Field Volumetrics</a></li>
+  <li><a href="#fluid-contact-uncertainty-from-rft-data" id="toc-fluid-contact-uncertainty-from-rft-data" class="nav-link" data-scroll-target="#fluid-contact-uncertainty-from-rft-data">Fluid contact uncertainty from RFT data</a></li>
+  <li><a href="#fluid-compositional-modelling" id="toc-fluid-compositional-modelling" class="nav-link" data-scroll-target="#fluid-compositional-modelling">Fluid compositional modelling</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -239,27 +245,27 @@ window.Quarto = {
 
 
 
-<div id="b70d9f7e" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div id="75308525" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="148">
 
 <style>
-  #altair-viz-67a91350034949e68abeb6b00974c0d8.vega-embed {
+  #altair-viz-562b13b5809d4b93bcda4b593a2c97bf.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-67a91350034949e68abeb6b00974c0d8.vega-embed details,
-  #altair-viz-67a91350034949e68abeb6b00974c0d8.vega-embed details summary {
+  #altair-viz-562b13b5809d4b93bcda4b593a2c97bf.vega-embed details,
+  #altair-viz-562b13b5809d4b93bcda4b593a2c97bf.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-67a91350034949e68abeb6b00974c0d8"></div>
+<div id="altair-viz-562b13b5809d4b93bcda4b593a2c97bf"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-67a91350034949e68abeb6b00974c0d8") {
-      outputDiv = document.getElementById("altair-viz-67a91350034949e68abeb6b00974c0d8");
+    if (outputDiv.id !== "altair-viz-562b13b5809d4b93bcda4b593a2c97bf") {
+      outputDiv = document.getElementById("altair-viz-562b13b5809d4b93bcda4b593a2c97bf");
     }
 
     const paths = {
@@ -324,8 +330,8 @@ window.Quarto = {
 <p>Because I’m not a formally trained statistician (or an academic of any kind), but instead someone who works in a technical industry where engineering and data analytics are highly valued, my perspective on where Bayes fits in is as much value-oriented as it is driven by intellectual curiosity. I’ve written before about the idea of <a href="https://nick-dorsch.github.io/blog/posts/informatics/">informatics</a>, and Bayesian statistics sits at the heart of the concept.</p>
 <p>The point I want to make in this post boils down to this: the Bayesian toolkit lets us combine domain knowledge and limited data into highly expressive, interpretable models that quantify uncertainty, and this makes them ideal for decision support in complex technical domains.</p>
 </section>
-<section id="the-core-of-my-thinking" class="level1">
-<h1>The core of my thinking</h1>
+<section id="the-core-of-it" class="level1">
+<h1>The core of it</h1>
 <blockquote class="blockquote">
 <p>A. <em>“What should we believe, given our understanding of the world and our data?”</em></p>
 <p>B. <em>“What should we do, given that information?”</em></p>
@@ -362,30 +368,30 @@ y(t) = ae^{bt}
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>doubling_years <span class="op">=</span> rng.normal(<span class="dv">17</span>, <span class="dv">3</span>, n)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>proportion_alive <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>) <span class="op">**</span> (career_years <span class="op">/</span> doubling_years)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="2e54c5d4" class="cell" data-execution_count="2">
+<div id="a6e331e9" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>Mean result: 0.883; 90% interval: 0.763–0.968</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="149">
 
 <style>
-  #altair-viz-f28b72b8a8d145b8981655d0f9ff55e7.vega-embed {
+  #altair-viz-4110b8f0635d43c182ea498eb0ba1213.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-f28b72b8a8d145b8981655d0f9ff55e7.vega-embed details,
-  #altair-viz-f28b72b8a8d145b8981655d0f9ff55e7.vega-embed details summary {
+  #altair-viz-4110b8f0635d43c182ea498eb0ba1213.vega-embed details,
+  #altair-viz-4110b8f0635d43c182ea498eb0ba1213.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-f28b72b8a8d145b8981655d0f9ff55e7"></div>
+<div id="altair-viz-4110b8f0635d43c182ea498eb0ba1213"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-f28b72b8a8d145b8981655d0f9ff55e7") {
-      outputDiv = document.getElementById("altair-viz-f28b72b8a8d145b8981655d0f9ff55e7");
+    if (outputDiv.id !== "altair-viz-4110b8f0635d43c182ea498eb0ba1213") {
+      outputDiv = document.getElementById("altair-viz-4110b8f0635d43c182ea498eb0ba1213");
     }
 
     const paths = {
@@ -458,7 +464,7 @@ y(t) = ae^{bt}
 <p><span class="math display">\[
 p(\theta \mid y) = \frac{p(y \mid \theta)\,p(\theta)}{p(y)}
 \]</span></p>
-<p>The left side of that equation represents, in words, <em>What is the posterior probability distribution over model parameters, given the observed data</em>, which sounds similar to</p>
+<p>The left side of that equation means, in words, <em>What is the posterior probability distribution over the model parameters, given the observed data</em>, which sounds similar to</p>
 <blockquote class="blockquote">
 <p>A. <em>“What should we believe, given our understanding of the world and our data?”</em></p>
 </blockquote>
@@ -467,8 +473,8 @@ p(\theta \mid y) = \frac{p(y \mid \theta)\,p(\theta)}{p(y)}
 <p>The field of Bayesian statistics is devoted to this problem.</p>
 <section id="markov-chain-monte-carlo-models" class="level2">
 <h2 class="anchored" data-anchor-id="markov-chain-monte-carlo-models">Markov Chain Monte Carlo models</h2>
-<p>It turns out that Bayes theorem is a huge pain in the ass. There are classes of problem where the maths solves <a href="https://nick-dorsch.github.io/blog/posts/lindy/">elegantly</a>, providing efficient analytical solutions to Bayesian models. These are amazing and useful to learn, but also rare when applied to real-world problems.</p>
-<p>Most of the time, we need specialized algorithms to do Bayes. It is all because of this innocent looking quantity in the denominator of Bayes theorem:</p>
+<p>It turns out that Bayes theorem is a huge pain in the ass. There are classes of problem where the maths solves <a href="https://nick-dorsch.github.io/blog/posts/lindy/">elegantly</a>, providing efficient analytical solutions to Bayesian models. These are very cool and useful to learn, but also rare when applied to real-world problems.</p>
+<p>Most of the time, we need specialized algorithms to do Bayes. It is all because of this innocent looking probability in the denominator of Bayes theorem:</p>
 <p><span class="math display">\[
 p(y)
 \]</span></p>
@@ -479,8 +485,8 @@ p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
 <blockquote class="blockquote">
 <p><em>“The denominator is the probability of the observed data under the whole model. It integrates over every possible value of <span class="math inline">\(\theta\)</span>, weighting each value by its prior plausibility. In other words, it asks how surprising the data would be before we knew which parameter value was true.”</em></p>
 </blockquote>
-<p>That sentence is a headache. I actually asked the AI to write it because I couldn’t vomit out a sentence describing it adequately.</p>
-<p>It turns out it is a headache for computers, too, because most of the time that integral becomes an intractable nightmare, where no analytical solution even exists.</p>
+<p>That sentence is a headache. I actually asked the AI to write it because I couldn’t manage a sentence describing it.</p>
+<p>It turns out it is a headache for computers, too, because most of the time that integral is an intractable nightmare, where no analytical solution even exists.</p>
 <p>Instead, clever algorithms are needed to approximate the posterior distribution through random sampling. This is Monte Carlo again, but this time we have no inverse CDF to use (the function used to generate random samples in Monte Carlo models) as the posterior distribution is unknown, so we have to explore the probability space without it, somehow. That is where Markov Chain Monte Carlo (<a href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo">MCMC</a>) algorithms come in.</p>
 <p>Learning how to build efficient models to do Bayesian inference is the engineering side of Bayesian statistics.</p>
 <p>This isn’t a post about that engineering effort, but the point is, with MCMC models, we can update our beliefs with data across a wide range of problems.</p>
@@ -489,10 +495,512 @@ p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
 <h2 class="anchored" data-anchor-id="what-about-machine-learning-and-ai">What about Machine Learning and AI?</h2>
 <p>The dominant paradigm in data science is machine learning. Many mainstream machine learning workflows are built around optimization: choose a model class, define a loss function, and find the parameters that make the best in-sample predictions while minimizing out-of-sample error. For big datasets with many features, this can work incredibly well.</p>
 <p>But running problems through the black box of ML costs us a few important things.</p>
-<p>First is expressiveness. Engineering problems usually have an underlying mathematical structure that is usually well understood. It is not wise to throw it out and expect the algorithm to pick it all up again using large quantities of data. Physics informed neural networks (<a href="https://en.wikipedia.org/wiki/Physics-informed_neural_networks">PINNs</a>) address this problem, embedding physical laws into neural network training such that solutions are kept within physically consistent constraints, but they are not the norm in the ML world—most of the time ML models are not constrained in this way.</p>
-<p>Second is uncertainty. Most machine learning algorithsm do not provide uncertainty quantification. Especially in complex domains with small quantities of data, that uncertainty can be an essential component of effective decision making. In high stakes situations, an ML model stating that the answer is “25!” while not having any ability to provide confidence intervals of <span class="math inline">\(\pm 10\)</span> or <span class="math inline">\(\pm 1000\)</span> makes decision making based on their results far less robust.</p>
-<p>Third is what I call the problem of “small data”. Big data is a luxury that most engineering problems don’t enjoy. Instead we are often trying to maximize the information we can get out of small quantities of expensively acquired data. Machine learning solutions in this context are not the best choice, in my view. They will provide uninterpretable solutions with questionable validity, with no uncertainty preservation.</p>
-<p>Machine learning is a rich field with many answers to my criticisms, here, but my answer is: use Bayes instead.</p>
+<p>First is expressiveness. Engineering problems usually have an underlying mathematical structure that is well understood. It is not wise to throw it out and expect the algorithm to pick it all up again using large quantities of data. Physics informed neural networks (<a href="https://en.wikipedia.org/wiki/Physics-informed_neural_networks">PINNs</a>) address this problem, embedding physical laws into neural network training such that solutions are kept within physically consistent constraints, but they are not the norm in the ML world—most of the time ML models are not constrained in this way.</p>
+<p>Second is uncertainty. Most machine learning algorithsm do not provide uncertainty quantification. Especially in complex domains with limited data, that uncertainty can be an essential component of effective decision making. In high stakes situations, an ML model stating that the answer is “25!” while not having any ability to provide confidence intervals of <span class="math inline">\(\pm 10\)</span> or <span class="math inline">\(\pm 1000\)</span> makes decision making based on their results far less robust.</p>
+<p>Third is what I call the problem of “small data”. Big data is a luxury that most engineering problems don’t enjoy. Instead we are often trying to maximize the information we can get out of small quantities of expensive to acquired data. Machine learning solutions in this context are not the best choice, in my view. They will provide uninterpretable solutions with questionable validity, with no uncertainty preservation.</p>
+<p>Machine learning is a rich field with many answers to the issues I bring up here, but my answer is: use Bayes instead. I just think it is a better toolset in many engineering contexts.</p>
+</section>
+</section>
+<section id="examples" class="level1">
+<h1>Examples</h1>
+<p>I want to show a few examples here. My background is in oil and gas, so that is where I know problems in the most detail, but I want to stress how domain agnostic Bayesian statistics is. If you have a system of equations that govern behaviour in some domain you are studying, you can express it in a Bayesian model, feed it data, and do inference.</p>
+<p>These models are created and run with <a href="https://www.pymc.io/welcome.html">PyMC</a>, a popular Python package for doing Bayesian statistics.</p>
+<section id="oil-field-volumetrics" class="level2">
+<h2 class="anchored" data-anchor-id="oil-field-volumetrics">Oil Field Volumetrics</h2>
+<p>A classic petroleum engineering example is a volumetric estimate. The deterministic calculation is simple, but every input is uncertain: porosity, water saturation, net to gross, gross rock volume, and the oil formation volume factor. Offset wells can teach us about reservoir properties, while others properties are derived from separate studies, like geophysics driven structural modelling, or PVT driven formation volume factor calculations.</p>
+<p>Here is a small PyMC model using synthetic offset-well data. The 25 wells inform field average porosity, water saturation, and net-to-gross. The formation volume factor, <span class="math inline">\(B_o\)</span>, and gross rock volume, GRV, are included as priors with no direct observations. STOIIP is then calculated as a deterministic variable from the posterior mean reservoir parameters.</p>
+<p>Here is a sample of the (synthetic) data:</p>
+<div id="b523d4e4" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="150">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">well</th>
+<th data-quarto-table-cell-role="th">porosity</th>
+<th data-quarto-table-cell-role="th">sw</th>
+<th data-quarto-table-cell-role="th">net_to_gross</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>W-01</td>
+<td>0.217618</td>
+<td>0.315915</td>
+<td>0.440238</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>W-02</td>
+<td>0.184000</td>
+<td>0.351292</td>
+<td>0.464190</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>W-03</td>
+<td>0.228761</td>
+<td>0.344618</td>
+<td>0.317999</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>W-04</td>
+<td>0.233514</td>
+<td>0.346509</td>
+<td>0.397623</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>W-05</td>
+<td>0.161224</td>
+<td>0.347233</td>
+<td>0.387074</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Here is a graph representation of the statistical model, grey nodes indicate observations:</p>
+<div id="10278407" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="152">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And here is the result:</p>
+<div id="83f3a071" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="153">
+
+<style>
+  #altair-viz-46e895b259a443b790f89fd8d44229bb.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-46e895b259a443b790f89fd8d44229bb.vega-embed details,
+  #altair-viz-46e895b259a443b790f89fd8d44229bb.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-46e895b259a443b790f89fd8d44229bb"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-46e895b259a443b790f89fd8d44229bb") {
+      outputDiv = document.getElementById("altair-viz-46e895b259a443b790f89fd8d44229bb");
+    }
+
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      let deps = ["vega-embed"];
+      require(deps, displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"background": "#292524", "view": {"fill": "#292524", "stroke": "#665340"}, "title": {"color": "#f4e9d7", "font": "Merriweather", "fontSize": 18, "fontWeight": 600, "subtitleColor": "#d5c2a6", "anchor": "start"}, "axis": {"domainColor": "#665340", "gridColor": "#665340", "tickColor": "#665340", "labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "legend": {"titleColor": "#f4e9d7", "labelColor": "#d5c2a6", "labelFont": "Merriweather", "titleFont": "Merriweather", "orient": "top-right", "symbolType": "circle"}, "header": {"labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "mark": {"color": "#c78d3b"}, "line": {"color": "#c78d3b"}, "bar": {"color": "#c78d3b"}, "point": {"color": "#ddb06d"}, "area": {"color": "#c78d3b", "opacity": 0.35}, "text": {"color": "#f4e9d7", "font": "Merriweather"}, "range": {"category": ["#5DA5DA", "#F28E2B", "#59C36A", "#E15759", "#B07AA1", "#4ECDC4", "#FF9DA7", "#EDC948"]}}, "layer": [{"data": {"name": "data-394f0d8d63f1061792beac92ed65e53c"}, "mark": {"type": "area", "interpolate": "step-after", "line": {"strokeWidth": 2}, "opacity": 0.45}, "encoding": {"color": {"field": "distribution", "legend": {"direction": "vertical", "legendX": 520, "legendY": 10, "orient": "none", "title": null}, "scale": {"domain": ["Prior", "Posterior"], "range": ["#5b6770", "#ddb06d"]}, "type": "nominal"}, "x": {"axis": {"grid": false}, "field": "stoiip_mmbbl", "title": "STOIIP, MMSTB", "type": "quantitative"}, "y": {"axis": {"grid": false, "labels": false, "ticks": false}, "field": "density", "title": null, "type": "quantitative"}}}, {"data": {"name": "data-4985dbeec5f6ce2332c420fb6d9da43b"}, "mark": {"type": "line", "interpolate": "step-after", "strokeWidth": 2}, "encoding": {"color": {"field": "distribution", "legend": {"direction": "vertical", "legendX": 520, "legendY": 10, "orient": "none", "title": null}, "scale": {"domain": ["Prior", "Posterior"], "range": ["#5b6770", "#ddb06d"]}, "type": "nominal"}, "x": {"field": "stoiip_mmbbl", "type": "quantitative"}, "y": {"field": "density", "type": "quantitative"}}}], "height": 320, "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-394f0d8d63f1061792beac92ed65e53c": [{"stoiip_mmbbl": 0.0, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 0.3814396576086194, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 0.7628793152172388, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 1.1443189728258583, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 1.5257586304344777, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 1.907198288043097, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 2.2886379456517165, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 2.670077603260336, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 3.0515172608689554, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 3.432956918477575, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 3.814396576086194, "density": 0.000983117493212447, "distribution": "Posterior"}, {"stoiip_mmbbl": 4.195836233694814, "density": 0.0068818224524871295, "distribution": "Posterior"}, {"stoiip_mmbbl": 4.577275891303433, "density": 0.04718963967419745, "distribution": "Posterior"}, {"stoiip_mmbbl": 4.9587155489120525, "density": 0.15795421057613312, "distribution": "Posterior"}, {"stoiip_mmbbl": 5.340155206520672, "density": 0.31033742202406245, "distribution": "Posterior"}, {"stoiip_mmbbl": 5.721594864129291, "density": 0.48041674834981574, "distribution": "Posterior"}, {"stoiip_mmbbl": 6.103034521737911, "density": 0.5112210964704724, "distribution": "Posterior"}, {"stoiip_mmbbl": 6.48447417934653, "density": 0.4499401060602299, "distribution": "Posterior"}, {"stoiip_mmbbl": 6.86591383695515, "density": 0.3139421861658414, "distribution": "Posterior"}, {"stoiip_mmbbl": 7.247353494563769, "density": 0.1779442662714529, "distribution": "Posterior"}, {"stoiip_mmbbl": 7.628793152172388, "density": 0.08979139771340329, "distribution": "Posterior"}, {"stoiip_mmbbl": 8.010232809781009, "density": 0.0419463463770645, "distribution": "Posterior"}, {"stoiip_mmbbl": 8.391672467389627, "density": 0.021300879019603067, "distribution": "Posterior"}, {"stoiip_mmbbl": 8.773112124998246, "density": 0.007209528283557928, "distribution": "Posterior"}, {"stoiip_mmbbl": 9.154551782606866, "density": 0.003604764141778964, "distribution": "Posterior"}, {"stoiip_mmbbl": 9.535991440215486, "density": 0.0009831174932124493, "distribution": "Posterior"}, {"stoiip_mmbbl": 9.917431097824105, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 10.298870755432723, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 10.680310413041344, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 11.061750070649964, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 11.443189728258583, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 11.824629385867201, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 12.206069043475821, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 12.587508701084442, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 12.96894835869306, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 13.350388016301679, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 13.7318276739103, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 14.11326733151892, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 14.494706989127538, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 14.876146646736156, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 15.257586304344777, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 15.639025961953397, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 16.020465619562017, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 16.401905277170634, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 16.783344934779254, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 17.164784592387875, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 17.54622424999649, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 17.927663907605112, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 18.309103565213732, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 18.690543222822352, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 19.071982880430973, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 19.45342253803959, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 19.83486219564821, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 20.21630185325683, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 20.597741510865447, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 20.979181168474067, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 21.360620826082688, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 21.742060483691308, "density": 0.0, "distribution": "Posterior"}, {"stoiip_mmbbl": 22.123500141299928, "density": 0.0, "distribution": "Posterior"}], "data-4985dbeec5f6ce2332c420fb6d9da43b": [{"stoiip_mmbbl": 0.0, "density": 0.025157215314527265, "distribution": "Prior"}, {"stoiip_mmbbl": 0.3814396576086194, "density": 0.06885132612396934, "distribution": "Prior"}, {"stoiip_mmbbl": 0.7628793152172388, "density": 0.09433955742947722, "distribution": "Prior"}, {"stoiip_mmbbl": 1.1443189728258583, "density": 0.11089035697850834, "distribution": "Prior"}, {"stoiip_mmbbl": 1.5257586304344777, "density": 0.11320746891537269, "distribution": "Prior"}, {"stoiip_mmbbl": 1.907198288043097, "density": 0.13704062026597744, "distribution": "Prior"}, {"stoiip_mmbbl": 2.2886379456517165, "density": 0.11916575675302388, "distribution": "Prior"}, {"stoiip_mmbbl": 2.670077603260336, "density": 0.11618661283419829, "distribution": "Prior"}, {"stoiip_mmbbl": 3.0515172608689554, "density": 0.11122137296948896, "distribution": "Prior"}, {"stoiip_mmbbl": 3.432956918477575, "density": 0.12512404459067508, "distribution": "Prior"}, {"stoiip_mmbbl": 3.814396576086194, "density": 0.10195292522203155, "distribution": "Prior"}, {"stoiip_mmbbl": 4.195836233694814, "density": 0.10592511711379901, "distribution": "Prior"}, {"stoiip_mmbbl": 4.577275891303433, "density": 0.09433955742947722, "distribution": "Prior"}, {"stoiip_mmbbl": 4.9587155489120525, "density": 0.09102939751967101, "distribution": "Prior"}, {"stoiip_mmbbl": 5.340155206520672, "density": 0.08242298175417484, "distribution": "Prior"}, {"stoiip_mmbbl": 5.721594864129291, "density": 0.09268447747457412, "distribution": "Prior"}, {"stoiip_mmbbl": 6.103034521737911, "density": 0.08374704571809732, "distribution": "Prior"}, {"stoiip_mmbbl": 6.48447417934653, "density": 0.0695133581059306, "distribution": "Prior"}, {"stoiip_mmbbl": 6.86591383695515, "density": 0.0681892941420081, "distribution": "Prior"}, {"stoiip_mmbbl": 7.247353494563769, "density": 0.06256202229533754, "distribution": "Prior"}, {"stoiip_mmbbl": 7.628793152172388, "density": 0.05892084639455055, "distribution": "Prior"}, {"stoiip_mmbbl": 8.010232809781009, "density": 0.05594170247572523, "distribution": "Prior"}, {"stoiip_mmbbl": 8.391672467389627, "density": 0.04998341463807402, "distribution": "Prior"}, {"stoiip_mmbbl": 8.773112124998246, "density": 0.049983414638073785, "distribution": "Prior"}, {"stoiip_mmbbl": 9.154551782606866, "density": 0.046342238737286955, "distribution": "Prior"}, {"stoiip_mmbbl": 9.535991440215486, "density": 0.03674277499884911, "distribution": "Prior"}, {"stoiip_mmbbl": 9.917431097824105, "density": 0.037073790989829734, "distribution": "Prior"}, {"stoiip_mmbbl": 10.298870755432723, "density": 0.035749727025907084, "distribution": "Prior"}, {"stoiip_mmbbl": 10.680310413041344, "density": 0.035087695043945835, "distribution": "Prior"}, {"stoiip_mmbbl": 11.061750070649964, "density": 0.02979143918825604, "distribution": "Prior"}, {"stoiip_mmbbl": 11.443189728258583, "density": 0.028467375224333548, "distribution": "Prior"}, {"stoiip_mmbbl": 11.824629385867201, "density": 0.022509087386682235, "distribution": "Prior"}, {"stoiip_mmbbl": 12.206069043475821, "density": 0.02085400743177913, "distribution": "Prior"}, {"stoiip_mmbbl": 12.587508701084442, "density": 0.024495183332566076, "distribution": "Prior"}, {"stoiip_mmbbl": 12.96894835869306, "density": 0.02118502342275985, "distribution": "Prior"}, {"stoiip_mmbbl": 13.350388016301679, "density": 0.015888767567069813, "distribution": "Prior"}, {"stoiip_mmbbl": 13.7318276739103, "density": 0.017212831530992297, "distribution": "Prior"}, {"stoiip_mmbbl": 14.11326733151892, "density": 0.014233687612166774, "distribution": "Prior"}, {"stoiip_mmbbl": 14.494706989127538, "density": 0.017543847521973, "distribution": "Prior"}, {"stoiip_mmbbl": 14.876146646736156, "density": 0.015226735585108571, "distribution": "Prior"}, {"stoiip_mmbbl": 15.257586304344777, "density": 0.010592511711379876, "distribution": "Prior"}, {"stoiip_mmbbl": 15.639025961953397, "density": 0.011254543693341118, "distribution": "Prior"}, {"stoiip_mmbbl": 16.020465619562017, "density": 0.008275399774515605, "distribution": "Prior"}, {"stoiip_mmbbl": 16.401905277170634, "density": 0.00926844774745739, "distribution": "Prior"}, {"stoiip_mmbbl": 16.783344934779254, "density": 0.010261495720399255, "distribution": "Prior"}, {"stoiip_mmbbl": 17.164784592387875, "density": 0.005627271846670611, "distribution": "Prior"}, {"stoiip_mmbbl": 17.54622424999649, "density": 0.0069513358105930435, "distribution": "Prior"}, {"stoiip_mmbbl": 17.927663907605112, "density": 0.0072823518015736645, "distribution": "Prior"}, {"stoiip_mmbbl": 18.309103565213732, "density": 0.004634223873728695, "distribution": "Prior"}, {"stoiip_mmbbl": 18.690543222822352, "density": 0.0036411759007868322, "distribution": "Prior"}, {"stoiip_mmbbl": 19.071982880430973, "density": 0.00794438378353498, "distribution": "Prior"}, {"stoiip_mmbbl": 19.45342253803959, "density": 0.003972191891767453, "distribution": "Prior"}, {"stoiip_mmbbl": 19.83486219564821, "density": 0.002648127927844969, "distribution": "Prior"}, {"stoiip_mmbbl": 20.21630185325683, "density": 0.006620319819612483, "distribution": "Prior"}, {"stoiip_mmbbl": 20.597741510865447, "density": 0.003310159909806211, "distribution": "Prior"}, {"stoiip_mmbbl": 20.979181168474067, "density": 0.00297914391882559, "distribution": "Prior"}, {"stoiip_mmbbl": 21.360620826082688, "density": 0.004634223873728695, "distribution": "Prior"}, {"stoiip_mmbbl": 21.742060483691308, "density": 0.0023171119368643476, "distribution": "Prior"}, {"stoiip_mmbbl": 22.123500141299928, "density": 0.0026481279278449937, "distribution": "Prior"}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>Here I’m showing the prior STOIIP (the distribution that the subsurface team might have estimated before discovering this field), and the well data driven posterior STOIIP, which has converged on a tighter uncertainty around the true value as average field reservoir properties are sampled.</p>
+<p>The point of putting the volumetric equation inside the probabilistic model is that the STOIIP output is not a separate spreadsheet calculation bolted on afterwards. It is part of the model graph. The same samples that update porosity, water saturation, and net pay from the offset wells also propagate the prior uncertainty in GRV and <span class="math inline">\(B_o\)</span> into the final volume estimate.</p>
+<p>Making the STOIIP part of the model graph also makes some advanced modelling possible, like integrating observed production as an additional constraint. If 4 MMSTB had already been recovered from this reservoir, for example, it would indicate STOIIP values less than ~8 MMSTB are highly unlikely, as recoveries of greater than 50% in oil reservoirs are uncommon.</p>
+</section>
+<section id="fluid-contact-uncertainty-from-rft-data" class="level2">
+<h2 class="anchored" data-anchor-id="fluid-contact-uncertainty-from-rft-data">Fluid contact uncertainty from RFT data</h2>
+<p>Another fun example in the oil and gas context is estimating fluid contacts based on pressure points taken in reservoirs. One can infer the depth of a gas-water contact based on this data, but it is often an uncertain estimate due to unknown fluid properties like the salinity of the brine (water) and the density of the gas. The water gradient is also often far less well sampled than gas columns.</p>
+<p>The problem boils down to finding the intersection of two lines: the gas pressure gradient and the water pressure gradient. The intersection of two lines is computable as:</p>
+<p><span class="math display">\[
+\begin{aligned}
+y_1 &amp;= m_1 x + b_1 \\
+y_2 &amp;= m_2 x + b_2 \\
+x^* &amp;= \frac{b_2 - b_1}{m_1 - m_2} \\
+y^* &amp;= m_1 x^* + b_1
+      = \frac{m_1 b_2 - m_2 b_1}{m_1 - m_2}
+\end{aligned}
+\]</span></p>
+<p>If we can model those pressure gradients with a Bayesian statistical model, we will also get full uncertainty quantification for the pressure and (of more interest) the depth of the intersection, which represents the gas-water contact.</p>
+<p>Let’s start by simulating some data:</p>
+<div id="1f1195a4" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="155">
+
+<style>
+  #altair-viz-cceeda788af8485496792ff2097ac3b3.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-cceeda788af8485496792ff2097ac3b3.vega-embed details,
+  #altair-viz-cceeda788af8485496792ff2097ac3b3.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-cceeda788af8485496792ff2097ac3b3"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-cceeda788af8485496792ff2097ac3b3") {
+      outputDiv = document.getElementById("altair-viz-cceeda788af8485496792ff2097ac3b3");
+    }
+
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      let deps = ["vega-embed"];
+      require(deps, displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"background": "#292524", "view": {"fill": "#292524", "stroke": "#665340"}, "title": {"color": "#f4e9d7", "font": "Merriweather", "fontSize": 18, "fontWeight": 600, "subtitleColor": "#d5c2a6", "anchor": "start"}, "axis": {"domainColor": "#665340", "gridColor": "#665340", "tickColor": "#665340", "labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "legend": {"titleColor": "#f4e9d7", "labelColor": "#d5c2a6", "labelFont": "Merriweather", "titleFont": "Merriweather", "orient": "top-right", "symbolType": "circle"}, "header": {"labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "mark": {"color": "#c78d3b"}, "line": {"color": "#c78d3b"}, "bar": {"color": "#c78d3b"}, "point": {"color": "#ddb06d"}, "area": {"color": "#c78d3b", "opacity": 0.35}, "text": {"color": "#f4e9d7", "font": "Merriweather"}, "range": {"category": ["#5DA5DA", "#F28E2B", "#59C36A", "#E15759", "#B07AA1", "#4ECDC4", "#FF9DA7", "#EDC948"]}}, "data": {"name": "data-61aa325a4b9a35c268a1353b87b3df11"}, "mark": {"type": "circle", "opacity": 0.85, "size": 80}, "encoding": {"color": {"field": "fluid", "legend": {"title": null}, "scale": {"domain": ["Water", "Gas"], "range": ["#9bd3e6", "#f4a6a6"]}, "type": "nominal"}, "tooltip": [{"field": "fluid", "type": "nominal"}, {"field": "depth_mss", "type": "quantitative"}, {"field": "pressure_mpa", "type": "quantitative"}], "x": {"axis": {"grid": false}, "field": "pressure_mpa", "scale": {"zero": false}, "title": "Pressure, MPa", "type": "quantitative"}, "y": {"axis": {"grid": false}, "field": "depth_mss", "scale": {"zero": false}, "title": "Depth, mSS", "type": "quantitative"}}, "height": 360, "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-61aa325a4b9a35c268a1353b87b3df11": [{"fluid": "Gas", "depth_mss": -1400.0, "pressure_mpa": 19.781523585398773}, {"fluid": "Gas", "depth_mss": -1412.5, "pressure_mpa": 19.8023000794688}, {"fluid": "Gas", "depth_mss": -1425.0, "pressure_mpa": 19.838752255979035}, {"fluid": "Gas", "depth_mss": -1437.5, "pressure_mpa": 19.867202823581955}, {"fluid": "Gas", "depth_mss": -1450.0, "pressure_mpa": 19.88024482405673}, {"fluid": "Water", "depth_mss": -1380.0, "pressure_mpa": 18.64578204931377}, {"fluid": "Water", "depth_mss": -1520.0, "pressure_mpa": 20.21678404031673}, {"fluid": "Water", "depth_mss": -1530.0, "pressure_mpa": 20.27437574076564}, {"fluid": "Water", "depth_mss": -1585.0, "pressure_mpa": 20.865319884249573}, {"fluid": "Water", "depth_mss": -1630.0, "pressure_mpa": 21.240695607242642}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>Each pressure gradient is a linear function, so our Bayesian model is simply estimating the slope and intercept of each, and then passing the solution for the intersection of them into the model graph, to output it as an uncertain parameter.</p>
+<div id="9a7b80ee" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="157">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-11-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Fitting the model to the data yields our two pressure gradients:</p>
+<div id="ec1746c5" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="158">
+
+<style>
+  #altair-viz-da2de448d54d458ea27f7db9728c863d.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-da2de448d54d458ea27f7db9728c863d.vega-embed details,
+  #altair-viz-da2de448d54d458ea27f7db9728c863d.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-da2de448d54d458ea27f7db9728c863d"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-da2de448d54d458ea27f7db9728c863d") {
+      outputDiv = document.getElementById("altair-viz-da2de448d54d458ea27f7db9728c863d");
+    }
+
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      let deps = ["vega-embed"];
+      require(deps, displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"background": "#292524", "view": {"fill": "#292524", "stroke": "#665340"}, "title": {"color": "#f4e9d7", "font": "Merriweather", "fontSize": 18, "fontWeight": 600, "subtitleColor": "#d5c2a6", "anchor": "start"}, "axis": {"domainColor": "#665340", "gridColor": "#665340", "tickColor": "#665340", "labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "legend": {"titleColor": "#f4e9d7", "labelColor": "#d5c2a6", "labelFont": "Merriweather", "titleFont": "Merriweather", "orient": "top-right", "symbolType": "circle"}, "header": {"labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "mark": {"color": "#c78d3b"}, "line": {"color": "#c78d3b"}, "bar": {"color": "#c78d3b"}, "point": {"color": "#ddb06d"}, "area": {"color": "#c78d3b", "opacity": 0.35}, "text": {"color": "#f4e9d7", "font": "Merriweather"}, "range": {"category": ["#5DA5DA", "#F28E2B", "#59C36A", "#E15759", "#B07AA1", "#4ECDC4", "#FF9DA7", "#EDC948"]}}, "layer": [{"mark": {"type": "area", "opacity": 0.25}, "encoding": {"color": {"field": "fluid", "legend": {"title": null}, "scale": {"domain": ["Water", "Gas"], "range": ["#9bd3e6", "#f4a6a6"]}, "type": "nominal"}, "x": {"axis": {"grid": false}, "field": "pressure_low", "scale": {"zero": false}, "title": "Pressure, MPa", "type": "quantitative"}, "x2": {"field": "pressure_high"}, "y": {"axis": {"grid": false}, "field": "depth_mss", "scale": {"zero": false}, "title": "Depth, mSS", "type": "quantitative"}}}, {"mark": {"type": "line", "strokeWidth": 2}, "encoding": {"color": {"field": "fluid", "legend": {"title": null}, "scale": {"domain": ["Water", "Gas"], "range": ["#9bd3e6", "#f4a6a6"]}, "type": "nominal"}, "x": {"field": "pressure_mid", "type": "quantitative"}, "y": {"field": "depth_mss", "type": "quantitative"}}}, {"data": {"name": "data-61aa325a4b9a35c268a1353b87b3df11"}, "mark": {"type": "circle", "opacity": 0.85, "size": 80}, "encoding": {"color": {"field": "fluid", "legend": {"title": null}, "scale": {"domain": ["Water", "Gas"], "range": ["#9bd3e6", "#f4a6a6"]}, "type": "nominal"}, "tooltip": [{"field": "fluid", "type": "nominal"}, {"field": "depth_mss", "type": "quantitative"}, {"field": "pressure_mpa", "type": "quantitative"}], "x": {"axis": {"grid": false}, "field": "pressure_mpa", "scale": {"zero": false}, "title": "Pressure, MPa", "type": "quantitative"}, "y": {"axis": {"grid": false}, "field": "depth_mss", "scale": {"zero": false}, "title": "Depth, mSS", "type": "quantitative"}}}], "data": {"name": "data-1bdb61ba2fa1f7b008acafd34abeca84"}, "height": 360, "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-1bdb61ba2fa1f7b008acafd34abeca84": [{"fluid": "Water", "depth_mss": -1640.0, "pressure_low": 21.26748283340651, "pressure_mid": 21.412080203645413, "pressure_high": 21.54683217344678}, {"fluid": "Water", "depth_mss": -1637.3737373737374, "pressure_low": 21.241964458197934, "pressure_mid": 21.384705064110825, "pressure_high": 21.51687906578444}, {"fluid": "Water", "depth_mss": -1634.7474747474748, "pressure_low": 21.216897075017886, "pressure_mid": 21.357153842880017, "pressure_high": 21.48758081502218}, {"fluid": "Water", "depth_mss": -1632.121212121212, "pressure_low": 21.19176401132726, "pressure_mid": 21.329755647012853, "pressure_high": 21.457716745775794}, {"fluid": "Water", "depth_mss": -1629.4949494949494, "pressure_low": 21.16631322924457, "pressure_mid": 21.30219817360433, "pressure_high": 21.428470511663235}, {"fluid": "Water", "depth_mss": -1626.8686868686868, "pressure_low": 21.14091164256618, "pressure_mid": 21.2745880332027, "pressure_high": 21.399418027028307}, {"fluid": "Water", "depth_mss": -1624.2424242424242, "pressure_low": 21.115740421245246, "pressure_mid": 21.24718830875625, "pressure_high": 21.370185100992533}, {"fluid": "Water", "depth_mss": -1621.6161616161617, "pressure_low": 21.089661673188594, "pressure_mid": 21.219607423639566, "pressure_high": 21.340535656113072}, {"fluid": "Water", "depth_mss": -1618.989898989899, "pressure_low": 21.06432991540726, "pressure_mid": 21.192102026602456, "pressure_high": 21.31108920246882}, {"fluid": "Water", "depth_mss": -1616.3636363636363, "pressure_low": 21.0386286031572, "pressure_mid": 21.16452759470154, "pressure_high": 21.281248296685224}, {"fluid": "Water", "depth_mss": -1613.7373737373737, "pressure_low": 21.01239056717379, "pressure_mid": 21.137019709977558, "pressure_high": 21.251957927864424}, {"fluid": "Water", "depth_mss": -1611.111111111111, "pressure_low": 20.986290309681035, "pressure_mid": 21.109495597292796, "pressure_high": 21.224105783502498}, {"fluid": "Water", "depth_mss": -1608.4848484848485, "pressure_low": 20.960220707047334, "pressure_mid": 21.081819213572246, "pressure_high": 21.194924303761038}, {"fluid": "Water", "depth_mss": -1605.858585858586, "pressure_low": 20.934630380859133, "pressure_mid": 21.05430866540828, "pressure_high": 21.16555033671496}, {"fluid": "Water", "depth_mss": -1603.2323232323233, "pressure_low": 20.909116593619057, "pressure_mid": 21.02661322175048, "pressure_high": 21.13636178264824}, {"fluid": "Water", "depth_mss": -1600.6060606060605, "pressure_low": 20.883260399761557, "pressure_mid": 20.99898039179794, "pressure_high": 21.106627583366336}, {"fluid": "Water", "depth_mss": -1597.979797979798, "pressure_low": 20.85732880849636, "pressure_mid": 20.971461906487512, "pressure_high": 21.07755745298481}, {"fluid": "Water", "depth_mss": -1595.3535353535353, "pressure_low": 20.830884983015537, "pressure_mid": 20.943848687034613, "pressure_high": 21.049368370824943}, {"fluid": "Water", "depth_mss": -1592.7272727272727, "pressure_low": 20.80489152093366, "pressure_mid": 20.916446196805026, "pressure_high": 21.02051956136229}, {"fluid": "Water", "depth_mss": -1590.1010101010102, "pressure_low": 20.779505341546926, "pressure_mid": 20.88883041813989, "pressure_high": 20.9918528470783}, {"fluid": "Water", "depth_mss": -1587.4747474747476, "pressure_low": 20.753056707114624, "pressure_mid": 20.861296475916575, "pressure_high": 20.96304564780731}, {"fluid": "Water", "depth_mss": -1584.8484848484848, "pressure_low": 20.727157318345306, "pressure_mid": 20.83366816835916, "pressure_high": 20.935142711783104}, {"fluid": "Water", "depth_mss": -1582.2222222222222, "pressure_low": 20.701691738127327, "pressure_mid": 20.80598364508038, "pressure_high": 20.905872847641607}, {"fluid": "Water", "depth_mss": -1579.5959595959596, "pressure_low": 20.675705286818616, "pressure_mid": 20.778510298618833, "pressure_high": 20.87812279794193}, {"fluid": "Water", "depth_mss": -1576.969696969697, "pressure_low": 20.649029607747632, "pressure_mid": 20.75109205815277, "pressure_high": 20.848972873223016}, {"fluid": "Water", "depth_mss": -1574.3434343434344, "pressure_low": 20.622679179397885, "pressure_mid": 20.723460098872508, "pressure_high": 20.820439431557286}, {"fluid": "Water", "depth_mss": -1571.7171717171718, "pressure_low": 20.595735624000064, "pressure_mid": 20.69602633595859, "pressure_high": 20.79432493060327}, {"fluid": "Water", "depth_mss": -1569.090909090909, "pressure_low": 20.56924080493942, "pressure_mid": 20.668564476210214, "pressure_high": 20.765986451375465}, {"fluid": "Water", "depth_mss": -1566.4646464646464, "pressure_low": 20.542778481105103, "pressure_mid": 20.641106144041252, "pressure_high": 20.73708863802483}, {"fluid": "Water", "depth_mss": -1563.8383838383838, "pressure_low": 20.516324315079085, "pressure_mid": 20.613606830877544, "pressure_high": 20.708703379219674}, {"fluid": "Water", "depth_mss": -1561.2121212121212, "pressure_low": 20.4900587105344, "pressure_mid": 20.5861468887108, "pressure_high": 20.68023053082203}, {"fluid": "Water", "depth_mss": -1558.5858585858587, "pressure_low": 20.46348786566071, "pressure_mid": 20.55867046227175, "pressure_high": 20.65269495825552}, {"fluid": "Water", "depth_mss": -1555.9595959595958, "pressure_low": 20.437460948249512, "pressure_mid": 20.531257267661168, "pressure_high": 20.624351123692442}, {"fluid": "Water", "depth_mss": -1553.3333333333333, "pressure_low": 20.410196078727086, "pressure_mid": 20.503767319498905, "pressure_high": 20.59621592360287}, {"fluid": "Water", "depth_mss": -1550.7070707070707, "pressure_low": 20.38329402737259, "pressure_mid": 20.476400825391785, "pressure_high": 20.566664826176623}, {"fluid": "Water", "depth_mss": -1548.080808080808, "pressure_low": 20.356916862173282, "pressure_mid": 20.44885387004582, "pressure_high": 20.538315186866942}, {"fluid": "Water", "depth_mss": -1545.4545454545455, "pressure_low": 20.32975289181856, "pressure_mid": 20.421270916371817, "pressure_high": 20.510163675748657}, {"fluid": "Water", "depth_mss": -1542.828282828283, "pressure_low": 20.30249976922325, "pressure_mid": 20.39381008718597, "pressure_high": 20.482645107507714}, {"fluid": "Water", "depth_mss": -1540.2020202020203, "pressure_low": 20.27513057803468, "pressure_mid": 20.36613550671015, "pressure_high": 20.455151637765077}, {"fluid": "Water", "depth_mss": -1537.5757575757575, "pressure_low": 20.24807379342958, "pressure_mid": 20.338582518655112, "pressure_high": 20.427685812261192}, {"fluid": "Water", "depth_mss": -1534.949494949495, "pressure_low": 20.22146175481626, "pressure_mid": 20.31103643674524, "pressure_high": 20.399956501099883}, {"fluid": "Water", "depth_mss": -1532.3232323232323, "pressure_low": 20.19468121600407, "pressure_mid": 20.283425519610176, "pressure_high": 20.372818486526306}, {"fluid": "Water", "depth_mss": -1529.6969696969697, "pressure_low": 20.166897775354677, "pressure_mid": 20.255802964356658, "pressure_high": 20.345043456278677}, {"fluid": "Water", "depth_mss": -1527.0707070707072, "pressure_low": 20.13967856267456, "pressure_mid": 20.22818040910314, "pressure_high": 20.317674098614965}, {"fluid": "Water", "depth_mss": -1524.4444444444443, "pressure_low": 20.113062850904615, "pressure_mid": 20.20055785384962, "pressure_high": 20.290377139113282}, {"fluid": "Water", "depth_mss": -1521.8181818181818, "pressure_low": 20.085513735927524, "pressure_mid": 20.1729352985961, "pressure_high": 20.26297199414329}, {"fluid": "Water", "depth_mss": -1519.1919191919192, "pressure_low": 20.05786589591412, "pressure_mid": 20.145326036140297, "pressure_high": 20.235854182474824}, {"fluid": "Water", "depth_mss": -1516.5656565656566, "pressure_low": 20.029891914614176, "pressure_mid": 20.1180351043243, "pressure_high": 20.209241347265085}, {"fluid": "Water", "depth_mss": -1513.939393939394, "pressure_low": 20.00308925559447, "pressure_mid": 20.090591071044965, "pressure_high": 20.18201630023762}, {"fluid": "Water", "depth_mss": -1511.3131313131314, "pressure_low": 19.975996802402893, "pressure_mid": 20.063122571516608, "pressure_high": 20.15518622226883}, {"fluid": "Water", "depth_mss": -1508.6868686868686, "pressure_low": 19.948084568596087, "pressure_mid": 20.03560263051174, "pressure_high": 20.12815286384523}, {"fluid": "Water", "depth_mss": -1506.060606060606, "pressure_low": 19.920522471315326, "pressure_mid": 20.008020139383195, "pressure_high": 20.101297837214563}, {"fluid": "Water", "depth_mss": -1503.4343434343434, "pressure_low": 19.89175563982579, "pressure_mid": 19.980438961694894, "pressure_high": 20.074309905813443}, {"fluid": "Water", "depth_mss": -1500.8080808080808, "pressure_low": 19.86397062045839, "pressure_mid": 19.952888786723655, "pressure_high": 20.048035256961075}, {"fluid": "Water", "depth_mss": -1498.1818181818182, "pressure_low": 19.83620220543583, "pressure_mid": 19.925245609163493, "pressure_high": 20.021564072653565}, {"fluid": "Water", "depth_mss": -1495.5555555555557, "pressure_low": 19.808565453183373, "pressure_mid": 19.89755770838783, "pressure_high": 19.99521928398205}, {"fluid": "Water", "depth_mss": -1492.9292929292928, "pressure_low": 19.779437705053454, "pressure_mid": 19.870022453200285, "pressure_high": 19.9696900868914}, {"fluid": "Water", "depth_mss": -1490.3030303030303, "pressure_low": 19.751356767188906, "pressure_mid": 19.842618853256276, "pressure_high": 19.944149699206942}, {"fluid": "Water", "depth_mss": -1487.6767676767677, "pressure_low": 19.722804623724326, "pressure_mid": 19.815068315355113, "pressure_high": 19.917649853765283}, {"fluid": "Water", "depth_mss": -1485.050505050505, "pressure_low": 19.69363819288994, "pressure_mid": 19.78759800879834, "pressure_high": 19.892381768628375}, {"fluid": "Water", "depth_mss": -1482.4242424242425, "pressure_low": 19.664871355582513, "pressure_mid": 19.759960775650285, "pressure_high": 19.86662274767095}, {"fluid": "Water", "depth_mss": -1479.7979797979797, "pressure_low": 19.636482756381845, "pressure_mid": 19.732427826455925, "pressure_high": 19.84144064316157}, {"fluid": "Water", "depth_mss": -1477.171717171717, "pressure_low": 19.607484639059003, "pressure_mid": 19.704920409720323, "pressure_high": 19.814957004121755}, {"fluid": "Water", "depth_mss": -1474.5454545454545, "pressure_low": 19.578888608869043, "pressure_mid": 19.677478328623366, "pressure_high": 19.788940397011388}, {"fluid": "Water", "depth_mss": -1471.919191919192, "pressure_low": 19.549889924158702, "pressure_mid": 19.64999694436279, "pressure_high": 19.762203793559436}, {"fluid": "Water", "depth_mss": -1469.2929292929293, "pressure_low": 19.52073841326835, "pressure_mid": 19.622514691414878, "pressure_high": 19.73621153072548}, {"fluid": "Water", "depth_mss": -1466.6666666666667, "pressure_low": 19.492131893480405, "pressure_mid": 19.594820026245152, "pressure_high": 19.710492514011925}, {"fluid": "Water", "depth_mss": -1464.0404040404042, "pressure_low": 19.46288072047031, "pressure_mid": 19.567399652046845, "pressure_high": 19.684530936275763}, {"fluid": "Water", "depth_mss": -1461.4141414141413, "pressure_low": 19.435256891484485, "pressure_mid": 19.539970046172947, "pressure_high": 19.658680020799824}, {"fluid": "Water", "depth_mss": -1458.7878787878788, "pressure_low": 19.405214595031744, "pressure_mid": 19.512225685354608, "pressure_high": 19.632676205417578}, {"fluid": "Water", "depth_mss": -1456.1616161616162, "pressure_low": 19.37585067973019, "pressure_mid": 19.48475753244698, "pressure_high": 19.60755090626287}, {"fluid": "Water", "depth_mss": -1453.5353535353536, "pressure_low": 19.347285405922058, "pressure_mid": 19.45721586330201, "pressure_high": 19.58173366973095}, {"fluid": "Water", "depth_mss": -1450.909090909091, "pressure_low": 19.318491361450118, "pressure_mid": 19.429705394427994, "pressure_high": 19.55487769262216}, {"fluid": "Water", "depth_mss": -1448.2828282828282, "pressure_low": 19.289022383704097, "pressure_mid": 19.402178469306477, "pressure_high": 19.529153790993114}, {"fluid": "Water", "depth_mss": -1445.6565656565656, "pressure_low": 19.259639105919646, "pressure_mid": 19.37466325600905, "pressure_high": 19.504099061698152}, {"fluid": "Water", "depth_mss": -1443.030303030303, "pressure_low": 19.230867168603694, "pressure_mid": 19.34724794349922, "pressure_high": 19.478889131054803}, {"fluid": "Water", "depth_mss": -1440.4040404040404, "pressure_low": 19.201993667737067, "pressure_mid": 19.319596389219708, "pressure_high": 19.45360719639093}, {"fluid": "Water", "depth_mss": -1437.7777777777778, "pressure_low": 19.17259768341292, "pressure_mid": 19.292070723672975, "pressure_high": 19.42775736616712}, {"fluid": "Water", "depth_mss": -1435.1515151515152, "pressure_low": 19.14294961594886, "pressure_mid": 19.264599947944525, "pressure_high": 19.403303700251872}, {"fluid": "Water", "depth_mss": -1432.5252525252524, "pressure_low": 19.114012803019396, "pressure_mid": 19.23703653569775, "pressure_high": 19.378649062746145}, {"fluid": "Water", "depth_mss": -1429.8989898989898, "pressure_low": 19.08533699277904, "pressure_mid": 19.20957018446846, "pressure_high": 19.352045024676546}, {"fluid": "Water", "depth_mss": -1427.2727272727273, "pressure_low": 19.055708522966285, "pressure_mid": 19.182124412914582, "pressure_high": 19.326984857274923}, {"fluid": "Water", "depth_mss": -1424.6464646464647, "pressure_low": 19.025526676687335, "pressure_mid": 19.15446252319326, "pressure_high": 19.301663216311283}, {"fluid": "Water", "depth_mss": -1422.020202020202, "pressure_low": 18.99602588846618, "pressure_mid": 19.12704083959064, "pressure_high": 19.2769429526825}, {"fluid": "Water", "depth_mss": -1419.3939393939395, "pressure_low": 18.96679686888099, "pressure_mid": 19.09958057965857, "pressure_high": 19.25171397869266}, {"fluid": "Water", "depth_mss": -1416.7676767676767, "pressure_low": 18.937055875782246, "pressure_mid": 19.07207869744489, "pressure_high": 19.22751440060973}, {"fluid": "Water", "depth_mss": -1414.141414141414, "pressure_low": 18.906773217524076, "pressure_mid": 19.044560514631492, "pressure_high": 19.203033895402097}, {"fluid": "Water", "depth_mss": -1411.5151515151515, "pressure_low": 18.87695354808646, "pressure_mid": 19.017130805861612, "pressure_high": 19.178035363217006}, {"fluid": "Water", "depth_mss": -1408.888888888889, "pressure_low": 18.84734650309113, "pressure_mid": 18.989688771538347, "pressure_high": 19.152524194976777}, {"fluid": "Water", "depth_mss": -1406.2626262626263, "pressure_low": 18.81799728120176, "pressure_mid": 18.962261554915955, "pressure_high": 19.12710305660612}, {"fluid": "Water", "depth_mss": -1403.6363636363635, "pressure_low": 18.788680506430026, "pressure_mid": 18.934664243637314, "pressure_high": 19.101730813040394}, {"fluid": "Water", "depth_mss": -1401.010101010101, "pressure_low": 18.759153429266977, "pressure_mid": 18.906961390643435, "pressure_high": 19.077243187704788}, {"fluid": "Water", "depth_mss": -1398.3838383838383, "pressure_low": 18.72963125982009, "pressure_mid": 18.879276259313425, "pressure_high": 19.050824586587996}, {"fluid": "Water", "depth_mss": -1395.7575757575758, "pressure_low": 18.70041714722125, "pressure_mid": 18.851716418985536, "pressure_high": 19.025576445411644}, {"fluid": "Water", "depth_mss": -1393.1313131313132, "pressure_low": 18.670718670366444, "pressure_mid": 18.824190907700114, "pressure_high": 19.000711555520482}, {"fluid": "Water", "depth_mss": -1390.5050505050506, "pressure_low": 18.641069546338635, "pressure_mid": 18.796766619465686, "pressure_high": 18.975142250228494}, {"fluid": "Water", "depth_mss": -1387.878787878788, "pressure_low": 18.612129774864343, "pressure_mid": 18.769242924707434, "pressure_high": 18.94946490344105}, {"fluid": "Water", "depth_mss": -1385.2525252525252, "pressure_low": 18.583406752920045, "pressure_mid": 18.741841699035724, "pressure_high": 18.92462338215914}, {"fluid": "Water", "depth_mss": -1382.6262626262626, "pressure_low": 18.553718598294093, "pressure_mid": 18.7142870095079, "pressure_high": 18.899493245913312}, {"fluid": "Water", "depth_mss": -1380.0, "pressure_low": 18.52388417637065, "pressure_mid": 18.686887722075067, "pressure_high": 18.874406577463493}, {"fluid": "Gas", "depth_mss": -1640.0, "pressure_low": 20.14604332159529, "pressure_mid": 20.28305437879126, "pressure_high": 20.418362596933466}, {"fluid": "Gas", "depth_mss": -1637.3737373737374, "pressure_low": 20.142253103454205, "pressure_mid": 20.27755887361139, "pressure_high": 20.41132526183337}, {"fluid": "Gas", "depth_mss": -1634.7474747474748, "pressure_low": 20.138471471020118, "pressure_mid": 20.272097371042253, "pressure_high": 20.40426149898423}, {"fluid": "Gas", "depth_mss": -1632.121212121212, "pressure_low": 20.134731214530884, "pressure_mid": 20.26658965030616, "pressure_high": 20.396927280367183}, {"fluid": "Gas", "depth_mss": -1629.4949494949494, "pressure_low": 20.131044957633055, "pressure_mid": 20.261084343160043, "pressure_high": 20.389575601636547}, {"fluid": "Gas", "depth_mss": -1626.8686868686868, "pressure_low": 20.12714467644504, "pressure_mid": 20.25556863328667, "pressure_high": 20.382237591499525}, {"fluid": "Gas", "depth_mss": -1624.2424242424242, "pressure_low": 20.123295264176853, "pressure_mid": 20.250089005595683, "pressure_high": 20.374899581362502}, {"fluid": "Gas", "depth_mss": -1621.6161616161617, "pressure_low": 20.119501942997353, "pressure_mid": 20.24459934528645, "pressure_high": 20.367561571225483}, {"fluid": "Gas", "depth_mss": -1618.989898989899, "pressure_low": 20.115711369677, "pressure_mid": 20.239113832754438, "pressure_high": 20.360558258442367}, {"fluid": "Gas", "depth_mss": -1616.3636363636363, "pressure_low": 20.11192079635665, "pressure_mid": 20.23359705195511, "pressure_high": 20.35378881990813}, {"fluid": "Gas", "depth_mss": -1613.7373737373737, "pressure_low": 20.108130223036298, "pressure_mid": 20.228097231226982, "pressure_high": 20.347019381373887}, {"fluid": "Gas", "depth_mss": -1611.111111111111, "pressure_low": 20.104369541846534, "pressure_mid": 20.222627545382615, "pressure_high": 20.34024994283965}, {"fluid": "Gas", "depth_mss": -1608.4848484848485, "pressure_low": 20.10061543336577, "pressure_mid": 20.217126645313463, "pressure_high": 20.33348050430541}, {"fluid": "Gas", "depth_mss": -1605.858585858586, "pressure_low": 20.096861324885012, "pressure_mid": 20.211591397253365, "pressure_high": 20.326356996884105}, {"fluid": "Gas", "depth_mss": -1603.2323232323233, "pressure_low": 20.09310721640425, "pressure_mid": 20.206103516796027, "pressure_high": 20.319464024032442}, {"fluid": "Gas", "depth_mss": -1600.6060606060605, "pressure_low": 20.089170363938656, "pressure_mid": 20.200596129641365, "pressure_high": 20.31239114155189}, {"fluid": "Gas", "depth_mss": -1597.979797979798, "pressure_low": 20.085456526962247, "pressure_mid": 20.195140237054375, "pressure_high": 20.30490688238239}, {"fluid": "Gas", "depth_mss": -1595.3535353535353, "pressure_low": 20.08174359764193, "pressure_mid": 20.189629883231987, "pressure_high": 20.297400805072893}, {"fluid": "Gas", "depth_mss": -1592.7272727272727, "pressure_low": 20.077831048786933, "pressure_mid": 20.184174989890906, "pressure_high": 20.29009069361051}, {"fluid": "Gas", "depth_mss": -1590.1010101010102, "pressure_low": 20.074144984857497, "pressure_mid": 20.178737621907977, "pressure_high": 20.28283743295579}, {"fluid": "Gas", "depth_mss": -1587.4747474747476, "pressure_low": 20.070400463362805, "pressure_mid": 20.17328333145612, "pressure_high": 20.27583045604139}, {"fluid": "Gas", "depth_mss": -1584.8484848484848, "pressure_low": 20.066502128486896, "pressure_mid": 20.167798529653304, "pressure_high": 20.26897115070156}, {"fluid": "Gas", "depth_mss": -1582.2222222222222, "pressure_low": 20.062631277680623, "pressure_mid": 20.16229671972422, "pressure_high": 20.26211184536173}, {"fluid": "Gas", "depth_mss": -1579.5959595959596, "pressure_low": 20.0586938922055, "pressure_mid": 20.15684493599722, "pressure_high": 20.255251772936756}, {"fluid": "Gas", "depth_mss": -1576.969696969697, "pressure_low": 20.054782073003118, "pressure_mid": 20.151372486465135, "pressure_high": 20.248385627278424}, {"fluid": "Gas", "depth_mss": -1574.3434343434344, "pressure_low": 20.050883154629705, "pressure_mid": 20.145937036011663, "pressure_high": 20.24109547362096}, {"fluid": "Gas", "depth_mss": -1571.7171717171718, "pressure_low": 20.04698423625629, "pressure_mid": 20.140466897702893, "pressure_high": 20.23375155191088}, {"fluid": "Gas", "depth_mss": -1569.090909090909, "pressure_low": 20.042971698679754, "pressure_mid": 20.13495449926885, "pressure_high": 20.226418852731268}, {"fluid": "Gas", "depth_mss": -1566.4646464646464, "pressure_low": 20.03889037446519, "pressure_mid": 20.129471293433852, "pressure_high": 20.21941466497756}, {"fluid": "Gas", "depth_mss": -1563.8383838383838, "pressure_low": 20.03496834479179, "pressure_mid": 20.12400765145029, "pressure_high": 20.2121443934579}, {"fluid": "Gas", "depth_mss": -1561.2121212121212, "pressure_low": 20.031259122299435, "pressure_mid": 20.11855128975064, "pressure_high": 20.204938454191545}, {"fluid": "Gas", "depth_mss": -1558.5858585858587, "pressure_low": 20.027489644389217, "pressure_mid": 20.113043050894078, "pressure_high": 20.1975924000725}, {"fluid": "Gas", "depth_mss": -1555.9595959595958, "pressure_low": 20.023611227414122, "pressure_mid": 20.1075824312398, "pressure_high": 20.190316403379803}, {"fluid": "Gas", "depth_mss": -1553.3333333333333, "pressure_low": 20.019689871266753, "pressure_mid": 20.10211741894568, "pressure_high": 20.183184150037086}, {"fluid": "Gas", "depth_mss": -1550.7070707070707, "pressure_low": 20.015784799653893, "pressure_mid": 20.09662258843764, "pressure_high": 20.176150252574413}, {"fluid": "Gas", "depth_mss": -1548.080808080808, "pressure_low": 20.011658676874013, "pressure_mid": 20.09112451245047, "pressure_high": 20.169106021148956}, {"fluid": "Gas", "depth_mss": -1545.4545454545455, "pressure_low": 20.007451466961093, "pressure_mid": 20.085652022689054, "pressure_high": 20.161916270868804}, {"fluid": "Gas", "depth_mss": -1542.828282828283, "pressure_low": 20.003909305445845, "pressure_mid": 20.08013336263002, "pressure_high": 20.154548764992473}, {"fluid": "Gas", "depth_mss": -1540.2020202020203, "pressure_low": 20.0000892667755, "pressure_mid": 20.074635316956794, "pressure_high": 20.14756980705552}, {"fluid": "Gas", "depth_mss": -1537.5757575757575, "pressure_low": 19.996084837939332, "pressure_mid": 20.069153989085123, "pressure_high": 20.14067208306975}, {"fluid": "Gas", "depth_mss": -1534.949494949495, "pressure_low": 19.99208522866937, "pressure_mid": 20.063683595290204, "pressure_high": 20.13330146713591}, {"fluid": "Gas", "depth_mss": -1532.3232323232323, "pressure_low": 19.988071299598857, "pressure_mid": 20.058168490418005, "pressure_high": 20.126603913816535}, {"fluid": "Gas", "depth_mss": -1529.6969696969697, "pressure_low": 19.984063784624638, "pressure_mid": 20.052658484042993, "pressure_high": 20.119346884155227}, {"fluid": "Gas", "depth_mss": -1527.0707070707072, "pressure_low": 19.98039530591688, "pressure_mid": 20.047134191406663, "pressure_high": 20.112150668367914}, {"fluid": "Gas", "depth_mss": -1524.4444444444443, "pressure_low": 19.9765995177572, "pressure_mid": 20.04164837710224, "pressure_high": 20.104714605578973}, {"fluid": "Gas", "depth_mss": -1521.8181818181818, "pressure_low": 19.97287598865048, "pressure_mid": 20.03616131306528, "pressure_high": 20.097511158999556}, {"fluid": "Gas", "depth_mss": -1519.1919191919192, "pressure_low": 19.969078555482696, "pressure_mid": 20.03063006333224, "pressure_high": 20.090775072644224}, {"fluid": "Gas", "depth_mss": -1516.5656565656566, "pressure_low": 19.965372086012266, "pressure_mid": 20.02512894419474, "pressure_high": 20.084033948513138}, {"fluid": "Gas", "depth_mss": -1513.939393939394, "pressure_low": 19.961390333533988, "pressure_mid": 20.019708557780156, "pressure_high": 20.076441036848816}, {"fluid": "Gas", "depth_mss": -1511.3131313131314, "pressure_low": 19.95727856166531, "pressure_mid": 20.01423310259164, "pressure_high": 20.069275315989263}, {"fluid": "Gas", "depth_mss": -1508.6868686868686, "pressure_low": 19.953673301463393, "pressure_mid": 20.008739051689144, "pressure_high": 20.06234451748491}, {"fluid": "Gas", "depth_mss": -1506.060606060606, "pressure_low": 19.950130893296077, "pressure_mid": 20.003286615103107, "pressure_high": 20.05540688663301}, {"fluid": "Gas", "depth_mss": -1503.4343434343434, "pressure_low": 19.946269405443942, "pressure_mid": 19.99781000291666, "pressure_high": 20.048463325955368}, {"fluid": "Gas", "depth_mss": -1500.8080808080808, "pressure_low": 19.94263423513524, "pressure_mid": 19.99238406581344, "pressure_high": 20.04154198704502}, {"fluid": "Gas", "depth_mss": -1498.1818181818182, "pressure_low": 19.938874133320937, "pressure_mid": 19.98689396901278, "pressure_high": 20.034410835513995}, {"fluid": "Gas", "depth_mss": -1495.5555555555557, "pressure_low": 19.935085059963146, "pressure_mid": 19.981409556396336, "pressure_high": 20.027199650193467}, {"fluid": "Gas", "depth_mss": -1492.9292929292928, "pressure_low": 19.93127245607014, "pressure_mid": 19.975970040240615, "pressure_high": 20.020098644591222}, {"fluid": "Gas", "depth_mss": -1490.3030303030303, "pressure_low": 19.927090408502938, "pressure_mid": 19.970466991458878, "pressure_high": 20.013058798896704}, {"fluid": "Gas", "depth_mss": -1487.6767676767677, "pressure_low": 19.923070073535733, "pressure_mid": 19.965004694078548, "pressure_high": 20.00592313797712}, {"fluid": "Gas", "depth_mss": -1485.050505050505, "pressure_low": 19.919194348179794, "pressure_mid": 19.959516300039404, "pressure_high": 19.99899077316458}, {"fluid": "Gas", "depth_mss": -1482.4242424242425, "pressure_low": 19.915471313217502, "pressure_mid": 19.954035777296486, "pressure_high": 19.992155880566624}, {"fluid": "Gas", "depth_mss": -1479.7979797979797, "pressure_low": 19.911159190851365, "pressure_mid": 19.948532064101855, "pressure_high": 19.98517754479363}, {"fluid": "Gas", "depth_mss": -1477.171717171717, "pressure_low": 19.907353837841388, "pressure_mid": 19.943061248387437, "pressure_high": 19.97803471254764}, {"fluid": "Gas", "depth_mss": -1474.5454545454545, "pressure_low": 19.903368579820782, "pressure_mid": 19.93760953814821, "pressure_high": 19.971256976159523}, {"fluid": "Gas", "depth_mss": -1471.919191919192, "pressure_low": 19.899384059346396, "pressure_mid": 19.932126121456786, "pressure_high": 19.964324600594228}, {"fluid": "Gas", "depth_mss": -1469.2929292929293, "pressure_low": 19.895442467754673, "pressure_mid": 19.926638061688834, "pressure_high": 19.957423908446312}, {"fluid": "Gas", "depth_mss": -1466.6666666666667, "pressure_low": 19.891301755638217, "pressure_mid": 19.921147987638214, "pressure_high": 19.950540767976086}, {"fluid": "Gas", "depth_mss": -1464.0404040404042, "pressure_low": 19.8873562862315, "pressure_mid": 19.91563007017047, "pressure_high": 19.943776953214886}, {"fluid": "Gas", "depth_mss": -1461.4141414141413, "pressure_low": 19.883263400058304, "pressure_mid": 19.910177948060365, "pressure_high": 19.936862663322195}, {"fluid": "Gas", "depth_mss": -1458.7878787878788, "pressure_low": 19.879179057290994, "pressure_mid": 19.904724084612887, "pressure_high": 19.929948746914615}, {"fluid": "Gas", "depth_mss": -1456.1616161616162, "pressure_low": 19.87522854334039, "pressure_mid": 19.899213081518894, "pressure_high": 19.923061597650495}, {"fluid": "Gas", "depth_mss": -1453.5353535353536, "pressure_low": 19.87112856617512, "pressure_mid": 19.893706329601507, "pressure_high": 19.9162783546403}, {"fluid": "Gas", "depth_mss": -1450.909090909091, "pressure_low": 19.867053424637003, "pressure_mid": 19.888174261322806, "pressure_high": 19.909837069645206}, {"fluid": "Gas", "depth_mss": -1448.2828282828282, "pressure_low": 19.86285995014282, "pressure_mid": 19.882672661439422, "pressure_high": 19.9031534019346}, {"fluid": "Gas", "depth_mss": -1445.6565656565656, "pressure_low": 19.85852785268865, "pressure_mid": 19.87714097961934, "pressure_high": 19.896475118416948}, {"fluid": "Gas", "depth_mss": -1443.030303030303, "pressure_low": 19.85436339485308, "pressure_mid": 19.87165364200049, "pressure_high": 19.89007939346135}, {"fluid": "Gas", "depth_mss": -1440.4040404040404, "pressure_low": 19.85004008517061, "pressure_mid": 19.86615462665589, "pressure_high": 19.883533039386773}, {"fluid": "Gas", "depth_mss": -1437.7777777777778, "pressure_low": 19.84548428676412, "pressure_mid": 19.860639134170764, "pressure_high": 19.87706721596684}, {"fluid": "Gas", "depth_mss": -1435.1515151515152, "pressure_low": 19.840570087313896, "pressure_mid": 19.855132227668083, "pressure_high": 19.870718207732107}, {"fluid": "Gas", "depth_mss": -1432.5252525252524, "pressure_low": 19.835927796844157, "pressure_mid": 19.84962812585657, "pressure_high": 19.864444799184145}, {"fluid": "Gas", "depth_mss": -1429.8989898989898, "pressure_low": 19.83097666993335, "pressure_mid": 19.844187282329315, "pressure_high": 19.858512956695506}, {"fluid": "Gas", "depth_mss": -1427.2727272727273, "pressure_low": 19.825927857202434, "pressure_mid": 19.838666004132712, "pressure_high": 19.852683387216153}, {"fluid": "Gas", "depth_mss": -1424.6464646464647, "pressure_low": 19.82070675241899, "pressure_mid": 19.833172412621224, "pressure_high": 19.847160449070024}, {"fluid": "Gas", "depth_mss": -1422.020202020202, "pressure_low": 19.815009135499206, "pressure_mid": 19.827728438059477, "pressure_high": 19.841686314368253}, {"fluid": "Gas", "depth_mss": -1419.3939393939395, "pressure_low": 19.80925410876205, "pressure_mid": 19.822244312570042, "pressure_high": 19.836345642096216}, {"fluid": "Gas", "depth_mss": -1416.7676767676767, "pressure_low": 19.802884439693397, "pressure_mid": 19.816759632113104, "pressure_high": 19.83135586946009}, {"fluid": "Gas", "depth_mss": -1414.141414141414, "pressure_low": 19.79675044326405, "pressure_mid": 19.811270631031007, "pressure_high": 19.82664133641412}, {"fluid": "Gas", "depth_mss": -1411.5151515151515, "pressure_low": 19.790256833085127, "pressure_mid": 19.80576194403097, "pressure_high": 19.82202668980557}, {"fluid": "Gas", "depth_mss": -1408.888888888889, "pressure_low": 19.783851795068053, "pressure_mid": 19.800276847398898, "pressure_high": 19.817402167252453}, {"fluid": "Gas", "depth_mss": -1406.2626262626263, "pressure_low": 19.77732457311396, "pressure_mid": 19.794822575958065, "pressure_high": 19.813125800069066}, {"fluid": "Gas", "depth_mss": -1403.6363636363635, "pressure_low": 19.770535056560412, "pressure_mid": 19.78931984688515, "pressure_high": 19.808775308827133}, {"fluid": "Gas", "depth_mss": -1401.010101010101, "pressure_low": 19.763722220367473, "pressure_mid": 19.7838449290335, "pressure_high": 19.80478032465836}, {"fluid": "Gas", "depth_mss": -1398.3838383838383, "pressure_low": 19.75695447030357, "pressure_mid": 19.778360902458225, "pressure_high": 19.80047677951336}, {"fluid": "Gas", "depth_mss": -1395.7575757575758, "pressure_low": 19.750149474470664, "pressure_mid": 19.772842641616336, "pressure_high": 19.79636645159758}, {"fluid": "Gas", "depth_mss": -1393.1313131313132, "pressure_low": 19.7432725972768, "pressure_mid": 19.767366564576776, "pressure_high": 19.79245099898198}, {"fluid": "Gas", "depth_mss": -1390.5050505050506, "pressure_low": 19.736315871443896, "pressure_mid": 19.76197340736823, "pressure_high": 19.78893313290572}, {"fluid": "Gas", "depth_mss": -1387.878787878788, "pressure_low": 19.72935368125044, "pressure_mid": 19.7564718702382, "pressure_high": 19.784826623977107}, {"fluid": "Gas", "depth_mss": -1385.2525252525252, "pressure_low": 19.72230240397258, "pressure_mid": 19.751014362848114, "pressure_high": 19.78096674486359}, {"fluid": "Gas", "depth_mss": -1382.6262626262626, "pressure_low": 19.715298680054897, "pressure_mid": 19.745562877080655, "pressure_high": 19.77669360605198}, {"fluid": "Gas", "depth_mss": -1380.0, "pressure_low": 19.708293265886113, "pressure_mid": 19.740070741778673, "pressure_high": 19.772903722550414}], "data-61aa325a4b9a35c268a1353b87b3df11": [{"fluid": "Gas", "depth_mss": -1400.0, "pressure_mpa": 19.781523585398773}, {"fluid": "Gas", "depth_mss": -1412.5, "pressure_mpa": 19.8023000794688}, {"fluid": "Gas", "depth_mss": -1425.0, "pressure_mpa": 19.838752255979035}, {"fluid": "Gas", "depth_mss": -1437.5, "pressure_mpa": 19.867202823581955}, {"fluid": "Gas", "depth_mss": -1450.0, "pressure_mpa": 19.88024482405673}, {"fluid": "Water", "depth_mss": -1380.0, "pressure_mpa": 18.64578204931377}, {"fluid": "Water", "depth_mss": -1520.0, "pressure_mpa": 20.21678404031673}, {"fluid": "Water", "depth_mss": -1530.0, "pressure_mpa": 20.27437574076564}, {"fluid": "Water", "depth_mss": -1585.0, "pressure_mpa": 20.865319884249573}, {"fluid": "Water", "depth_mss": -1630.0, "pressure_mpa": 21.240695607242642}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>And the uncertain intersection of those two lines is the uncertainty in the contact depth, also shown below as a histogram:</p>
+<div id="8c970f75" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="159">
+
+<style>
+  #altair-viz-d1113c37eac84cd99842fd938719ed79.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-d1113c37eac84cd99842fd938719ed79.vega-embed details,
+  #altair-viz-d1113c37eac84cd99842fd938719ed79.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-d1113c37eac84cd99842fd938719ed79"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-d1113c37eac84cd99842fd938719ed79") {
+      outputDiv = document.getElementById("altair-viz-d1113c37eac84cd99842fd938719ed79");
+    }
+
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      let deps = ["vega-embed"];
+      require(deps, displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"background": "#292524", "view": {"fill": "#292524", "stroke": "#665340"}, "title": {"color": "#f4e9d7", "font": "Merriweather", "fontSize": 18, "fontWeight": 600, "subtitleColor": "#d5c2a6", "anchor": "start"}, "axis": {"domainColor": "#665340", "gridColor": "#665340", "tickColor": "#665340", "labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "legend": {"titleColor": "#f4e9d7", "labelColor": "#d5c2a6", "labelFont": "Merriweather", "titleFont": "Merriweather", "orient": "top-right", "symbolType": "circle"}, "header": {"labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "mark": {"color": "#c78d3b"}, "line": {"color": "#c78d3b"}, "bar": {"color": "#c78d3b"}, "point": {"color": "#ddb06d"}, "area": {"color": "#c78d3b", "opacity": 0.35}, "text": {"color": "#f4e9d7", "font": "Merriweather"}, "range": {"category": ["#5DA5DA", "#F28E2B", "#59C36A", "#E15759", "#B07AA1", "#4ECDC4", "#FF9DA7", "#EDC948"]}}, "data": {"name": "data-84073372f19897644ac21f88445efc25"}, "mark": {"type": "area", "color": "#f4a6a6", "interpolate": "step-after", "line": {"color": "#f4a6a6", "strokeWidth": 2}, "opacity": 0.45}, "encoding": {"x": {"axis": {"grid": false}, "field": "contact_depth_mss", "scale": {"zero": false}, "title": "Gas-water contact depth, mSS", "type": "quantitative"}, "y": {"axis": {"grid": false, "labels": false, "ticks": false}, "field": "density", "title": null, "type": "quantitative"}}, "height": 320, "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-84073372f19897644ac21f88445efc25": [{"contact_depth_mss": -1539.5228026206837, "density": 5.625790631740276e-05}, {"contact_depth_mss": -1537.3008927029068, "density": 0.0}, {"contact_depth_mss": -1535.07898278513, "density": 5.6257906317397e-05}, {"contact_depth_mss": -1532.8570728673528, "density": 0.00022503162526961104}, {"contact_depth_mss": -1530.635162949576, "density": 0.0003938053442218193}, {"contact_depth_mss": -1528.413253031799, "density": 0.0006750948758088331}, {"contact_depth_mss": -1526.1913431140222, "density": 0.001293931845300131}, {"contact_depth_mss": -1523.969433196245, "density": 0.002419089971648319}, {"contact_depth_mss": -1521.7475232784682, "density": 0.003206700660091957}, {"contact_depth_mss": -1519.5256133606913, "density": 0.005344501100153262}, {"contact_depth_mss": -1517.3037034429144, "density": 0.010407712668718445}, {"contact_depth_mss": -1515.0817935251373, "density": 0.01918394605423434}, {"contact_depth_mss": -1512.8598836073604, "density": 0.030716816849301908}, {"contact_depth_mss": -1510.6379736895835, "density": 0.054401395408928466}, {"contact_depth_mss": -1508.4160637718066, "density": 0.07201012008626816}, {"contact_depth_mss": -1506.1941538540295, "density": 0.0753855944653197}, {"contact_depth_mss": -1503.9722439362527, "density": 0.06880341942618357}, {"contact_depth_mss": -1501.7503340184758, "density": 0.04433123017811337}, {"contact_depth_mss": -1499.5284241006989, "density": 0.02717256875130275}, {"contact_depth_mss": -1497.3065141829218, "density": 0.014345766110937703}, {"contact_depth_mss": -1495.084604265145, "density": 0.007932364790753788}, {"contact_depth_mss": -1492.862694347368, "density": 0.004444374599074818}, {"contact_depth_mss": -1490.6407844295911, "density": 0.0024753478779654683}, {"contact_depth_mss": -1488.418874511814, "density": 0.0015752213768872772}, {"contact_depth_mss": -1486.1969645940371, "density": 0.0009563844073958469}, {"contact_depth_mss": -1483.9750546762602, "density": 0.00033754743790441656}, {"contact_depth_mss": -1481.7531447584834, "density": 0.0003938053442218193}, {"contact_depth_mss": -1479.5312348407065, "density": 0.000168773718952191}, {"contact_depth_mss": -1477.3093249229294, "density": 0.00022503162526961104}, {"contact_depth_mss": -1475.0874150051525, "density": 0.0005063211568566248}, {"contact_depth_mss": -1472.8655050873756, "density": 0.00022503162526961104}, {"contact_depth_mss": -1470.6435951695987, "density": 0.000112515812634794}, {"contact_depth_mss": -1468.4216852518216, "density": 0.00016877371895220828}, {"contact_depth_mss": -1466.1997753340447, "density": 5.625790631740276e-05}, {"contact_depth_mss": -1463.9778654162678, "density": 0.0}, {"contact_depth_mss": -1461.755955498491, "density": 0.0}, {"contact_depth_mss": -1459.5340455807138, "density": 0.0}, {"contact_depth_mss": -1457.312135662937, "density": 0.0}, {"contact_depth_mss": -1455.09022574516, "density": 0.0}, {"contact_depth_mss": -1452.8683158273832, "density": 0.0}, {"contact_depth_mss": -1450.646405909606, "density": 0.0}, {"contact_depth_mss": -1448.4244959918292, "density": 0.0}, {"contact_depth_mss": -1446.2025860740523, "density": 0.0}, {"contact_depth_mss": -1443.9806761562754, "density": 0.0}, {"contact_depth_mss": -1441.7587662384983, "density": 0.0}, {"contact_depth_mss": -1439.5368563207214, "density": 0.0}, {"contact_depth_mss": -1437.3149464029445, "density": 0.0}, {"contact_depth_mss": -1435.0930364851677, "density": 0.0}, {"contact_depth_mss": -1432.8711265673905, "density": 0.0}, {"contact_depth_mss": -1430.6492166496137, "density": 5.625790631740276e-05}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>Neat!</p>
+</section>
+<section id="fluid-compositional-modelling" class="level2">
+<h2 class="anchored" data-anchor-id="fluid-compositional-modelling">Fluid compositional modelling</h2>
+<p>A Dirichlet model can be fit to a dataset of fluid samples to model uncertainty in composition across a field. This example benefits from hierarchical modelling (a Bayesian statistical superpower) to account for groupings of data, like replicate samples of the same interval, or samples from the same reservoir.</p>
+<p>Again, we start with some synthetic data:</p>
+<div id="cc0cadd2" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="161">
+
+<style>
+  #altair-viz-35d6fc723fca4130bb757bafa7f95e2b.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-35d6fc723fca4130bb757bafa7f95e2b.vega-embed details,
+  #altair-viz-35d6fc723fca4130bb757bafa7f95e2b.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-35d6fc723fca4130bb757bafa7f95e2b"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-35d6fc723fca4130bb757bafa7f95e2b") {
+      outputDiv = document.getElementById("altair-viz-35d6fc723fca4130bb757bafa7f95e2b");
+    }
+
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      let deps = ["vega-embed"];
+      require(deps, displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"background": "#292524", "view": {"fill": "#292524", "stroke": "#665340"}, "title": {"color": "#f4e9d7", "font": "Merriweather", "fontSize": 18, "fontWeight": 600, "subtitleColor": "#d5c2a6", "anchor": "start"}, "axis": {"domainColor": "#665340", "gridColor": "#665340", "tickColor": "#665340", "labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "legend": {"titleColor": "#f4e9d7", "labelColor": "#d5c2a6", "labelFont": "Merriweather", "titleFont": "Merriweather", "orient": "top-right", "symbolType": "circle"}, "header": {"labelColor": "#d5c2a6", "titleColor": "#f4e9d7", "labelFont": "Merriweather", "titleFont": "Merriweather"}, "mark": {"color": "#c78d3b"}, "line": {"color": "#c78d3b"}, "bar": {"color": "#c78d3b"}, "point": {"color": "#ddb06d"}, "area": {"color": "#c78d3b", "opacity": 0.35}, "text": {"color": "#f4e9d7", "font": "Merriweather"}, "range": {"category": ["#5DA5DA", "#F28E2B", "#59C36A", "#E15759", "#B07AA1", "#4ECDC4", "#FF9DA7", "#EDC948"]}}, "data": {"name": "data-738b23924be2182577b55394a9db0b86"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "reservoir", "title": "Reservoir", "type": "nominal"}, "tooltip": [{"field": "reservoir", "title": "Reservoir", "type": "nominal"}, {"field": "component", "title": "Component", "type": "nominal"}, {"field": "mean_fraction", "format": ".1%", "title": "Mean fraction", "type": "quantitative"}], "x": {"axis": {"grid": false, "labelAngle": 0}, "field": "component", "sort": ["C1", "C2", "C3", "C4", "C5", "C6", "C7+"], "title": "Component", "type": "nominal"}, "xOffset": {"field": "reservoir", "title": "Reservoir", "type": "nominal"}, "y": {"axis": {"format": "%", "grid": false}, "field": "mean_fraction", "title": "Mean mole fraction", "type": "quantitative"}}, "height": 320, "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-738b23924be2182577b55394a9db0b86": [{"reservoir": "Reservoir A", "component": "C1", "mean_fraction": 0.7371501292612394}, {"reservoir": "Reservoir A", "component": "C2", "mean_fraction": 0.10300180417909487}, {"reservoir": "Reservoir A", "component": "C3", "mean_fraction": 0.05088112764729123}, {"reservoir": "Reservoir A", "component": "C4", "mean_fraction": 0.038793213597420495}, {"reservoir": "Reservoir A", "component": "C5", "mean_fraction": 0.017791938361991923}, {"reservoir": "Reservoir A", "component": "C6", "mean_fraction": 0.022873166783695806}, {"reservoir": "Reservoir A", "component": "C7+", "mean_fraction": 0.02950862016926641}, {"reservoir": "Reservoir B", "component": "C1", "mean_fraction": 0.3312596874156871}, {"reservoir": "Reservoir B", "component": "C2", "mean_fraction": 0.11539641423844377}, {"reservoir": "Reservoir B", "component": "C3", "mean_fraction": 0.08334363692286469}, {"reservoir": "Reservoir B", "component": "C4", "mean_fraction": 0.26372343669007114}, {"reservoir": "Reservoir B", "component": "C5", "mean_fraction": 0.04877440533889182}, {"reservoir": "Reservoir B", "component": "C6", "mean_fraction": 0.0371488647594636}, {"reservoir": "Reservoir B", "component": "C7+", "mean_fraction": 0.12035355463457778}, {"reservoir": "Reservoir C", "component": "C1", "mean_fraction": 0.21286305528162472}, {"reservoir": "Reservoir C", "component": "C2", "mean_fraction": 0.08047975815817499}, {"reservoir": "Reservoir C", "component": "C3", "mean_fraction": 0.106198508275428}, {"reservoir": "Reservoir C", "component": "C4", "mean_fraction": 0.09558906694128276}, {"reservoir": "Reservoir C", "component": "C5", "mean_fraction": 0.07787917914636186}, {"reservoir": "Reservoir C", "component": "C6", "mean_fraction": 0.09335965815610646}, {"reservoir": "Reservoir C", "component": "C7+", "mean_fraction": 0.3336307740410212}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>Note these are the <em>average</em> compositions of the three reservoirs, in reality we have several fluid samples (and replicates) in a dataset of 238 total samples.</p>
+<p>So how can we model the average properties by reservoir, and the variability we see within sample intervals and across them?</p>
+<div id="0cd9da98" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="163">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-17-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="276216d6" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_618667/261218581.py:1: DeprecationWarning:
+
+`pymc.plot_forest` was moved out of the root namespace and will be removed in the first PyMC release of 2027. Use `pymc.plots.plot_forest` instead.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-18-output-2.png" width="1090" height="8604" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>

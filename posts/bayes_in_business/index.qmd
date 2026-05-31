@@ -6,6 +6,7 @@ categories: [statistics]
 image: media/update.png
 execute:
   echo: false
+  cache: true
 ---
 
 ```{python}
@@ -123,7 +124,7 @@ combine domain knowledge and limited data into highly expressive, interpretable 
 that quantify uncertainty, and this makes them ideal for decision support in complex
 technical domains.
 
-# The core of my thinking
+# The core of it
 
 > A. _"What should we believe, given our understanding of the world and our data?"_
 >
@@ -300,8 +301,9 @@ $$
 p(\theta \mid y) = \frac{p(y \mid \theta)\,p(\theta)}{p(y)}
 $$
 
-The left side of that equation represents, in words, _What is the posterior probability
-distribution over model parameters, given the observed data_, which sounds similar to 
+The left side of that equation means, in words, _What is the posterior probability
+distribution over the model parameters, given the observed data_, which sounds similar
+to 
 
 > A. _"What should we believe, given our understanding of the world and our data?"_
 
@@ -316,11 +318,11 @@ The field of Bayesian statistics is devoted to this problem.
 
 It turns out that Bayes theorem is a huge pain in the ass. There are classes of problem
 where the maths solves [elegantly](https://nick-dorsch.github.io/blog/posts/lindy/),
-providing efficient analytical solutions to Bayesian models. These are amazing and
+providing efficient analytical solutions to Bayesian models. These are very cool and
 useful to learn, but also rare when applied to real-world problems.
 
 Most of the time, we need specialized algorithms to do Bayes. It is all because of this
-innocent looking quantity in the denominator of Bayes theorem:
+innocent looking probability in the denominator of Bayes theorem:
 
 $$
 p(y)
@@ -338,10 +340,10 @@ $$
 > which parameter value was true."_
 
 That sentence is a headache. I actually asked the AI to write it because I couldn't
-vomit out a sentence describing it adequately.
+manage a sentence describing it.
 
 It turns out it is a headache for computers, too, because most of the time that integral
-becomes an intractable nightmare, where no analytical solution even exists.
+is an intractable nightmare, where no analytical solution even exists.
 
 Instead, clever algorithms are needed to approximate the posterior distribution through
 random sampling. This is Monte Carlo again, but this time we have no inverse CDF to use
@@ -367,7 +369,7 @@ incredibly well.
 But running problems through the black box of ML costs us a few important things.
 
 First is expressiveness. Engineering problems usually have an underlying mathematical
-structure that is usually well understood. It is not wise to throw it out and expect the
+structure that is well understood. It is not wise to throw it out and expect the
 algorithm to pick it all up again using large quantities of data. Physics informed
 neural networks
 ([PINNs](https://en.wikipedia.org/wiki/Physics-informed_neural_networks)) address this
@@ -376,21 +378,724 @@ kept within physically consistent constraints, but they are not the norm in the 
 world---most of the time ML models are not constrained in this way.
 
 Second is uncertainty. Most machine learning algorithsm do not provide uncertainty
-quantification. Especially in complex domains with small quantities of data, that
-uncertainty can be an essential component of effective decision making. In high stakes
-situations, an ML model stating that the answer is "25!" while not having any ability to
-provide confidence intervals of $\pm 10$ or $\pm 1000$ makes decision making based on
-their results far less robust.
+quantification. Especially in complex domains with limited data, that uncertainty can be
+an essential component of effective decision making. In high stakes situations, an ML
+model stating that the answer is "25!" while not having any ability to provide
+confidence intervals of $\pm 10$ or $\pm 1000$ makes decision making based on their
+results far less robust.
 
 Third is what I call the problem of "small data". Big data is a luxury that most
 engineering problems don't enjoy. Instead we are often trying to maximize the
-information we can get out of small quantities of expensively acquired data. Machine
+information we can get out of small quantities of expensive to acquired data. Machine
 learning solutions in this context are not the best choice, in my view. They will
 provide uninterpretable solutions with questionable validity, with no uncertainty
 preservation.
 
-Machine learning is a rich field with many answers to my criticisms, here, but my answer
-is: use Bayes instead.
+Machine learning is a rich field with many answers to the issues I bring up here, but my
+answer is: use Bayes instead. I just think it is a better toolset in many engineering
+contexts.
+
+# Examples
+
+I want to show a few examples here. My background is in oil and gas, so that is where I
+know problems in the most detail, but I want to stress how domain agnostic Bayesian
+statistics is. If you have a system of equations that govern behaviour in some domain
+you are studying, you can express it in a Bayesian model, feed it data, and do
+inference.
+
+These models are created and run with [PyMC](https://www.pymc.io/welcome.html), a
+popular Python package for doing Bayesian statistics.
+
+## Oil Field Volumetrics
+
+A classic petroleum engineering example is a volumetric estimate. The deterministic
+calculation is simple, but every input is uncertain: porosity, water saturation, net to
+gross, gross rock volume, and the oil formation volume factor. Offset wells can teach us
+about reservoir properties, while others properties are derived from separate studies,
+like geophysics driven structural modelling, or PVT driven formation volume factor
+calculations.
+
+Here is a small PyMC model using synthetic offset-well data. The 25 wells inform field
+average porosity, water saturation, and net-to-gross. The formation volume factor, $B_o$, and
+gross rock volume, GRV, are included as priors with no direct observations. STOIIP is then
+calculated as a deterministic variable from the posterior mean reservoir parameters.
+
+Here is a sample of the (synthetic) data:
+
+```{python}
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(42)
+n_wells = 25
+
+# Synthetic offset-well data: porosity, Sw, and net-to-gross as fractions.
+offset_wells = pd.DataFrame(
+    {
+        "well": [f"W-{i:02d}" for i in range(1, n_wells + 1)],
+        "porosity": np.clip(rng.normal(0.21, 0.025, n_wells), 0.12, 0.32),
+        "sw": np.clip(rng.normal(0.33, 0.04, n_wells), 0.15, 0.60),
+        "net_to_gross": np.clip(rng.normal(0.42, 0.07, n_wells), 0.15, 0.80),
+    }
+)
+
+offset_wells.head()
+```
+
+```{python}
+#| output: false
+import pymc as pm
+
+with pm.Model() as volumetrics_model:
+    # Field-level reservoir property means learned from offset wells.
+    phi_mu = pm.Beta("phi_mu", alpha=2, beta=8)      # prior mean = 0.20
+    sw_mu = pm.Beta("sw_mu", alpha=3, beta=7)        # prior mean = 0.30
+    ntg_mu = pm.Beta("ntg_mu", alpha=4, beta=6)      # prior mean = 0.40
+
+    # Offset-well likelihoods.
+    pm.Normal(
+        "porosity_obs",
+        mu=phi_mu,
+        sigma=0.025,
+        observed=offset_wells["porosity"].to_numpy(),
+    )
+    pm.Normal(
+        "sw_obs",
+        mu=sw_mu,
+        sigma=0.04,
+        observed=offset_wells["sw"].to_numpy(),
+    )
+    pm.Normal(
+        "net_to_gross_obs",
+        mu=ntg_mu,
+        sigma=0.07,
+        observed=offset_wells["net_to_gross"].to_numpy(),
+    )
+
+    # Prior-only quantities: no direct data yet.
+    bo = pm.LogNormal("bo", mu=np.log(1.25), sigma=0.05)          # reservoir bbl / STB
+    grv = pm.LogNormal("grv_acft", mu=np.log(18_000), sigma=0.1) # gross rock volume, acre-ft
+
+    # Stock tank oil initially in place. 7,758 converts acre-ft of pore volume to barrels.
+    stoiip_stb = pm.Deterministic(
+        "stoiip_stb",
+        7_758 * grv * ntg_mu * phi_mu * (1 - sw_mu) / bo,
+    )
+    stoiip_mmbbl = pm.Deterministic("stoiip_mmbbl", stoiip_stb / 1_000_000)
+
+    prior = pm.sample_prior_predictive(
+        draws=8000,
+        var_names=["stoiip_mmbbl"],
+        random_seed=42,
+    )
+
+    trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+Here is a graph representation of the statistical model, grey nodes indicate observations:
+
+```{python}
+pm.model_to_graphviz(volumetrics_model)
+```
+
+And here is the result:
+
+```{python}
+import altair as alt
+
+prior_stoiip = prior.prior["stoiip_mmbbl"].values.ravel()
+posterior_stoiip = trace.posterior["stoiip_mmbbl"].values.ravel()
+
+# Use common bins so the prior and posterior histograms are directly comparable.
+upper = np.quantile(np.concatenate([prior_stoiip, posterior_stoiip]), 0.995)
+bins = np.linspace(0, upper, 60)
 
 
+def make_histogram(samples, label):
+    density, edges = np.histogram(samples, bins=bins, density=True)
+    return pd.DataFrame(
+        {
+            "stoiip_mmbbl": edges[:-1],
+            "density": density,
+            "distribution": label,
+        }
+    )
+
+
+prior_hist = make_histogram(prior_stoiip, "Prior")
+posterior_hist = make_histogram(posterior_stoiip, "Posterior")
+
+color = alt.Color(
+    "distribution:N",
+    scale=alt.Scale(domain=["Prior", "Posterior"], range=["#5b6770", "#ddb06d"]),
+    legend=alt.Legend(
+        title=None,
+        orient="none",
+        legendX=520,
+        legendY=10,
+        direction="vertical",
+    ),
+)
+
+posterior_area = (
+    alt.Chart(posterior_hist)
+    .mark_area(
+        interpolate="step-after",
+        opacity=0.45,
+        line={"strokeWidth": 2},
+    )
+    .encode(
+        x=alt.X(
+            "stoiip_mmbbl:Q",
+            title="STOIIP, MMSTB",
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "density:Q",
+            title=None,
+            axis=alt.Axis(labels=False, ticks=False, grid=False),
+        ),
+        color=color,
+    )
+)
+
+prior_line = (
+    alt.Chart(prior_hist)
+    .mark_line(
+        interpolate="step-after",
+        strokeWidth=2,
+    )
+    .encode(
+        x="stoiip_mmbbl:Q",
+        y="density:Q",
+        color=color,
+    )
+)
+
+(posterior_area + prior_line).properties(width="container", height=320)
+```
+
+Here I'm showing the prior STOIIP (the distribution that the subsurface team might have
+estimated before discovering this field), and the well data driven posterior STOIIP,
+which has converged on a tighter uncertainty around the true value as average field
+reservoir properties are sampled.
+
+The point of putting the volumetric equation inside the probabilistic model is that the
+STOIIP output is not a separate spreadsheet calculation bolted on afterwards. It
+is part of the model graph. The same samples that update porosity, water saturation, and
+net pay from the offset wells also propagate the prior uncertainty in GRV and $B_o$ into
+the final volume estimate.
+
+Making the STOIIP part of the model graph also makes some advanced modelling possible,
+like integrating observed production as an additional constraint. If 4 MMSTB had already
+been recovered from this reservoir, for example, it would indicate STOIIP values less
+than ~8 MMSTB are highly unlikely, as recoveries of greater than 50% in oil reservoirs
+are uncommon.
+
+## Fluid contact uncertainty from RFT data
+
+Another fun example in the oil and gas context is estimating fluid contacts based on
+pressure points taken in reservoirs. One can infer the depth of a gas-water contact
+based on this data, but it is often an uncertain estimate due to unknown fluid
+properties like the salinity of the brine (water) and the density of the gas. The water
+gradient is also often far less well sampled than gas columns.
+
+The problem boils down to finding the intersection of two lines: the gas pressure
+gradient and the water pressure gradient. The intersection of two lines is computable
+as:
+
+$$
+\begin{aligned}
+y_1 &= m_1 x + b_1 \\
+y_2 &= m_2 x + b_2 \\
+ x^* &= \frac{b_2 - b_1}{m_1 - m_2} \\
+ y^* &= m_1 x^* + b_1
+      = \frac{m_1 b_2 - m_2 b_1}{m_1 - m_2}
+\end{aligned}
+$$
+
+If we can model those pressure gradients with a Bayesian statistical model, we will also
+get full uncertainty quantification for the pressure and (of more interest) the depth of
+the intersection, which represents the gas-water contact.
+
+Let's start by simulating some data:
+
+```{python}
+rng = np.random.default_rng(42)
+
+gwc_depth_mss = -1500.0
+gas_column_height_m = 100.0
+contact_pressure_mpa = 20.0
+water_gradient_mpa_per_m = 0.0102
+gas_gradient_mpa_per_m = 0.0022
+gas_pressure_error_mpa = 0.005
+water_pressure_error_mpa = 0.1
+
+# Subsea depth is negative down. The gas column extends from -1400 to -1500 mSS,
+# and the water points are sparse below the contact.
+gas_depth_mss = np.linspace(
+    gwc_depth_mss + gas_column_height_m,
+    gwc_depth_mss + 50,
+    5,
+)
+water_depth_mss = np.array([-1380, -1520, -1530, -1585, -1630])
+
+# Pressure increases downwards. Since depth is negative down, the vertical distance
+# below the contact is gwc_depth_mss - depth_mss.
+gas_pressure_mpa = (
+    contact_pressure_mpa
+    + gas_gradient_mpa_per_m * (gwc_depth_mss - gas_depth_mss)
+    + rng.normal(0, gas_pressure_error_mpa, gas_depth_mss.size)
+)
+water_pressure_mpa = (
+    contact_pressure_mpa
+    + water_gradient_mpa_per_m * (gwc_depth_mss - water_depth_mss)
+    + rng.normal(0, water_pressure_error_mpa, water_depth_mss.size)
+)
+
+rft_data = pd.concat(
+    [
+        pd.DataFrame(
+            {
+                "fluid": "Gas",
+                "depth_mss": gas_depth_mss,
+                "pressure_mpa": gas_pressure_mpa,
+            }
+        ),
+        pd.DataFrame(
+            {
+                "fluid": "Water",
+                "depth_mss": water_depth_mss,
+                "pressure_mpa": water_pressure_mpa,
+            }
+        ),
+    ],
+    ignore_index=True,
+)
+```
+
+```{python}
+rft_points = (
+    alt.Chart(rft_data)
+    .mark_circle(size=80, opacity=0.85)
+    .encode(
+        x=alt.X(
+            "pressure_mpa:Q",
+            title="Pressure, MPa",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "depth_mss:Q",
+            title="Depth, mSS",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        color=alt.Color(
+            "fluid:N",
+            scale=alt.Scale(
+                domain=["Water", "Gas"],
+                range=["#9bd3e6", "#f4a6a6"],
+            ),
+            legend=alt.Legend(title=None),
+        ),
+        tooltip=["fluid", "depth_mss", "pressure_mpa"],
+    )
+    .properties(width="container", height=360)
+)
+
+rft_points
+```
+
+Each pressure gradient is a linear function, so our Bayesian model is simply estimating
+the slope and intercept of each, and then passing the solution for the intersection of
+them into the model graph, to output it as an uncertain parameter.
+
+```{python}
+#| output: false
+
+water_data = rft_data[rft_data["fluid"] == "Water"]
+gas_data = rft_data[rft_data["fluid"] == "Gas"]
+
+# Centering depth around the expected contact keeps the intercept priors intuitive:
+# they represent pressure near the contact depth.
+depth_ref_mss = -1500.0
+water_depth_centered = water_data["depth_mss"].to_numpy() - depth_ref_mss
+gas_depth_centered = gas_data["depth_mss"].to_numpy() - depth_ref_mss
+
+with pm.Model() as contact_model:
+    water_intercept = pm.Normal("water_intercept", mu=20.0, sigma=1.0)
+    gas_intercept = pm.Normal("gas_intercept", mu=20.0, sigma=1.0)
+
+    water_slope = pm.Normal("water_slope", mu=-0.010, sigma=0.002)
+    gas_slope = pm.Normal("gas_slope", mu=-0.002, sigma=0.001)
+
+    water_sigma = pm.HalfNormal("water_sigma", sigma=0.15)
+    gas_sigma = pm.HalfNormal("gas_sigma", sigma=0.15)
+
+    water_pressure_mu = pm.Deterministic(
+        "water_pressure_mu",
+        water_intercept + water_slope * water_depth_centered,
+    )
+    gas_pressure_mu = pm.Deterministic(
+        "gas_pressure_mu",
+        gas_intercept + gas_slope * gas_depth_centered,
+    )
+
+    pm.Normal(
+        "water_pressure_obs",
+        mu=water_pressure_mu,
+        sigma=water_sigma,
+        observed=water_data["pressure_mpa"].to_numpy(),
+    )
+    pm.Normal(
+        "gas_pressure_obs",
+        mu=gas_pressure_mu,
+        sigma=gas_sigma,
+        observed=gas_data["pressure_mpa"].to_numpy(),
+    )
+
+    contact_depth_mss = pm.Deterministic(
+        "contact_depth_mss",
+        depth_ref_mss + (gas_intercept - water_intercept) / (water_slope - gas_slope),
+    )
+
+    contact_trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+```{python}
+pm.model_to_graphviz(contact_model)
+```
+
+Fitting the model to the data yields our two pressure gradients:
+
+```{python}
+def posterior_gradient_interval(trace, fluid, depth_grid_mss):
+    intercept = trace.posterior[f"{fluid}_intercept"].values.ravel()
+    slope = trace.posterior[f"{fluid}_slope"].values.ravel()
+    depth_centered = depth_grid_mss - depth_ref_mss
+
+    pressure = intercept[:, None] + slope[:, None] * depth_centered[None, :]
+    pressure_low, pressure_mid, pressure_high = np.quantile(
+        pressure,
+        [0.025, 0.5, 0.975],
+        axis=0,
+    )
+
+    return pd.DataFrame(
+        {
+            "fluid": fluid.title(),
+            "depth_mss": depth_grid_mss,
+            "pressure_low": pressure_low,
+            "pressure_mid": pressure_mid,
+            "pressure_high": pressure_high,
+        }
+    )
+
+
+depth_grid = np.linspace(
+    water_data["depth_mss"].min() - 10,
+    water_data["depth_mss"].max(),
+    100,
+)
+
+gradient_intervals = pd.concat(
+    [
+        posterior_gradient_interval(contact_trace, "water", depth_grid),
+        posterior_gradient_interval(contact_trace, "gas", depth_grid),
+    ],
+    ignore_index=True,
+)
+
+fluid_color = alt.Color(
+    "fluid:N",
+    scale=alt.Scale(
+        domain=["Water", "Gas"],
+        range=["#9bd3e6", "#f4a6a6"],
+    ),
+    legend=alt.Legend(title=None),
+)
+
+interval_band = (
+    alt.Chart(gradient_intervals)
+    .mark_area(opacity=0.25)
+    .encode(
+        x=alt.X(
+            "pressure_low:Q",
+            title="Pressure, MPa",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        x2="pressure_high:Q",
+        y=alt.Y(
+            "depth_mss:Q",
+            title="Depth, mSS",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        color=fluid_color,
+    )
+)
+
+median_gradient = (
+    alt.Chart(gradient_intervals)
+    .mark_line(strokeWidth=2)
+    .encode(
+        x="pressure_mid:Q",
+        y="depth_mss:Q",
+        color=fluid_color,
+    )
+)
+
+rft_points = (
+    alt.Chart(rft_data)
+    .mark_circle(size=80, opacity=0.85)
+    .encode(
+        x=alt.X(
+            "pressure_mpa:Q",
+            title="Pressure, MPa",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "depth_mss:Q",
+            title="Depth, mSS",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        color=fluid_color,
+        tooltip=["fluid", "depth_mss", "pressure_mpa"],
+    )
+)
+
+(interval_band + median_gradient + rft_points).properties(width="container", height=360)
+```
+
+And the uncertain intersection of those two lines is the uncertainty in the contact
+depth, also shown below as a histogram:
+
+```{python}
+contact_depth_samples = contact_trace.posterior["contact_depth_mss"].values.ravel()
+contact_depth_hist, contact_depth_edges = np.histogram(
+    contact_depth_samples,
+    bins=50,
+    density=True,
+)
+
+contact_depth_df = pd.DataFrame(
+    {
+        "contact_depth_mss": contact_depth_edges[:-1],
+        "density": contact_depth_hist,
+    }
+)
+
+alt.Chart(contact_depth_df).mark_area(
+    interpolate="step-after",
+    opacity=0.45,
+    color="#f4a6a6",
+    line={"color": "#f4a6a6", "strokeWidth": 2},
+).encode(
+    x=alt.X(
+        "contact_depth_mss:Q",
+        title="Gas-water contact depth, mSS",
+        scale=alt.Scale(zero=False),
+        axis=alt.Axis(grid=False),
+    ),
+    y=alt.Y(
+        "density:Q",
+        title=None,
+        axis=alt.Axis(labels=False, ticks=False, grid=False),
+    ),
+).properties(width="container", height=320)
+```
+
+Neat!
+
+## Fluid compositional modelling
+
+A Dirichlet model can be fit to a dataset of fluid samples to model uncertainty in
+composition across a field. This example benefits from hierarchical modelling (a
+Bayesian statistical superpower) to account for groupings of data, like replicate
+samples of the same interval, or samples from the same reservoir.
+
+Again, we start with some synthetic data:
+
+```{python}
+rng = np.random.default_rng(42)
+
+components = ["C1", "C2", "C3", "C4", "C5", "C6", "C7+"]
+
+reservoir_profiles = {
+    "Reservoir A": np.array([0.72, 0.10, 0.06, 0.04, 0.03, 0.02, 0.03]),
+    "Reservoir B": np.array([0.34, 0.11, 0.10, 0.26, 0.06, 0.04, 0.09]),
+    "Reservoir C": np.array([0.24, 0.10, 0.09, 0.08, 0.08, 0.07, 0.34]),
+}
+
+reservoir_concentration = {
+    "Reservoir A": 120,
+    "Reservoir B": 80,
+    "Reservoir C": 60,
+}
+
+base_samples_per_reservoir = 8
+replicate_concentration = 1_500
+replicate_probabilities = [0.65, 0.25, 0.10]
+replicate_counts = [1, 2, 3]
+
+rows = []
+for reservoir, profile in reservoir_profiles.items():
+    reservoir_alpha = profile * reservoir_concentration[reservoir]
+
+    for sample_idx in range(1, base_samples_per_reservoir + 1):
+        sample_group = f"{reservoir[-1]}-{sample_idx:02d}"
+        base_composition = rng.dirichlet(reservoir_alpha)
+        n_replicates = rng.choice(replicate_counts, p=replicate_probabilities)
+
+        for replicate_idx in range(1, n_replicates + 1):
+            observed_composition = rng.dirichlet(
+                base_composition * replicate_concentration
+            )
+
+            rows.append(
+                {
+                    "sample_id": f"{sample_group}-{replicate_idx}",
+                    "sample_group": sample_group,
+                    "replicate": replicate_idx,
+                    "reservoir": reservoir,
+                    **dict(zip(components, observed_composition)),
+                }
+            )
+
+composition_samples = pd.DataFrame(rows)
+
+composition_samples_long = composition_samples.melt(
+    id_vars=["sample_id", "sample_group", "replicate", "reservoir"],
+    value_vars=components,
+    var_name="component",
+    value_name="fraction",
+)
+```
+
+```{python}
+mean_composition = (
+    composition_samples_long
+    .groupby(["reservoir", "component"], as_index=False)
+    .agg(mean_fraction=("fraction", "mean"))
+)
+
+alt.Chart(mean_composition).mark_bar().encode(
+    x=alt.X(
+        "component:N",
+        title="Component",
+        sort=components,
+        axis=alt.Axis(labelAngle=0, grid=False),
+    ),
+    xOffset=alt.XOffset("reservoir:N", title="Reservoir"),
+    y=alt.Y(
+        "mean_fraction:Q",
+        title="Mean mole fraction",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    color=alt.Color("reservoir:N", title="Reservoir"),
+    tooltip=[
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("component:N", title="Component"),
+        alt.Tooltip("mean_fraction:Q", title="Mean fraction", format=".1%"),
+    ],
+).properties(
+    width="container",
+    height=320,
+)
+```
+
+Note these are the _average_ compositions of the three reservoirs, in reality we have
+several fluid samples (and replicates) in a dataset of 238 total samples.
+
+So how can we model the average properties by reservoir, and the variability we see
+within sample intervals and across them?
+
+```{python}
+#| output: false
+composition_observed = composition_samples[components].to_numpy()
+
+reservoir_codes, reservoir_names = pd.factorize(composition_samples["reservoir"])
+group_codes, group_names = pd.factorize(composition_samples["sample_group"])
+
+group_lookup = (
+    composition_samples[["sample_group", "reservoir"]]
+    .drop_duplicates()
+    .set_index("sample_group")
+    .loc[group_names]
+)
+group_reservoir_codes = pd.Categorical(
+    group_lookup["reservoir"], categories=reservoir_names
+).codes
+
+coords = {
+    "component": components,
+    "reservoir": reservoir_names,
+    "sample_group": group_names,
+    "sample": composition_samples["sample_id"],
+}
+
+with pm.Model(coords=coords) as composition_model:
+    reservoir_pooling = pm.Exponential("reservoir_pooling", lam=1 / 20)
+    group_pooling = pm.Exponential("group_pooling", lam=1 / 100)
+
+    global_alpha = pm.Gamma(
+        "global_alpha",
+        alpha=2,
+        beta=0.2,
+        dims="component",
+    )
+
+    reservoir_alpha = pm.Gamma(
+        "reservoir_alpha",
+        alpha=global_alpha[None, :] * reservoir_pooling,
+        beta=reservoir_pooling,
+        dims=("reservoir", "component"),
+    )
+
+    group_alpha = pm.Gamma(
+        "group_alpha",
+        alpha=reservoir_alpha[group_reservoir_codes] * group_pooling,
+        beta=group_pooling,
+        dims=("sample_group", "component"),
+    )
+
+    pm.Dirichlet(
+        "composition",
+        a=group_alpha[group_codes],
+        observed=composition_observed,
+        dims=("sample", "component"),
+    )
+
+    composition_trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+```{python}
+pm.model_to_graphviz(composition_model)
+```
+
+```{python}
+pm.plot_forest(composition_trace)
+```
 

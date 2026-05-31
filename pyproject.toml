@@ -23,6 +23,8 @@ dependencies = [
     "shinylive>=0.8.7",
     "yfinance>=0.2.61",
     "jupyter-cache>=1.0.1",
+    "pymc>=6.0.1",
+    "graphviz>=0.21",
 ]
 
 [tool.uv.sources]
