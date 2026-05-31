@@ -1096,6 +1096,92 @@ pm.model_to_graphviz(composition_model)
 ```
 
 ```{python}
-pm.plot_forest(composition_trace)
+#| output: false
+histogram_bins = np.linspace(0, 1, 250)
+histogram_rows = []
+
+for reservoir in reservoir_names:
+    reservoir_alpha = (
+        composition_trace.posterior["reservoir_alpha"]
+        .sel(reservoir=reservoir)
+        .values
+    )
+    reservoir_alpha = reservoir_alpha.reshape(-1, len(components))
+    reservoir_composition = reservoir_alpha / reservoir_alpha.sum(axis=1, keepdims=True)
+
+    for component_idx, component in enumerate(components):
+        density, edges = np.histogram(
+            reservoir_composition[:, component_idx],
+            bins=histogram_bins,
+            density=True,
+        )
+        histogram_rows.extend(
+            {
+                "reservoir": reservoir,
+                "component": component,
+                "fraction": edges[i],
+                "density": density[i],
+                "component_order": component_idx,
+            }
+            for i in range(len(density))
+        )
+
+reservoir_composition_hist = pd.DataFrame(histogram_rows)
+
+component_color = alt.Color(
+    "component:N",
+    sort=components,
+    scale=alt.Scale(
+        domain=components,
+        range=["#ddb06d", "#9bd3e6", "#f4a6a6", "#8fbc8f", "#b58fd3", "#f0c987", "#5b6770"],
+    ),
+    legend=alt.Legend(title=None),
+)
+
+
+def reservoir_composition_histogram(reservoir):
+    reservoir_hist = reservoir_composition_hist[
+        reservoir_composition_hist["reservoir"] == reservoir
+    ]
+
+    return alt.Chart(reservoir_hist).mark_line(
+        interpolate="step-after",
+        strokeWidth=2,
+    ).encode(
+        x=alt.X(
+            "fraction:Q",
+            title="Posterior mole fraction",
+            scale=alt.Scale(domain=[0, 1]),
+            axis=alt.Axis(format="%", grid=False),
+        ),
+        y=alt.Y(
+            "density:Q",
+            title=None,
+            axis=alt.Axis(labels=False, ticks=False, grid=False),
+        ),
+        color=component_color,
+        tooltip=[
+            alt.Tooltip("reservoir:N", title="Reservoir"),
+            alt.Tooltip("component:N", title="Component"),
+            alt.Tooltip("fraction:Q", title="Posterior fraction", format=".1%"),
+            alt.Tooltip("density:Q", title="Density", format=".2f"),
+        ],
+    ).properties(
+        title=reservoir,
+        width="container",
+        height=260,
+    )
+```
+
+```{python}
+reservoir_composition_histogram("Reservoir A")
+```
+
+```{python}
+reservoir_composition_histogram("Reservoir B")
+```
+
+```{python}
+reservoir_composition_histogram("Reservoir C")
 ```
 
