@@ -2,7 +2,7 @@
 title: "Resgo"
 subtitle: "Prospect evaluation end-to-end"
 author: "Nicholas Dorsch"
-date: today
+date: 2026/05/29
 categories: [LDI, geology, geophysics, statistics]
 image: media/resgo_logo_white.svg
 execute:

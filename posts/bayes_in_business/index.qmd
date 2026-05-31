@@ -1,0 +1,396 @@
+---
+title: "Bayes in Business and Engineering"
+author: "Nicholas Dorsch"
+date: today
+categories: [statistics]
+image: media/update.png
+execute:
+  echo: false
+---
+
+```{python}
+import altair as alt
+import numpy as np
+import pandas as pd
+from scipy.stats import beta as beta_dist
+from src.plotting import apply_lex_altair_theme
+
+apply_lex_altair_theme()
+alt.data_transformers.disable_max_rows()
+
+n_steps = 50
+fixed_beta = 10
+p_grid = np.linspace(0.001, 0.999, 300)
+
+rows = []
+for step in range(n_steps + 1):
+    alpha = 2 + step
+    beta = fixed_beta
+    density = beta_dist.pdf(p_grid, alpha, beta)
+
+    rows.extend(
+        {
+            "p": p,
+            "density": d,
+            "step": step,
+        }
+        for p, d in zip(p_grid, density)
+    )
+
+beta_updates = pd.DataFrame(rows)
+final_update = beta_updates[beta_updates["step"] == n_steps]
+
+lines = alt.Chart(beta_updates[beta_updates["step"] < n_steps]).mark_line(
+    color="#ddb06d",
+    strokeWidth=1.0,
+).encode(
+    x=alt.X("p:Q", axis=None, scale=alt.Scale(domain=[0, 1])),
+    y=alt.Y("density:Q", axis=None),
+    detail="step:N",
+    opacity=alt.Opacity(
+        "step:Q",
+        scale=alt.Scale(domain=[0, n_steps], range=[0.05, 0.95]),
+        legend=None,
+    ),
+)
+
+final_line = alt.Chart(final_update).mark_line(
+    color="#ddb06d",
+    strokeWidth=3.0,
+).encode(
+    x=alt.X("p:Q", axis=None, scale=alt.Scale(domain=[0, 1])),
+    y=alt.Y("density:Q", axis=None),
+)
+
+(lines + final_line).properties(
+    width="container",
+    height=250,
+).configure_view(
+    stroke=None,
+)
+```
+
+# My introduction to Bayes
+
+I now consider myself a software engineer, but my journey into programming started with
+an interest in probability and uncertainty.
+
+In the early days I was doing little experiments in spreadsheets, bumping around in a
+dark room without much ability to navigate. Around the same time I also started getting
+exposed to blogs like [Less Wrong](https://www.lesswrong.com/) and the writings of
+Eliezer Yudkowsky---who, incidentally, is currently sounding the alarm that
+superintelligent AI is going to [literally kill everyone if we build
+it](https://en.wikipedia.org/wiki/If_Anyone_Builds_It,_Everyone_Dies)---but this post
+isn't about existential dread, or the unmooring mental effect of having one of your
+foremost intellectual influences prophesying imminent doom.
+
+Less Wrong and Eliezer introduced me properly to Bayes. I say properly, because reading
+a Wikipedia article or having professors gleefully show how "unintuitive" it is, is
+about the _worst_ way you could possibly be introduced to it. These writings were not
+gleeful in challenging intuition, but patient and aphoristic, teaching by example
+through excellent technical writings, rather than whiteboard problems. 
+
+Bayes intersected with my work, and my interest in uncertainty, so these influences came
+together at a great time in my career. 
+
+More importantly, the introduction to Bayes was a formalized introduction to rationality
+and probabilistic thinking in general, which for whatever reason I am very predisposed
+to, and following that rabbit hole led me to Bayesian statistics. 
+
+This led me to dig for more influences, like [E.T
+Jaynes](https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes), [Aubrey
+Clayton](https://aubreyclayton.com/), Cameron Davidson-Pilon's [Bayesian Methods for
+Hackers](https://github.com/camdavidsonpilon/probabilistic-programming-and-bayesian-methods-for-hackers)
+and the incredible work (in lectures and textbooks) of [Richard
+McElreath](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919).
+
+Bayesian statistics required me to program, so I learned, and on the way learned that my
+home was always going to be in software engineering, I just hadn't landed on that path
+yet. So Bayesian statistics, in the end, is the reason I am doing what I'm doing today.
+
+And software engineering combined with Bayesian statistics is a very powerful
+combination, as it turns out.
+
+Because I'm not a formally trained statistician (or an academic of any kind), but
+instead someone who works in a technical industry where engineering and data analytics
+are highly valued, my perspective on where Bayes fits in is as much value-oriented as it
+is driven by intellectual curiosity. I've written before about the idea of
+[informatics](https://nick-dorsch.github.io/blog/posts/informatics/), and Bayesian
+statistics sits at the heart of the concept.
+
+The point I want to make in this post boils down to this: the Bayesian toolkit lets us
+combine domain knowledge and limited data into highly expressive, interpretable models
+that quantify uncertainty, and this makes them ideal for decision support in complex
+technical domains.
+
+# The core of my thinking
+
+> A. _"What should we believe, given our understanding of the world and our data?"_
+>
+> B. _"What should we do, given that information?"_
+
+Bayes helps us define what to believe, decision theory formalizes what actions to take,
+and our values ultimately decide what we do.
+
+In contexts where decisions are difficult, uncertainty is an essential ingredient. You
+really can't make good decisions in the absence of a consideration of uncertainty---we
+do it all the time by calling options "safe bets" or "high-risk"---probability models
+just quantify these considerations and make them explicit. 
+
+The uncertainty is ultimately subjective (all probabilities are in the Bayesian view),
+but subjective quantities still follow rules. If you want to follow your uncertainties
+through to their logical consequences, you need to follow them.
+
+# Monte Carlo models
+
+Monte Carlo models are the first thing to master when learning how to use probability.
+They are incredibly flexible and simple in concept. Define your uncertainties, state
+the math that governs the outputs you care about, and run the system thousands of times
+to see what happens.
+
+You can teach yourself a lot by doing this. You will discover
+[SEM](https://en.wikipedia.org/wiki/Standard_error) by adding stochastic outputs
+together. You will quickly disabuse yourself of mental mistakes relating to "stacking
+percentiles" because you can watch the real result occur in simulation. You will
+understand CDFs and PDFs and quantile ranges without even knowing their names, because
+you will understand that behind everything is an array of simulated values, not a
+mysterious system of mathematics that is beyond your understanding.
+
+You can start doing this without even understanding the probability distributions in the
+background---that understanding will come as you delve deeper.
+
+## Back of the envelope thinking
+
+In [The Art of Doing Science and
+Engineering](https://en.wikipedia.org/wiki/The_Art_of_Doing_Science_and_Engineering) by
+Richard Hamming, he talks about the usefulness of back of the envelope problem solving.
+Modern computing gives us the tools to take back of the envelope problem solving into
+the probabilistic realm with minimal effort.
+
+One of Hamming's examples is the idea that (back when he wrote the book in the late
+80s) 90% of the scientists who have ever lived are now alive. He takes that statement
+along with an assumption that knowledge doubles every 17 years, to do a back of the
+envelope calculation to see how compatible the two statements are.
+
+I will skip the maths (apparently integral calculus was part of Hamming's idea of back
+of the envelope thinking), but he shows that if the number of scientists practicing at
+any time is given by:
+
+$$
+y(t) = ae^{bt}
+$$
+
+and, assuming scientists have careers lasting around 55 years, the proportion alive
+today is given by:
+
+$$
+1 - \left(\frac{1}{2}\right)^{55/17} = 0.894...
+$$
+
+And he makes the point well. Comfort with turning claims into a bit of maths allows him
+to test assumptions with minimal effort, and in this case he is left satisfied that the
+claims are consistent.
+
+Modern computing and tooling means that for us, with a laptop and a Python install, we
+can add our uncertainty to the mix with minimal effort. Say we think the doubling time
+is centred on 17 years, and the length of a scientist's career is centred on 55 years,
+but we're uncertain about both quantities:
+
+```python
+import numpy as np
+
+n = 5_000
+
+rng = np.random.default_rng(42)
+career_years = rng.normal(55, 10, n)
+doubling_years = rng.normal(17, 3, n)
+
+proportion_alive = 1 - (1 / 2) ** (career_years / doubling_years)
+```
+
+```{python}
+import altair as alt
+import numpy as np
+import pandas as pd
+from src.plotting import apply_lex_altair_theme
+
+apply_lex_altair_theme()
+
+rng = np.random.default_rng(42)
+n = 5_000
+
+career_years = rng.normal(55, 10, n)
+doubling_years = rng.normal(17, 3, n)
+
+proportion_alive = 1 - (1 / 2) ** (career_years / doubling_years)
+results = pd.DataFrame({"proportion_alive": proportion_alive})
+
+mean_result = results["proportion_alive"].mean()
+low, high = results["proportion_alive"].quantile([0.05, 0.95])
+print(f"Mean result: {mean_result:.3f}; 90% interval: {low:.3f}–{high:.3f}")
+
+hist = (
+    alt.Chart(results)
+    .mark_bar()
+    .encode(
+        x=alt.X(
+            "proportion_alive:Q",
+            bin=alt.Bin(maxbins=80),
+            title="Proportion of all scientists alive today",
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "count():Q",
+            axis=alt.Axis(labels=False, ticks=False, title=None, grid=False),
+        ),
+        tooltip=["count()"],
+    )
+    .properties(width="container")
+)
+
+mean_rule = (
+    alt.Chart(pd.DataFrame({"x": [mean_result]}))
+    .mark_rule(color="red")
+    .encode(x="x:Q")
+)
+
+hist + mean_rule
+```
+
+Maybe we care about this uncertainty, maybe we don't, it depends on the problem and the
+stakes. The point is that it is _incredibly easy to do_, and now with AI, all that is
+stopping you is a passing familiarity with the concepts, and just asking!
+
+## Scale to any problem
+
+Monte Carlo models can be self-contained and simple, like the above example, or they can
+get [arbitrarily complex](https://nick-dorsch.github.io/blog/posts/resgo/), but the
+_style of thinking_ that makes it clear how this trick is done is all you need to start.
+You will pick up more complex concepts like multivariate correlated sampling, working
+with high dimensional arrays, and vectorization as you delve deeper, but the core
+framework is incredibly simple to start with. 
+
+Just make the computer go _brrrrrr_.
+
+# Learning from Data
+
+It might appear that I've diverged from the point of this post (using Bayes to solve
+technical problems and improve decision making) but the Monte Carlo method begs a
+question:
+
+How do we decide what distributions to use? And how do we parametrize them?
+
+Formalizing uncertainty in a Monte Carlo model is great, but how can we be rigorous
+about the parameters that define the distributions that model that uncertainty?
+
+In the example above I set the year length of a scientist's career to $\text{Normal}(55,
+10)$... but I just pulled that distribution out of a hat.
+
+In Bayesian statistics terms this would be called _elicitation_. We ask someone what
+they think is a reasonable range of values for a particular quantity (before looking at
+any data) and we take their answer and "elicit" an appropriate distribution that
+captures that belief.
+
+But there is no data here, how do we take that _prior_ belief about the quantity and use
+data to learn about it?
+
+That requires Bayes.
+
+$$
+p(\theta \mid y) = \frac{p(y \mid \theta)\,p(\theta)}{p(y)}
+$$
+
+The left side of that equation represents, in words, _What is the posterior probability
+distribution over model parameters, given the observed data_, which sounds similar to 
+
+> A. _"What should we believe, given our understanding of the world and our data?"_
+
+In technical contexts these are the same thing, because our beliefs are formalized by
+the parameters in our Monte Carlo models.
+
+So now we've added data ($y$), how do we use it in practice?
+
+The field of Bayesian statistics is devoted to this problem.
+
+## Markov Chain Monte Carlo models
+
+It turns out that Bayes theorem is a huge pain in the ass. There are classes of problem
+where the maths solves [elegantly](https://nick-dorsch.github.io/blog/posts/lindy/),
+providing efficient analytical solutions to Bayesian models. These are amazing and
+useful to learn, but also rare when applied to real-world problems.
+
+Most of the time, we need specialized algorithms to do Bayes. It is all because of this
+innocent looking quantity in the denominator of Bayes theorem:
+
+$$
+p(y)
+$$
+
+Which equates to
+
+$$
+p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
+$$
+
+> _"The denominator is the probability of the observed data under the whole model. It
+> integrates over every possible value of $\theta$, weighting each value by its prior
+> plausibility. In other words, it asks how surprising the data would be before we knew
+> which parameter value was true."_
+
+That sentence is a headache. I actually asked the AI to write it because I couldn't
+vomit out a sentence describing it adequately.
+
+It turns out it is a headache for computers, too, because most of the time that integral
+becomes an intractable nightmare, where no analytical solution even exists.
+
+Instead, clever algorithms are needed to approximate the posterior distribution through
+random sampling. This is Monte Carlo again, but this time we have no inverse CDF to use
+(the function used to generate random samples in Monte Carlo models) as the posterior
+distribution is unknown, so we have to explore the probability space without it,
+somehow. That is where Markov Chain Monte Carlo
+([MCMC](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo)) algorithms come in.
+
+Learning how to build efficient models to do Bayesian inference is the engineering side
+of Bayesian statistics.
+
+This isn't a post about that engineering effort, but the point is, with MCMC models,
+we can update our beliefs with data across a wide range of problems.
+
+## What about Machine Learning and AI?
+
+The dominant paradigm in data science is machine learning. Many mainstream machine
+learning workflows are built around optimization: choose a model class, define a loss
+function, and find the parameters that make the best in-sample predictions while
+minimizing out-of-sample error. For big datasets with many features, this can work
+incredibly well.
+
+But running problems through the black box of ML costs us a few important things.
+
+First is expressiveness. Engineering problems usually have an underlying mathematical
+structure that is usually well understood. It is not wise to throw it out and expect the
+algorithm to pick it all up again using large quantities of data. Physics informed
+neural networks
+([PINNs](https://en.wikipedia.org/wiki/Physics-informed_neural_networks)) address this
+problem, embedding physical laws into neural network training such that solutions are
+kept within physically consistent constraints, but they are not the norm in the ML
+world---most of the time ML models are not constrained in this way.
+
+Second is uncertainty. Most machine learning algorithsm do not provide uncertainty
+quantification. Especially in complex domains with small quantities of data, that
+uncertainty can be an essential component of effective decision making. In high stakes
+situations, an ML model stating that the answer is "25!" while not having any ability to
+provide confidence intervals of $\pm 10$ or $\pm 1000$ makes decision making based on
+their results far less robust.
+
+Third is what I call the problem of "small data". Big data is a luxury that most
+engineering problems don't enjoy. Instead we are often trying to maximize the
+information we can get out of small quantities of expensively acquired data. Machine
+learning solutions in this context are not the best choice, in my view. They will
+provide uninterpretable solutions with questionable validity, with no uncertainty
+preservation.
+
+Machine learning is a rich field with many answers to my criticisms, here, but my answer
+is: use Bayes instead.
+
+
+
