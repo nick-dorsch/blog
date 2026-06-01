@@ -1231,6 +1231,12 @@ values that sum to 1, which matches compositional data nicely. In real examples 
 would be additional mole fractions included, but I've left them out here for the sake of
 keeping plots readable.
 
+A model like this may become of particular interest while investigating if two
+reservoirs are in pressure communication. Sparse information, a hierarchy of sampling,
+and this model gives an engineer a way of quantifying a probability that directly
+answers the question, or the number of additional samples needed to answer it
+conclusively!
+
 ## Sidewall Core Analysis
 
 Sidewall cores are a very rich dataset that lends itself to hierarchical analyses as
