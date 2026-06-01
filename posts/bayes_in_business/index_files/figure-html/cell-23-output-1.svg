@@ -11,147 +11,147 @@
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-666.77 796.88,-666.77 796.88,4 -4,4"/>
 <g id="clust1" class="cluster">
 <title>clusterreservoir (3)</title>
-<path fill="none" stroke="black" d="M209.34,-440.84C209.34,-440.84 483.34,-440.84 483.34,-440.84 489.34,-440.84 495.34,-446.84 495.34,-452.84 495.34,-452.84 495.34,-642.77 495.34,-642.77 495.34,-648.77 489.34,-654.77 483.34,-654.77 483.34,-654.77 209.34,-654.77 209.34,-654.77 203.34,-654.77 197.34,-648.77 197.34,-642.77 197.34,-642.77 197.34,-452.84 197.34,-452.84 197.34,-446.84 203.34,-440.84 209.34,-440.84"/>
-<text text-anchor="middle" x="442.34" y="-448.64" font-family="Times,serif" font-size="14.00">reservoir (3)</text>
+<path fill="none" stroke="black" d="M309.54,-440.84C309.54,-440.84 583.54,-440.84 583.54,-440.84 589.54,-440.84 595.54,-446.84 595.54,-452.84 595.54,-452.84 595.54,-642.77 595.54,-642.77 595.54,-648.77 589.54,-654.77 583.54,-654.77 583.54,-654.77 309.54,-654.77 309.54,-654.77 303.54,-654.77 297.54,-648.77 297.54,-642.77 297.54,-642.77 297.54,-452.84 297.54,-452.84 297.54,-446.84 303.54,-440.84 309.54,-440.84"/>
+<text text-anchor="middle" x="542.54" y="-448.64" font-family="Times,serif" font-size="14.00">reservoir (3)</text>
 </g>
 <g id="clust2" class="cluster">
 <title>clustercore (155)</title>
-<path fill="none" stroke="black" d="M268.34,-8C268.34,-8 474.34,-8 474.34,-8 480.34,-8 486.34,-14 486.34,-20 486.34,-20 486.34,-409.88 486.34,-409.88 486.34,-415.88 480.34,-421.88 474.34,-421.88 474.34,-421.88 268.34,-421.88 268.34,-421.88 262.34,-421.88 256.34,-415.88 256.34,-409.88 256.34,-409.88 256.34,-20 256.34,-20 256.34,-14 262.34,-8 268.34,-8"/>
-<text text-anchor="middle" x="441.84" y="-15.8" font-family="Times,serif" font-size="14.00">core (155)</text>
+<path fill="none" stroke="black" d="M368.54,-8C368.54,-8 574.54,-8 574.54,-8 580.54,-8 586.54,-14 586.54,-20 586.54,-20 586.54,-409.88 586.54,-409.88 586.54,-415.88 580.54,-421.88 574.54,-421.88 574.54,-421.88 368.54,-421.88 368.54,-421.88 362.54,-421.88 356.54,-415.88 356.54,-409.88 356.54,-409.88 356.54,-20 356.54,-20 356.54,-14 362.54,-8 368.54,-8"/>
+<text text-anchor="middle" x="542.04" y="-15.8" font-family="Times,serif" font-size="14.00">core (155)</text>
 </g>
-<!-- global_intercept -->
+<!-- reservoir_intercept_sigma -->
 <g id="node1" class="node">
-<title>global_intercept</title>
-<ellipse fill="none" stroke="black" cx="93.34" cy="-609.29" rx="93.18" ry="37.45"/>
-<text text-anchor="middle" x="93.34" y="-620.59" font-family="Times,serif" font-size="14.00">global_intercept</text>
-<text text-anchor="middle" x="93.34" y="-605.59" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="93.34" y="-590.59" font-family="Times,serif" font-size="14.00">Normal</text>
+<title>reservoir_intercept_sigma</title>
+<ellipse fill="none" stroke="black" cx="143.54" cy="-609.29" rx="143.59" ry="37.45"/>
+<text text-anchor="middle" x="143.54" y="-620.59" font-family="Times,serif" font-size="14.00">reservoir_intercept_sigma</text>
+<text text-anchor="middle" x="143.54" y="-605.59" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="143.54" y="-590.59" font-family="Times,serif" font-size="14.00">Halfnormal</text>
 </g>
 <!-- reservoir_intercept -->
 <g id="node5" class="node">
 <title>reservoir_intercept</title>
-<polygon fill="none" stroke="black" points="431.34,-524.84 277.34,-524.84 277.34,-471.84 431.34,-471.84 431.34,-524.84"/>
-<text text-anchor="middle" x="354.34" y="-509.64" font-family="Times,serif" font-size="14.00">reservoir_intercept</text>
-<text text-anchor="middle" x="354.34" y="-494.64" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="354.34" y="-479.64" font-family="Times,serif" font-size="14.00">Deterministic</text>
+<polygon fill="none" stroke="black" points="531.54,-524.84 377.54,-524.84 377.54,-471.84 531.54,-471.84 531.54,-524.84"/>
+<text text-anchor="middle" x="454.54" y="-509.64" font-family="Times,serif" font-size="14.00">reservoir_intercept</text>
+<text text-anchor="middle" x="454.54" y="-494.64" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="454.54" y="-479.64" font-family="Times,serif" font-size="14.00">Deterministic</text>
 </g>
-<!-- global_intercept&#45;&gt;reservoir_intercept -->
+<!-- reservoir_intercept_sigma&#45;&gt;reservoir_intercept -->
 <g id="edge1" class="edge">
-<title>global_intercept&#45;&gt;reservoir_intercept</title>
-<path fill="none" stroke="black" d="M156.85,-581.78C195.27,-565.74 244.31,-545.27 283.91,-528.74"/>
-<polygon fill="black" stroke="black" points="285.36,-531.92 293.24,-524.84 282.66,-525.46 285.36,-531.92"/>
-</g>
-<!-- depth_slope -->
-<g id="node2" class="node">
-<title>depth_slope</title>
-<ellipse fill="none" stroke="black" cx="575.34" cy="-498.34" rx="72.25" ry="37.45"/>
-<text text-anchor="middle" x="575.34" y="-509.64" font-family="Times,serif" font-size="14.00">depth_slope</text>
-<text text-anchor="middle" x="575.34" y="-494.64" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="575.34" y="-479.64" font-family="Times,serif" font-size="14.00">Normal</text>
-</g>
-<!-- expected_logit_porosity -->
-<g id="node9" class="node">
-<title>expected_logit_porosity</title>
-<polygon fill="none" stroke="black" points="463.84,-413.88 278.84,-413.88 278.84,-360.88 463.84,-360.88 463.84,-413.88"/>
-<text text-anchor="middle" x="371.34" y="-398.68" font-family="Times,serif" font-size="14.00">expected_logit_porosity</text>
-<text text-anchor="middle" x="371.34" y="-383.68" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="371.34" y="-368.68" font-family="Times,serif" font-size="14.00">Deterministic</text>
-</g>
-<!-- depth_slope&#45;&gt;expected_logit_porosity -->
-<g id="edge5" class="edge">
-<title>depth_slope&#45;&gt;expected_logit_porosity</title>
-<path fill="none" stroke="black" d="M537.56,-466.35C525.73,-457.46 512.37,-448.19 499.34,-440.84 484.48,-432.45 468.01,-424.67 451.96,-417.82"/>
-<polygon fill="black" stroke="black" points="453.16,-414.52 442.58,-413.89 450.46,-420.98 453.16,-414.52"/>
+<title>reservoir_intercept_sigma&#45;&gt;reservoir_intercept</title>
+<path fill="none" stroke="black" d="M227.7,-578.81C272.53,-563.1 327.47,-543.86 372.04,-528.24"/>
+<polygon fill="black" stroke="black" points="373.4,-531.47 381.68,-524.86 371.09,-524.87 373.4,-531.47"/>
 </g>
 <!-- core_scatter -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>core_scatter</title>
-<ellipse fill="none" stroke="black" cx="568.34" cy="-387.38" rx="73.58" ry="37.45"/>
-<text text-anchor="middle" x="568.34" y="-398.68" font-family="Times,serif" font-size="14.00">core_scatter</text>
-<text text-anchor="middle" x="568.34" y="-383.68" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="568.34" y="-368.68" font-family="Times,serif" font-size="14.00">Halfnormal</text>
+<ellipse fill="none" stroke="black" cx="668.54" cy="-387.38" rx="73.58" ry="37.45"/>
+<text text-anchor="middle" x="668.54" y="-398.68" font-family="Times,serif" font-size="14.00">core_scatter</text>
+<text text-anchor="middle" x="668.54" y="-383.68" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="668.54" y="-368.68" font-family="Times,serif" font-size="14.00">Halfnormal</text>
 </g>
 <!-- true_logit_porosity -->
 <g id="node7" class="node">
 <title>true_logit_porosity</title>
-<ellipse fill="none" stroke="black" cx="371.34" cy="-276.43" rx="106.55" ry="37.45"/>
-<text text-anchor="middle" x="371.34" y="-287.73" font-family="Times,serif" font-size="14.00">true_logit_porosity</text>
-<text text-anchor="middle" x="371.34" y="-272.73" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="371.34" y="-257.73" font-family="Times,serif" font-size="14.00">Normal</text>
+<ellipse fill="none" stroke="black" cx="471.54" cy="-276.43" rx="106.55" ry="37.45"/>
+<text text-anchor="middle" x="471.54" y="-287.73" font-family="Times,serif" font-size="14.00">true_logit_porosity</text>
+<text text-anchor="middle" x="471.54" y="-272.73" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="471.54" y="-257.73" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- core_scatter&#45;&gt;true_logit_porosity -->
-<g id="edge6" class="edge">
+<g id="edge7" class="edge">
 <title>core_scatter&#45;&gt;true_logit_porosity</title>
-<path fill="none" stroke="black" d="M519.39,-359.31C494.31,-345.44 463.43,-328.36 436.37,-313.4"/>
-<polygon fill="black" stroke="black" points="437.8,-310.19 427.35,-308.41 434.41,-316.31 437.8,-310.19"/>
+<path fill="none" stroke="black" d="M619.59,-359.31C594.51,-345.44 563.63,-328.36 536.57,-313.4"/>
+<polygon fill="black" stroke="black" points="538,-310.19 527.56,-308.41 534.62,-316.31 538,-310.19"/>
 </g>
-<!-- reservoir_intercept_sigma -->
+<!-- depth_slope -->
+<g id="node3" class="node">
+<title>depth_slope</title>
+<ellipse fill="none" stroke="black" cx="675.54" cy="-498.34" rx="72.25" ry="37.45"/>
+<text text-anchor="middle" x="675.54" y="-509.64" font-family="Times,serif" font-size="14.00">depth_slope</text>
+<text text-anchor="middle" x="675.54" y="-494.64" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="675.54" y="-479.64" font-family="Times,serif" font-size="14.00">Normal</text>
+</g>
+<!-- expected_logit_porosity -->
+<g id="node8" class="node">
+<title>expected_logit_porosity</title>
+<polygon fill="none" stroke="black" points="564.04,-413.88 379.04,-413.88 379.04,-360.88 564.04,-360.88 564.04,-413.88"/>
+<text text-anchor="middle" x="471.54" y="-398.68" font-family="Times,serif" font-size="14.00">expected_logit_porosity</text>
+<text text-anchor="middle" x="471.54" y="-383.68" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="471.54" y="-368.68" font-family="Times,serif" font-size="14.00">Deterministic</text>
+</g>
+<!-- depth_slope&#45;&gt;expected_logit_porosity -->
+<g id="edge5" class="edge">
+<title>depth_slope&#45;&gt;expected_logit_porosity</title>
+<path fill="none" stroke="black" d="M637.76,-466.35C625.94,-457.46 612.57,-448.19 599.54,-440.84 584.68,-432.45 568.21,-424.67 552.17,-417.82"/>
+<polygon fill="black" stroke="black" points="553.36,-414.52 542.79,-413.89 550.66,-420.98 553.36,-414.52"/>
+</g>
+<!-- global_intercept -->
 <g id="node4" class="node">
-<title>reservoir_intercept_sigma</title>
-<ellipse fill="none" stroke="black" cx="649.34" cy="-609.29" rx="143.59" ry="37.45"/>
-<text text-anchor="middle" x="649.34" y="-620.59" font-family="Times,serif" font-size="14.00">reservoir_intercept_sigma</text>
-<text text-anchor="middle" x="649.34" y="-605.59" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="649.34" y="-590.59" font-family="Times,serif" font-size="14.00">Halfnormal</text>
+<title>global_intercept</title>
+<ellipse fill="none" stroke="black" cx="699.54" cy="-609.29" rx="93.18" ry="37.45"/>
+<text text-anchor="middle" x="699.54" y="-620.59" font-family="Times,serif" font-size="14.00">global_intercept</text>
+<text text-anchor="middle" x="699.54" y="-605.59" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="699.54" y="-590.59" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
-<!-- reservoir_intercept_sigma&#45;&gt;reservoir_intercept -->
-<g id="edge3" class="edge">
-<title>reservoir_intercept_sigma&#45;&gt;reservoir_intercept</title>
-<path fill="none" stroke="black" d="M567.95,-578.23C525.86,-562.69 474.72,-543.8 433.03,-528.4"/>
-<polygon fill="black" stroke="black" points="434.06,-525.05 423.47,-524.87 431.64,-531.62 434.06,-525.05"/>
+<!-- global_intercept&#45;&gt;reservoir_intercept -->
+<g id="edge2" class="edge">
+<title>global_intercept&#45;&gt;reservoir_intercept</title>
+<path fill="none" stroke="black" d="M638.04,-580.94C602.64,-565.2 558.13,-545.4 521.81,-529.25"/>
+<polygon fill="black" stroke="black" points="522.84,-525.88 512.28,-525.01 520,-532.28 522.84,-525.88"/>
 </g>
 <!-- reservoir_intercept&#45;&gt;expected_logit_porosity -->
 <g id="edge4" class="edge">
 <title>reservoir_intercept&#45;&gt;expected_logit_porosity</title>
-<path fill="none" stroke="black" d="M358.32,-471.79C360.52,-457.69 363.29,-439.94 365.71,-424.44"/>
-<polygon fill="black" stroke="black" points="369.23,-424.57 367.32,-414.15 362.32,-423.49 369.23,-424.57"/>
+<path fill="none" stroke="black" d="M458.53,-471.79C460.73,-457.69 463.5,-439.94 465.92,-424.44"/>
+<polygon fill="black" stroke="black" points="469.44,-424.57 467.52,-414.15 462.52,-423.49 469.44,-424.57"/>
 </g>
 <!-- reservoir_intercept_offset -->
 <g id="node6" class="node">
 <title>reservoir_intercept_offset</title>
-<ellipse fill="none" stroke="black" cx="346.34" cy="-609.29" rx="141.34" ry="37.45"/>
-<text text-anchor="middle" x="346.34" y="-620.59" font-family="Times,serif" font-size="14.00">reservoir_intercept_offset</text>
-<text text-anchor="middle" x="346.34" y="-605.59" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="346.34" y="-590.59" font-family="Times,serif" font-size="14.00">Normal</text>
+<ellipse fill="none" stroke="black" cx="446.54" cy="-609.29" rx="141.34" ry="37.45"/>
+<text text-anchor="middle" x="446.54" y="-620.59" font-family="Times,serif" font-size="14.00">reservoir_intercept_offset</text>
+<text text-anchor="middle" x="446.54" y="-605.59" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="446.54" y="-590.59" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- reservoir_intercept_offset&#45;&gt;reservoir_intercept -->
-<g id="edge2" class="edge">
+<g id="edge3" class="edge">
 <title>reservoir_intercept_offset&#45;&gt;reservoir_intercept</title>
-<path fill="none" stroke="black" d="M349.02,-571.71C349.89,-559.97 350.84,-546.98 351.7,-535.29"/>
-<polygon fill="black" stroke="black" points="355.21,-535.22 352.45,-524.99 348.23,-534.71 355.21,-535.22"/>
+<path fill="none" stroke="black" d="M449.23,-571.71C450.09,-559.97 451.04,-546.98 451.9,-535.29"/>
+<polygon fill="black" stroke="black" points="455.42,-535.22 452.66,-524.99 448.44,-534.71 455.42,-535.22"/>
 </g>
 <!-- true_core_porosity -->
-<g id="node8" class="node">
+<g id="node9" class="node">
 <title>true_core_porosity</title>
-<polygon fill="none" stroke="black" points="445.84,-202.95 296.84,-202.95 296.84,-149.95 445.84,-149.95 445.84,-202.95"/>
-<text text-anchor="middle" x="371.34" y="-187.75" font-family="Times,serif" font-size="14.00">true_core_porosity</text>
-<text text-anchor="middle" x="371.34" y="-172.75" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="371.34" y="-157.75" font-family="Times,serif" font-size="14.00">Deterministic</text>
+<polygon fill="none" stroke="black" points="546.04,-202.95 397.04,-202.95 397.04,-149.95 546.04,-149.95 546.04,-202.95"/>
+<text text-anchor="middle" x="471.54" y="-187.75" font-family="Times,serif" font-size="14.00">true_core_porosity</text>
+<text text-anchor="middle" x="471.54" y="-172.75" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="471.54" y="-157.75" font-family="Times,serif" font-size="14.00">Deterministic</text>
 </g>
 <!-- true_logit_porosity&#45;&gt;true_core_porosity -->
 <g id="edge8" class="edge">
 <title>true_logit_porosity&#45;&gt;true_core_porosity</title>
-<path fill="none" stroke="black" d="M371.34,-238.95C371.34,-230.53 371.34,-221.59 371.34,-213.2"/>
-<polygon fill="black" stroke="black" points="374.84,-212.96 371.34,-202.96 367.84,-212.96 374.84,-212.96"/>
+<path fill="none" stroke="black" d="M471.54,-238.95C471.54,-230.53 471.54,-221.59 471.54,-213.2"/>
+<polygon fill="black" stroke="black" points="475.04,-212.96 471.54,-202.96 468.04,-212.96 475.04,-212.96"/>
+</g>
+<!-- expected_logit_porosity&#45;&gt;true_logit_porosity -->
+<g id="edge6" class="edge">
+<title>expected_logit_porosity&#45;&gt;true_logit_porosity</title>
+<path fill="none" stroke="black" d="M471.54,-360.84C471.54,-349.93 471.54,-336.84 471.54,-324.3"/>
+<polygon fill="black" stroke="black" points="475.04,-323.95 471.54,-313.95 468.04,-323.95 475.04,-323.95"/>
 </g>
 <!-- porosity_obs -->
 <g id="node10" class="node">
 <title>porosity_obs</title>
-<ellipse fill="lightgrey" stroke="black" cx="371.34" cy="-76.48" rx="75.82" ry="37.45"/>
-<text text-anchor="middle" x="371.34" y="-87.78" font-family="Times,serif" font-size="14.00">porosity_obs</text>
-<text text-anchor="middle" x="371.34" y="-72.78" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="371.34" y="-57.78" font-family="Times,serif" font-size="14.00">Normal</text>
+<ellipse fill="lightgrey" stroke="black" cx="471.54" cy="-76.48" rx="75.82" ry="37.45"/>
+<text text-anchor="middle" x="471.54" y="-87.78" font-family="Times,serif" font-size="14.00">porosity_obs</text>
+<text text-anchor="middle" x="471.54" y="-72.78" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="471.54" y="-57.78" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- true_core_porosity&#45;&gt;porosity_obs -->
 <g id="edge9" class="edge">
 <title>true_core_porosity&#45;&gt;porosity_obs</title>
-<path fill="none" stroke="black" d="M371.34,-149.71C371.34,-141.89 371.34,-133.03 371.34,-124.27"/>
-<polygon fill="black" stroke="black" points="374.84,-124.1 371.34,-114.1 367.84,-124.1 374.84,-124.1"/>
-</g>
-<!-- expected_logit_porosity&#45;&gt;true_logit_porosity -->
-<g id="edge7" class="edge">
-<title>expected_logit_porosity&#45;&gt;true_logit_porosity</title>
-<path fill="none" stroke="black" d="M371.34,-360.84C371.34,-349.93 371.34,-336.84 371.34,-324.3"/>
-<polygon fill="black" stroke="black" points="374.84,-323.95 371.34,-313.95 367.84,-323.95 374.84,-323.95"/>
+<path fill="none" stroke="black" d="M471.54,-149.71C471.54,-141.89 471.54,-133.03 471.54,-124.27"/>
+<polygon fill="black" stroke="black" points="475.04,-124.1 471.54,-114.1 468.04,-124.1 475.04,-124.1"/>
 </g>
 </g>
 </svg>

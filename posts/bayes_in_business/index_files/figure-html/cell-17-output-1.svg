@@ -46,7 +46,7 @@
 <text text-anchor="middle" x="146.7" y="-301.68" font-family="Times,serif" font-size="14.00">Gamma</text>
 </g>
 <!-- reservoir_pooling&#45;&gt;reservoir_alpha -->
-<g id="edge1" class="edge">
+<g id="edge2" class="edge">
 <title>reservoir_pooling&#45;&gt;reservoir_alpha</title>
 <path fill="none" stroke="black" d="M113.93,-405.02C118.62,-393.04 123.91,-379.56 128.84,-366.98"/>
 <polygon fill="black" stroke="black" points="132.13,-368.16 132.52,-357.58 125.61,-365.61 132.13,-368.16"/>
@@ -82,7 +82,7 @@
 <text text-anchor="middle" x="292.7" y="-423.64" font-family="Times,serif" font-size="14.00">Gamma</text>
 </g>
 <!-- global_alpha&#45;&gt;reservoir_alpha -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>global_alpha&#45;&gt;reservoir_alpha</title>
 <path fill="none" stroke="black" d="M254.34,-409.82C236,-394.75 213.86,-376.56 194.44,-360.61"/>
 <polygon fill="black" stroke="black" points="196.54,-357.8 186.59,-354.15 192.09,-363.21 196.54,-357.8"/>
