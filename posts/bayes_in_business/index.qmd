@@ -1,8 +1,8 @@
 ---
 title: "Bayes in Business and Engineering"
 author: "Nicholas Dorsch"
-date: today
-categories: [statistics]
+date: 2026/06/01
+categories: [statistics, geology, geophysics, AI]
 image: media/update.png
 execute:
   echo: false
@@ -82,21 +82,21 @@ exposed to blogs like [Less Wrong](https://www.lesswrong.com/) and the writings 
 Eliezer Yudkowsky---who, incidentally, is currently sounding the alarm that
 superintelligent AI is going to [literally kill everyone if we build
 it](https://en.wikipedia.org/wiki/If_Anyone_Builds_It,_Everyone_Dies)---but this post
-isn't about existential dread, or the unmooring mental effect of having one of your
+isn't about existential dread, or the mentally unmooring effect of having one of your
 foremost intellectual influences prophesying imminent doom.
 
 Less Wrong and Eliezer introduced me properly to Bayes. I say properly, because reading
 a Wikipedia article or having professors gleefully show how "unintuitive" it is, is
 about the _worst_ way you could possibly be introduced to it. These writings were not
 gleeful in challenging intuition, but patient and aphoristic, teaching by example
-through excellent technical writings, rather than whiteboard problems. 
+through excellent technical writings, rather than whiteboard problems.
 
 Bayes intersected with my work, and my interest in uncertainty, so these influences came
-together at a great time in my career. 
+together at a great time in my career.
 
 More importantly, the introduction to Bayes was a formalized introduction to rationality
 and probabilistic thinking in general, which for whatever reason I am very predisposed
-to, and following that rabbit hole led me to Bayesian statistics. 
+to, and following that rabbit hole led me to Bayesian statistics.
 
 This led me to dig for more influences, like [E.T
 Jaynes](https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes), [Aubrey
@@ -136,11 +136,11 @@ and our values ultimately decide what we do.
 In contexts where decisions are difficult, uncertainty is an essential ingredient. You
 really can't make good decisions in the absence of a consideration of uncertainty---we
 do it all the time by calling options "safe bets" or "high-risk"---probability models
-just quantify these considerations and make them explicit. 
+just quantify these considerations and make them explicit.
 
 The uncertainty is ultimately subjective (all probabilities are in the Bayesian view),
-but subjective quantities still follow rules. If you want to follow your uncertainties
-through to their logical consequences, you need to follow them.
+but subjective quantities still follow rules. If you want to trace your uncertainties
+through to their logical consequences, you need to obey those rules.
 
 # Monte Carlo models
 
@@ -269,7 +269,7 @@ get [arbitrarily complex](https://nick-dorsch.github.io/blog/posts/resgo/), but 
 _style of thinking_ that makes it clear how this trick is done is all you need to start.
 You will pick up more complex concepts like multivariate correlated sampling, working
 with high dimensional arrays, and vectorization as you delve deeper, but the core
-framework is incredibly simple to start with. 
+framework is incredibly simple to start with.
 
 Just make the computer go _brrrrrr_.
 
@@ -284,7 +284,7 @@ How do we decide what distributions to use? And how do we parametrize them?
 Formalizing uncertainty in a Monte Carlo model is great, but how can we be rigorous
 about the parameters that define the distributions that model that uncertainty?
 
-In the example above I set the year length of a scientist's career to $\text{Normal}(55,
+In the example above I set the length of a scientist's career to $\text{Normal}(55,
 10)$... but I just pulled that distribution out of a hat.
 
 In Bayesian statistics terms this would be called _elicitation_. We ask someone what
@@ -303,7 +303,7 @@ $$
 
 The left side of that equation means, in words, _What is the posterior probability
 distribution over the model parameters, given the observed data_, which sounds similar
-to 
+to
 
 > A. _"What should we believe, given our understanding of the world and our data?"_
 
@@ -316,8 +316,8 @@ The field of Bayesian statistics is devoted to this problem.
 
 ## Markov Chain Monte Carlo models
 
-It turns out that Bayes theorem is a huge pain in the ass. There are classes of problem
-where the maths solves [elegantly](https://nick-dorsch.github.io/blog/posts/lindy/),
+It turns out that Bayes theorem is a huge pain in the ass. There are classes of problems
+where the maths work out [elegantly](https://nick-dorsch.github.io/blog/posts/lindy/),
 providing efficient analytical solutions to Bayesian models. These are very cool and
 useful to learn, but also rare when applied to real-world problems.
 
@@ -346,10 +346,9 @@ It turns out it is a headache for computers, too, because most of the time that 
 is an intractable nightmare, where no analytical solution even exists.
 
 Instead, clever algorithms are needed to approximate the posterior distribution through
-random sampling. This is Monte Carlo again, but this time we have no inverse CDF to use
-(the function used to generate random samples in Monte Carlo models) as the posterior
-distribution is unknown, so we have to explore the probability space without it,
-somehow. That is where Markov Chain Monte Carlo
+random sampling. This is Monte Carlo again, but this time we have no way of sampling the
+distribution directly, because it is unknown, so we have to explore the probability
+space without it, somehow. That is where Markov Chain Monte Carlo
 ([MCMC](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo)) algorithms come in.
 
 Learning how to build efficient models to do Bayesian inference is the engineering side
@@ -377,7 +376,7 @@ problem, embedding physical laws into neural network training such that solution
 kept within physically consistent constraints, but they are not the norm in the ML
 world---most of the time ML models are not constrained in this way.
 
-Second is uncertainty. Most machine learning algorithsm do not provide uncertainty
+Second is uncertainty. Most machine learning algorithms do not provide uncertainty
 quantification. Especially in complex domains with limited data, that uncertainty can be
 an essential component of effective decision making. In high stakes situations, an ML
 model stating that the answer is "25!" while not having any ability to provide
@@ -386,22 +385,36 @@ results far less robust.
 
 Third is what I call the problem of "small data". Big data is a luxury that most
 engineering problems don't enjoy. Instead we are often trying to maximize the
-information we can get out of small quantities of expensive to acquired data. Machine
+information we can get out of small quantities of expensive-to-acquire data. Machine
 learning solutions in this context are not the best choice, in my view. They will
 provide uninterpretable solutions with questionable validity, with no uncertainty
 preservation.
 
 Machine learning is a rich field with many answers to the issues I bring up here, but my
-answer is: use Bayes instead. I just think it is a better toolset in many engineering
+answer is: use Bayes instead. I think it provides a better toolkit in many engineering
 contexts.
 
 # Examples
 
 I want to show a few examples here. My background is in oil and gas, so that is where I
-know problems in the most detail, but I want to stress how domain agnostic Bayesian
+know problems in the most detail, but I want to stress how domain-agnostic Bayesian
 statistics is. If you have a system of equations that govern behaviour in some domain
 you are studying, you can express it in a Bayesian model, feed it data, and do
 inference.
+
+These examples all follow the same pattern. It is a playbook that can be adapted for
+any technical domain:
+
+1. start with an engineering calculation or domain relationship,
+2. represent uncertain inputs as probability distributions,
+3. define prior beliefs over those inputs through discussions with domain experts,
+4. use Bayes to update those distributions with data where it is available,
+5. propagate the resulting uncertainty into a decision-relevant output.
+
+I should stress that this is a gallery of examples, more than a rigorous working of each
+problem, and all use synthetic datasets. They are snippets of more nuanced
+problems that oil and gas technical workers face, used to communicate how Bayes can
+help.
 
 These models are created and run with [PyMC](https://www.pymc.io/welcome.html), a
 popular Python package for doing Bayesian statistics.
@@ -411,14 +424,15 @@ popular Python package for doing Bayesian statistics.
 A classic petroleum engineering example is a volumetric estimate. The deterministic
 calculation is simple, but every input is uncertain: porosity, water saturation, net to
 gross, gross rock volume, and the oil formation volume factor. Offset wells can teach us
-about reservoir properties, while others properties are derived from separate studies,
-like geophysics driven structural modelling, or PVT driven formation volume factor
+about reservoir properties, while other properties are derived from separate studies,
+like geophysics-driven structural modelling, or PVT-driven formation volume factor
 calculations.
 
-Here is a small PyMC model using synthetic offset-well data. The 25 wells inform field
-average porosity, water saturation, and net-to-gross. The formation volume factor, $B_o$, and
-gross rock volume, GRV, are included as priors with no direct observations. STOIIP is then
-calculated as a deterministic variable from the posterior mean reservoir parameters.
+The following is a simple PyMC model using synthetic offset-well data. The 25 wells
+inform field average porosity, water saturation, and net-to-gross. The formation volume
+factor, $B_o$, and gross rock volume, GRV, are included as priors with no direct
+observations. STOIIP is then calculated as a deterministic variable from posterior
+samples of the reservoir parameters.
 
 Here is a sample of the (synthetic) data:
 
@@ -498,8 +512,8 @@ with pm.Model() as volumetrics_model:
     )
 ```
 
-Here is a graph representation of the statistical model, grey nodes indicate
-observations (data) and white nodes are latent (unobserved) model parameters:
+Here is a graph representation of the statistical model. Grey nodes indicate
+observations (data), and white nodes are latent (unobserved) model parameters:
 
 ```{python}
 pm.model_to_graphviz(volumetrics_model)
@@ -583,15 +597,15 @@ prior_line = (
 ```
 
 Here I'm showing the prior STOIIP (the distribution that the subsurface team might have
-estimated before discovering this field), and the well data driven posterior STOIIP,
-which has converged on a tighter uncertainty around the true value as average field
-reservoir properties are sampled.
+estimated before discovering this field), and the well-data-driven posterior STOIIP,
+which has converged on a tighter uncertainty around the true value as the offset-well
+data updates the field-level reservoir properties.
 
 The point of putting the volumetric equation inside the probabilistic model is that the
 STOIIP output is not a separate spreadsheet calculation bolted on afterwards. It
 is part of the model graph. The same samples that update porosity, water saturation, and
-net pay from the offset wells also propagate the prior uncertainty in GRV and $B_o$ into
-the final volume estimate.
+net-to-gross from the offset wells also propagate the prior uncertainty in GRV and $B_o$
+into the final volume estimate.
 
 Making the STOIIP part of the model graph also makes some advanced modelling possible,
 like integrating observed production as an additional constraint. If 4 MMSTB had already
@@ -715,8 +729,8 @@ rft_points
 ```
 
 Each pressure gradient is a linear function, so our Bayesian model is simply estimating
-the slope and intercept of each, and then passing the solution for the intersection of
-them into the model graph, to output it as an uncertain parameter.
+the slope and intercept of each, then passing the solution for their intersection into
+the model graph to output it as an uncertain parameter.
 
 ```{python}
 #| output: false
@@ -1026,7 +1040,7 @@ alt.Chart(mean_composition).mark_bar().encode(
 )
 ```
 
-Note these are the _average_ compositions of the three reservoirs, in reality we have
+Note these are the _average_ compositions of the three reservoirs; in reality we have
 several fluid samples (and replicates) in a dataset of 21 total samples.
 
 So how can we model the average properties by reservoir, and the variability we see
@@ -1198,10 +1212,10 @@ composition_forest_plot = (
 A hierarchical or multi-level model allows for information to flow between observation
 groups. Here we are trying to learn about the average compositions of samples collected
 across a field, from particular reservoirs, with repeated observations over some
-intervals. That leads to a natural hierarchy of Field to Reservoir to Sample Group. 
+intervals. That leads to a natural field-to-reservoir-to-sample-group hierarchy.
 
-Intuitively we know that replications over the same interval should be clustered more
-tightly than samples from different reservoirs. The hierarchical model reflects this.
+Intuitively we know that replicate samples from the same interval should be clustered
+more tightly than samples from different reservoirs. The hierarchical model reflects this.
 Information flows from the global (field) level, down to the reservoir level, down to
 the sample group level in a kind of prior pass-the-parcel in the model. This regularizes
 estimates across each group, so that the bias caused by a naive arithmetic averaging
@@ -1217,11 +1231,11 @@ values that sum to 1, which matches compositional data nicely. In real examples 
 would be additional mole fractions included, but I've left them out here for the sake of
 keeping plots readable.
 
-## Side Wall Core Analysis
+## Sidewall Core Analysis
 
-Side wall cores are a very rich dataset that lend themselves to hierarchical analyses as
-well. The cores are taken over a field, in reservoirs in particular wellbore
-intersections. Routine Core Analysis provides lab measured porosity, permeability and
+Sidewall cores are a very rich dataset that lends itself to hierarchical analyses as
+well. The cores are taken from particular reservoir intervals in wellbores across a
+field. Routine Core Analysis provides lab-measured porosity, permeability and
 saturations, often with sampling error included.
 
 Measurement error is another area that Bayesian modelling really shines. I'll focus on
@@ -1369,4 +1383,321 @@ point.
 We can fit a hierarchical model with measurement error included to this dataset to model
 the relationship between porosity and depth for each reservoir.
 
+The model below keeps the depth slope shared across all reservoirs, but allows each
+reservoir to have its own intercept. Those reservoir intercepts are themselves drawn
+from a global field-level intercept, giving us a hierarchical structure. The measured
+porosity values are treated as noisy Gaussian estimates of latent, unobserved true core
+porosities, with each observation using its own lab-reported sampling error.
 
+```{python}
+#| output: false
+core_reservoir_codes, core_reservoir_names = pd.factorize(sidewall_cores["reservoir"])
+
+sidewall_cores_model_data = sidewall_cores.assign(
+    depth_centered_100m=lambda df: df.apply(
+        lambda row: (row["depth_mss"] - reservoir_depth_ref_mss[row["reservoir"]]) / 100,
+        axis=1,
+    )
+)
+
+coords = {
+    "core": sidewall_cores_model_data["core_id"],
+    "reservoir": core_reservoir_names,
+}
+
+with pm.Model(coords=coords) as sidewall_core_model:
+    global_intercept = pm.Normal(
+        "global_intercept",
+        mu=logit(0.18),
+        sigma=1.0,
+    )
+    reservoir_intercept_sigma = pm.HalfNormal(
+        "reservoir_intercept_sigma",
+        sigma=0.75,
+    )
+    reservoir_intercept_offset = pm.Normal(
+        "reservoir_intercept_offset",
+        mu=0,
+        sigma=1,
+        dims="reservoir",
+    )
+    reservoir_intercept = pm.Deterministic(
+        "reservoir_intercept",
+        global_intercept + reservoir_intercept_offset * reservoir_intercept_sigma,
+        dims="reservoir",
+    )
+
+    depth_slope = pm.Normal("depth_slope", mu=0.0, sigma=0.5)
+    core_scatter = pm.HalfNormal("core_scatter", sigma=0.5)
+
+    expected_logit_porosity = pm.Deterministic(
+        "expected_logit_porosity",
+        reservoir_intercept[core_reservoir_codes]
+        + depth_slope * sidewall_cores_model_data["depth_centered_100m"].to_numpy(),
+        dims="core",
+    )
+
+    true_logit_porosity = pm.Normal(
+        "true_logit_porosity",
+        mu=expected_logit_porosity,
+        sigma=core_scatter,
+        dims="core",
+    )
+    true_core_porosity = pm.Deterministic(
+        "true_core_porosity",
+        pm.math.sigmoid(true_logit_porosity),
+        dims="core",
+    )
+
+    pm.Normal(
+        "porosity_obs",
+        mu=true_core_porosity,
+        sigma=sidewall_cores_model_data["porosity_stdev"].to_numpy(),
+        observed=sidewall_cores_model_data["porosity"].to_numpy(),
+        dims="core",
+    )
+
+    sidewall_core_trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+```{python}
+pm.model_to_graphviz(sidewall_core_model)
+```
+
+We can then visualize the fitted reservoir trends alongside the inferred true porosity
+for each individual sidewall core:
+
+```{python}
+trend_rows = []
+core_summary_rows = []
+plot_depth_domain = [-1950, -1350]
+
+posterior = sidewall_core_trace.posterior
+slope_samples = posterior["depth_slope"].values.ravel()
+
+for reservoir in core_reservoir_names:
+    depth_grid = np.linspace(plot_depth_domain[0], plot_depth_domain[1], 120)
+    depth_centered_100m = (depth_grid - reservoir_depth_ref_mss[reservoir]) / 100
+
+    intercept_samples = (
+        posterior["reservoir_intercept"]
+        .sel(reservoir=reservoir)
+        .values
+        .ravel()
+    )
+    trend_porosity = inv_logit(
+        intercept_samples[:, None] + slope_samples[:, None] * depth_centered_100m[None, :]
+    )
+    trend_low, trend_high = np.quantile(trend_porosity, [0.05, 0.95], axis=0)
+    trend_mean = trend_porosity.mean(axis=0)
+
+    trend_rows.extend(
+        {
+            "reservoir": reservoir,
+            "depth_mss": depth,
+            "porosity_low": low,
+            "porosity_mean": mean,
+            "porosity_high": high,
+        }
+        for depth, low, mean, high in zip(depth_grid, trend_low, trend_mean, trend_high)
+    )
+
+true_core_porosity_samples = posterior["true_core_porosity"]
+for core_idx, core in sidewall_cores_model_data.reset_index(drop=True).iterrows():
+    core_samples = true_core_porosity_samples.sel(core=core["core_id"]).values.ravel()
+    core_summary_rows.append(
+        {
+            "core_id": core["core_id"],
+            "well": core["well"],
+            "reservoir": core["reservoir"],
+            "depth_mss": core["depth_mss"],
+            "measured_porosity": core["porosity"],
+            "posterior_mean": core_samples.mean(),
+        }
+    )
+
+sidewall_trend_intervals = pd.DataFrame(trend_rows)
+sidewall_core_posterior = pd.DataFrame(core_summary_rows)
+
+depth_y = alt.Y(
+    "depth_mss:Q",
+    title="Depth, mSS",
+    scale=alt.Scale(domain=plot_depth_domain, zero=False),
+    axis=alt.Axis(grid=False),
+)
+
+trend_band = alt.Chart(sidewall_trend_intervals).mark_area(opacity=0.22).encode(
+    x=alt.X(
+        "porosity_low:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    x2="porosity_high:Q",
+    y=depth_y,
+    color=core_reservoir_color,
+)
+
+trend_mean = alt.Chart(sidewall_trend_intervals).mark_line(strokeWidth=2).encode(
+    x=alt.X(
+        "porosity_mean:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=depth_y,
+    color=core_reservoir_color,
+)
+
+core_shrinkage_lines = alt.Chart(sidewall_core_posterior).mark_rule(opacity=0.45).encode(
+    x="measured_porosity:Q",
+    x2="posterior_mean:Q",
+    y=depth_y,
+    color=core_reservoir_color,
+)
+
+measured_core_ticks = alt.Chart(sidewall_core_posterior).mark_tick(
+    thickness=1,
+    size=12,
+    opacity=0.75,
+).encode(
+    x=alt.X(
+        "measured_porosity:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=depth_y,
+    color=core_reservoir_color,
+    tooltip=[
+        alt.Tooltip("core_id:N", title="Core"),
+        alt.Tooltip("well:N", title="Well"),
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("depth_mss:Q", title="Depth, mSS", format=".1f"),
+        alt.Tooltip("measured_porosity:Q", title="Measured porosity", format=".1%"),
+        alt.Tooltip("posterior_mean:Q", title="Posterior mean porosity", format=".1%"),
+    ],
+)
+
+posterior_core_points = alt.Chart(sidewall_core_posterior).mark_circle(
+    size=45,
+    opacity=0.9,
+).encode(
+    x=alt.X(
+        "posterior_mean:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=depth_y,
+    color=core_reservoir_color,
+    tooltip=[
+        alt.Tooltip("core_id:N", title="Core"),
+        alt.Tooltip("well:N", title="Well"),
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("depth_mss:Q", title="Depth, mSS", format=".1f"),
+        alt.Tooltip("measured_porosity:Q", title="Measured porosity", format=".1%"),
+        alt.Tooltip("posterior_mean:Q", title="Posterior mean porosity", format=".1%"),
+    ],
+)
+
+(
+    trend_band
+    + trend_mean
+    + core_shrinkage_lines
+    + measured_core_ticks
+    + posterior_core_points
+).properties(width="container", height=420)
+```
+
+The vertical tick marks show the lab measurements, while the connecting lines and
+circular markers show how the model shrinks each noisy measurement toward the posterior
+mean true porosity implied by the reservoir-level depth trend.
+
+This automatic regularisation is a key benefit of Bayesian modelling. Noisy outliers
+with high sampling error all receive a posterior estimate that is informed by the linear
+depth model. The model isn't asked to do this explicitly, it is just inherent in its
+structure.
+
+The unintuitive thing about this---which also brings the message home once you
+internalize it---is that every parameter in the model is being sampled as one facet of a
+single probability distribution. Each sample's measurement error is a dimension of the
+distribution being explored by the MCMC algorithm. That means the system of uncertainty
+is all tied together by a single estimator, Bayes theorem, over the elaborate
+multidimensional distribution that our model specifies, which here includes hierarchical
+pooling, a logit-linear depth trend, and measurement error.
+
+This flexibility and expressivity, and the uncertainty quantification that comes along
+for the ride, is a big part of the reason why I am so passionate about Bayesian
+modelling.
+
+# Decisions
+
+All of these technical examples derive their value to a business through their ability
+to improve decision making. As much as I love diving into the rich detail of this kind
+of work (and doing it well certainly requires that) the _point_ is not the detail, it is
+the decisions downstream.
+
+Uncertainty as a first-class citizen in business decision making is a key area that I
+think Bayes can help with.
+
+All of these examples are connected to critical business decisions. Should we drill the
+prospect? Should we continue developing? How critical is contact uncertainty to our
+reserves bookings? How can we predict reservoir properties at depths we have not yet
+explored, and is there opportunity down there?
+
+All of these questions have _very uncertain_ answers, but answers nonetheless.
+Formalizing the questions as Bayesian models makes this uncertainty explicit, so that
+decision makers can grapple with it directly.
+
+Technical people often recommend against "confusing" decision makers with rich
+probabilistic outputs, but I completely reject this. A child can look at two overlapping
+distributions, presented visually, and tell you about them.[^1] The problem is in the
+quality of technical communication, not the lack of understanding in decision makers'
+heads.
+
+Bayes does away with flowcharts of different statistical tests and metrics in favor of a
+single, overpowered output: the posterior distribution. That distribution is about as
+intuitive an object as statistics can produce---it is just wrapped up in complex
+language and process, so that it appears scarier than it is---but it _is_ the
+uncertainty.
+
+And uncertainty is _the reality of the situation_. It is our responsibility to make that
+reality clear to the people who are relying on our work to navigate a complex and
+uncertain world.
+
+While subjective priors may warrant some skepticism, and need to be chosen carefully,
+the point is that _if we agree to the priors, and we model the data, the resulting
+posteriors are a logical consequence of our beliefs and the data_. This is very powerful
+if internalized fully. Vanilla Monte Carlo models can't make this claim, as they are not
+fit to data; they rely on subjective (or optimization-driven) probability estimates.
+
+Bayes instead says "get me started with your prior beliefs, and I'll tell you how to
+update those beliefs based on the data you feed me." That should be music to a domain
+expert's ears.
+
+# Closing thoughts
+
+Bayesian statistics is certainly not the tool to use in every circumstance, but for me,
+at least, it was the branch I climbed down from.
+
+These days, spending more time closer to the ground, I still look up at it as my
+favourite destination, and I visit often.
+
+All my subsequent obsessions, from scripting and software engineering to database design
+and data engineering, were really pursued in service of that Bayesian ideal of information
+flowing through to posterior beliefs, and then on to good decisions. Getting all your
+data in order is absolutely essential to make these systems sing, so it was natural for
+me to get so into data systems design during my career. Data systems are valuable for
+all sorts of reasons, but for me it all started with Bayes.
+
+Regardless of the overwhelming cultural emphasis on ML, and now LLM-based AI, Bayesian
+modelling will always be my favourite reason for having learned how to program, and the
+toolkit I turn to with the most enthusiasm when the problem calls for it.
+
+Thanks for reading.
+
+
+[^1]: I don't have kids yet. Citation probably needed.
