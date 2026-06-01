@@ -251,27 +251,27 @@ window.Quarto = {
 
 
 
-<div id="2c8f78b4" class="cell" data-execution_count="2">
+<div id="94765e39" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display" data-execution_count="1">
 
 <style>
-  #altair-viz-908ca615d1f1432599d0240c418eb114.vega-embed {
+  #altair-viz-ed7591e9e8094afdae4e3e742799bd8f.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-908ca615d1f1432599d0240c418eb114.vega-embed details,
-  #altair-viz-908ca615d1f1432599d0240c418eb114.vega-embed details summary {
+  #altair-viz-ed7591e9e8094afdae4e3e742799bd8f.vega-embed details,
+  #altair-viz-ed7591e9e8094afdae4e3e742799bd8f.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-908ca615d1f1432599d0240c418eb114"></div>
+<div id="altair-viz-ed7591e9e8094afdae4e3e742799bd8f"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-908ca615d1f1432599d0240c418eb114") {
-      outputDiv = document.getElementById("altair-viz-908ca615d1f1432599d0240c418eb114");
+    if (outputDiv.id !== "altair-viz-ed7591e9e8094afdae4e3e742799bd8f") {
+      outputDiv = document.getElementById("altair-viz-ed7591e9e8094afdae4e3e742799bd8f");
     }
 
     const paths = {
@@ -374,30 +374,30 @@ y(t) = ae^{bt}
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>doubling_years <span class="op">=</span> rng.normal(<span class="dv">17</span>, <span class="dv">3</span>, n)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>proportion_alive <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>) <span class="op">**</span> (career_years <span class="op">/</span> doubling_years)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="af402132" class="cell" data-execution_count="3">
+<div id="b99e09c3" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>Mean result: 0.883; 90% interval: 0.763–0.968</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 
 <style>
-  #altair-viz-1be28320648d4259a0f1fac8e057a6b8.vega-embed {
+  #altair-viz-eed818e85c7c425ea4d87315433b292c.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-1be28320648d4259a0f1fac8e057a6b8.vega-embed details,
-  #altair-viz-1be28320648d4259a0f1fac8e057a6b8.vega-embed details summary {
+  #altair-viz-eed818e85c7c425ea4d87315433b292c.vega-embed details,
+  #altair-viz-eed818e85c7c425ea4d87315433b292c.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-1be28320648d4259a0f1fac8e057a6b8"></div>
+<div id="altair-viz-eed818e85c7c425ea4d87315433b292c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-1be28320648d4259a0f1fac8e057a6b8") {
-      outputDiv = document.getElementById("altair-viz-1be28320648d4259a0f1fac8e057a6b8");
+    if (outputDiv.id !== "altair-viz-eed818e85c7c425ea4d87315433b292c") {
+      outputDiv = document.getElementById("altair-viz-eed818e85c7c425ea4d87315433b292c");
     }
 
     const paths = {
@@ -525,7 +525,7 @@ p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
 <p>A classic petroleum engineering example is a volumetric estimate. The deterministic calculation is simple, but every input is uncertain: porosity, water saturation, net to gross, gross rock volume, and the oil formation volume factor. Offset wells can teach us about reservoir properties, while other properties are derived from separate studies, like geophysics-driven structural modelling, or PVT-driven formation volume factor calculations.</p>
 <p>The following is a simple PyMC model using synthetic offset-well data. The 25 wells inform field average porosity, water saturation, and net-to-gross. The formation volume factor, <span class="math inline">\(B_o\)</span>, and gross rock volume, GRV, are included as priors with no direct observations. STOIIP is then calculated as a deterministic variable from posterior samples of the reservoir parameters.</p>
 <p>Here is a sample of the (synthetic) data:</p>
-<div id="1ba5b324" class="cell" data-execution_count="4">
+<div id="26f331b1" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -583,7 +583,7 @@ p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
 </div>
 </div>
 <p>Here is a graph representation of the statistical model. Grey nodes indicate observations (data), and white nodes are latent (unobserved) model parameters:</p>
-<div id="c8724d58" class="cell" data-execution_count="6">
+<div id="effd2055" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <figure class="figure">
@@ -593,27 +593,27 @@ p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
 </div>
 </div>
 <p>And here is the result:</p>
-<div id="8953ecbb" class="cell" data-execution_count="7">
+<div id="7d9bc2b7" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 
 <style>
-  #altair-viz-229da8eb5bd14210b4c9915df6692a85.vega-embed {
+  #altair-viz-ab755f03199b42dab7991d6928aed6ac.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-229da8eb5bd14210b4c9915df6692a85.vega-embed details,
-  #altair-viz-229da8eb5bd14210b4c9915df6692a85.vega-embed details summary {
+  #altair-viz-ab755f03199b42dab7991d6928aed6ac.vega-embed details,
+  #altair-viz-ab755f03199b42dab7991d6928aed6ac.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-229da8eb5bd14210b4c9915df6692a85"></div>
+<div id="altair-viz-ab755f03199b42dab7991d6928aed6ac"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-229da8eb5bd14210b4c9915df6692a85") {
-      outputDiv = document.getElementById("altair-viz-229da8eb5bd14210b4c9915df6692a85");
+    if (outputDiv.id !== "altair-viz-ab755f03199b42dab7991d6928aed6ac") {
+      outputDiv = document.getElementById("altair-viz-ab755f03199b42dab7991d6928aed6ac");
     }
 
     const paths = {
@@ -684,27 +684,27 @@ y^* &amp;= m_1 x^* + b_1
 \]</span></p>
 <p>If we can model those pressure gradients with a Bayesian statistical model, we will also get full uncertainty quantification for the pressure and (of more interest) the depth of the intersection, which represents the gas-water contact.</p>
 <p>Let’s start by simulating some data:</p>
-<div id="29934ef1" class="cell" data-execution_count="9">
+<div id="1b3d7dc0" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <style>
-  #altair-viz-93b2caa09b444a7b84a89d865a5ed098.vega-embed {
+  #altair-viz-ff059b81b6f24f4db42b6335600cface.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-93b2caa09b444a7b84a89d865a5ed098.vega-embed details,
-  #altair-viz-93b2caa09b444a7b84a89d865a5ed098.vega-embed details summary {
+  #altair-viz-ff059b81b6f24f4db42b6335600cface.vega-embed details,
+  #altair-viz-ff059b81b6f24f4db42b6335600cface.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-93b2caa09b444a7b84a89d865a5ed098"></div>
+<div id="altair-viz-ff059b81b6f24f4db42b6335600cface"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-93b2caa09b444a7b84a89d865a5ed098") {
-      outputDiv = document.getElementById("altair-viz-93b2caa09b444a7b84a89d865a5ed098");
+    if (outputDiv.id !== "altair-viz-ff059b81b6f24f4db42b6335600cface") {
+      outputDiv = document.getElementById("altair-viz-ff059b81b6f24f4db42b6335600cface");
     }
 
     const paths = {
@@ -757,7 +757,7 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 </div>
 <p>Each pressure gradient is a linear function, so our Bayesian model is simply estimating the slope and intercept of each, then passing the solution for their intersection into the model graph to output it as an uncertain parameter.</p>
-<div id="d532c006" class="cell" data-execution_count="11">
+<div id="25b0021f" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 <figure class="figure">
@@ -767,27 +767,27 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 </div>
 <p>Fitting the model to the data yields our two pressure gradients:</p>
-<div id="6810a0a3" class="cell" data-execution_count="12">
+<div id="9cb8e6f2" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display" data-execution_count="11">
 
 <style>
-  #altair-viz-f6110ac4a8b74e6896557d416f8f1446.vega-embed {
+  #altair-viz-728a396133f54116a725e73d6813f84a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-f6110ac4a8b74e6896557d416f8f1446.vega-embed details,
-  #altair-viz-f6110ac4a8b74e6896557d416f8f1446.vega-embed details summary {
+  #altair-viz-728a396133f54116a725e73d6813f84a.vega-embed details,
+  #altair-viz-728a396133f54116a725e73d6813f84a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-f6110ac4a8b74e6896557d416f8f1446"></div>
+<div id="altair-viz-728a396133f54116a725e73d6813f84a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-f6110ac4a8b74e6896557d416f8f1446") {
-      outputDiv = document.getElementById("altair-viz-f6110ac4a8b74e6896557d416f8f1446");
+    if (outputDiv.id !== "altair-viz-728a396133f54116a725e73d6813f84a") {
+      outputDiv = document.getElementById("altair-viz-728a396133f54116a725e73d6813f84a");
     }
 
     const paths = {
@@ -840,27 +840,27 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 </div>
 <p>And the uncertain intersection of those two lines is the uncertainty in the contact depth, also shown below as a histogram:</p>
-<div id="07fd79b4" class="cell" data-execution_count="13">
+<div id="1588e2e5" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <style>
-  #altair-viz-165fcd7e6b1441eabfe6689ce999358e.vega-embed {
+  #altair-viz-c654fb5dba0d46768aa0e194693b86ed.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-165fcd7e6b1441eabfe6689ce999358e.vega-embed details,
-  #altair-viz-165fcd7e6b1441eabfe6689ce999358e.vega-embed details summary {
+  #altair-viz-c654fb5dba0d46768aa0e194693b86ed.vega-embed details,
+  #altair-viz-c654fb5dba0d46768aa0e194693b86ed.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-165fcd7e6b1441eabfe6689ce999358e"></div>
+<div id="altair-viz-c654fb5dba0d46768aa0e194693b86ed"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-165fcd7e6b1441eabfe6689ce999358e") {
-      outputDiv = document.getElementById("altair-viz-165fcd7e6b1441eabfe6689ce999358e");
+    if (outputDiv.id !== "altair-viz-c654fb5dba0d46768aa0e194693b86ed") {
+      outputDiv = document.getElementById("altair-viz-c654fb5dba0d46768aa0e194693b86ed");
     }
 
     const paths = {
@@ -919,27 +919,27 @@ y^* &amp;= m_1 x^* + b_1
 <h2 class="anchored" data-anchor-id="fluid-compositional-modelling">Fluid compositional modelling</h2>
 <p>A Dirichlet model can be fit to a dataset of fluid samples to model uncertainty in composition across a field. This example benefits from hierarchical modelling (a Bayesian statistical superpower) to account for groupings of data, like replicate samples of the same interval, or samples from the same reservoir.</p>
 <p>Again, we start with some synthetic data:</p>
-<div id="c126c664" class="cell" data-execution_count="15">
+<div id="a9e058b0" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 
 <style>
-  #altair-viz-3affc77da05b4823be84f19f7952d62c.vega-embed {
+  #altair-viz-33256ffbebfe4dad81f1e55f828a8fa3.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-3affc77da05b4823be84f19f7952d62c.vega-embed details,
-  #altair-viz-3affc77da05b4823be84f19f7952d62c.vega-embed details summary {
+  #altair-viz-33256ffbebfe4dad81f1e55f828a8fa3.vega-embed details,
+  #altair-viz-33256ffbebfe4dad81f1e55f828a8fa3.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-3affc77da05b4823be84f19f7952d62c"></div>
+<div id="altair-viz-33256ffbebfe4dad81f1e55f828a8fa3"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-3affc77da05b4823be84f19f7952d62c") {
-      outputDiv = document.getElementById("altair-viz-3affc77da05b4823be84f19f7952d62c");
+    if (outputDiv.id !== "altair-viz-33256ffbebfe4dad81f1e55f828a8fa3") {
+      outputDiv = document.getElementById("altair-viz-33256ffbebfe4dad81f1e55f828a8fa3");
     }
 
     const paths = {
@@ -993,7 +993,7 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 <p>Note these are the <em>average</em> compositions of the three reservoirs; in reality we have several fluid samples (and replicates) in a dataset of 21 total samples.</p>
 <p>So how can we model the average properties by reservoir, and the variability we see within sample intervals and across them?</p>
-<div id="9297af4f" class="cell" data-execution_count="17">
+<div id="611890ae" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 <figure class="figure">
@@ -1004,27 +1004,27 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 <p>A hierarchical or multi-level model allows for information to flow between observation groups. Here we are trying to learn about the average compositions of samples collected across a field, from particular reservoirs, with repeated observations over some intervals. That leads to a natural field-to-reservoir-to-sample-group hierarchy.</p>
 <p>Intuitively we know that replicate samples from the same interval should be clustered more tightly than samples from different reservoirs. The hierarchical model reflects this. Information flows from the global (field) level, down to the reservoir level, down to the sample group level in a kind of prior pass-the-parcel in the model. This regularizes estimates across each group, so that the bias caused by a naive arithmetic averaging approach over repeated samples is removed from the statistical estimate.</p>
-<div id="23d6bc1a" class="cell" data-execution_count="19">
+<div id="67c39d80" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display" data-execution_count="18">
 
 <style>
-  #altair-viz-b6892a94e704496baa0eae301e729172.vega-embed {
+  #altair-viz-f8353cbf17f14508aee9126160efb82a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-b6892a94e704496baa0eae301e729172.vega-embed details,
-  #altair-viz-b6892a94e704496baa0eae301e729172.vega-embed details summary {
+  #altair-viz-f8353cbf17f14508aee9126160efb82a.vega-embed details,
+  #altair-viz-f8353cbf17f14508aee9126160efb82a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-b6892a94e704496baa0eae301e729172"></div>
+<div id="altair-viz-f8353cbf17f14508aee9126160efb82a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b6892a94e704496baa0eae301e729172") {
-      outputDiv = document.getElementById("altair-viz-b6892a94e704496baa0eae301e729172");
+    if (outputDiv.id !== "altair-viz-f8353cbf17f14508aee9126160efb82a") {
+      outputDiv = document.getElementById("altair-viz-f8353cbf17f14508aee9126160efb82a");
     }
 
     const paths = {
@@ -1077,33 +1077,34 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 </div>
 <p>The Dirichlet distribution is useful here because it is a distribution over the unit simplex. This just means that a sample from the distribution generates a vector of values that sum to 1, which matches compositional data nicely. In real examples there would be additional mole fractions included, but I’ve left them out here for the sake of keeping plots readable.</p>
+<p>A model like this may become of particular interest while investigating if two reservoirs are in pressure communication. Sparse information, a hierarchy of sampling, and this model gives an engineer a way of quantifying a probability that directly answers the question, or the number of additional samples needed to answer it conclusively!</p>
 </section>
 <section id="sidewall-core-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="sidewall-core-analysis">Sidewall Core Analysis</h2>
 <p>Sidewall cores are a very rich dataset that lends itself to hierarchical analyses as well. The cores are taken from particular reservoir intervals in wellbores across a field. Routine Core Analysis provides lab-measured porosity, permeability and saturations, often with sampling error included.</p>
 <p>Measurement error is another area that Bayesian modelling really shines. I’ll focus on the porosity for this example, but this can easily be extended to a porosity-permeability model as well.</p>
 <p>Again, let’s start by creating a synthetic dataset:</p>
-<div id="bc30214d" class="cell" data-execution_count="21">
+<div id="7b40d673" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display" data-execution_count="20">
 
 <style>
-  #altair-viz-cbecf28335ae4bfd9b0935e4662c4265.vega-embed {
+  #altair-viz-a16462d3c2d54ecf8dfece239491d300.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-cbecf28335ae4bfd9b0935e4662c4265.vega-embed details,
-  #altair-viz-cbecf28335ae4bfd9b0935e4662c4265.vega-embed details summary {
+  #altair-viz-a16462d3c2d54ecf8dfece239491d300.vega-embed details,
+  #altair-viz-a16462d3c2d54ecf8dfece239491d300.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-cbecf28335ae4bfd9b0935e4662c4265"></div>
+<div id="altair-viz-a16462d3c2d54ecf8dfece239491d300"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-cbecf28335ae4bfd9b0935e4662c4265") {
-      outputDiv = document.getElementById("altair-viz-cbecf28335ae4bfd9b0935e4662c4265");
+    if (outputDiv.id !== "altair-viz-a16462d3c2d54ecf8dfece239491d300") {
+      outputDiv = document.getElementById("altair-viz-a16462d3c2d54ecf8dfece239491d300");
     }
 
     const paths = {
@@ -1158,7 +1159,7 @@ y^* &amp;= m_1 x^* + b_1
 <p>Reservoir A appears to be the highest porosity reservoir in the dataset, with Reservoir B significantly poorer in quality. Lab measurement error is included with each data point.</p>
 <p>We can fit a hierarchical model with measurement error included to this dataset to model the relationship between porosity and depth for each reservoir.</p>
 <p>The model below keeps the depth slope shared across all reservoirs, but allows each reservoir to have its own intercept. Those reservoir intercepts are themselves drawn from a global field-level intercept, giving us a hierarchical structure. The measured porosity values are treated as noisy Gaussian estimates of latent, unobserved true core porosities, with each observation using its own lab-reported sampling error.</p>
-<div id="613bab13" class="cell" data-execution_count="23">
+<div id="42d4147e" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 <figure class="figure">
@@ -1168,27 +1169,27 @@ y^* &amp;= m_1 x^* + b_1
 </div>
 </div>
 <p>We can then visualize the fitted reservoir trends alongside the inferred true porosity for each individual sidewall core:</p>
-<div id="69253d06" class="cell" data-execution_count="24">
+<div id="82496203" class="cell" data-execution_count="23">
 <div class="cell-output cell-output-display" data-execution_count="23">
 
 <style>
-  #altair-viz-8bcd660854ab40f49cfb20809d51c9e2.vega-embed {
+  #altair-viz-ac3bee1c46f14d7081407155b6ba0b40.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-8bcd660854ab40f49cfb20809d51c9e2.vega-embed details,
-  #altair-viz-8bcd660854ab40f49cfb20809d51c9e2.vega-embed details summary {
+  #altair-viz-ac3bee1c46f14d7081407155b6ba0b40.vega-embed details,
+  #altair-viz-ac3bee1c46f14d7081407155b6ba0b40.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-8bcd660854ab40f49cfb20809d51c9e2"></div>
+<div id="altair-viz-ac3bee1c46f14d7081407155b6ba0b40"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-8bcd660854ab40f49cfb20809d51c9e2") {
-      outputDiv = document.getElementById("altair-viz-8bcd660854ab40f49cfb20809d51c9e2");
+    if (outputDiv.id !== "altair-viz-ac3bee1c46f14d7081407155b6ba0b40") {
+      outputDiv = document.getElementById("altair-viz-ac3bee1c46f14d7081407155b6ba0b40");
     }
 
     const paths = {
