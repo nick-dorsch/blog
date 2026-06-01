@@ -1,0 +1,1703 @@
+---
+title: "Bayes in Business and Engineering"
+author: "Nicholas Dorsch"
+date: 2026/06/01
+categories: [statistics, geology, geophysics, AI]
+image: media/update.png
+execute:
+  echo: false
+  cache: true
+---
+
+```{python}
+import altair as alt
+import numpy as np
+import pandas as pd
+from scipy.stats import beta as beta_dist
+from src.plotting import apply_lex_altair_theme
+
+apply_lex_altair_theme()
+alt.data_transformers.disable_max_rows()
+
+n_steps = 50
+fixed_beta = 10
+p_grid = np.linspace(0.001, 0.999, 300)
+
+rows = []
+for step in range(n_steps + 1):
+    alpha = 2 + step
+    beta = fixed_beta
+    density = beta_dist.pdf(p_grid, alpha, beta)
+
+    rows.extend(
+        {
+            "p": p,
+            "density": d,
+            "step": step,
+        }
+        for p, d in zip(p_grid, density)
+    )
+
+beta_updates = pd.DataFrame(rows)
+final_update = beta_updates[beta_updates["step"] == n_steps]
+
+lines = alt.Chart(beta_updates[beta_updates["step"] < n_steps]).mark_line(
+    color="#ddb06d",
+    strokeWidth=1.0,
+).encode(
+    x=alt.X("p:Q", axis=None, scale=alt.Scale(domain=[0, 1])),
+    y=alt.Y("density:Q", axis=None),
+    detail="step:N",
+    opacity=alt.Opacity(
+        "step:Q",
+        scale=alt.Scale(domain=[0, n_steps], range=[0.05, 0.95]),
+        legend=None,
+    ),
+)
+
+final_line = alt.Chart(final_update).mark_line(
+    color="#ddb06d",
+    strokeWidth=3.0,
+).encode(
+    x=alt.X("p:Q", axis=None, scale=alt.Scale(domain=[0, 1])),
+    y=alt.Y("density:Q", axis=None),
+)
+
+(lines + final_line).properties(
+    width="container",
+    height=250,
+).configure_view(
+    stroke=None,
+)
+```
+
+# My introduction to Bayes
+
+I now consider myself a software engineer, but my journey into programming started with
+an interest in probability and uncertainty.
+
+In the early days I was doing little experiments in spreadsheets, bumping around in a
+dark room without much ability to navigate. Around the same time I also started getting
+exposed to blogs like [Less Wrong](https://www.lesswrong.com/) and the writings of
+Eliezer Yudkowsky---who, incidentally, is currently sounding the alarm that
+superintelligent AI is going to [literally kill everyone if we build
+it](https://en.wikipedia.org/wiki/If_Anyone_Builds_It,_Everyone_Dies)---but this post
+isn't about existential dread, or the mentally unmooring effect of having one of your
+foremost intellectual influences prophesying imminent doom.
+
+Less Wrong and Eliezer introduced me properly to Bayes. I say properly, because reading
+a Wikipedia article or having professors gleefully show how "unintuitive" it is, is
+about the _worst_ way you could possibly be introduced to it. These writings were not
+gleeful in challenging intuition, but patient and aphoristic, teaching by example
+through excellent technical writings, rather than whiteboard problems.
+
+Bayes intersected with my work, and my interest in uncertainty, so these influences came
+together at a great time in my career.
+
+More importantly, the introduction to Bayes was a formalized introduction to rationality
+and probabilistic thinking in general, which for whatever reason I am very predisposed
+to, and following that rabbit hole led me to Bayesian statistics.
+
+This led me to dig for more influences, like [E.T
+Jaynes](https://en.wikipedia.org/wiki/Edwin_Thompson_Jaynes), [Aubrey
+Clayton](https://aubreyclayton.com/), Cameron Davidson-Pilon's [Bayesian Methods for
+Hackers](https://github.com/camdavidsonpilon/probabilistic-programming-and-bayesian-methods-for-hackers)
+and the incredible work (in lectures and textbooks) of [Richard
+McElreath](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919).
+
+Bayesian statistics required me to program, so I learned, and on the way learned that my
+home was always going to be in software engineering, I just hadn't landed on that path
+yet. So Bayesian statistics, in the end, is the reason I am doing what I'm doing today.
+
+And software engineering combined with Bayesian statistics is a very powerful
+combination, as it turns out.
+
+Because I'm not a formally trained statistician (or an academic of any kind), but
+instead someone who works in a technical industry where engineering and data analytics
+are highly valued, my perspective on where Bayes fits in is as much value-oriented as it
+is driven by intellectual curiosity. I've written before about the idea of
+[informatics](https://nick-dorsch.github.io/blog/posts/informatics/), and Bayesian
+statistics sits at the heart of the concept.
+
+The point I want to make in this post boils down to this: the Bayesian toolkit lets us
+combine domain knowledge and limited data into highly expressive, interpretable models
+that quantify uncertainty, and this makes them ideal for decision support in complex
+technical domains.
+
+# The core of it
+
+> A. _"What should we believe, given our understanding of the world and our data?"_
+>
+> B. _"What should we do, given that information?"_
+
+Bayes helps us define what to believe, decision theory formalizes what actions to take,
+and our values ultimately decide what we do.
+
+In contexts where decisions are difficult, uncertainty is an essential ingredient. You
+really can't make good decisions in the absence of a consideration of uncertainty---we
+do it all the time by calling options "safe bets" or "high-risk"---probability models
+just quantify these considerations and make them explicit.
+
+The uncertainty is ultimately subjective (all probabilities are in the Bayesian view),
+but subjective quantities still follow rules. If you want to trace your uncertainties
+through to their logical consequences, you need to obey those rules.
+
+# Monte Carlo models
+
+Monte Carlo models are the first thing to master when learning how to use probability.
+They are incredibly flexible and simple in concept. Define your uncertainties, state
+the math that governs the outputs you care about, and run the system thousands of times
+to see what happens.
+
+You can teach yourself a lot by doing this. You will discover
+[SEM](https://en.wikipedia.org/wiki/Standard_error) by adding stochastic outputs
+together. You will quickly disabuse yourself of mental mistakes relating to "stacking
+percentiles" because you can watch the real result occur in simulation. You will
+understand CDFs and PDFs and quantile ranges without even knowing their names, because
+you will understand that behind everything is an array of simulated values, not a
+mysterious system of mathematics that is beyond your understanding.
+
+You can start doing this without even understanding the probability distributions in the
+background---that understanding will come as you delve deeper.
+
+## Back of the envelope thinking
+
+In [The Art of Doing Science and
+Engineering](https://en.wikipedia.org/wiki/The_Art_of_Doing_Science_and_Engineering) by
+Richard Hamming, he talks about the usefulness of back of the envelope problem solving.
+Modern computing gives us the tools to take back of the envelope problem solving into
+the probabilistic realm with minimal effort.
+
+One of Hamming's examples is the idea that (back when he wrote the book in the late
+80s) 90% of the scientists who have ever lived are now alive. He takes that statement
+along with an assumption that knowledge doubles every 17 years, to do a back of the
+envelope calculation to see how compatible the two statements are.
+
+I will skip the maths (apparently integral calculus was part of Hamming's idea of back
+of the envelope thinking), but he shows that if the number of scientists practicing at
+any time is given by:
+
+$$
+y(t) = ae^{bt}
+$$
+
+and, assuming scientists have careers lasting around 55 years, the proportion alive
+today is given by:
+
+$$
+1 - \left(\frac{1}{2}\right)^{55/17} = 0.894...
+$$
+
+And he makes the point well. Comfort with turning claims into a bit of maths allows him
+to test assumptions with minimal effort, and in this case he is left satisfied that the
+claims are consistent.
+
+Modern computing and tooling means that for us, with a laptop and a Python install, we
+can add our uncertainty to the mix with minimal effort. Say we think the doubling time
+is centred on 17 years, and the length of a scientist's career is centred on 55 years,
+but we're uncertain about both quantities:
+
+```python
+import numpy as np
+
+n = 5_000
+
+rng = np.random.default_rng(42)
+career_years = rng.normal(55, 10, n)
+doubling_years = rng.normal(17, 3, n)
+
+proportion_alive = 1 - (1 / 2) ** (career_years / doubling_years)
+```
+
+```{python}
+import altair as alt
+import numpy as np
+import pandas as pd
+from src.plotting import apply_lex_altair_theme
+
+apply_lex_altair_theme()
+
+rng = np.random.default_rng(42)
+n = 5_000
+
+career_years = rng.normal(55, 10, n)
+doubling_years = rng.normal(17, 3, n)
+
+proportion_alive = 1 - (1 / 2) ** (career_years / doubling_years)
+results = pd.DataFrame({"proportion_alive": proportion_alive})
+
+mean_result = results["proportion_alive"].mean()
+low, high = results["proportion_alive"].quantile([0.05, 0.95])
+print(f"Mean result: {mean_result:.3f}; 90% interval: {low:.3f}–{high:.3f}")
+
+hist = (
+    alt.Chart(results)
+    .mark_bar()
+    .encode(
+        x=alt.X(
+            "proportion_alive:Q",
+            bin=alt.Bin(maxbins=80),
+            title="Proportion of all scientists alive today",
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "count():Q",
+            axis=alt.Axis(labels=False, ticks=False, title=None, grid=False),
+        ),
+        tooltip=["count()"],
+    )
+    .properties(width="container")
+)
+
+mean_rule = (
+    alt.Chart(pd.DataFrame({"x": [mean_result]}))
+    .mark_rule(color="red")
+    .encode(x="x:Q")
+)
+
+hist + mean_rule
+```
+
+Maybe we care about this uncertainty, maybe we don't, it depends on the problem and the
+stakes. The point is that it is _incredibly easy to do_, and now with AI, all that is
+stopping you is a passing familiarity with the concepts, and just asking!
+
+## Scale to any problem
+
+Monte Carlo models can be self-contained and simple, like the above example, or they can
+get [arbitrarily complex](https://nick-dorsch.github.io/blog/posts/resgo/), but the
+_style of thinking_ that makes it clear how this trick is done is all you need to start.
+You will pick up more complex concepts like multivariate correlated sampling, working
+with high dimensional arrays, and vectorization as you delve deeper, but the core
+framework is incredibly simple to start with.
+
+Just make the computer go _brrrrrr_.
+
+# Learning from Data
+
+It might appear that I've diverged from the point of this post (using Bayes to solve
+technical problems and improve decision making) but the Monte Carlo method is a good
+entry point, because it begs a question:
+
+How do we decide what distributions to use? And how do we parametrize them?
+
+Formalizing uncertainty in a Monte Carlo model is great, but how can we be rigorous
+about the parameters that define the distributions that model that uncertainty?
+
+In the example above I set the length of a scientist's career to $\text{Normal}(55,
+10)$... but I just pulled that distribution out of a hat.
+
+In Bayesian statistics terms this would be called _elicitation_. We ask someone what
+they think is a reasonable range of values for a particular quantity (before looking at
+any data) and we take their answer and "elicit" an appropriate distribution that
+captures that belief.
+
+But there is no data here, how do we take that _prior_ belief about the quantity and use
+data to learn about it?
+
+That requires Bayes.
+
+$$
+p(\theta \mid y) = \frac{p(y \mid \theta)\,p(\theta)}{p(y)}
+$$
+
+The left side of that equation means, in words, _What is the posterior probability
+distribution over the model parameters, given the observed data_, which sounds similar
+to
+
+> A. _"What should we believe, given our understanding of the world and our data?"_
+
+In technical contexts these are the same thing, because our beliefs are formalized by
+the parameters in our Monte Carlo models.
+
+So now we've added data ($y$), how do we use it in practice?
+
+The field of Bayesian statistics is devoted to this problem.
+
+## Markov Chain Monte Carlo models
+
+It turns out that Bayes theorem is a huge pain in the ass. There are classes of problems
+where the maths work out [elegantly](https://nick-dorsch.github.io/blog/posts/lindy/),
+providing efficient analytical solutions to Bayesian models. These are very cool and
+useful to learn, but also rare when applied to real-world problems.
+
+Most of the time, we need specialized algorithms to do Bayes. It is all because of this
+innocent looking probability in the denominator of Bayes theorem:
+
+$$
+p(y)
+$$
+
+Which equates to
+
+$$
+p(y) = \int p(y \mid \theta)\,p(\theta)\,d\theta
+$$
+
+> _"The denominator is the probability of the observed data under the whole model. It
+> integrates over every possible value of $\theta$, weighting each value by its prior
+> plausibility. In other words, it asks how surprising the data would be before we knew
+> which parameter value was true."_
+
+That sentence is a headache. I actually asked the AI to write it because I couldn't
+manage a sentence describing it.
+
+It turns out it is a headache for computers, too, because most of the time that integral
+is an intractable nightmare, where no analytical solution even exists.
+
+Instead, clever algorithms are needed to approximate the posterior distribution through
+random sampling. This is Monte Carlo again, but this time we have no way of sampling the
+distribution directly, because it is unknown, so we have to explore the probability
+space without it, somehow. That is where Markov Chain Monte Carlo
+([MCMC](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo)) algorithms come in.
+
+Learning how to build efficient models to do Bayesian inference is the engineering side
+of Bayesian statistics.
+
+This isn't a post about that engineering effort, but the point is, with MCMC models,
+we can update our beliefs with data across a wide range of problems.
+
+## What about Machine Learning and AI?
+
+The dominant paradigm in data science is machine learning. Many mainstream machine
+learning workflows are built around optimization: choose a model class, define a loss
+function, and find the parameters that make the best in-sample predictions while
+minimizing out-of-sample error. For big datasets with many features, this can work
+incredibly well.
+
+But running problems through the black box of ML costs us a few important things.
+
+First is expressiveness. Engineering problems usually have an underlying mathematical
+structure that is well understood. It is not wise to throw it out and expect the
+algorithm to pick it all up again using large quantities of data. Physics informed
+neural networks
+([PINNs](https://en.wikipedia.org/wiki/Physics-informed_neural_networks)) address this
+problem, embedding physical laws into neural network training such that solutions are
+kept within physically consistent constraints, but they are not the norm in the ML
+world---most of the time ML models are not constrained in this way.
+
+Second is uncertainty. Most machine learning algorithms do not provide uncertainty
+quantification. Especially in complex domains with limited data, that uncertainty can be
+an essential component of effective decision making. In high stakes situations, an ML
+model stating that the answer is "25!" while not having any ability to provide
+confidence intervals of $\pm 10$ or $\pm 1000$ makes decision making based on their
+results far less robust.
+
+Third is what I call the problem of "small data". Big data is a luxury that most
+engineering problems don't enjoy. Instead we are often trying to maximize the
+information we can get out of small quantities of expensive-to-acquire data. Machine
+learning solutions in this context are not the best choice, in my view. They will
+provide uninterpretable solutions with questionable validity, with no uncertainty
+preservation.
+
+Machine learning is a rich field with many answers to the issues I bring up here, but my
+answer is: use Bayes instead. I think it provides a better toolkit in many engineering
+contexts.
+
+# Examples
+
+I want to show a few examples here. My background is in oil and gas, so that is where I
+know problems in the most detail, but I want to stress how domain-agnostic Bayesian
+statistics is. If you have a system of equations that govern behaviour in some domain
+you are studying, you can express it in a Bayesian model, feed it data, and do
+inference.
+
+These examples all follow the same pattern. It is a playbook that can be adapted for
+any technical domain:
+
+1. start with an engineering calculation or domain relationship,
+2. represent uncertain inputs as probability distributions,
+3. define prior beliefs over those inputs through discussions with domain experts,
+4. use Bayes to update those distributions with data where it is available,
+5. propagate the resulting uncertainty into a decision-relevant output.
+
+I should stress that this is a gallery of examples, more than a rigorous working of each
+problem, and all use synthetic datasets. They are snippets of more nuanced
+problems that oil and gas technical workers face, used to communicate how Bayes can
+help.
+
+These models are created and run with [PyMC](https://www.pymc.io/welcome.html), a
+popular Python package for doing Bayesian statistics.
+
+## Oil Field Volumetrics
+
+A classic petroleum engineering example is a volumetric estimate. The deterministic
+calculation is simple, but every input is uncertain: porosity, water saturation, net to
+gross, gross rock volume, and the oil formation volume factor. Offset wells can teach us
+about reservoir properties, while other properties are derived from separate studies,
+like geophysics-driven structural modelling, or PVT-driven formation volume factor
+calculations.
+
+The following is a simple PyMC model using synthetic offset-well data. The 25 wells
+inform field average porosity, water saturation, and net-to-gross. The formation volume
+factor, $B_o$, and gross rock volume, GRV, are included as priors with no direct
+observations. STOIIP is then calculated as a deterministic variable from posterior
+samples of the reservoir parameters.
+
+Here is a sample of the (synthetic) data:
+
+```{python}
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(42)
+n_wells = 25
+
+# Synthetic offset-well data: porosity, Sw, and net-to-gross as fractions.
+offset_wells = pd.DataFrame(
+    {
+        "well": [f"W-{i:02d}" for i in range(1, n_wells + 1)],
+        "porosity": np.clip(rng.normal(0.21, 0.025, n_wells), 0.12, 0.32),
+        "sw": np.clip(rng.normal(0.33, 0.04, n_wells), 0.15, 0.60),
+        "net_to_gross": np.clip(rng.normal(0.42, 0.07, n_wells), 0.15, 0.80),
+    }
+)
+
+offset_wells.head()
+```
+
+```{python}
+#| output: false
+import pymc as pm
+
+with pm.Model() as volumetrics_model:
+    # Field-level reservoir property means learned from offset wells.
+    phi_mu = pm.Beta("phi_mu", alpha=2, beta=8)      # prior mean = 0.20
+    sw_mu = pm.Beta("sw_mu", alpha=3, beta=7)        # prior mean = 0.30
+    ntg_mu = pm.Beta("ntg_mu", alpha=4, beta=6)      # prior mean = 0.40
+
+    # Offset-well likelihoods.
+    pm.Normal(
+        "porosity_obs",
+        mu=phi_mu,
+        sigma=0.025,
+        observed=offset_wells["porosity"].to_numpy(),
+    )
+    pm.Normal(
+        "sw_obs",
+        mu=sw_mu,
+        sigma=0.04,
+        observed=offset_wells["sw"].to_numpy(),
+    )
+    pm.Normal(
+        "net_to_gross_obs",
+        mu=ntg_mu,
+        sigma=0.07,
+        observed=offset_wells["net_to_gross"].to_numpy(),
+    )
+
+    # Prior-only quantities: no direct data yet.
+    bo = pm.LogNormal("bo", mu=np.log(1.25), sigma=0.05)          # reservoir bbl / STB
+    grv = pm.LogNormal("grv_acft", mu=np.log(18_000), sigma=0.1) # gross rock volume, acre-ft
+
+    # Stock tank oil initially in place. 7,758 converts acre-ft of pore volume to barrels.
+    stoiip_stb = pm.Deterministic(
+        "stoiip_stb",
+        7_758 * grv * ntg_mu * phi_mu * (1 - sw_mu) / bo,
+    )
+    stoiip_mmbbl = pm.Deterministic("stoiip_mmbbl", stoiip_stb / 1_000_000)
+
+    prior = pm.sample_prior_predictive(
+        draws=8000,
+        var_names=["stoiip_mmbbl"],
+        random_seed=42,
+    )
+
+    trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+Here is a graph representation of the statistical model. Grey nodes indicate
+observations (data), and white nodes are latent (unobserved) model parameters:
+
+```{python}
+pm.model_to_graphviz(volumetrics_model)
+```
+
+And here is the result:
+
+```{python}
+import altair as alt
+
+prior_stoiip = prior.prior["stoiip_mmbbl"].values.ravel()
+posterior_stoiip = trace.posterior["stoiip_mmbbl"].values.ravel()
+
+# Use common bins so the prior and posterior histograms are directly comparable.
+upper = np.quantile(np.concatenate([prior_stoiip, posterior_stoiip]), 0.995)
+bins = np.linspace(0, upper, 60)
+
+
+def make_histogram(samples, label):
+    density, edges = np.histogram(samples, bins=bins, density=True)
+    return pd.DataFrame(
+        {
+            "stoiip_mmbbl": edges[:-1],
+            "density": density,
+            "distribution": label,
+        }
+    )
+
+
+prior_hist = make_histogram(prior_stoiip, "Prior")
+posterior_hist = make_histogram(posterior_stoiip, "Posterior")
+
+color = alt.Color(
+    "distribution:N",
+    scale=alt.Scale(domain=["Prior", "Posterior"], range=["#5b6770", "#ddb06d"]),
+    legend=alt.Legend(
+        title=None,
+        orient="none",
+        legendX=520,
+        legendY=10,
+        direction="vertical",
+    ),
+)
+
+posterior_area = (
+    alt.Chart(posterior_hist)
+    .mark_area(
+        interpolate="step-after",
+        opacity=0.45,
+        line={"strokeWidth": 2},
+    )
+    .encode(
+        x=alt.X(
+            "stoiip_mmbbl:Q",
+            title="STOIIP, MMSTB",
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "density:Q",
+            title=None,
+            axis=alt.Axis(labels=False, ticks=False, grid=False),
+        ),
+        color=color,
+    )
+)
+
+prior_line = (
+    alt.Chart(prior_hist)
+    .mark_line(
+        interpolate="step-after",
+        strokeWidth=2,
+    )
+    .encode(
+        x="stoiip_mmbbl:Q",
+        y="density:Q",
+        color=color,
+    )
+)
+
+(posterior_area + prior_line).properties(width="container", height=320)
+```
+
+Here I'm showing the prior STOIIP (the distribution that the subsurface team might have
+estimated before discovering this field), and the well-data-driven posterior STOIIP,
+which has converged on a tighter uncertainty around the true value as the offset-well
+data updates the field-level reservoir properties.
+
+The point of putting the volumetric equation inside the probabilistic model is that the
+STOIIP output is not a separate spreadsheet calculation bolted on afterwards. It
+is part of the model graph. The same samples that update porosity, water saturation, and
+net-to-gross from the offset wells also propagate the prior uncertainty in GRV and $B_o$
+into the final volume estimate.
+
+Making the STOIIP part of the model graph also makes some advanced modelling possible,
+like integrating observed production as an additional constraint. If 4 MMSTB had already
+been recovered from this reservoir, for example, it would indicate STOIIP values less
+than ~8 MMSTB are highly unlikely, as recoveries of greater than 50% in oil reservoirs
+are uncommon.
+
+## Fluid contact uncertainty from RFT data
+
+Another fun example in the oil and gas context is estimating fluid contacts based on
+pressure points taken in reservoirs. One can infer the depth of a gas-water contact
+based on this data, but it is often an uncertain estimate due to unknown fluid
+properties like the salinity of the brine (water) and the density of the gas. The water
+gradient is also often far less well sampled than gas columns.
+
+The problem boils down to finding the intersection of two lines: the gas pressure
+gradient and the water pressure gradient. The intersection of two lines is computable
+as:
+
+$$
+\begin{aligned}
+y_1 &= m_1 x + b_1 \\
+y_2 &= m_2 x + b_2 \\
+ x^* &= \frac{b_2 - b_1}{m_1 - m_2} \\
+ y^* &= m_1 x^* + b_1
+      = \frac{m_1 b_2 - m_2 b_1}{m_1 - m_2}
+\end{aligned}
+$$
+
+If we can model those pressure gradients with a Bayesian statistical model, we will also
+get full uncertainty quantification for the pressure and (of more interest) the depth of
+the intersection, which represents the gas-water contact.
+
+Let's start by simulating some data:
+
+```{python}
+rng = np.random.default_rng(42)
+
+gwc_depth_mss = -1500.0
+gas_column_height_m = 100.0
+contact_pressure_mpa = 20.0
+water_gradient_mpa_per_m = 0.0102
+gas_gradient_mpa_per_m = 0.0022
+gas_pressure_error_mpa = 0.005
+water_pressure_error_mpa = 0.1
+
+# Subsea depth is negative down. The gas column extends from -1400 to -1500 mSS,
+# and the water points are sparse below the contact.
+gas_depth_mss = np.linspace(
+    gwc_depth_mss + gas_column_height_m,
+    gwc_depth_mss + 50,
+    5,
+)
+water_depth_mss = np.array([-1380, -1520, -1530, -1585, -1630])
+
+# Pressure increases downwards. Since depth is negative down, the vertical distance
+# below the contact is gwc_depth_mss - depth_mss.
+gas_pressure_mpa = (
+    contact_pressure_mpa
+    + gas_gradient_mpa_per_m * (gwc_depth_mss - gas_depth_mss)
+    + rng.normal(0, gas_pressure_error_mpa, gas_depth_mss.size)
+)
+water_pressure_mpa = (
+    contact_pressure_mpa
+    + water_gradient_mpa_per_m * (gwc_depth_mss - water_depth_mss)
+    + rng.normal(0, water_pressure_error_mpa, water_depth_mss.size)
+)
+
+rft_data = pd.concat(
+    [
+        pd.DataFrame(
+            {
+                "fluid": "Gas",
+                "depth_mss": gas_depth_mss,
+                "pressure_mpa": gas_pressure_mpa,
+            }
+        ),
+        pd.DataFrame(
+            {
+                "fluid": "Water",
+                "depth_mss": water_depth_mss,
+                "pressure_mpa": water_pressure_mpa,
+            }
+        ),
+    ],
+    ignore_index=True,
+)
+```
+
+```{python}
+rft_points = (
+    alt.Chart(rft_data)
+    .mark_circle(size=80, opacity=0.85)
+    .encode(
+        x=alt.X(
+            "pressure_mpa:Q",
+            title="Pressure, MPa",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "depth_mss:Q",
+            title="Depth, mSS",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        color=alt.Color(
+            "fluid:N",
+            scale=alt.Scale(
+                domain=["Water", "Gas"],
+                range=["#9bd3e6", "#f4a6a6"],
+            ),
+            legend=alt.Legend(title=None),
+        ),
+        tooltip=["fluid", "depth_mss", "pressure_mpa"],
+    )
+    .properties(width="container", height=360)
+)
+
+rft_points
+```
+
+Each pressure gradient is a linear function, so our Bayesian model is simply estimating
+the slope and intercept of each, then passing the solution for their intersection into
+the model graph to output it as an uncertain parameter.
+
+```{python}
+#| output: false
+
+water_data = rft_data[rft_data["fluid"] == "Water"]
+gas_data = rft_data[rft_data["fluid"] == "Gas"]
+
+# Centering depth around the expected contact keeps the intercept priors intuitive:
+# they represent pressure near the contact depth.
+depth_ref_mss = -1500.0
+water_depth_centered = water_data["depth_mss"].to_numpy() - depth_ref_mss
+gas_depth_centered = gas_data["depth_mss"].to_numpy() - depth_ref_mss
+
+with pm.Model() as contact_model:
+    water_intercept = pm.Normal("water_intercept", mu=20.0, sigma=1.0)
+    gas_intercept = pm.Normal("gas_intercept", mu=20.0, sigma=1.0)
+
+    water_slope = pm.Normal("water_slope", mu=-0.010, sigma=0.002)
+    gas_slope = pm.Normal("gas_slope", mu=-0.002, sigma=0.001)
+
+    water_sigma = pm.HalfNormal("water_sigma", sigma=0.15)
+    gas_sigma = pm.HalfNormal("gas_sigma", sigma=0.15)
+
+    water_pressure_mu = pm.Deterministic(
+        "water_pressure_mu",
+        water_intercept + water_slope * water_depth_centered,
+    )
+    gas_pressure_mu = pm.Deterministic(
+        "gas_pressure_mu",
+        gas_intercept + gas_slope * gas_depth_centered,
+    )
+
+    pm.Normal(
+        "water_pressure_obs",
+        mu=water_pressure_mu,
+        sigma=water_sigma,
+        observed=water_data["pressure_mpa"].to_numpy(),
+    )
+    pm.Normal(
+        "gas_pressure_obs",
+        mu=gas_pressure_mu,
+        sigma=gas_sigma,
+        observed=gas_data["pressure_mpa"].to_numpy(),
+    )
+
+    contact_depth_mss = pm.Deterministic(
+        "contact_depth_mss",
+        depth_ref_mss + (gas_intercept - water_intercept) / (water_slope - gas_slope),
+    )
+
+    contact_trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+```{python}
+pm.model_to_graphviz(contact_model)
+```
+
+Fitting the model to the data yields our two pressure gradients:
+
+```{python}
+def posterior_gradient_interval(trace, fluid, depth_grid_mss):
+    intercept = trace.posterior[f"{fluid}_intercept"].values.ravel()
+    slope = trace.posterior[f"{fluid}_slope"].values.ravel()
+    depth_centered = depth_grid_mss - depth_ref_mss
+
+    pressure = intercept[:, None] + slope[:, None] * depth_centered[None, :]
+    pressure_low, pressure_mid, pressure_high = np.quantile(
+        pressure,
+        [0.025, 0.5, 0.975],
+        axis=0,
+    )
+
+    return pd.DataFrame(
+        {
+            "fluid": fluid.title(),
+            "depth_mss": depth_grid_mss,
+            "pressure_low": pressure_low,
+            "pressure_mid": pressure_mid,
+            "pressure_high": pressure_high,
+        }
+    )
+
+
+depth_grid = np.linspace(
+    water_data["depth_mss"].min() - 10,
+    water_data["depth_mss"].max(),
+    100,
+)
+
+gradient_intervals = pd.concat(
+    [
+        posterior_gradient_interval(contact_trace, "water", depth_grid),
+        posterior_gradient_interval(contact_trace, "gas", depth_grid),
+    ],
+    ignore_index=True,
+)
+
+fluid_color = alt.Color(
+    "fluid:N",
+    scale=alt.Scale(
+        domain=["Water", "Gas"],
+        range=["#9bd3e6", "#f4a6a6"],
+    ),
+    legend=alt.Legend(title=None),
+)
+
+interval_band = (
+    alt.Chart(gradient_intervals)
+    .mark_area(opacity=0.25)
+    .encode(
+        x=alt.X(
+            "pressure_low:Q",
+            title="Pressure, MPa",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        x2="pressure_high:Q",
+        y=alt.Y(
+            "depth_mss:Q",
+            title="Depth, mSS",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        color=fluid_color,
+    )
+)
+
+median_gradient = (
+    alt.Chart(gradient_intervals)
+    .mark_line(strokeWidth=2)
+    .encode(
+        x="pressure_mid:Q",
+        y="depth_mss:Q",
+        color=fluid_color,
+    )
+)
+
+rft_points = (
+    alt.Chart(rft_data)
+    .mark_circle(size=80, opacity=0.85)
+    .encode(
+        x=alt.X(
+            "pressure_mpa:Q",
+            title="Pressure, MPa",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        y=alt.Y(
+            "depth_mss:Q",
+            title="Depth, mSS",
+            scale=alt.Scale(zero=False),
+            axis=alt.Axis(grid=False),
+        ),
+        color=fluid_color,
+        tooltip=["fluid", "depth_mss", "pressure_mpa"],
+    )
+)
+
+(interval_band + median_gradient + rft_points).properties(width="container", height=360)
+```
+
+And the uncertain intersection of those two lines is the uncertainty in the contact
+depth, also shown below as a histogram:
+
+```{python}
+contact_depth_samples = contact_trace.posterior["contact_depth_mss"].values.ravel()
+contact_depth_hist, contact_depth_edges = np.histogram(
+    contact_depth_samples,
+    bins=50,
+    density=True,
+)
+
+contact_depth_df = pd.DataFrame(
+    {
+        "contact_depth_mss": contact_depth_edges[:-1],
+        "density": contact_depth_hist,
+    }
+)
+
+alt.Chart(contact_depth_df).mark_area(
+    interpolate="step-after",
+    opacity=0.45,
+    color="#f4a6a6",
+    line={"color": "#f4a6a6", "strokeWidth": 2},
+).encode(
+    x=alt.X(
+        "contact_depth_mss:Q",
+        title="Gas-water contact depth, mSS",
+        scale=alt.Scale(zero=False),
+        axis=alt.Axis(grid=False),
+    ),
+    y=alt.Y(
+        "density:Q",
+        title=None,
+        axis=alt.Axis(labels=False, ticks=False, grid=False),
+    ),
+).properties(width="container", height=320)
+```
+
+Neat!
+
+Now this range can be used when assessing trapping geometries, whether through showing a
+range on a single depth map, or simulating depth map iterations with this uncertainty
+fed in. This may have a dramatic effect on volumetric estimates, depending on how
+sensitive the trapping geometry is to changes in the contact.
+
+## Fluid compositional modelling
+
+A Dirichlet model can be fit to a dataset of fluid samples to model uncertainty in
+composition across a field. This example benefits from hierarchical modelling (a
+Bayesian statistical superpower) to account for groupings of data, like replicate
+samples of the same interval, or samples from the same reservoir.
+
+Again, we start with some synthetic data:
+
+```{python}
+rng = np.random.default_rng(42)
+
+components = ["C1", "C2", "C3", "iC4", "nC4", "iC5", "nC5", "C6", "C7+"]
+
+reservoir_profiles = {
+    "Reservoir A": np.array([0.72, 0.10, 0.06, 0.015, 0.025, 0.012, 0.018, 0.02, 0.03]),
+    "Reservoir B": np.array([0.34, 0.11, 0.10, 0.10, 0.16, 0.025, 0.035, 0.04, 0.09]),
+    "Reservoir C": np.array([0.24, 0.10, 0.09, 0.03, 0.05, 0.035, 0.045, 0.07, 0.34]),
+}
+
+reservoir_concentration = {
+    "Reservoir A": 30,
+    "Reservoir B": 20,
+    "Reservoir C": 10,
+}
+
+base_samples_per_reservoir = 5
+replicate_concentration = 1_500
+replicate_probabilities = [0.65, 0.25, 0.10]
+replicate_counts = [1, 2, 3]
+
+rows = []
+for reservoir, profile in reservoir_profiles.items():
+    reservoir_alpha = profile * reservoir_concentration[reservoir]
+
+    for sample_idx in range(1, base_samples_per_reservoir + 1):
+        sample_group = f"{reservoir[-1]}-{sample_idx:02d}"
+        base_composition = rng.dirichlet(reservoir_alpha)
+        n_replicates = rng.choice(replicate_counts, p=replicate_probabilities)
+
+        for replicate_idx in range(1, n_replicates + 1):
+            observed_composition = rng.dirichlet(
+                base_composition * replicate_concentration
+            )
+
+            rows.append(
+                {
+                    "sample_id": f"{sample_group}-{replicate_idx}",
+                    "sample_group": sample_group,
+                    "replicate": replicate_idx,
+                    "reservoir": reservoir,
+                    **dict(zip(components, observed_composition)),
+                }
+            )
+
+composition_samples = pd.DataFrame(rows)
+
+composition_samples_long = composition_samples.melt(
+    id_vars=["sample_id", "sample_group", "replicate", "reservoir"],
+    value_vars=components,
+    var_name="component",
+    value_name="fraction",
+)
+```
+
+```{python}
+mean_composition = (
+    composition_samples_long
+    .groupby(["reservoir", "component"], as_index=False)
+    .agg(mean_fraction=("fraction", "mean"))
+)
+
+alt.Chart(mean_composition).mark_bar().encode(
+    x=alt.X(
+        "component:N",
+        title="Component",
+        sort=components,
+        axis=alt.Axis(labelAngle=0, grid=False),
+    ),
+    xOffset=alt.XOffset("reservoir:N", title="Reservoir"),
+    y=alt.Y(
+        "mean_fraction:Q",
+        title="Mean mole fraction",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    color=alt.Color("reservoir:N", title="Reservoir"),
+    tooltip=[
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("component:N", title="Component"),
+        alt.Tooltip("mean_fraction:Q", title="Mean fraction", format=".1%"),
+    ],
+).properties(
+    width="container",
+    height=320,
+)
+```
+
+Note these are the _average_ compositions of the three reservoirs; in reality we have
+several fluid samples (and replicates) in a dataset of 21 total samples.
+
+So how can we model the average properties by reservoir, and the variability we see
+within sample intervals and across them?
+
+```{python}
+#| output: false
+composition_observed = composition_samples[components].to_numpy()
+
+reservoir_codes, reservoir_names = pd.factorize(composition_samples["reservoir"])
+group_codes, group_names = pd.factorize(composition_samples["sample_group"])
+
+group_lookup = (
+    composition_samples[["sample_group", "reservoir"]]
+    .drop_duplicates()
+    .set_index("sample_group")
+    .loc[group_names]
+)
+group_reservoir_codes = pd.Categorical(
+    group_lookup["reservoir"], categories=reservoir_names
+).codes
+
+coords = {
+    "component": components,
+    "reservoir": reservoir_names,
+    "sample_group": group_names,
+    "sample": composition_samples["sample_id"],
+}
+
+with pm.Model(coords=coords) as composition_model:
+    reservoir_pooling = pm.Exponential("reservoir_pooling", lam=1 / 20)
+    group_pooling = pm.Exponential("group_pooling", lam=1 / 100)
+
+    global_alpha = pm.Gamma(
+        "global_alpha",
+        alpha=2,
+        beta=0.2,
+        dims="component",
+    )
+
+    reservoir_alpha = pm.Gamma(
+        "reservoir_alpha",
+        alpha=global_alpha[None, :] * reservoir_pooling,
+        beta=reservoir_pooling,
+        dims=("reservoir", "component"),
+    )
+
+    group_alpha = pm.Gamma(
+        "group_alpha",
+        alpha=reservoir_alpha[group_reservoir_codes] * group_pooling,
+        beta=group_pooling,
+        dims=("sample_group", "component"),
+    )
+
+    pm.Dirichlet(
+        "composition",
+        a=group_alpha[group_codes],
+        observed=composition_observed,
+        dims=("sample", "component"),
+    )
+
+    composition_trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+```{python}
+pm.model_to_graphviz(composition_model)
+```
+
+```{python}
+#| output: false
+interval_rows = []
+
+for reservoir in reservoir_names:
+    reservoir_alpha = (
+        composition_trace.posterior["reservoir_alpha"]
+        .sel(reservoir=reservoir)
+        .values
+    )
+    reservoir_alpha = reservoir_alpha.reshape(-1, len(components))
+    reservoir_composition = reservoir_alpha / reservoir_alpha.sum(axis=1, keepdims=True)
+
+    for component_idx, component in enumerate(components):
+        low, mid, high = np.quantile(
+            reservoir_composition[:, component_idx],
+            [0.025, 0.5, 0.975],
+        )
+        interval_rows.append(
+            {
+                "reservoir": reservoir,
+                "component": component,
+                "fraction_low": low,
+                "fraction_mid": mid,
+                "fraction_high": high,
+                "component_order": component_idx,
+            }
+        )
+
+reservoir_composition_intervals = pd.DataFrame(interval_rows)
+
+reservoir_color = alt.Color(
+    "reservoir:N",
+    scale=alt.Scale(
+        domain=list(reservoir_names),
+        range=["#9bd3e6", "#ddb06d", "#8fbc8f"],
+    ),
+    legend=alt.Legend(
+        title=None,
+        orient="top-right",
+        direction="vertical",
+    ),
+)
+
+base = alt.Chart(reservoir_composition_intervals).encode(
+    x=alt.X(
+        "component:N",
+        title="Component",
+        sort=components,
+        axis=alt.Axis(labelAngle=0, grid=False),
+    ),
+    xOffset=alt.XOffset("reservoir:N", sort=list(reservoir_names)),
+    color=reservoir_color,
+)
+
+composition_interval_rules = base.mark_rule(strokeWidth=2).encode(
+    y=alt.Y(
+        "fraction_low:Q",
+        title="Posterior mole fraction",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y2="fraction_high:Q",
+    tooltip=[
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("component:N", title="Component"),
+        alt.Tooltip("fraction_low:Q", title="2.5%", format=".1%"),
+        alt.Tooltip("fraction_mid:Q", title="Median", format=".1%"),
+        alt.Tooltip("fraction_high:Q", title="97.5%", format=".1%"),
+    ],
+)
+
+composition_interval_points = base.mark_circle(size=80, opacity=0.9).encode(
+    y=alt.Y(
+        "fraction_mid:Q",
+        title="Posterior mole fraction",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    tooltip=[
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("component:N", title="Component"),
+        alt.Tooltip("fraction_low:Q", title="2.5%", format=".1%"),
+        alt.Tooltip("fraction_mid:Q", title="Median", format=".1%"),
+        alt.Tooltip("fraction_high:Q", title="97.5%", format=".1%"),
+    ],
+)
+
+composition_forest_plot = (
+    composition_interval_rules + composition_interval_points
+).properties(
+    width="container",
+    height=360,
+)
+```
+
+A hierarchical or multi-level model allows for information to flow between observation
+groups. Here we are trying to learn about the average compositions of samples collected
+across a field, from particular reservoirs, with repeated observations over some
+intervals. That leads to a natural field-to-reservoir-to-sample-group hierarchy.
+
+Intuitively we know that replicate samples from the same interval should be clustered
+more tightly than samples from different reservoirs. The hierarchical model reflects this.
+Information flows from the global (field) level, down to the reservoir level, down to
+the sample group level in a kind of prior pass-the-parcel in the model. This regularizes
+estimates across each group, so that the bias caused by a naive arithmetic averaging
+approach over repeated samples is removed from the statistical estimate.
+
+```{python}
+composition_forest_plot
+```
+
+The Dirichlet distribution is useful here because it is a distribution over the unit
+simplex. This just means that a sample from the distribution generates a vector of
+values that sum to 1, which matches compositional data nicely. In real examples there
+would be additional mole fractions included, but I've left them out here for the sake of
+keeping plots readable.
+
+## Sidewall Core Analysis
+
+Sidewall cores are a very rich dataset that lends itself to hierarchical analyses as
+well. The cores are taken from particular reservoir intervals in wellbores across a
+field. Routine Core Analysis provides lab-measured porosity, permeability and
+saturations, often with sampling error included.
+
+Measurement error is another area that Bayesian modelling really shines. I'll focus on
+the porosity for this example, but this can easily be extended to a
+porosity-permeability model as well.
+
+Again, let's start by creating a synthetic dataset:
+
+```{python}
+rng = np.random.default_rng(42)
+
+wells = [f"Well-{i:02d}" for i in range(1, 9)]
+core_reservoirs = ["Reservoir A", "Reservoir B", "Reservoir C"]
+
+reservoir_depth_ref_mss = {
+    "Reservoir A": -1450.0,
+    "Reservoir B": -1625.0,
+    "Reservoir C": -1810.0,
+}
+
+# Porosity decreases with depth. Since subsea depth is negative down, a positive
+# slope against centered depth means deeper samples have lower porosity.
+reservoir_porosity_at_ref = {
+    "Reservoir A": 0.25,
+    "Reservoir B": 0.10,
+    "Reservoir C": 0.15,
+}
+reservoir_logit_slope_per_100m = 0.14
+
+well_structural_offset_m = dict(zip(wells, rng.normal(0, 35, len(wells))))
+well_porosity_offset = dict(zip(wells, rng.normal(0, 0.25, len(wells))))
+
+
+def logit(p):
+    return np.log(p / (1 - p))
+
+
+def inv_logit(x):
+    return 1 / (1 + np.exp(-x))
+
+
+core_rows = []
+for well in wells:
+    for reservoir in core_reservoirs:
+        n_cores = rng.integers(5, 9)
+        reservoir_ref_depth = reservoir_depth_ref_mss[reservoir]
+        core_depths = (
+            reservoir_ref_depth
+            + well_structural_offset_m[well]
+            + rng.uniform(-45, 45, n_cores)
+        )
+
+        depth_centered_100m = (core_depths - reservoir_ref_depth) / 100
+        true_logit_porosity = (
+            logit(reservoir_porosity_at_ref[reservoir])
+            + reservoir_logit_slope_per_100m * depth_centered_100m
+            + well_porosity_offset[well]
+        )
+        true_porosity = inv_logit(true_logit_porosity)
+
+        porosity_stdev = rng.uniform(0.004, 0.018, n_cores)
+        measured_porosity = np.clip(
+            rng.normal(true_porosity, porosity_stdev),
+            0.02,
+            0.40,
+        )
+
+        for core_idx in range(n_cores):
+            core_rows.append(
+                {
+                    "core_id": f"{well}-{reservoir[-1]}-{core_idx + 1:02d}",
+                    "well": well,
+                    "reservoir": reservoir,
+                    "depth_mss": core_depths[core_idx],
+                    "porosity": measured_porosity[core_idx],
+                    "porosity_stdev": porosity_stdev[core_idx],
+                    "true_porosity": true_porosity[core_idx],
+                }
+            )
+
+sidewall_cores = pd.DataFrame(core_rows)
+```
+
+```{python}
+sidewall_cores_plot_data = sidewall_cores.assign(
+    porosity_low=lambda df: df["porosity"] - df["porosity_stdev"],
+    porosity_high=lambda df: df["porosity"] + df["porosity_stdev"],
+)
+
+core_reservoir_color = alt.Color(
+    "reservoir:N",
+    scale=alt.Scale(
+        domain=core_reservoirs,
+        range=["#9bd3e6", "#ddb06d", "#8fbc8f"],
+    ),
+    legend=alt.Legend(title=None, orient="top-right"),
+)
+
+core_error_bars = alt.Chart(sidewall_cores_plot_data).mark_rule(opacity=0.35).encode(
+    x=alt.X(
+        "porosity_low:Q",
+        title="Measured porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    x2="porosity_high:Q",
+    y=alt.Y(
+        "depth_mss:Q",
+        title="Depth, mSS",
+        scale=alt.Scale(zero=False),
+        axis=alt.Axis(grid=False),
+    ),
+    color=core_reservoir_color,
+)
+
+core_points = alt.Chart(sidewall_cores_plot_data).mark_circle(size=45, opacity=0.8).encode(
+    x=alt.X(
+        "porosity:Q",
+        title="Measured porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=alt.Y(
+        "depth_mss:Q",
+        title="Depth, mSS",
+        scale=alt.Scale(zero=False),
+        axis=alt.Axis(grid=False),
+    ),
+    color=core_reservoir_color,
+    tooltip=[
+        alt.Tooltip("core_id:N", title="Core"),
+        alt.Tooltip("well:N", title="Well"),
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("depth_mss:Q", title="Depth, mSS", format=".1f"),
+        alt.Tooltip("porosity:Q", title="Porosity", format=".1%"),
+        alt.Tooltip("porosity_stdev:Q", title="Sampling error", format=".1%"),
+    ],
+)
+
+(core_error_bars + core_points).properties(width="container", height=420)
+```
+
+Reservoir A appears to be the highest porosity reservoir in the dataset, with Reservoir
+B significantly poorer in quality. Lab measurement error is included with each data
+point.
+
+We can fit a hierarchical model with measurement error included to this dataset to model
+the relationship between porosity and depth for each reservoir.
+
+The model below keeps the depth slope shared across all reservoirs, but allows each
+reservoir to have its own intercept. Those reservoir intercepts are themselves drawn
+from a global field-level intercept, giving us a hierarchical structure. The measured
+porosity values are treated as noisy Gaussian estimates of latent, unobserved true core
+porosities, with each observation using its own lab-reported sampling error.
+
+```{python}
+#| output: false
+core_reservoir_codes, core_reservoir_names = pd.factorize(sidewall_cores["reservoir"])
+
+sidewall_cores_model_data = sidewall_cores.assign(
+    depth_centered_100m=lambda df: df.apply(
+        lambda row: (row["depth_mss"] - reservoir_depth_ref_mss[row["reservoir"]]) / 100,
+        axis=1,
+    )
+)
+
+coords = {
+    "core": sidewall_cores_model_data["core_id"],
+    "reservoir": core_reservoir_names,
+}
+
+with pm.Model(coords=coords) as sidewall_core_model:
+    global_intercept = pm.Normal(
+        "global_intercept",
+        mu=logit(0.18),
+        sigma=1.0,
+    )
+    reservoir_intercept_sigma = pm.HalfNormal(
+        "reservoir_intercept_sigma",
+        sigma=0.75,
+    )
+    reservoir_intercept_offset = pm.Normal(
+        "reservoir_intercept_offset",
+        mu=0,
+        sigma=1,
+        dims="reservoir",
+    )
+    reservoir_intercept = pm.Deterministic(
+        "reservoir_intercept",
+        global_intercept + reservoir_intercept_offset * reservoir_intercept_sigma,
+        dims="reservoir",
+    )
+
+    depth_slope = pm.Normal("depth_slope", mu=0.0, sigma=0.5)
+    core_scatter = pm.HalfNormal("core_scatter", sigma=0.5)
+
+    expected_logit_porosity = pm.Deterministic(
+        "expected_logit_porosity",
+        reservoir_intercept[core_reservoir_codes]
+        + depth_slope * sidewall_cores_model_data["depth_centered_100m"].to_numpy(),
+        dims="core",
+    )
+
+    true_logit_porosity = pm.Normal(
+        "true_logit_porosity",
+        mu=expected_logit_porosity,
+        sigma=core_scatter,
+        dims="core",
+    )
+    true_core_porosity = pm.Deterministic(
+        "true_core_porosity",
+        pm.math.sigmoid(true_logit_porosity),
+        dims="core",
+    )
+
+    pm.Normal(
+        "porosity_obs",
+        mu=true_core_porosity,
+        sigma=sidewall_cores_model_data["porosity_stdev"].to_numpy(),
+        observed=sidewall_cores_model_data["porosity"].to_numpy(),
+        dims="core",
+    )
+
+    sidewall_core_trace = pm.sample(
+        draws=2_000,
+        tune=1_000,
+        chains=4,
+        target_accept=0.9,
+        random_seed=42,
+    )
+```
+
+```{python}
+pm.model_to_graphviz(sidewall_core_model)
+```
+
+We can then visualize the fitted reservoir trends alongside the inferred true porosity
+for each individual sidewall core:
+
+```{python}
+trend_rows = []
+core_summary_rows = []
+plot_depth_domain = [-1950, -1350]
+
+posterior = sidewall_core_trace.posterior
+slope_samples = posterior["depth_slope"].values.ravel()
+
+for reservoir in core_reservoir_names:
+    depth_grid = np.linspace(plot_depth_domain[0], plot_depth_domain[1], 120)
+    depth_centered_100m = (depth_grid - reservoir_depth_ref_mss[reservoir]) / 100
+
+    intercept_samples = (
+        posterior["reservoir_intercept"]
+        .sel(reservoir=reservoir)
+        .values
+        .ravel()
+    )
+    trend_porosity = inv_logit(
+        intercept_samples[:, None] + slope_samples[:, None] * depth_centered_100m[None, :]
+    )
+    trend_low, trend_high = np.quantile(trend_porosity, [0.05, 0.95], axis=0)
+    trend_mean = trend_porosity.mean(axis=0)
+
+    trend_rows.extend(
+        {
+            "reservoir": reservoir,
+            "depth_mss": depth,
+            "porosity_low": low,
+            "porosity_mean": mean,
+            "porosity_high": high,
+        }
+        for depth, low, mean, high in zip(depth_grid, trend_low, trend_mean, trend_high)
+    )
+
+true_core_porosity_samples = posterior["true_core_porosity"]
+for core_idx, core in sidewall_cores_model_data.reset_index(drop=True).iterrows():
+    core_samples = true_core_porosity_samples.sel(core=core["core_id"]).values.ravel()
+    core_summary_rows.append(
+        {
+            "core_id": core["core_id"],
+            "well": core["well"],
+            "reservoir": core["reservoir"],
+            "depth_mss": core["depth_mss"],
+            "measured_porosity": core["porosity"],
+            "posterior_mean": core_samples.mean(),
+        }
+    )
+
+sidewall_trend_intervals = pd.DataFrame(trend_rows)
+sidewall_core_posterior = pd.DataFrame(core_summary_rows)
+
+depth_y = alt.Y(
+    "depth_mss:Q",
+    title="Depth, mSS",
+    scale=alt.Scale(domain=plot_depth_domain, zero=False),
+    axis=alt.Axis(grid=False),
+)
+
+trend_band = alt.Chart(sidewall_trend_intervals).mark_area(opacity=0.22).encode(
+    x=alt.X(
+        "porosity_low:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    x2="porosity_high:Q",
+    y=depth_y,
+    color=core_reservoir_color,
+)
+
+trend_mean = alt.Chart(sidewall_trend_intervals).mark_line(strokeWidth=2).encode(
+    x=alt.X(
+        "porosity_mean:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=depth_y,
+    color=core_reservoir_color,
+)
+
+core_shrinkage_lines = alt.Chart(sidewall_core_posterior).mark_rule(opacity=0.45).encode(
+    x="measured_porosity:Q",
+    x2="posterior_mean:Q",
+    y=depth_y,
+    color=core_reservoir_color,
+)
+
+measured_core_ticks = alt.Chart(sidewall_core_posterior).mark_tick(
+    thickness=1,
+    size=12,
+    opacity=0.75,
+).encode(
+    x=alt.X(
+        "measured_porosity:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=depth_y,
+    color=core_reservoir_color,
+    tooltip=[
+        alt.Tooltip("core_id:N", title="Core"),
+        alt.Tooltip("well:N", title="Well"),
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("depth_mss:Q", title="Depth, mSS", format=".1f"),
+        alt.Tooltip("measured_porosity:Q", title="Measured porosity", format=".1%"),
+        alt.Tooltip("posterior_mean:Q", title="Posterior mean porosity", format=".1%"),
+    ],
+)
+
+posterior_core_points = alt.Chart(sidewall_core_posterior).mark_circle(
+    size=45,
+    opacity=0.9,
+).encode(
+    x=alt.X(
+        "posterior_mean:Q",
+        title="Porosity",
+        axis=alt.Axis(format="%", grid=False),
+    ),
+    y=depth_y,
+    color=core_reservoir_color,
+    tooltip=[
+        alt.Tooltip("core_id:N", title="Core"),
+        alt.Tooltip("well:N", title="Well"),
+        alt.Tooltip("reservoir:N", title="Reservoir"),
+        alt.Tooltip("depth_mss:Q", title="Depth, mSS", format=".1f"),
+        alt.Tooltip("measured_porosity:Q", title="Measured porosity", format=".1%"),
+        alt.Tooltip("posterior_mean:Q", title="Posterior mean porosity", format=".1%"),
+    ],
+)
+
+(
+    trend_band
+    + trend_mean
+    + core_shrinkage_lines
+    + measured_core_ticks
+    + posterior_core_points
+).properties(width="container", height=420)
+```
+
+The vertical tick marks show the lab measurements, while the connecting lines and
+circular markers show how the model shrinks each noisy measurement toward the posterior
+mean true porosity implied by the reservoir-level depth trend.
+
+This automatic regularisation is a key benefit of Bayesian modelling. Noisy outliers
+with high sampling error all receive a posterior estimate that is informed by the linear
+depth model. The model isn't asked to do this explicitly, it is just inherent in its
+structure.
+
+The unintuitive thing about this---which also brings the message home once you
+internalize it---is that every parameter in the model is being sampled as one facet of a
+single probability distribution. Each sample's measurement error is a dimension of the
+distribution being explored by the MCMC algorithm. That means the system of uncertainty
+is all tied together by a single estimator, Bayes theorem, over the elaborate
+multidimensional distribution that our model specifies, which here includes hierarchical
+pooling, a logit-linear depth trend, and measurement error.
+
+This flexibility and expressivity, and the uncertainty quantification that comes along
+for the ride, is a big part of the reason why I am so passionate about Bayesian
+modelling.
+
+# Decisions
+
+All of these technical examples derive their value to a business through their ability
+to improve decision making. As much as I love diving into the rich detail of this kind
+of work (and doing it well certainly requires that) the _point_ is not the detail, it is
+the decisions downstream.
+
+Uncertainty as a first-class citizen in business decision making is a key area that I
+think Bayes can help with.
+
+All of these examples are connected to critical business decisions. Should we drill the
+prospect? Should we continue developing? How critical is contact uncertainty to our
+reserves bookings? How can we predict reservoir properties at depths we have not yet
+explored, and is there opportunity down there?
+
+All of these questions have _very uncertain_ answers, but answers nonetheless.
+Formalizing the questions as Bayesian models makes this uncertainty explicit, so that
+decision makers can grapple with it directly.
+
+Technical people often recommend against "confusing" decision makers with rich
+probabilistic outputs, but I completely reject this. A child can look at two overlapping
+distributions, presented visually, and tell you about them.[^1] The problem is in the
+quality of technical communication, not the lack of understanding in decision makers'
+heads.
+
+Bayes does away with flowcharts of different statistical tests and metrics in favor of a
+single, overpowered output: the posterior distribution. That distribution is about as
+intuitive an object as statistics can produce---it is just wrapped up in complex
+language and process, so that it appears scarier than it is---but it _is_ the
+uncertainty.
+
+And uncertainty is _the reality of the situation_. It is our responsibility to make that
+reality clear to the people who are relying on our work to navigate a complex and
+uncertain world.
+
+While subjective priors may warrant some skepticism, and need to be chosen carefully,
+the point is that _if we agree to the priors, and we model the data, the resulting
+posteriors are a logical consequence of our beliefs and the data_. This is very powerful
+if internalized fully. Vanilla Monte Carlo models can't make this claim, as they are not
+fit to data; they rely on subjective (or optimization-driven) probability estimates.
+
+Bayes instead says "get me started with your prior beliefs, and I'll tell you how to
+update those beliefs based on the data you feed me." That should be music to a domain
+expert's ears.
+
+# Closing thoughts
+
+Bayesian statistics is certainly not the tool to use in every circumstance, but for me,
+at least, it was the branch I climbed down from.
+
+These days, spending more time closer to the ground, I still look up at it as my
+favourite destination, and I visit often.
+
+All my subsequent obsessions, from scripting and software engineering to database design
+and data engineering, were really pursued in service of that Bayesian ideal of information
+flowing through to posterior beliefs, and then on to good decisions. Getting all your
+data in order is absolutely essential to make these systems sing, so it was natural for
+me to get so into data systems design during my career. Data systems are valuable for
+all sorts of reasons, but for me it all started with Bayes.
+
+Regardless of the overwhelming cultural emphasis on ML, and now LLM-based AI, Bayesian
+modelling will always be my favourite reason for having learned how to program, and the
+toolkit I turn to with the most enthusiasm when the problem calls for it.
+
+Thanks for reading.
+
+
+[^1]: I don't have kids yet. Citation probably needed.
