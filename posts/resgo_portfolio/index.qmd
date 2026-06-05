@@ -16,6 +16,7 @@ import altair as alt
 
 from ldstats import LogitNormal, LogNormal
 from resgo.model import (
+    DecisionRule,
     EconomicModel,
     FieldDevelopmentModel,
     FlatPriceModel,
@@ -23,13 +24,17 @@ from resgo.model import (
     FlatTaxModel,
     Oil,
     OilTypeCurve,
+    Portfolio,
     Prospect,
+    ProspectNode,
     Reservoir,
+    RiskDependency,
+    RiskDependencyProfile,
     RiskProfile,
     VolumetricModel,
     Zone,
 )
-from resgo.plotting import ProspectReporter
+from resgo.plotting import PortfolioReporter, ProspectReporter
 
 from src.plotting import theme
 
@@ -379,7 +384,7 @@ migration pathway exists at this location.
 ```{python}
 #| output: false
 
-buffet_area_km2 = (18.0, 25.0)
+buffet_area_km2 = (5.0, 15.0)
 
 buffet_reservoirs = [
     Reservoir(
@@ -591,7 +596,7 @@ Budget is a marginal single producer near field exploration opportunity.
 ```{python}
 #| output: false
 
-budget_area_km2 = (5.0, 9.0)
+budget_area_km2 = (1.0, 2.0)
 
 budget_reservoirs = [
     Reservoir(
@@ -702,25 +707,25 @@ harsh_risk_profiles = {
         p_reservoir=0.92,
         p_seal=0.95,
         p_closure=0.96,
-        p_charge=0.20,
+        p_charge=0.10,
     ),
     "Boulder": RiskProfile.from_probs(
         p_reservoir=0.88,
         p_seal=0.93,
         p_closure=0.97,
-        p_charge=0.20,
+        p_charge=0.10,
     ),
     "Canyon": RiskProfile.from_probs(
         p_reservoir=0.94,
         p_seal=0.90,
         p_closure=0.95,
-        p_charge=0.20,
+        p_charge=0.10,
     ),
     "Drift": RiskProfile.from_probs(
         p_reservoir=0.86,
         p_seal=0.92,
         p_closure=0.94,
-        p_charge=0.20,
+        p_charge=0.10,
     ),
 }
 ```
@@ -1262,7 +1267,8 @@ even harsher 0.2 for Bonanza and its children, making them all a bad bet. This i
 untested migration pathway in our basin.
 
 The opportunities don't necessarily hold up on their own merits. That is why strategic
-value is so important.
+value is so important. Strategic, full-cycle value of these prospects will be simulated
+on a portfolio basis.
 
 ## Portfolio model
 
@@ -1270,6 +1276,169 @@ The portfolio manages all these prospects, along with their parent-child relatio
 and information sharing for risk factors. For simplicity we will just model information
 sharing for P(charge), but a user could model relationships between reservoir risk
 factors as they see fit.
+
+```{python}
+#| output: false
+
+CHARGE_DEPENDENCY_BITS = 3.0
+DECISION_RULE = DecisionRule.mean_nominal_risked_npv(threshold=0.0)
+
+
+def charge_dependency_profile(bits: float = CHARGE_DEPENDENCY_BITS):
+    return RiskDependencyProfile(
+        dependencies=[
+            RiskDependency(
+                child_reservoir=reservoir_name,
+                child_risk_factor="p_charge",
+                parent_reservoir=reservoir_name,
+                parent_risk_factor="p_charge",
+                positive_evidence_bits=bits,
+                negative_evidence_bits=bits,
+            )
+            for reservoir_name in zones
+        ]
+    )
+
+
+buffet_node = ProspectNode(prospect=buffet, decision_rule=DECISION_RULE)
+bitesize_node = ProspectNode(prospect=bitesize, decision_rule=DECISION_RULE)
+budget_node = ProspectNode(prospect=budget, decision_rule=DECISION_RULE)
+boring_node = ProspectNode(prospect=boring, decision_rule=DECISION_RULE)
+bonanza_node = ProspectNode(prospect=bonanza, decision_rule=DECISION_RULE)
+banquet_node = ProspectNode(prospect=banquet, decision_rule=DECISION_RULE)
+bento_node = ProspectNode(prospect=bento, decision_rule=DECISION_RULE)
+baklava_node = ProspectNode(prospect=baklava, decision_rule=DECISION_RULE)
+
+buffet_node.add_child(bitesize_node, risk_dependency_profile=charge_dependency_profile())
+buffet_node.add_child(budget_node, risk_dependency_profile=charge_dependency_profile())
+buffet_node.add_child(boring_node, risk_dependency_profile=charge_dependency_profile())
+
+boring_node.add_child(bonanza_node, risk_dependency_profile=charge_dependency_profile())
+
+bonanza_node.add_child(banquet_node, risk_dependency_profile=charge_dependency_profile())
+bonanza_node.add_child(bento_node, risk_dependency_profile=charge_dependency_profile())
+bonanza_node.add_child(baklava_node, risk_dependency_profile=charge_dependency_profile())
+
+portfolio = Portfolio(
+    name="Basin B Portfolio",
+    root_nodes=[buffet_node],
+    economic_start_date=datetime(2026, 1, 1),
+    price_model=FlatPriceModel(oil_price_USD_stb=75.0, gas_price_USD_mmbtu=4.0),
+)
+
+portfolio_simpack = portfolio.simulate(
+    risked=True,
+    levered=False,
+    chains=CHAINS,
+    draws=DRAWS,
+    seed=SEED,
+)
+
+portfolio_reporter = PortfolioReporter(simpack=portfolio_simpack)
+```
+
+The Resgo Portfolio, as it turns out, is quite a complicated object to visualize. Every
+node in the tree is stochastic, and outcomes are being bifurcated via the information
+sharing between nodes. That creates a difficult to interpret cash flow plot:
+
+### Portfolio cash flow
+
+```{python}
+portfolio_reporter.plotter.cash_flow(
+    backend=PLOTTING_BACKEND,
+    figsize=(650, 300),
+)
+```
+
+### Portfolio mean case
+
+```{python}
+portfolio_reporter.plotter.mean_stacked_cash_flow(
+    backend=PLOTTING_BACKEND,
+    figsize=(650, 300),
+)
+```
+
+This might be (and I'm really not sure yet) the best way to visualize the portfolio
+value through time. I say I'm not sure because taking the mean across the whole
+simulated array by month is smoothing through a lot of complexity. I can't stack
+prospects while also visualizing uncertainty, so a mean timeline is a good compromise,
+even though the mean case is not actually a case, it never appears in the simulated
+array.
+
+I could use the P50 (median) case, but then the problem becomes what we actually mean by
+P50, at this level of analysis. I can't take the P50 array of each individual prospect,
+because outcomes are being bifurcated by information flowing from parent to child,
+making a median of limited interest, and that P50 outcome at each prospect never appears
+in the array as a case, either.
+
+Some brainstorming and refinement will be needed here, I think.
+
+It's pretty cool though.
+
+### Decision summary
+
+```{python}
+portfolio_reporter.tabler.decision().reset_index()[["node", "status"]]
+```
+
+You'll notice that the decision assigned to Boring in the table above is `strategic`.
+That is because Boring was not drillable on its own merits, it had negative EMV.
+Considering its downstream opportunity creation, however, made it a clear decision to
+drill.
+
+The other prospect that looked questionable on a first pass, Budget, was rejected in the
+portfolio. If Budget opened up downstream opportunity, it would likely be set to
+`strategic` as well.
+
+### Portfolio risked NPV
+
+#### Total
+
+```{python}
+portfolio_reporter.tabler.risked_npv()
+```
+
+#### By prospect
+
+```{python}
+portfolio_reporter.tabler.risked_npv(group_by="prospect")
+```
+
+**NOTE:** These are standalone NPV figures. We should show full-cycle NPV as well to
+show the contrast.
+
+## Overall impression
+
+The first thing that jumps out is that the commercial outcomes at the portfolio
+aggregated level are extremely uncertain. This makes sense, if you think about it. We
+don't even know if this corridor is charged. That means we have anything between zero
+opportunity here, and potentially 8 decently sized prospects. That is going to be a very
+wide range.
+
+To illustrate this uncertainty a bit more:
+
+If Buffet fails, the entire portfolio is ruled out. Too risky on charge. 
+
+If Buffet succeeds, that boosts the P(Charge) of its children Bitesize, Budget, and
+Boring. That doesn't mean they all succeed (other risk factors are at play) but they
+become much more likely to.
+
+If Boring is charged, that information flows to Bonanza and its children. These
+prospects were written off as extremely high risk before drilling with P(Charge) of 0.2.
+The success upstream at Budget, even though Budget on its own is sub-economic, opens up
+the Bonanza play. That has huge strategic value, as Bonanza is the biggest prospect in
+the portfolio on an unrisked basis.
+
+Because of the dependencies between prospects in the portfolio, standalone economic
+metrics aren't really enough to communicate value. Most of the value in Buffet is not
+standalone, it is in the downstream information it provides to child prospects,
+connected via the P(Charge) dependency. 
+
+Similarly, Boring would never get drilled on its own merits, it provides value via its
+downstream consequences. These complicated arguments are _very_ difficult to make in
+normal circumstances, especially under uncertainty. This is my best attempt at making
+the whole simulated system explicit.
 
 [^not-sorry]: not sorry
 
