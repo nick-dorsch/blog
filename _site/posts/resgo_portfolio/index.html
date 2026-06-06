@@ -151,7 +151,7 @@ window.Quarto = {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Resgo: Portfolio Simulation</h1>
-            <p class="subtitle lead">End to end strategic value quantification</p>
+            <p class="subtitle lead">End-to-end strategic value quantification</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">LDI</div>
                 <div class="quarto-category">geology</div>
@@ -224,7 +224,10 @@ window.Quarto = {
   <li><a href="#portfolio-optimization" id="toc-portfolio-optimization" class="nav-link" data-scroll-target="#portfolio-optimization">Portfolio optimization</a></li>
   <li><a href="#where-is-the-d-tree" id="toc-where-is-the-d-tree" class="nav-link" data-scroll-target="#where-is-the-d-tree">Where is the D-Tree?</a></li>
   </ul></li>
-  <li><a href="#closing-thoughts" id="toc-closing-thoughts" class="nav-link" data-scroll-target="#closing-thoughts">Closing thoughts</a></li>
+  <li><a href="#closing-thoughts" id="toc-closing-thoughts" class="nav-link" data-scroll-target="#closing-thoughts">Closing thoughts</a>
+  <ul class="collapse">
+  <li><a href="#value-proposition" id="toc-value-proposition" class="nav-link" data-scroll-target="#value-proposition">Value Proposition</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -242,16 +245,16 @@ window.Quarto = {
 <ol type="1">
 <li>Allow grouping Prospects into Portfolios, with lossless representation</li>
 <li>Represent parent-child relationships between Prospects to allow for dependency propagation</li>
-<li>Dependency propagation should allows information to flow between prospects and their children, so that drilling outcomes follow logical chains during simulation</li>
+<li>Dependency propagation should allow information to flow between prospects and their children, so that drilling outcomes follow logical chains during simulation</li>
 <li>Use those logical chains to derive stand-alone and full-cycle metrics for decision gating</li>
 <li>Report accepted, strategic (full cycle economics says drill) and rejected prospect decisions at the portfolio level</li>
 <li>Make results interpretable with well designed visualizations</li>
 </ol>
 <section id="structure-and-constraints" class="level2">
 <h2 class="anchored" data-anchor-id="structure-and-constraints">Structure and constraints</h2>
-<p>The most convenient representation of a Portfolio with these constraints in mind is a tree. Prospects can have children: opportunities who’s risks are affected by outcomes in their parent. That creates some limitations (sibling Prospects can’t have dependencies) but I think the simplicity of tree depth traversal, and limiting onerous dependency configuration, will make that trade-off worthwhile.</p>
-<p>For lossless Prospect representation in Resgo, dependency must be represented at the reservoir and risk factor level. This is a complication that I believe will pay dividends in granular configuration and interpretability of portfolio simulations, matching the mental models in subsurface teams’ heads when defining dependencies between opportunitities.</p>
-<p>It will mean, for example, that reservoirs in the Propects tree can share strong P(Charge) dependency. If the parent fails on charge, that heavily impacts the P(Charge) of children. This is well suited for modelling play-openers on untested migration pathways, for example. Similarly these dependencies can be captured for reservoir presence for testing sand fairways, and seal/trap for things like demonstrating fault seal.</p>
+<p>The most convenient representation of a Portfolio with these constraints in mind is a tree. Prospects can have children: opportunities whose risks are affected by outcomes in their parent. That creates some limitations (sibling Prospects can’t have dependencies) but I think the simplicity of tree depth traversal, and limiting onerous dependency configuration, will make that trade-off worthwhile.</p>
+<p>For lossless Prospect representation in Resgo, dependency must be represented at the reservoir and risk factor level. This is a complication that I believe will pay dividends in granular configuration and interpretability of portfolio simulations, matching the mental models in subsurface teams’ heads when defining dependencies between opportunities.</p>
+<p>It will mean, for example, that reservoirs in the Prospects tree can share strong P(Charge) dependency. If the parent fails on charge, that heavily impacts the P(Charge) of children. This is well suited for modelling play-openers on untested migration pathways, for example. Similarly these dependencies can be captured for reservoir presence for testing sand fairways, and seal/trap for things like demonstrating fault seal.</p>
 </section>
 <section id="dependency-mechanics" class="level2">
 <h2 class="anchored" data-anchor-id="dependency-mechanics">Dependency mechanics</h2>
@@ -333,7 +336,7 @@ O_{\mathrm{post}} = O_{\mathrm{prior}} \times \text{LH}
 <p><em>“Fair enough, that’s probably worth 1 bit. -3 bits total then.”</em></p>
 </blockquote>
 <p>Now, regardless of P(Charge) at Buffet, the information it provides to Bonanza is explicitly communicated.</p>
-<p>If, for example, P(Charge) is 0.5 across prospects and Buffet fails on charge, that means Bonanza gets a P(Charge) of 0.11 (killing it). If Buffet <em>is</em> charged though, that increase P(Charge) at Bonanza to 0.89!</p>
+<p>If, for example, P(Charge) is 0.5 across prospects and Buffet fails on charge, that means Bonanza gets a P(Charge) of 0.11 (killing it). If Buffet <em>is</em> charged though, that increases P(Charge) at Bonanza to 0.89!</p>
 <p>See? We can all become Bayesians with some language tricks.</p>
 <p>There is a technical wrinkle that positive and negative updates are not necessarily symmetric (relevant example <a href="https://nick-dorsch.github.io/blog/posts/confusion/">here</a>), so the code should make that explicit, but default to symmetric updates.</p>
 </section>
@@ -353,7 +356,7 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="simulation-process" class="level2">
 <h2 class="anchored" data-anchor-id="simulation-process">Simulation process</h2>
-<p>Resgo allows us to very ergonomically simulate the entire portfolio tree in a forward pass, adjusting risk factors on success/failure case of parent nodes, then run the decision gating logic on the results to determine which prospects get drilled and which get rejected. We can then aggregate the portfolio level NPV to assess its overall economic value and uncertainty.</p>
+<p>Resgo allows us to very ergonomically simulate the entire portfolio tree in a forward pass, adjusting risk factors based on success/failure outcomes in parent nodes, then run the decision gating logic on the results to determine which prospects get drilled and which get rejected. We can then aggregate the portfolio level NPV to assess its overall economic value and uncertainty.</p>
 </section>
 <section id="additional-wrinkles" class="level2">
 <h2 class="anchored" data-anchor-id="additional-wrinkles">Additional wrinkles</h2>
@@ -439,27 +442,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Buffet is a risky but high upside prospect that is the overall play opener for the portfolio. The biggest concern the team has is with charge, as they are not convinced a migration pathway exists at this location. The trap size is also a big uncertainty, leading to wide uncertainty in outcomes.</p>
 <section id="volumetrics" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics">Volumetrics</h4>
-<div id="53e03fdc" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display" data-execution_count="128">
+<div id="4eedefb7" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="67">
 
 <style>
-  #altair-viz-e28f3e4a47614b8a987e104a36aa6edc.vega-embed {
+  #altair-viz-8fbf47f306234b02aba9f2fd68e81b94.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-e28f3e4a47614b8a987e104a36aa6edc.vega-embed details,
-  #altair-viz-e28f3e4a47614b8a987e104a36aa6edc.vega-embed details summary {
+  #altair-viz-8fbf47f306234b02aba9f2fd68e81b94.vega-embed details,
+  #altair-viz-8fbf47f306234b02aba9f2fd68e81b94.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-e28f3e4a47614b8a987e104a36aa6edc"></div>
+<div id="altair-viz-8fbf47f306234b02aba9f2fd68e81b94"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-e28f3e4a47614b8a987e104a36aa6edc") {
-      outputDiv = document.getElementById("altair-viz-e28f3e4a47614b8a987e104a36aa6edc");
+    if (outputDiv.id !== "altair-viz-8fbf47f306234b02aba9f2fd68e81b94") {
+      outputDiv = document.getElementById("altair-viz-8fbf47f306234b02aba9f2fd68e81b94");
     }
 
     const paths = {
@@ -513,8 +516,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total" class="level5">
 <h5 class="anchored" data-anchor-id="total">Total</h5>
-<div id="2e4e139a" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display" data-execution_count="129">
+<div id="3f8daf86" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="68">
 <div>
 
 
@@ -576,8 +579,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir">By Reservoir</h5>
-<div id="0069781b" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display" data-execution_count="130">
+<div id="04480054" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="69">
 <div>
 
 
@@ -699,27 +702,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics" class="level4">
 <h4 class="anchored" data-anchor-id="economics">Economics</h4>
-<div id="4de640f8" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="131">
+<div id="98328526" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="70">
 
 <style>
-  #altair-viz-0bcd5597cde64d709f69b14ff13ac4ff.vega-embed {
+  #altair-viz-4d7b94f976f041c4ae24161538751083.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-0bcd5597cde64d709f69b14ff13ac4ff.vega-embed details,
-  #altair-viz-0bcd5597cde64d709f69b14ff13ac4ff.vega-embed details summary {
+  #altair-viz-4d7b94f976f041c4ae24161538751083.vega-embed details,
+  #altair-viz-4d7b94f976f041c4ae24161538751083.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-0bcd5597cde64d709f69b14ff13ac4ff"></div>
+<div id="altair-viz-4d7b94f976f041c4ae24161538751083"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-0bcd5597cde64d709f69b14ff13ac4ff") {
-      outputDiv = document.getElementById("altair-viz-0bcd5597cde64d709f69b14ff13ac4ff");
+    if (outputDiv.id !== "altair-viz-4d7b94f976f041c4ae24161538751083") {
+      outputDiv = document.getElementById("altair-viz-4d7b94f976f041c4ae24161538751083");
     }
 
     const paths = {
@@ -771,8 +774,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="b3ffab80" class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display" data-execution_count="132">
+<div id="29ea8c68" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="71">
 <div>
 
 
@@ -793,12 +796,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.24</td>
-<td>-93.0</td>
-<td>-1027.0</td>
-<td>-813.0</td>
-<td>-40.0</td>
-<td>537.0</td>
-<td>1895.0</td>
+<td>-93</td>
+<td>-1027</td>
+<td>-813</td>
+<td>-40</td>
+<td>537</td>
+<td>1895</td>
 </tr>
 </tbody>
 </table>
@@ -813,27 +816,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Cove is a small, low risk, single producer near field exploration opportunity that success at Buffet opens up.</p>
 <section id="volumetrics-1" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-1">Volumetrics</h4>
-<div id="608fd53d" class="cell" data-execution_count="12">
-<div class="cell-output cell-output-display" data-execution_count="134">
+<div id="893e6ce3" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="73">
 
 <style>
-  #altair-viz-bf508b957dee4026bf5e3c866ff8b7b4.vega-embed {
+  #altair-viz-51ce6d4e00754a02946d12253d500874.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-bf508b957dee4026bf5e3c866ff8b7b4.vega-embed details,
-  #altair-viz-bf508b957dee4026bf5e3c866ff8b7b4.vega-embed details summary {
+  #altair-viz-51ce6d4e00754a02946d12253d500874.vega-embed details,
+  #altair-viz-51ce6d4e00754a02946d12253d500874.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-bf508b957dee4026bf5e3c866ff8b7b4"></div>
+<div id="altair-viz-51ce6d4e00754a02946d12253d500874"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-bf508b957dee4026bf5e3c866ff8b7b4") {
-      outputDiv = document.getElementById("altair-viz-bf508b957dee4026bf5e3c866ff8b7b4");
+    if (outputDiv.id !== "altair-viz-51ce6d4e00754a02946d12253d500874") {
+      outputDiv = document.getElementById("altair-viz-51ce6d4e00754a02946d12253d500874");
     }
 
     const paths = {
@@ -887,8 +890,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-1" class="level5">
 <h5 class="anchored" data-anchor-id="total-1">Total</h5>
-<div id="085fcd28" class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display" data-execution_count="135">
+<div id="20c7d59a" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="74">
 <div>
 
 
@@ -950,8 +953,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-1" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-1">By Reservoir</h5>
-<div id="9cce2f42" class="cell" data-execution_count="14">
-<div class="cell-output cell-output-display" data-execution_count="136">
+<div id="5a496fb1" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="75">
 <div>
 
 
@@ -1073,27 +1076,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-1" class="level4">
 <h4 class="anchored" data-anchor-id="economics-1">Economics</h4>
-<div id="a7974398" class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display" data-execution_count="137">
+<div id="b44a0708" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="76">
 
 <style>
-  #altair-viz-9925c2d5a4834376b1ae13f8d7eb69ea.vega-embed {
+  #altair-viz-fa476ed2ba2d4699afe2c811cbabd79a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-9925c2d5a4834376b1ae13f8d7eb69ea.vega-embed details,
-  #altair-viz-9925c2d5a4834376b1ae13f8d7eb69ea.vega-embed details summary {
+  #altair-viz-fa476ed2ba2d4699afe2c811cbabd79a.vega-embed details,
+  #altair-viz-fa476ed2ba2d4699afe2c811cbabd79a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-9925c2d5a4834376b1ae13f8d7eb69ea"></div>
+<div id="altair-viz-fa476ed2ba2d4699afe2c811cbabd79a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-9925c2d5a4834376b1ae13f8d7eb69ea") {
-      outputDiv = document.getElementById("altair-viz-9925c2d5a4834376b1ae13f8d7eb69ea");
+    if (outputDiv.id !== "altair-viz-fa476ed2ba2d4699afe2c811cbabd79a") {
+      outputDiv = document.getElementById("altair-viz-fa476ed2ba2d4699afe2c811cbabd79a");
     }
 
     const paths = {
@@ -1145,8 +1148,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="e28bfe74" class="cell" data-execution_count="16">
-<div class="cell-output cell-output-display" data-execution_count="138">
+<div id="8eb50466" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="77">
 <div>
 
 
@@ -1167,12 +1170,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.62</td>
-<td>208.0</td>
-<td>-23.0</td>
-<td>-20.0</td>
-<td>163.0</td>
-<td>554.0</td>
-<td>755.0</td>
+<td>208</td>
+<td>-23</td>
+<td>-20</td>
+<td>163</td>
+<td>554</td>
+<td>755</td>
 </tr>
 </tbody>
 </table>
@@ -1187,27 +1190,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Ledge is a marginal single producer near field exploration opportunity.</p>
 <section id="volumetrics-2" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-2">Volumetrics</h4>
-<div id="41e64ad1" class="cell" data-execution_count="18">
-<div class="cell-output cell-output-display" data-execution_count="140">
+<div id="024258e3" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="79">
 
 <style>
-  #altair-viz-82887830fff04b81829fcc937255061b.vega-embed {
+  #altair-viz-de550ca7755b485ebcbb1c2553751cea.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-82887830fff04b81829fcc937255061b.vega-embed details,
-  #altair-viz-82887830fff04b81829fcc937255061b.vega-embed details summary {
+  #altair-viz-de550ca7755b485ebcbb1c2553751cea.vega-embed details,
+  #altair-viz-de550ca7755b485ebcbb1c2553751cea.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-82887830fff04b81829fcc937255061b"></div>
+<div id="altair-viz-de550ca7755b485ebcbb1c2553751cea"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-82887830fff04b81829fcc937255061b") {
-      outputDiv = document.getElementById("altair-viz-82887830fff04b81829fcc937255061b");
+    if (outputDiv.id !== "altair-viz-de550ca7755b485ebcbb1c2553751cea") {
+      outputDiv = document.getElementById("altair-viz-de550ca7755b485ebcbb1c2553751cea");
     }
 
     const paths = {
@@ -1261,8 +1264,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-2" class="level5">
 <h5 class="anchored" data-anchor-id="total-2">Total</h5>
-<div id="abb2feb9" class="cell" data-execution_count="19">
-<div class="cell-output cell-output-display" data-execution_count="141">
+<div id="6ddb7926" class="cell" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="80">
 <div>
 
 
@@ -1324,8 +1327,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-2" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-2">By Reservoir</h5>
-<div id="8fb3568e" class="cell" data-execution_count="20">
-<div class="cell-output cell-output-display" data-execution_count="142">
+<div id="aca33c2a" class="cell" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="81">
 <div>
 
 
@@ -1447,27 +1450,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-2" class="level4">
 <h4 class="anchored" data-anchor-id="economics-2">Economics</h4>
-<div id="0382369e" class="cell" data-execution_count="21">
-<div class="cell-output cell-output-display" data-execution_count="143">
+<div id="8ff607d6" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="82">
 
 <style>
-  #altair-viz-a1cf0c2ae06e42dc9d6ddc6d6d63876f.vega-embed {
+  #altair-viz-8347bf74fb7f40cfbb6b747ddc242fa0.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-a1cf0c2ae06e42dc9d6ddc6d6d63876f.vega-embed details,
-  #altair-viz-a1cf0c2ae06e42dc9d6ddc6d6d63876f.vega-embed details summary {
+  #altair-viz-8347bf74fb7f40cfbb6b747ddc242fa0.vega-embed details,
+  #altair-viz-8347bf74fb7f40cfbb6b747ddc242fa0.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-a1cf0c2ae06e42dc9d6ddc6d6d63876f"></div>
+<div id="altair-viz-8347bf74fb7f40cfbb6b747ddc242fa0"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-a1cf0c2ae06e42dc9d6ddc6d6d63876f") {
-      outputDiv = document.getElementById("altair-viz-a1cf0c2ae06e42dc9d6ddc6d6d63876f");
+    if (outputDiv.id !== "altair-viz-8347bf74fb7f40cfbb6b747ddc242fa0") {
+      outputDiv = document.getElementById("altair-viz-8347bf74fb7f40cfbb6b747ddc242fa0");
     }
 
     const paths = {
@@ -1519,8 +1522,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="8a345ee5" class="cell" data-execution_count="22">
-<div class="cell-output cell-output-display" data-execution_count="144">
+<div id="b629a99c" class="cell" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="83">
 <div>
 
 
@@ -1541,12 +1544,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.31</td>
-<td>-11.0</td>
-<td>-195.0</td>
-<td>-120.0</td>
-<td>-25.0</td>
-<td>119.0</td>
-<td>243.0</td>
+<td>-11</td>
+<td>-195</td>
+<td>-120</td>
+<td>-25</td>
+<td>119</td>
+<td>243</td>
 </tr>
 </tbody>
 </table>
@@ -1561,27 +1564,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Bridge is a high risk and low reward prospect, with a single producer.</p>
 <section id="volumetrics-3" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-3">Volumetrics</h4>
-<div id="0c17b661" class="cell" data-execution_count="25">
-<div class="cell-output cell-output-display" data-execution_count="147">
+<div id="a10c2f43" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="86">
 
 <style>
-  #altair-viz-ca1ca0696e8746a5b8700c05ef6703fb.vega-embed {
+  #altair-viz-e8a43f4faaba4b74b2188067c42b3371.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-ca1ca0696e8746a5b8700c05ef6703fb.vega-embed details,
-  #altair-viz-ca1ca0696e8746a5b8700c05ef6703fb.vega-embed details summary {
+  #altair-viz-e8a43f4faaba4b74b2188067c42b3371.vega-embed details,
+  #altair-viz-e8a43f4faaba4b74b2188067c42b3371.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-ca1ca0696e8746a5b8700c05ef6703fb"></div>
+<div id="altair-viz-e8a43f4faaba4b74b2188067c42b3371"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-ca1ca0696e8746a5b8700c05ef6703fb") {
-      outputDiv = document.getElementById("altair-viz-ca1ca0696e8746a5b8700c05ef6703fb");
+    if (outputDiv.id !== "altair-viz-e8a43f4faaba4b74b2188067c42b3371") {
+      outputDiv = document.getElementById("altair-viz-e8a43f4faaba4b74b2188067c42b3371");
     }
 
     const paths = {
@@ -1635,8 +1638,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-3" class="level5">
 <h5 class="anchored" data-anchor-id="total-3">Total</h5>
-<div id="e6c9e54a" class="cell" data-execution_count="26">
-<div class="cell-output cell-output-display" data-execution_count="148">
+<div id="76f65c93" class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="87">
 <div>
 
 
@@ -1698,8 +1701,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-3" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-3">By Reservoir</h5>
-<div id="79c746fa" class="cell" data-execution_count="27">
-<div class="cell-output cell-output-display" data-execution_count="149">
+<div id="0a32d784" class="cell" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="88">
 <div>
 
 
@@ -1821,27 +1824,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-3" class="level4">
 <h4 class="anchored" data-anchor-id="economics-3">Economics</h4>
-<div id="0cefabce" class="cell" data-execution_count="28">
-<div class="cell-output cell-output-display" data-execution_count="150">
+<div id="c287ec67" class="cell" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="89">
 
 <style>
-  #altair-viz-568f80bab3244f3f8cbeeebf9b68b2f6.vega-embed {
+  #altair-viz-54b2523fe2324285a4cc57c848ef4c3d.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-568f80bab3244f3f8cbeeebf9b68b2f6.vega-embed details,
-  #altair-viz-568f80bab3244f3f8cbeeebf9b68b2f6.vega-embed details summary {
+  #altair-viz-54b2523fe2324285a4cc57c848ef4c3d.vega-embed details,
+  #altair-viz-54b2523fe2324285a4cc57c848ef4c3d.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-568f80bab3244f3f8cbeeebf9b68b2f6"></div>
+<div id="altair-viz-54b2523fe2324285a4cc57c848ef4c3d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-568f80bab3244f3f8cbeeebf9b68b2f6") {
-      outputDiv = document.getElementById("altair-viz-568f80bab3244f3f8cbeeebf9b68b2f6");
+    if (outputDiv.id !== "altair-viz-54b2523fe2324285a4cc57c848ef4c3d") {
+      outputDiv = document.getElementById("altair-viz-54b2523fe2324285a4cc57c848ef4c3d");
     }
 
     const paths = {
@@ -1893,8 +1896,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="f1a1fa66" class="cell" data-execution_count="29">
-<div class="cell-output cell-output-display" data-execution_count="151">
+<div id="f48c3033" class="cell" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="90">
 <div>
 
 
@@ -1915,12 +1918,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.08</td>
-<td>-37.0</td>
-<td>-216.0</td>
-<td>-91.0</td>
-<td>-35.0</td>
-<td>-35.0</td>
-<td>211.0</td>
+<td>-37</td>
+<td>-216</td>
+<td>-91</td>
+<td>-35</td>
+<td>-35</td>
+<td>211</td>
 </tr>
 </tbody>
 </table>
@@ -1935,27 +1938,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Bonanza has the largest upside opportunity in the portfolio, but is currently written off as extremely high risk.</p>
 <section id="volumetrics-4" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-4">Volumetrics</h4>
-<div id="35657e95" class="cell" data-execution_count="31">
-<div class="cell-output cell-output-display" data-execution_count="153">
+<div id="4ccbb171" class="cell" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="92">
 
 <style>
-  #altair-viz-0769acfcb63143a9963b4f3461699ad6.vega-embed {
+  #altair-viz-07487eb1c9dc41b9acfffc83ddd8bf0a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-0769acfcb63143a9963b4f3461699ad6.vega-embed details,
-  #altair-viz-0769acfcb63143a9963b4f3461699ad6.vega-embed details summary {
+  #altair-viz-07487eb1c9dc41b9acfffc83ddd8bf0a.vega-embed details,
+  #altair-viz-07487eb1c9dc41b9acfffc83ddd8bf0a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-0769acfcb63143a9963b4f3461699ad6"></div>
+<div id="altair-viz-07487eb1c9dc41b9acfffc83ddd8bf0a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-0769acfcb63143a9963b4f3461699ad6") {
-      outputDiv = document.getElementById("altair-viz-0769acfcb63143a9963b4f3461699ad6");
+    if (outputDiv.id !== "altair-viz-07487eb1c9dc41b9acfffc83ddd8bf0a") {
+      outputDiv = document.getElementById("altair-viz-07487eb1c9dc41b9acfffc83ddd8bf0a");
     }
 
     const paths = {
@@ -2009,8 +2012,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-4" class="level5">
 <h5 class="anchored" data-anchor-id="total-4">Total</h5>
-<div id="55c9ba70" class="cell" data-execution_count="32">
-<div class="cell-output cell-output-display" data-execution_count="154">
+<div id="47b84bba" class="cell" data-execution_count="32">
+<div class="cell-output cell-output-display" data-execution_count="93">
 <div>
 
 
@@ -2072,8 +2075,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-4" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-4">By Reservoir</h5>
-<div id="9339a361" class="cell" data-execution_count="33">
-<div class="cell-output cell-output-display" data-execution_count="155">
+<div id="2e3cfb51" class="cell" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="94">
 <div>
 
 
@@ -2195,27 +2198,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-4" class="level4">
 <h4 class="anchored" data-anchor-id="economics-4">Economics</h4>
-<div id="62605196" class="cell" data-execution_count="34">
-<div class="cell-output cell-output-display" data-execution_count="156">
+<div id="62002959" class="cell" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="95">
 
 <style>
-  #altair-viz-a5e372200ab64b738f84d457c52b75ab.vega-embed {
+  #altair-viz-c958b01986a443bb983eb44939ecfd67.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-a5e372200ab64b738f84d457c52b75ab.vega-embed details,
-  #altair-viz-a5e372200ab64b738f84d457c52b75ab.vega-embed details summary {
+  #altair-viz-c958b01986a443bb983eb44939ecfd67.vega-embed details,
+  #altair-viz-c958b01986a443bb983eb44939ecfd67.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-a5e372200ab64b738f84d457c52b75ab"></div>
+<div id="altair-viz-c958b01986a443bb983eb44939ecfd67"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-a5e372200ab64b738f84d457c52b75ab") {
-      outputDiv = document.getElementById("altair-viz-a5e372200ab64b738f84d457c52b75ab");
+    if (outputDiv.id !== "altair-viz-c958b01986a443bb983eb44939ecfd67") {
+      outputDiv = document.getElementById("altair-viz-c958b01986a443bb983eb44939ecfd67");
     }
 
     const paths = {
@@ -2267,8 +2270,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="12efe577" class="cell" data-execution_count="35">
-<div class="cell-output cell-output-display" data-execution_count="157">
+<div id="03923d23" class="cell" data-execution_count="35">
+<div class="cell-output cell-output-display" data-execution_count="96">
 <div>
 
 
@@ -2289,12 +2292,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.23</td>
-<td>556.0</td>
-<td>-60.0</td>
-<td>-60.0</td>
-<td>-60.0</td>
-<td>2439.0</td>
-<td>6672.0</td>
+<td>556</td>
+<td>-60</td>
+<td>-60</td>
+<td>-60</td>
+<td>2439</td>
+<td>6672</td>
 </tr>
 </tbody>
 </table>
@@ -2309,27 +2312,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Crest is a mid-sized three producer follow-up opportunity opened by success at Bonanza.</p>
 <section id="volumetrics-5" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-5">Volumetrics</h4>
-<div id="14d0b874" class="cell" data-execution_count="37">
-<div class="cell-output cell-output-display" data-execution_count="159">
+<div id="2180447b" class="cell" data-execution_count="37">
+<div class="cell-output cell-output-display" data-execution_count="98">
 
 <style>
-  #altair-viz-4bb8d7ddf188436a9761c0eef6726857.vega-embed {
+  #altair-viz-e0f7ba4a7e27473f806f65c1c8f1f62a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-4bb8d7ddf188436a9761c0eef6726857.vega-embed details,
-  #altair-viz-4bb8d7ddf188436a9761c0eef6726857.vega-embed details summary {
+  #altair-viz-e0f7ba4a7e27473f806f65c1c8f1f62a.vega-embed details,
+  #altair-viz-e0f7ba4a7e27473f806f65c1c8f1f62a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-4bb8d7ddf188436a9761c0eef6726857"></div>
+<div id="altair-viz-e0f7ba4a7e27473f806f65c1c8f1f62a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-4bb8d7ddf188436a9761c0eef6726857") {
-      outputDiv = document.getElementById("altair-viz-4bb8d7ddf188436a9761c0eef6726857");
+    if (outputDiv.id !== "altair-viz-e0f7ba4a7e27473f806f65c1c8f1f62a") {
+      outputDiv = document.getElementById("altair-viz-e0f7ba4a7e27473f806f65c1c8f1f62a");
     }
 
     const paths = {
@@ -2383,8 +2386,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-5" class="level5">
 <h5 class="anchored" data-anchor-id="total-5">Total</h5>
-<div id="9d96e940" class="cell" data-execution_count="38">
-<div class="cell-output cell-output-display" data-execution_count="160">
+<div id="28da2c49" class="cell" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="99">
 <div>
 
 
@@ -2446,8 +2449,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-5" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-5">By Reservoir</h5>
-<div id="58dc4287" class="cell" data-execution_count="39">
-<div class="cell-output cell-output-display" data-execution_count="161">
+<div id="7120225f" class="cell" data-execution_count="39">
+<div class="cell-output cell-output-display" data-execution_count="100">
 <div>
 
 
@@ -2569,27 +2572,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-5" class="level4">
 <h4 class="anchored" data-anchor-id="economics-5">Economics</h4>
-<div id="b402be3f" class="cell" data-execution_count="40">
-<div class="cell-output cell-output-display" data-execution_count="162">
+<div id="cdc901de" class="cell" data-execution_count="40">
+<div class="cell-output cell-output-display" data-execution_count="101">
 
 <style>
-  #altair-viz-1ac9c55eb2994162a049d14db659c828.vega-embed {
+  #altair-viz-2c1d944433a54015bfee904664ccc327.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-1ac9c55eb2994162a049d14db659c828.vega-embed details,
-  #altair-viz-1ac9c55eb2994162a049d14db659c828.vega-embed details summary {
+  #altair-viz-2c1d944433a54015bfee904664ccc327.vega-embed details,
+  #altair-viz-2c1d944433a54015bfee904664ccc327.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-1ac9c55eb2994162a049d14db659c828"></div>
+<div id="altair-viz-2c1d944433a54015bfee904664ccc327"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-1ac9c55eb2994162a049d14db659c828") {
-      outputDiv = document.getElementById("altair-viz-1ac9c55eb2994162a049d14db659c828");
+    if (outputDiv.id !== "altair-viz-2c1d944433a54015bfee904664ccc327") {
+      outputDiv = document.getElementById("altair-viz-2c1d944433a54015bfee904664ccc327");
     }
 
     const paths = {
@@ -2641,8 +2644,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="1cfed9d2" class="cell" data-execution_count="41">
-<div class="cell-output cell-output-display" data-execution_count="163">
+<div id="b5b772b8" class="cell" data-execution_count="41">
+<div class="cell-output cell-output-display" data-execution_count="102">
 <div>
 
 
@@ -2663,12 +2666,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.22</td>
-<td>132.0</td>
-<td>-35.0</td>
-<td>-35.0</td>
-<td>-35.0</td>
-<td>635.0</td>
-<td>1795.0</td>
+<td>132</td>
+<td>-35</td>
+<td>-35</td>
+<td>-35</td>
+<td>635</td>
+<td>1795</td>
 </tr>
 </tbody>
 </table>
@@ -2683,27 +2686,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Saddle is another mid-sized three producer Bonanza follow-up.</p>
 <section id="volumetrics-6" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-6">Volumetrics</h4>
-<div id="a947e6af" class="cell" data-execution_count="43">
-<div class="cell-output cell-output-display" data-execution_count="165">
+<div id="7aaf245a" class="cell" data-execution_count="43">
+<div class="cell-output cell-output-display" data-execution_count="104">
 
 <style>
-  #altair-viz-fe33f2a17c734da18eba2d9289ab3083.vega-embed {
+  #altair-viz-fcbe0ba46dc64048a8c29031d92702ff.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-fe33f2a17c734da18eba2d9289ab3083.vega-embed details,
-  #altair-viz-fe33f2a17c734da18eba2d9289ab3083.vega-embed details summary {
+  #altair-viz-fcbe0ba46dc64048a8c29031d92702ff.vega-embed details,
+  #altair-viz-fcbe0ba46dc64048a8c29031d92702ff.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-fe33f2a17c734da18eba2d9289ab3083"></div>
+<div id="altair-viz-fcbe0ba46dc64048a8c29031d92702ff"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-fe33f2a17c734da18eba2d9289ab3083") {
-      outputDiv = document.getElementById("altair-viz-fe33f2a17c734da18eba2d9289ab3083");
+    if (outputDiv.id !== "altair-viz-fcbe0ba46dc64048a8c29031d92702ff") {
+      outputDiv = document.getElementById("altair-viz-fcbe0ba46dc64048a8c29031d92702ff");
     }
 
     const paths = {
@@ -2757,8 +2760,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-6" class="level5">
 <h5 class="anchored" data-anchor-id="total-6">Total</h5>
-<div id="8be53979" class="cell" data-execution_count="44">
-<div class="cell-output cell-output-display" data-execution_count="166">
+<div id="6f64bbba" class="cell" data-execution_count="44">
+<div class="cell-output cell-output-display" data-execution_count="105">
 <div>
 
 
@@ -2820,8 +2823,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-6" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-6">By Reservoir</h5>
-<div id="2292f3f9" class="cell" data-execution_count="45">
-<div class="cell-output cell-output-display" data-execution_count="167">
+<div id="b1c969d2" class="cell" data-execution_count="45">
+<div class="cell-output cell-output-display" data-execution_count="106">
 <div>
 
 
@@ -2943,27 +2946,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-6" class="level4">
 <h4 class="anchored" data-anchor-id="economics-6">Economics</h4>
-<div id="1a4af487" class="cell" data-execution_count="46">
-<div class="cell-output cell-output-display" data-execution_count="168">
+<div id="2c11f9a8" class="cell" data-execution_count="46">
+<div class="cell-output cell-output-display" data-execution_count="107">
 
 <style>
-  #altair-viz-8f24b55a81bd429a998945d030a73c0d.vega-embed {
+  #altair-viz-3649ca1d05404597bae0ec3806d6b95c.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-8f24b55a81bd429a998945d030a73c0d.vega-embed details,
-  #altair-viz-8f24b55a81bd429a998945d030a73c0d.vega-embed details summary {
+  #altair-viz-3649ca1d05404597bae0ec3806d6b95c.vega-embed details,
+  #altair-viz-3649ca1d05404597bae0ec3806d6b95c.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-8f24b55a81bd429a998945d030a73c0d"></div>
+<div id="altair-viz-3649ca1d05404597bae0ec3806d6b95c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-8f24b55a81bd429a998945d030a73c0d") {
-      outputDiv = document.getElementById("altair-viz-8f24b55a81bd429a998945d030a73c0d");
+    if (outputDiv.id !== "altair-viz-3649ca1d05404597bae0ec3806d6b95c") {
+      outputDiv = document.getElementById("altair-viz-3649ca1d05404597bae0ec3806d6b95c");
     }
 
     const paths = {
@@ -3015,8 +3018,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="71c806e0" class="cell" data-execution_count="47">
-<div class="cell-output cell-output-display" data-execution_count="169">
+<div id="127fd375" class="cell" data-execution_count="47">
+<div class="cell-output cell-output-display" data-execution_count="108">
 <div>
 
 
@@ -3037,12 +3040,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.21</td>
-<td>107.0</td>
-<td>-81.0</td>
-<td>-35.0</td>
-<td>-35.0</td>
-<td>551.0</td>
-<td>1594.0</td>
+<td>107</td>
+<td>-81</td>
+<td>-35</td>
+<td>-35</td>
+<td>551</td>
+<td>1594</td>
 </tr>
 </tbody>
 </table>
@@ -3057,27 +3060,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>Spur is the third mid-sized three producer Bonanza follow-up.</p>
 <section id="volumetrics-7" class="level4">
 <h4 class="anchored" data-anchor-id="volumetrics-7">Volumetrics</h4>
-<div id="ae52d86f" class="cell" data-execution_count="49">
-<div class="cell-output cell-output-display" data-execution_count="171">
+<div id="a18fa102" class="cell" data-execution_count="49">
+<div class="cell-output cell-output-display" data-execution_count="110">
 
 <style>
-  #altair-viz-59629700b3f54384a5b2630c203654af.vega-embed {
+  #altair-viz-364094dbe40249f2b812ff9b46f6db95.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-59629700b3f54384a5b2630c203654af.vega-embed details,
-  #altair-viz-59629700b3f54384a5b2630c203654af.vega-embed details summary {
+  #altair-viz-364094dbe40249f2b812ff9b46f6db95.vega-embed details,
+  #altair-viz-364094dbe40249f2b812ff9b46f6db95.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-59629700b3f54384a5b2630c203654af"></div>
+<div id="altair-viz-364094dbe40249f2b812ff9b46f6db95"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-59629700b3f54384a5b2630c203654af") {
-      outputDiv = document.getElementById("altair-viz-59629700b3f54384a5b2630c203654af");
+    if (outputDiv.id !== "altair-viz-364094dbe40249f2b812ff9b46f6db95") {
+      outputDiv = document.getElementById("altair-viz-364094dbe40249f2b812ff9b46f6db95");
     }
 
     const paths = {
@@ -3131,8 +3134,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </div>
 <section id="total-7" class="level5">
 <h5 class="anchored" data-anchor-id="total-7">Total</h5>
-<div id="031ee788" class="cell" data-execution_count="50">
-<div class="cell-output cell-output-display" data-execution_count="172">
+<div id="1e17af4d" class="cell" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="111">
 <div>
 
 
@@ -3194,8 +3197,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="by-reservoir-7" class="level5">
 <h5 class="anchored" data-anchor-id="by-reservoir-7">By Reservoir</h5>
-<div id="06ec00a9" class="cell" data-execution_count="51">
-<div class="cell-output cell-output-display" data-execution_count="173">
+<div id="0ce2b086" class="cell" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="112">
 <div>
 
 
@@ -3317,27 +3320,27 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="economics-7" class="level4">
 <h4 class="anchored" data-anchor-id="economics-7">Economics</h4>
-<div id="b2f17f28" class="cell" data-execution_count="52">
-<div class="cell-output cell-output-display" data-execution_count="174">
+<div id="842a3eac" class="cell" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="113">
 
 <style>
-  #altair-viz-9d701942d4f048d882d1aca538d4234a.vega-embed {
+  #altair-viz-ba488a79730942bbbf9dacce12af1978.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-9d701942d4f048d882d1aca538d4234a.vega-embed details,
-  #altair-viz-9d701942d4f048d882d1aca538d4234a.vega-embed details summary {
+  #altair-viz-ba488a79730942bbbf9dacce12af1978.vega-embed details,
+  #altair-viz-ba488a79730942bbbf9dacce12af1978.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-9d701942d4f048d882d1aca538d4234a"></div>
+<div id="altair-viz-ba488a79730942bbbf9dacce12af1978"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-9d701942d4f048d882d1aca538d4234a") {
-      outputDiv = document.getElementById("altair-viz-9d701942d4f048d882d1aca538d4234a");
+    if (outputDiv.id !== "altair-viz-ba488a79730942bbbf9dacce12af1978") {
+      outputDiv = document.getElementById("altair-viz-ba488a79730942bbbf9dacce12af1978");
     }
 
     const paths = {
@@ -3389,8 +3392,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </script>
 </div>
 </div>
-<div id="b20c3f33" class="cell" data-execution_count="53">
-<div class="cell-output cell-output-display" data-execution_count="175">
+<div id="13040c89" class="cell" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="114">
 <div>
 
 
@@ -3411,12 +3414,12 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Nominal Risked NPV</td>
 <td>0.22</td>
-<td>146.0</td>
-<td>-35.0</td>
-<td>-35.0</td>
-<td>-35.0</td>
-<td>701.0</td>
-<td>1864.0</td>
+<td>146</td>
+<td>-35</td>
+<td>-35</td>
+<td>-35</td>
+<td>701</td>
+<td>1864</td>
 </tr>
 </tbody>
 </table>
@@ -3438,8 +3441,8 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>The portfolio manages all these prospects, along with their parent-child relationships and information sharing for risk factors. For simplicity we will just model information sharing for P(Charge), but a user could model relationships between reservoir risk factors as they see fit.</p>
 <section id="charge-dependency" class="level3">
 <h3 class="anchored" data-anchor-id="charge-dependency">Charge dependency</h3>
-<p>The charge dependency between reservoir intersections is intuitive. Information we acquire on a migration corridor (observing charged) changes the risk factors applied to any child prospects in the portfolio. In this example we give charge +3 bits of information. So if Buffet fails on charge, the whole portfolio dies, but if it succeeds, the portfolio lights up like a christmas tree, and we follow the opportunity branches.</p>
-<p>Importantly, the information flowing is not contingent on <em>commercial</em> success, it is contingent on the observation regarding that particular risk factor. If Buffet is charged, but tiny and sub economic, that doesn’t change anything for the child prospects, what matters is that Buffet is charged!</p>
+<p>The charge dependency between reservoir intersections is intuitive. Information we acquire on a migration corridor (observing charged) changes the risk factors applied to any child prospects in the portfolio. In this example we give charge +3 bits of information. So if Buffet fails on charge, the whole portfolio dies, but if it succeeds, the portfolio lights up like a Christmas tree, and we follow the opportunity branches.</p>
+<p>Importantly, the information flowing is not contingent on <em>commercial</em> success, it is contingent on the observation regarding that particular risk factor. If Buffet is charged, but tiny and sub-economic, that doesn’t change anything for the child prospects, what matters is that Buffet is charged!</p>
 </section>
 <section id="visualizing-results" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-results">Visualizing results</h3>
@@ -3448,34 +3451,28 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="portfolio-cash-flow" class="level3">
 <h3 class="anchored" data-anchor-id="portfolio-cash-flow">Portfolio cash flow</h3>
-<p>Here is the portfolio aggregated schocastic cash flow plot, presented just as they are at the resgo Prospect level.</p>
-<div id="036f82f4" class="cell" data-execution_count="55">
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/nick/repos/resgo/backend/src/resgo/plotting/portfolio/economics.py:258: FutureWarning:
-
-In a future version of xarray the default value for join will change from join='outer' to join='exact'. This change will result in the following ValueError: cannot be aligned with join='exact' because index/labels/sizes are not equal along these coordinates (dimensions): 'Date' ('Date',) The recommendation is to set join explicitly for this case.
-</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="177">
+<p>Here is the portfolio-aggregated stochastic cash flow plot, presented just as they are at the resgo Prospect level.</p>
+<div id="348658bf" class="cell" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="116">
 
 <style>
-  #altair-viz-b21c483ea8204274bf2cd539bfe64302.vega-embed {
+  #altair-viz-78ddfe7ab777486281d1718cdae17203.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-b21c483ea8204274bf2cd539bfe64302.vega-embed details,
-  #altair-viz-b21c483ea8204274bf2cd539bfe64302.vega-embed details summary {
+  #altair-viz-78ddfe7ab777486281d1718cdae17203.vega-embed details,
+  #altair-viz-78ddfe7ab777486281d1718cdae17203.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-b21c483ea8204274bf2cd539bfe64302"></div>
+<div id="altair-viz-78ddfe7ab777486281d1718cdae17203"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b21c483ea8204274bf2cd539bfe64302") {
-      outputDiv = document.getElementById("altair-viz-b21c483ea8204274bf2cd539bfe64302");
+    if (outputDiv.id !== "altair-viz-78ddfe7ab777486281d1718cdae17203") {
+      outputDiv = document.getElementById("altair-viz-78ddfe7ab777486281d1718cdae17203");
     }
 
     const paths = {
@@ -3531,33 +3528,27 @@ In a future version of xarray the default value for join will change from join='
 <section id="portfolio-mean-case" class="level3">
 <h3 class="anchored" data-anchor-id="portfolio-mean-case">Portfolio mean case</h3>
 <p>And here is the mean portfolio case, partitioned by prospect:</p>
-<div id="be3fc114" class="cell" data-execution_count="56">
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/nick/repos/resgo/backend/src/resgo/plotting/portfolio/economics.py:176: FutureWarning:
-
-In a future version of xarray the default value for join will change from join='outer' to join='exact'. This change will result in the following ValueError: cannot be aligned with join='exact' because index/labels/sizes are not equal along these coordinates (dimensions): 'Date' ('Date',) The recommendation is to set join explicitly for this case.
-</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="178">
+<div id="45458262" class="cell" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="117">
 
 <style>
-  #altair-viz-b8964dbb3ee54b9c9adeb3057990efac.vega-embed {
+  #altair-viz-c61583a4c671475b8fa9e17e71d1048d.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-b8964dbb3ee54b9c9adeb3057990efac.vega-embed details,
-  #altair-viz-b8964dbb3ee54b9c9adeb3057990efac.vega-embed details summary {
+  #altair-viz-c61583a4c671475b8fa9e17e71d1048d.vega-embed details,
+  #altair-viz-c61583a4c671475b8fa9e17e71d1048d.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-b8964dbb3ee54b9c9adeb3057990efac"></div>
+<div id="altair-viz-c61583a4c671475b8fa9e17e71d1048d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b8964dbb3ee54b9c9adeb3057990efac") {
-      outputDiv = document.getElementById("altair-viz-b8964dbb3ee54b9c9adeb3057990efac");
+    if (outputDiv.id !== "altair-viz-c61583a4c671475b8fa9e17e71d1048d") {
+      outputDiv = document.getElementById("altair-viz-c61583a4c671475b8fa9e17e71d1048d");
     }
 
     const paths = {
@@ -3618,8 +3609,8 @@ In a future version of xarray the default value for join will change from join='
 </section>
 <section id="decision-summary" class="level3">
 <h3 class="anchored" data-anchor-id="decision-summary">Decision summary</h3>
-<div id="290bc078" class="cell" data-execution_count="57">
-<div class="cell-output cell-output-display" data-execution_count="179">
+<div id="3b0754a2" class="cell" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="118">
 <div>
 
 
@@ -3681,9 +3672,9 @@ In a future version of xarray the default value for join will change from join='
 <h3 class="anchored" data-anchor-id="portfolio-risked-npv">Portfolio risked NPV</h3>
 <section id="total-8" class="level4">
 <h4 class="anchored" data-anchor-id="total-8">Total</h4>
-<p>Here is the range of portfolio aggregated NPV:</p>
-<div id="dd84821d" class="cell" data-execution_count="58">
-<div class="cell-output cell-output-display" data-execution_count="180">
+<p>Here is the range of portfolio-aggregated NPV:</p>
+<div id="3993313b" class="cell" data-execution_count="58">
+<div class="cell-output cell-output-display" data-execution_count="119">
 <div>
 
 
@@ -3704,12 +3695,12 @@ In a future version of xarray the default value for join will change from join='
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Total Nominal Risked NPV</td>
 <td>0.48</td>
-<td>627.0</td>
-<td>-1114.0</td>
-<td>-661.0</td>
-<td>-49.0</td>
-<td>2691.0</td>
-<td>7870.0</td>
+<td>627</td>
+<td>-1114</td>
+<td>-661</td>
+<td>-49</td>
+<td>2691</td>
+<td>7870</td>
 </tr>
 </tbody>
 </table>
@@ -3723,8 +3714,8 @@ In a future version of xarray the default value for join will change from join='
 <p>Things get interesting when we split by prospect. When we look at prospect value, we can report standalone NPV (the commercial value of the prospect, taken in isolation), but we can also report full cycle value, which considers the value of the opportunities that the prospect opens up via its dependencies.</p>
 <section id="standalone" class="level5">
 <h5 class="anchored" data-anchor-id="standalone">Standalone</h5>
-<div id="281e41c9" class="cell" data-execution_count="59">
-<div class="cell-output cell-output-display" data-execution_count="181">
+<div id="16c1a5b3" class="cell" data-execution_count="59">
+<div class="cell-output cell-output-display" data-execution_count="120">
 <div>
 
 
@@ -3755,72 +3746,72 @@ In a future version of xarray the default value for join will change from join='
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Buffet</td>
 <td>0.24</td>
-<td>-93.0</td>
-<td>-1027.0</td>
-<td>-813.0</td>
-<td>-40.0</td>
-<td>537.0</td>
-<td>1895.0</td>
+<td>-93</td>
+<td>-1027</td>
+<td>-813</td>
+<td>-40</td>
+<td>537</td>
+<td>1895</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Cove</td>
 <td>0.63</td>
-<td>181.0</td>
-<td>-19.0</td>
-<td>-19.0</td>
-<td>133.0</td>
-<td>463.0</td>
-<td>690.0</td>
+<td>181</td>
+<td>-19</td>
+<td>-19</td>
+<td>133</td>
+<td>463</td>
+<td>690</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Bridge</td>
 <td>0.16</td>
-<td>-24.0</td>
-<td>-187.0</td>
-<td>-105.0</td>
-<td>-30.0</td>
-<td>60.0</td>
-<td>226.0</td>
+<td>-24</td>
+<td>-187</td>
+<td>-105</td>
+<td>-30</td>
+<td>60</td>
+<td>226</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Bonanza</td>
 <td>0.23</td>
-<td>435.0</td>
-<td>-49.0</td>
-<td>-49.0</td>
-<td>-49.0</td>
-<td>1804.0</td>
-<td>5586.0</td>
+<td>435</td>
+<td>-49</td>
+<td>-49</td>
+<td>-49</td>
+<td>1804</td>
+<td>5586</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Crest</td>
 <td>0.14</td>
-<td>42.0</td>
-<td>-26.0</td>
-<td>-26.0</td>
-<td>-26.0</td>
-<td>228.0</td>
-<td>1012.0</td>
+<td>42</td>
+<td>-26</td>
+<td>-26</td>
+<td>-26</td>
+<td>228</td>
+<td>1012</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Saddle</td>
 <td>0.14</td>
-<td>36.0</td>
-<td>-46.0</td>
-<td>-25.0</td>
-<td>-25.0</td>
-<td>197.0</td>
-<td>959.0</td>
+<td>36</td>
+<td>-46</td>
+<td>-25</td>
+<td>-25</td>
+<td>197</td>
+<td>959</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Spur</td>
 <td>0.14</td>
-<td>50.0</td>
-<td>-23.0</td>
-<td>-23.0</td>
-<td>-23.0</td>
-<td>234.0</td>
-<td>1179.0</td>
+<td>50</td>
+<td>-23</td>
+<td>-23</td>
+<td>-23</td>
+<td>234</td>
+<td>1179</td>
 </tr>
 </tbody>
 </table>
@@ -3833,8 +3824,8 @@ In a future version of xarray the default value for join will change from join='
 </section>
 <section id="full-cycle" class="level5">
 <h5 class="anchored" data-anchor-id="full-cycle">Full cycle</h5>
-<div id="7d2ad1ae" class="cell" data-execution_count="60">
-<div class="cell-output cell-output-display" data-execution_count="182">
+<div id="143ecfcd" class="cell" data-execution_count="60">
+<div class="cell-output cell-output-display" data-execution_count="121">
 <div>
 
 
@@ -3865,72 +3856,72 @@ In a future version of xarray the default value for join will change from join='
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Buffet</td>
 <td>0.48</td>
-<td>627.0</td>
-<td>-1114.0</td>
-<td>-661.0</td>
-<td>-49.0</td>
-<td>2691.0</td>
-<td>7870.0</td>
+<td>627</td>
+<td>-1114</td>
+<td>-661</td>
+<td>-49</td>
+<td>2691</td>
+<td>7870</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Cove</td>
 <td>0.63</td>
-<td>181.0</td>
-<td>-19.0</td>
-<td>-19.0</td>
-<td>133.0</td>
-<td>463.0</td>
-<td>690.0</td>
+<td>181</td>
+<td>-19</td>
+<td>-19</td>
+<td>133</td>
+<td>463</td>
+<td>690</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Bridge</td>
 <td>0.34</td>
-<td>539.0</td>
-<td>-304.0</td>
-<td>-158.0</td>
-<td>-153.0</td>
-<td>2150.0</td>
-<td>7209.0</td>
+<td>539</td>
+<td>-304</td>
+<td>-158</td>
+<td>-153</td>
+<td>2150</td>
+<td>7209</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Bonanza</td>
 <td>0.33</td>
-<td>563.0</td>
-<td>-122.0</td>
-<td>-122.0</td>
-<td>-122.0</td>
-<td>2169.0</td>
-<td>7238.0</td>
+<td>563</td>
+<td>-122</td>
+<td>-122</td>
+<td>-122</td>
+<td>2169</td>
+<td>7238</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Crest</td>
 <td>0.14</td>
-<td>42.0</td>
-<td>-26.0</td>
-<td>-26.0</td>
-<td>-26.0</td>
-<td>228.0</td>
-<td>1012.0</td>
+<td>42</td>
+<td>-26</td>
+<td>-26</td>
+<td>-26</td>
+<td>228</td>
+<td>1012</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Saddle</td>
 <td>0.14</td>
-<td>36.0</td>
-<td>-46.0</td>
-<td>-25.0</td>
-<td>-25.0</td>
-<td>197.0</td>
-<td>959.0</td>
+<td>36</td>
+<td>-46</td>
+<td>-25</td>
+<td>-25</td>
+<td>197</td>
+<td>959</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Spur</td>
 <td>0.14</td>
-<td>50.0</td>
-<td>-23.0</td>
-<td>-23.0</td>
-<td>-23.0</td>
-<td>234.0</td>
-<td>1179.0</td>
+<td>50</td>
+<td>-23</td>
+<td>-23</td>
+<td>-23</td>
+<td>234</td>
+<td>1179</td>
 </tr>
 </tbody>
 </table>
@@ -3944,8 +3935,8 @@ In a future version of xarray the default value for join will change from join='
 </section>
 <section id="strategic-value-summary" class="level4">
 <h4 class="anchored" data-anchor-id="strategic-value-summary">Strategic value summary</h4>
-<div id="363874ca" class="cell" data-execution_count="61">
-<div class="cell-output cell-output-display" data-execution_count="183">
+<div id="d13c3bc0" class="cell" data-execution_count="61">
+<div class="cell-output cell-output-display" data-execution_count="122">
 <div>
 
 
@@ -3970,51 +3961,51 @@ In a future version of xarray the default value for join will change from join='
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Buffet</td>
 <td>strategic</td>
-<td>-93.0</td>
-<td>720.0</td>
-<td>627.0</td>
+<td>-93</td>
+<td>720</td>
+<td>627</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Cove</td>
 <td>accepted</td>
-<td>181.0</td>
-<td>0.0</td>
-<td>181.0</td>
+<td>181</td>
+<td>0</td>
+<td>181</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Bridge</td>
 <td>strategic</td>
-<td>-24.0</td>
-<td>563.0</td>
-<td>539.0</td>
+<td>-24</td>
+<td>563</td>
+<td>539</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Bonanza</td>
 <td>accepted</td>
-<td>435.0</td>
-<td>128.0</td>
-<td>563.0</td>
+<td>435</td>
+<td>128</td>
+<td>563</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Crest</td>
 <td>accepted</td>
-<td>42.0</td>
-<td>0.0</td>
-<td>42.0</td>
+<td>42</td>
+<td>0</td>
+<td>42</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Saddle</td>
 <td>accepted</td>
-<td>36.0</td>
-<td>0.0</td>
-<td>36.0</td>
+<td>36</td>
+<td>0</td>
+<td>36</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Spur</td>
 <td>accepted</td>
-<td>50.0</td>
-<td>0.0</td>
-<td>50.0</td>
+<td>50</td>
+<td>0</td>
+<td>50</td>
 </tr>
 </tbody>
 </table>
@@ -4022,34 +4013,34 @@ In a future version of xarray the default value for join will change from join='
 </div>
 </div>
 </div>
-<p>This table breaks this down explicitly, focussing on mean outcomes. The downstream value here is the sum of child prospect NPV (simulated with end to end Resgo prospect models, remember), excluding rejected child prospects (as ignoring sub-economic options does not incur any cost).</p>
+<p>This table breaks this down explicitly, focusing on mean outcomes. The downstream value here is the sum of child prospect NPV (simulated with end to end Resgo prospect models, remember), excluding rejected child prospects (as ignoring sub-economic options does not incur any cost).</p>
 <p>Buffet and Bridge are listed as <code>strategic</code> because they are drillable on their full cycle value, not their standalone value.</p>
 <p>The plot below is helpful for summarizing this information, but requires some explanation to avoid confusion (for me and you).</p>
 <p><strong>Standalone Success NPV</strong> is the NPV conditional on the prospect geological success. We need to present it that way, because we are trying to capture opportunity, and the P(Geological Success) is changing during portfolio simulation.</p>
 <p><strong>Full Cycle Success NPV</strong> is the Standalone Success NPV plus the <em>risked</em> sum of downstream opportunity NPV (including geological failure cases). We can’t assume downstream prospects will succeed conditional on the parent prospect, so they must remain risked to be accurately captured in the full cycle value of the parent. Rejected prospects are also left out here, as there is no sense in penalizing a parent prospect with its undrillable child prospects, the only ones that matter are the ones we would pursue.</p>
 <p>Headache? Don’t worry, me too.</p>
 <p>Here’s the plot:</p>
-<div id="ebc97848" class="cell" data-execution_count="62">
-<div class="cell-output cell-output-display" data-execution_count="184">
+<div id="22934954" class="cell" data-execution_count="62">
+<div class="cell-output cell-output-display" data-execution_count="123">
 
 <style>
-  #altair-viz-9e518bea268a443bbc6332589c8fe700.vega-embed {
+  #altair-viz-60745bca56514581b88a09011d1763e4.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-9e518bea268a443bbc6332589c8fe700.vega-embed details,
-  #altair-viz-9e518bea268a443bbc6332589c8fe700.vega-embed details summary {
+  #altair-viz-60745bca56514581b88a09011d1763e4.vega-embed details,
+  #altair-viz-60745bca56514581b88a09011d1763e4.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-9e518bea268a443bbc6332589c8fe700"></div>
+<div id="altair-viz-60745bca56514581b88a09011d1763e4"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-9e518bea268a443bbc6332589c8fe700") {
-      outputDiv = document.getElementById("altair-viz-9e518bea268a443bbc6332589c8fe700");
+    if (outputDiv.id !== "altair-viz-60745bca56514581b88a09011d1763e4") {
+      outputDiv = document.getElementById("altair-viz-60745bca56514581b88a09011d1763e4");
     }
 
     const paths = {
@@ -4134,18 +4125,34 @@ In a future version of xarray the default value for join will change from join='
 </section>
 <section id="where-is-the-d-tree" class="level2">
 <h2 class="anchored" data-anchor-id="where-is-the-d-tree">Where is the D-Tree?</h2>
-<p>This whole simulation can be thought of as a stochastic D-Tree, with Bayesian updates informing success/failure at each node, and full cycle economics driving drill/walk decisions. I don’t have a pretty plot presenting it that way, but mechanically, that is what this it is doing.</p>
+<p>This whole simulation can be thought of as a stochastic decision tree, with Bayesian updates informing success/failure at each node, and full cycle economics driving drill/walk decisions. I don’t have a pretty plot presenting it that way, but mechanically, that is what it is doing.</p>
 </section>
 </section>
 <section id="closing-thoughts" class="level1">
 <h1>Closing thoughts</h1>
 <p>I’m not sure how to close this out, but I will say that I am very happy with how portfolio simulation in Resgo has turned out. I’ve always had it as a “capstone” feature in the back of my mind, but I can’t claim that I designed for it from the beginning. I was fortunately very lucky that the implementation fit so well into Resgo’s architecture. Treating Prospects as nodes in a tree, and simply simulating that tree with a few in loop alterations based on risk dependencies, is a pretty elegant way of handling portfolio analysis.</p>
-<p>The part I am now unsure about is how to rigorously define all these metrics. Reporting quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio aggregated NPV, and whatever other commercial metrics I will add later, start to build up and cause confusion. Handling geological success as a commercial outcome (ie an NPV negative dry hole) changes the semantics of prospect evaluation, because traditionally the failure case would be captured as a failure arm in a D-Tree. That isn’t the elegant approach here, I can go a lot further by naturally capturing a range in a single simulated array, and reasoning about it downstream, but there are definitely some semantic rough edges to figure out.</p>
-<p>My next step I think will be to start building a UI—refining the simulation code itself is probably the most important thing to be focussed on—but I also need to be able to get Resgo into other people’s hands at some point, barring me using it in a consultancy capacity only.</p>
-<p>I do like the consultancy approach, at least at first, because it will allow me to field test with real opportunities, and iron out any creases I’ve left in the process. There is <em>a lot</em> of process, here, so it is inevitable that I’ve left some mess behind me while building it.</p>
+<p>The part I am now unsure about is how to rigorously define all these metrics. Reporting quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio-aggregated NPV, and whatever other commercial metrics I will add later, start to build up and cause confusion. Handling geological success as a commercial outcome (i.e.&nbsp;an NPV-negative dry hole) changes the semantics of prospect evaluation, because traditionally the failure case would be captured as a failure arm in a D-Tree. That isn’t the elegant approach here, I can go a lot further by naturally capturing a range in a single simulated array, and reasoning about it downstream, but there are definitely some semantic rough edges to figure out.</p>
+<p>My next step I think will be to start building a UI—refining the simulation code itself is probably the most important thing to be focused on—but I also need to be able to get Resgo into other people’s hands at some point, barring me using it in a consultancy capacity only.</p>
+<p>I do like the consultancy approach, at least at first, because it will allow me to field test with real opportunities, and iron out any creases I’ve left in the process. There is <em>a lot</em> of process here, so it is inevitable that I’ve left some mess behind me while building it.</p>
+<p>To round this out, here is how I would summarize the Resgo value proposition.</p>
+<section id="value-proposition" class="level2">
+<h2 class="anchored" data-anchor-id="value-proposition">Value Proposition</h2>
+<p>Resgo is trying to make things possible that are extremely hard to do rigorously with spreadsheet workflows and disconnected prospect evaluations:</p>
+<ul>
+<li><strong>Connect subsurface uncertainty to commercial outcomes.</strong> Volumetrics, risking, development concepts, cash flows, and decision gates all live in one simulation chain.</li>
+<li><strong>Expose the real shape of uncertainty.</strong> Prospect outcomes are not reduced to a single deterministic case; downside, upside, skew, and long tails remain visible.</li>
+<li><strong>Give technical teams a common language for value.</strong> Geoscience judgement, Bayesian updating, and economic decision-making are translated into a shared quantitative framework.</li>
+<li><strong>Make dependency assumptions explicit.</strong> Geological dependencies between prospects are encoded directly at the reservoir and risk-factor level, instead of living as vague narrative in slide decks.</li>
+<li><strong>Evaluate drill/walk decisions dynamically.</strong> Each prospect is assessed using the information available at that point in the portfolio, including what has been learned upstream.</li>
+<li><strong>Quantify strategic value, not just standalone value.</strong> Prospects can be valued for the opportunities they unlock, not only for their own direct economics.</li>
+<li><strong>Turn exploration strategy into an auditable model.</strong> The logic behind a sequence of wells can be inspected, challenged, revised, and rerun.</li>
+<li><strong>Support better capital allocation.</strong> Resgo creates the simulation surface needed to rank opportunities, test development sequences, and eventually optimize portfolio choices under real constraints.</li>
+</ul>
+<p>With the inclusion of portfolio simulation, I think that Resgo offers a very compelling value proposition for new ventures, exploration, subsurface and commercial teams, as well as executive decision makers.</p>
 <p>Thanks for reading!</p>
 
 
+</section>
 </section>
 
 

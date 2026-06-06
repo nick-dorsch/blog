@@ -1,10 +1,10 @@
 ---
 title: "Resgo: Portfolio Simulation"
-subtitle: "End to end strategic value quantification"
+subtitle: "End-to-end strategic value quantification"
 author: "Nicholas Dorsch"
 date: today
 categories: [LDI, geology, geophysics, statistics]
-image: media/resgo_logo_white.svg
+image: media/resgo_portfolio.png
 execute:
   echo: false
   cache: true
@@ -40,9 +40,9 @@ from src.plotting import theme
 
 PLOTTING_BACKEND = "altair"
 
-CHAINS=8
-DRAWS=100
-SEED=42
+CHAINS = 8
+DRAWS = 100
+SEED = 42
 
 alt.data_transformers.disable_max_rows()
 theme.apply_lex_altair_theme()
@@ -63,7 +63,7 @@ My goals at the outset are the following:
 1. Allow grouping Prospects into Portfolios, with lossless representation
 2. Represent parent-child relationships between Prospects to allow for dependency
    propagation
-3. Dependency propagation should allows information to flow between prospects and their
+3. Dependency propagation should allow information to flow between prospects and their
    children, so that drilling outcomes follow logical chains during simulation
 4. Use those logical chains to derive stand-alone and full-cycle metrics for decision
    gating
@@ -74,7 +74,7 @@ My goals at the outset are the following:
 ## Structure and constraints
 
 The most convenient representation of a Portfolio with these constraints in mind is a
-tree. Prospects can have children: opportunities who's risks are affected by outcomes in
+tree. Prospects can have children: opportunities whose risks are affected by outcomes in
 their parent. That creates some limitations (sibling Prospects can't have dependencies)
 but I think the simplicity of tree depth traversal, and limiting onerous dependency
 configuration, will make that trade-off worthwhile.
@@ -83,9 +83,9 @@ For lossless Prospect representation in Resgo, dependency must be represented at
 reservoir and risk factor level. This is a complication that I believe will pay
 dividends in granular configuration and interpretability of portfolio simulations,
 matching the mental models in subsurface teams' heads when defining dependencies between
-opportunitities.
+opportunities.
 
-It will mean, for example, that reservoirs in the Propects tree can share strong
+It will mean, for example, that reservoirs in the Prospects tree can share strong
 P(Charge) dependency. If the parent fails on charge, that heavily impacts the P(Charge)
 of children. This is well suited for modelling play-openers on untested migration
 pathways, for example. Similarly these dependencies can be captured for reservoir
@@ -156,7 +156,7 @@ explicitly communicated.
 
 If, for example, P(Charge) is 0.5 across prospects and Buffet fails on charge, that
 means Bonanza gets a P(Charge) of 0.11 (killing it). If Buffet _is_ charged though, that
-increase P(Charge) at Bonanza to 0.89!
+increases P(Charge) at Bonanza to 0.89!
 
 See? We can all become Bayesians with some language tricks.
 
@@ -196,9 +196,9 @@ would imagine that that is a rare luxury in portfolio analysis contexts.
 ## Simulation process
 
 Resgo allows us to very ergonomically simulate the entire portfolio tree in a forward
-pass, adjusting risk factors on success/failure case of parent nodes, then run the
-decision gating logic on the results to determine which prospects get drilled and which
-get rejected. We can then aggregate the portfolio level NPV to assess its overall
+pass, adjusting risk factors based on success/failure outcomes in parent nodes, then run
+the decision gating logic on the results to determine which prospects get drilled and
+which get rejected. We can then aggregate the portfolio level NPV to assess its overall
 economic value and uncertainty.
 
 ## Additional wrinkles
@@ -1310,12 +1310,12 @@ The charge dependency between reservoir intersections is intuitive. Information 
 acquire on a migration corridor (observing charged) changes the risk factors
 applied to any child prospects in the portfolio. In this example we give charge +3 bits
 of information. So if Buffet fails on charge, the whole portfolio dies, but if it
-succeeds, the portfolio lights up like a christmas tree, and we follow the opportunity
+succeeds, the portfolio lights up like a Christmas tree, and we follow the opportunity
 branches.
 
 Importantly, the information flowing is not contingent on _commercial_ success, it is
 contingent on the observation regarding that particular risk factor. If Buffet is
-charged, but tiny and sub economic, that doesn't change anything for the child
+charged, but tiny and sub-economic, that doesn't change anything for the child
 prospects, what matters is that Buffet is charged!
 
 ```{python}
@@ -1390,7 +1390,7 @@ and (by prospect) bi-modal.
 
 ### Portfolio cash flow
 
-Here is the portfolio aggregated schocastic cash flow plot, presented just as they are
+Here is the portfolio-aggregated stochastic cash flow plot, presented just as they are
 at the resgo Prospect level.
 
 ```{python}
@@ -1463,7 +1463,7 @@ exploration if new opportunities are identified down the line.
 
 #### Total
 
-Here is the range of portfolio aggregated NPV:
+Here is the range of portfolio-aggregated NPV:
 
 ```{python}
 portfolio_reporter.tabler.risked_npv()
@@ -1504,7 +1504,7 @@ full cycle perspective, they are the most valuable opportunities in the whole po
 portfolio_reporter.tabler.full_cycle_value_components()
 ```
 
-This table breaks this down explicitly, focussing on mean outcomes. The downstream value
+This table breaks this down explicitly, focusing on mean outcomes. The downstream value
 here is the sum of child prospect NPV (simulated with end to end Resgo prospect models,
 remember), excluding rejected child prospects (as ignoring sub-economic options does not
 incur any cost).
@@ -1618,10 +1618,10 @@ in the optimization), is... very nice.
 
 ## Where is the D-Tree?
 
-This whole simulation can be thought of as a stochastic D-Tree, with Bayesian updates
-informing success/failure at each node, and full cycle economics driving drill/walk
-decisions. I don't have a pretty plot presenting it that way, but mechanically, that is
-what this it is doing.
+This whole simulation can be thought of as a stochastic decision tree, with Bayesian
+updates informing success/failure at each node, and full cycle economics driving
+drill/walk decisions. I don't have a pretty plot presenting it that way, but
+mechanically, that is what it is doing.
 
 # Closing thoughts
 
@@ -1634,9 +1634,9 @@ with a few in loop alterations based on risk dependencies, is a pretty elegant w
 handling portfolio analysis.
 
 The part I am now unsure about is how to rigorously define all these metrics. Reporting
-quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio aggregated
+quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio-aggregated
 NPV, and whatever other commercial metrics I will add later, start to build up and cause
-confusion. Handling geological success as a commercial outcome (ie an NPV negative dry
+confusion. Handling geological success as a commercial outcome (i.e. an NPV-negative dry
 hole) changes the semantics of prospect evaluation, because traditionally the failure
 case would be captured as a failure arm in a D-Tree. That isn't the elegant approach
 here, I can go a lot further by naturally capturing a range in a single simulated array,
@@ -1644,21 +1644,48 @@ and reasoning about it downstream, but there are definitely some semantic rough 
 figure out.
 
 My next step I think will be to start building a UI---refining the simulation code
-itself is probably the most important thing to be focussed on---but I also need to be
+itself is probably the most important thing to be focused on---but I also need to be
 able to get Resgo into other people's hands at some point, barring me using it in a
 consultancy capacity only. 
 
 I do like the consultancy approach, at least at first, because it will allow me to field
 test with real opportunities, and iron out any creases I've left in the process. There
-is _a lot_ of process, here, so it is inevitable that I've left some mess behind me
+is _a lot_ of process here, so it is inevitable that I've left some mess behind me
 while building it.
 
+To round this out, here is how I would summarize the Resgo value proposition.
+
+## Value Proposition
+
+Resgo is trying to make things possible that are extremely hard to do rigorously with
+spreadsheet workflows and disconnected prospect evaluations:
+
+- **Connect subsurface uncertainty to commercial outcomes.** Volumetrics, risking,
+  development concepts, cash flows, and decision gates all live in one simulation chain.
+- **Expose the real shape of uncertainty.** Prospect outcomes are not reduced to a
+  single deterministic case; downside, upside, skew, and long tails remain visible.
+- **Give technical teams a common language for value.** Geoscience judgement, Bayesian
+  updating, and economic decision-making are translated into a shared quantitative
+  framework.
+- **Make dependency assumptions explicit.** Geological dependencies between prospects are
+  encoded directly at the reservoir and risk-factor level, instead of living as vague
+  narrative in slide decks.
+- **Evaluate drill/walk decisions dynamically.** Each prospect is assessed using the
+  information available at that point in the portfolio, including what has been learned
+  upstream.
+- **Quantify strategic value, not just standalone value.** Prospects can be valued for
+  the opportunities they unlock, not only for their own direct economics.
+- **Turn exploration strategy into an auditable model.** The logic behind a sequence of
+  wells can be inspected, challenged, revised, and rerun.
+- **Support better capital allocation.** Resgo creates the simulation surface needed to
+  rank opportunities, test development sequences, and eventually optimize portfolio
+  choices under real constraints.
+
+With the inclusion of portfolio simulation, I think that Resgo offers a very compelling
+value proposition for new ventures, exploration, subsurface and commercial teams, as
+well as executive decision makers.
+
 Thanks for reading!
-
-```{python}
-test = 100000
-```
-
 
 [^not-sorry]: not sorry
 
