@@ -41,7 +41,7 @@ from src.plotting import theme
 PLOTTING_BACKEND = "altair"
 
 CHAINS=8
-DRAWS=250
+DRAWS=100
 SEED=42
 
 alt.data_transformers.disable_max_rows()
@@ -69,6 +69,7 @@ My goals at the outset are the following:
    gating
 5. Report accepted, strategic (full cycle economics says drill) and rejected prospect
    decisions at the portfolio level
+6. Make results interpretable with well designed visualizations
 
 ## Structure and constraints
 
@@ -78,14 +79,14 @@ their parent. That creates some limitations (sibling Prospects can't have depend
 but I think the simplicity of tree depth traversal, and limiting onerous dependency
 configuration, will make that trade-off worthwhile.
 
-For lossless Prospect representation in Resgo, this means that dependency must be
-represented at the reservoir and risk factor level. This is a complication that I
-believe will pay dividends in granular configuration and interpretability of portfolio
-simulations, matching the mental models in subsurface teams' heads when defining
-dependencies between opportunitities.
+For lossless Prospect representation in Resgo, dependency must be represented at the
+reservoir and risk factor level. This is a complication that I believe will pay
+dividends in granular configuration and interpretability of portfolio simulations,
+matching the mental models in subsurface teams' heads when defining dependencies between
+opportunitities.
 
 It will mean, for example, that reservoirs in the Propects tree can share strong
-P(charge) dependency. If the parent fails on charge, that heavily impacts the P(charge)
+P(Charge) dependency. If the parent fails on charge, that heavily impacts the P(Charge)
 of children. This is well suited for modelling play-openers on untested migration
 pathways, for example. Similarly these dependencies can be captured for reservoir
 presence for testing sand fairways, and seal/trap for things like demonstrating fault
@@ -117,7 +118,7 @@ Using a base-2 logarithm means that the evidence term, $\ln_2(\text{LH})$, is me
 in **bits**: positive bits increase the odds of success, negative bits decrease them,
 and zero bits leave the prior odds unchanged.
 
-You'll have to humor me because it seems weird, but this is a very mentally ergonomic
+You'll have to humor me---I know it seems weird---but this is a very mentally ergonomic
 way of framing Bayesian probability updates. 
 
 Starting from a prior probability of 0.50 as an example, each additional bit doubles the
@@ -140,22 +141,22 @@ of evidence to arrive at a final posterior. This is mental Bayes trickery, but i
 useful for efficient and interpretable communication of risk dependencies in the context
 of the portfolio simulator.
 
-> _"If the Bonanza prospect fails on charge, how bad would that be for charge risk at
-> Buffet?"_
+> _"If the Buffet prospect fails on charge, how bad would that be for charge risk at
+> Bonanza?"_
 >
 > _"They're on the same migration corridor so really bad... probably -4 bits."_
 >
-> _"We did see shows on that separate migration corridor connecting to Buffet though,
+> _"We did see shows on that separate migration corridor connecting to Bonanza though,
 > remember?"_
 >
 > _"Fair enough, that's probably worth 1 bit. -3 bits total then."_
 
-Now, regardless of P(charge) at Bonanza, the information it provides to Buffet is
+Now, regardless of P(Charge) at Buffet, the information it provides to Bonanza is
 explicitly communicated. 
 
-If, for example, P(charge) is 0.5 across prospects and Bonanza fails on charge, that
-means Buffet gets a P(charge) of 0.11 (killing it). If Bonanza _is_ charged though, that
-increase P(charge) at Buffet to 0.89!
+If, for example, P(Charge) is 0.5 across prospects and Buffet fails on charge, that
+means Bonanza gets a P(Charge) of 0.11 (killing it). If Buffet _is_ charged though, that
+increase P(Charge) at Bonanza to 0.89!
 
 See? We can all become Bayesians with some language tricks.
 
@@ -189,8 +190,8 @@ companies have defined hurdles like this in place, but there may be situations w
 hurdles are prospect specific.
 
 Luckily, because Resgo simulates everything in a single integrated chain, these decision
-metrics will be consistently applied to rigorously defined stochastic ranges of NPV.
-That is a rare luxury in portfolio analysis contexts.
+metrics will be consistently applied to rigorously defined stochastic ranges of NPV. I
+would imagine that that is a rare luxury in portfolio analysis contexts.
 
 ## Simulation process
 
@@ -227,55 +228,54 @@ For example:
 
 ```{mermaid}
 flowchart TD
-    Buffet["Buffet<br/>P(success): 0.45<br/>NPV: $180MM"]
+    Buffet["Buffet<br/>P(Success): 0.45<br/>NPV: $180MM"]
 
-    Buffet --> Bitesize["Bitesize<br/>P(success): 0.35<br/>NPV: $70MM"]
-    Buffet --> Budget["Budget<br/>P(success): 0.55<br/>NPV: $75MM"]
-    Buffet --> Boring["Boring<br/>P(success): 0.10<br/>NPV: -$200MM"]
+    Buffet --> Cove["Cove<br/>P(Success): 0.35<br/>NPV: $70MM"]
+    Buffet --> Ledge["Ledge<br/>P(Success): 0.55<br/>NPV: $75MM"]
+    Buffet --> Bridge["Bridge<br/>P(Success): 0.10<br/>NPV: -$200MM"]
 
-    Boring --> Bonanza["Bonanza<br/>P(success): 0.15<br/>NPV: $1,200MM"]
+    Bridge --> Bonanza["Bonanza<br/>P(Success): 0.15<br/>NPV: $1,200MM"]
 
-    Bonanza --> Banquet["Banquet<br/>P(success): 0.20<br/>NPV: $700MM"]
-    Bonanza --> Bento["Bento<br/>P(success): 0.18<br/>NPV: $650MM"]
-    Bonanza --> Baklava["Baklava<br/>P(success): 0.12<br/>NPV: $1,000MM"]
+    Bonanza --> Crest["Crest<br/>P(Success): 0.20<br/>NPV: $700MM"]
+    Bonanza --> Saddle["Saddle<br/>P(Success): 0.18<br/>NPV: $650MM"]
+    Bonanza --> Spur["Spur<br/>P(Success): 0.12<br/>NPV: $1,000MM"]
 ```
 
 Hear me out.
 
-Boring is a high risk, low return prospect. It will probably fail, and it's a small
+Bridge is a high risk, low return prospect. It will probably fail, and it's a small
 closure. It's a dog.
 
-But if Buffet is successful, you'd be crazy not to drill it.
+But if Buffet were successful, you'd be crazy not to drill Bridge next.
 
 This is the crazy senior geologist speaking. He has a mad twinkle in his eye, and he knows
-nobody will listen, but he knows he is right, _dammit_.
+nobody will listen, but he knows he is _right, dammit_.
 
 Why is he right?
 
-Because the information that Boring provides, expensive as it may be, has huge upside.
+Because the information that Bridge provides, expensive as it may be, has huge upside.
 
-A success at Boring would boost the P(success) of Bonanza, a high risk, high reward
+A success at Bridge would boost the P(Success) of Bonanza, a high risk, high reward
 prospect that nobody is considering because "there is no migration that way". Bonanza is
 a _play opener_, it has several follow-ups, all of which are currently high risk, but
 high value.
 
-So you drill Boring to open up the play.
+So you drill Bridge to open up the play.
 
 I've been the crazy guy before. I've never been able to quantify any of this stuff
 persuasively. Resgo lets me quantify the whole lot, all the way through to economics. It
-becomes a simple matter of well applied decision theory, a consequence of your decision
-metrics, and the risks and uncertainties in your portfolio. 
+all flows naturally as a consequence of your decision metrics, and the risks and
+uncertainties in your portfolio. 
 
 Resgo tells you to do it.
 
 And the tool isn't crazy! It's just uncertainty propagation, Bayesian updating and
-economics. Don't argue with the results, just make sure you verify your inputs.
+commercial modelling. Don't argue with the results, just make sure you verify your
+inputs.
 
 Now let's try to do it.
 
 # Example
-
-Since I've started naming prospects with the B theme, let's use that in a live example.
 
 Here's the Portfolio tree again, without risks and NPVs as we haven't calculated them
 yet:
@@ -284,22 +284,30 @@ yet:
 flowchart TD
     Buffet[Buffet]
 
-    Buffet --> Bitesize[Bitesize]
-    Buffet --> Budget[Budget]
-    Buffet --> Boring[Boring]
+    Buffet --> Cove[Cove]
+    Buffet --> Ledge[Ledge]
+    Buffet --> Bridge[Bridge]
 
-    Boring --> Bonanza[Bonanza]
+    Bridge --> Bonanza[Bonanza]
 
-    Bonanza --> Banquet[Banquet]
-    Bonanza --> Bento[Bento]
-    Bonanza --> Baklava[Baklava]
+    Bonanza --> Crest[Crest]
+    Bonanza --> Saddle[Saddle]
+    Bonanza --> Spur[Spur]
 ```
 
 My goal with this example will be to live demo the sequence I spelled out in the
 previous section on strategic value.
 
-Let's define these prospects one by one. All prospects will share the same set of
+This is all make believe, but what I want to try and illustrate is that standalone
+prospect economics is insufficient for good opportunity ranking or decision making.
+These prospects will look far too risky to drill on their own, but at a portfolio level
+warrant serious consideration.
+
+First, let's define these prospects. All prospects will share the same set of
 reservoir targets, named "Archer", "Boulder", "Canyon" and "Drift".
+
+This will be a bit of a repetitive section, so feel free to look through one prospect,
+then skip ahead.
 
 ```{python}
 # Set up shared zone information
@@ -377,14 +385,15 @@ risk_profiles = {
 
 ### Buffet
 
-Buffet is a risky but high value prospect that is the overall play opener for the
+Buffet is a risky but high upside prospect that is the overall play opener for the
 portfolio. The biggest concern the team has is with charge, as they are not convinced a
-migration pathway exists at this location.
+migration pathway exists at this location. The trap size is also a big uncertainty,
+leading to wide uncertainty in outcomes.
 
 ```{python}
 #| output: false
 
-buffet_area_km2 = (5.0, 15.0)
+buffet_area_km2 = (2.0, 10.0)
 
 buffet_reservoirs = [
     Reservoir(
@@ -466,6 +475,8 @@ buffet_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 buffet_reporter.tabler.volumetrics()
 ```
 
+---
+
 ##### By Reservoir
 
 ```{python}
@@ -482,40 +493,40 @@ buffet_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 buffet_reporter.tabler.risked_npv()
 ```
 
-### Bitesize
+### Cove
 
-Bitesize is a small, low risk, single producer near field exploration opportunity that
+Cove is a small, low risk, single producer near field exploration opportunity that
 success at Buffet opens up.
 
 ```{python}
 #| output: false
 
-bitesize_area_km2 = (3.0, 6.0)
+cove_area_km2 = (3.0, 6.0)
 
-bitesize_reservoirs = [
+cove_reservoirs = [
     Reservoir(
-        area_km2=LogNormal.elicit(*bitesize_area_km2),
+        area_km2=LogNormal.elicit(*cove_area_km2),
         zone=zones["Archer"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=risk_profiles["Archer"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*bitesize_area_km2),
+        area_km2=LogNormal.elicit(*cove_area_km2),
         zone=zones["Boulder"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=risk_profiles["Boulder"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*bitesize_area_km2),
+        area_km2=LogNormal.elicit(*cove_area_km2),
         zone=zones["Canyon"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=risk_profiles["Canyon"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*bitesize_area_km2),
+        area_km2=LogNormal.elicit(*cove_area_km2),
         zone=zones["Drift"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
@@ -523,10 +534,10 @@ bitesize_reservoirs = [
     ),
 ]
 
-bitesize = Prospect(
-    name="Bitesize",
+cove = Prospect(
+    name="Cove",
     volumetric_model=VolumetricModel(
-        reservoirs=bitesize_reservoirs,
+        reservoirs=cove_reservoirs,
         dependency=0.5,
     ),
     field_development_model=FieldDevelopmentModel.simple_development(
@@ -550,7 +561,7 @@ bitesize = Prospect(
     ),
 )
 
-bitesize_simpack = bitesize.simulate(
+cove_simpack = cove.simulate(
     risked=True,
     levered=False,
     chains=CHAINS,
@@ -558,70 +569,72 @@ bitesize_simpack = bitesize.simulate(
     seed=SEED,
 )
 
-bitesize_reporter = ProspectReporter(prospect=bitesize, simpack=bitesize_simpack)
+cove_reporter = ProspectReporter(prospect=cove, simpack=cove_simpack)
 ```
 
 #### Volumetrics
 
 ```{python}
-bitesize_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
+cove_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 ```
 
 ##### Total
 
 ```{python}
-bitesize_reporter.tabler.volumetrics()
+cove_reporter.tabler.volumetrics()
 ```
+
+---
 
 ##### By Reservoir
 
 ```{python}
-bitesize_reporter.tabler.volumetrics(group_by="reservoir")
+cove_reporter.tabler.volumetrics(group_by="reservoir")
 ```
 
 #### Economics
 
 ```{python}
-bitesize_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
+cove_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 ```
 
 ```{python}
-bitesize_reporter.tabler.risked_npv()
+cove_reporter.tabler.risked_npv()
 ```
 
-### Budget
+### Ledge
 
-Budget is a marginal single producer near field exploration opportunity.
+Ledge is a marginal single producer near field exploration opportunity.
 
 ```{python}
 #| output: false
 
-budget_area_km2 = (1.0, 2.0)
+ledge_area_km2 = (1.0, 2.0)
 
-budget_reservoirs = [
+ledge_reservoirs = [
     Reservoir(
-        area_km2=LogNormal.elicit(*budget_area_km2),
+        area_km2=LogNormal.elicit(*ledge_area_km2),
         zone=zones["Archer"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=risk_profiles["Archer"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*budget_area_km2),
+        area_km2=LogNormal.elicit(*ledge_area_km2),
         zone=zones["Boulder"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=risk_profiles["Boulder"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*budget_area_km2),
+        area_km2=LogNormal.elicit(*ledge_area_km2),
         zone=zones["Canyon"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=risk_profiles["Canyon"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*budget_area_km2),
+        area_km2=LogNormal.elicit(*ledge_area_km2),
         zone=zones["Drift"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
@@ -629,10 +642,10 @@ budget_reservoirs = [
     ),
 ]
 
-budget = Prospect(
-    name="Budget",
+ledge = Prospect(
+    name="Ledge",
     volumetric_model=VolumetricModel(
-        reservoirs=budget_reservoirs,
+        reservoirs=ledge_reservoirs,
         dependency=0.5,
     ),
     field_development_model=FieldDevelopmentModel.simple_development(
@@ -656,7 +669,7 @@ budget = Prospect(
     ),
 )
 
-budget_simpack = budget.simulate(
+ledge_simpack = ledge.simulate(
     risked=True,
     levered=False,
     chains=CHAINS,
@@ -664,40 +677,42 @@ budget_simpack = budget.simulate(
     seed=SEED,
 )
 
-budget_reporter = ProspectReporter(prospect=budget, simpack=budget_simpack)
+ledge_reporter = ProspectReporter(prospect=ledge, simpack=ledge_simpack)
 ```
 
 #### Volumetrics
 
 ```{python}
-budget_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
+ledge_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 ```
 
 ##### Total
 
 ```{python}
-budget_reporter.tabler.volumetrics()
+ledge_reporter.tabler.volumetrics()
 ```
+
+---
 
 ##### By Reservoir
 
 ```{python}
-budget_reporter.tabler.volumetrics(group_by="reservoir")
+ledge_reporter.tabler.volumetrics(group_by="reservoir")
 ```
 
 #### Economics
 
 ```{python}
-budget_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
+ledge_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 ```
 
 ```{python}
-budget_reporter.tabler.risked_npv()
+ledge_reporter.tabler.risked_npv()
 ```
 
-### Boring
+### Bridge
 
-Boring is a high risk and low reward prospect, with a single producer.
+Bridge is a high risk and low reward prospect, with a single producer.
 
 ```{python}
 ## Set up harsher risk profiles
@@ -733,32 +748,32 @@ harsh_risk_profiles = {
 ```{python}
 #| output: false
 
-boring_area_km2 = (1.5, 3.5)
+bridge_area_km2 = (1.5, 3.5)
 
-boring_reservoirs = [
+bridge_reservoirs = [
     Reservoir(
-        area_km2=LogNormal.elicit(*boring_area_km2),
+        area_km2=LogNormal.elicit(*bridge_area_km2),
         zone=zones["Archer"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Archer"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*boring_area_km2),
+        area_km2=LogNormal.elicit(*bridge_area_km2),
         zone=zones["Boulder"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Boulder"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*boring_area_km2),
+        area_km2=LogNormal.elicit(*bridge_area_km2),
         zone=zones["Canyon"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Canyon"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*boring_area_km2),
+        area_km2=LogNormal.elicit(*bridge_area_km2),
         zone=zones["Drift"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
@@ -766,10 +781,10 @@ boring_reservoirs = [
     ),
 ]
 
-boring = Prospect(
-    name="Boring",
+bridge = Prospect(
+    name="Bridge",
     volumetric_model=VolumetricModel(
-        reservoirs=boring_reservoirs,
+        reservoirs=bridge_reservoirs,
         dependency=0.5,
     ),
     field_development_model=FieldDevelopmentModel.simple_development(
@@ -793,7 +808,7 @@ boring = Prospect(
     ),
 )
 
-boring_simpack = boring.simulate(
+bridge_simpack = bridge.simulate(
     risked=True,
     levered=False,
     chains=CHAINS,
@@ -801,35 +816,37 @@ boring_simpack = boring.simulate(
     seed=SEED,
 )
 
-boring_reporter = ProspectReporter(prospect=boring, simpack=boring_simpack)
+bridge_reporter = ProspectReporter(prospect=bridge, simpack=bridge_simpack)
 ```
 
 #### Volumetrics
 
 ```{python}
-boring_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
+bridge_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 ```
 
 ##### Total
 
 ```{python}
-boring_reporter.tabler.volumetrics()
+bridge_reporter.tabler.volumetrics()
 ```
+
+---
 
 ##### By Reservoir
 
 ```{python}
-boring_reporter.tabler.volumetrics(group_by="reservoir")
+bridge_reporter.tabler.volumetrics(group_by="reservoir")
 ```
 
 #### Economics
 
 ```{python}
-boring_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
+bridge_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 ```
 
 ```{python}
-boring_reporter.tabler.risked_npv()
+bridge_reporter.tabler.risked_npv()
 ```
 
 ### Bonanza
@@ -923,6 +940,8 @@ bonanza_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 bonanza_reporter.tabler.volumetrics()
 ```
 
+---
+
 ##### By Reservoir
 
 ```{python}
@@ -939,40 +958,40 @@ bonanza_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 bonanza_reporter.tabler.risked_npv()
 ```
 
-### Banquet
+### Crest
 
-Banquet is a mid-sized three producer follow-up opportunity opened by success at
+Crest is a mid-sized three producer follow-up opportunity opened by success at
 Bonanza.
 
 ```{python}
 #| output: false
 
-banquet_area_km2 = (12.0, 22.0)
+crest_area_km2 = (12.0, 22.0)
 
-banquet_reservoirs = [
+crest_reservoirs = [
     Reservoir(
-        area_km2=LogNormal.elicit(*banquet_area_km2),
+        area_km2=LogNormal.elicit(*crest_area_km2),
         zone=zones["Archer"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Archer"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*banquet_area_km2),
+        area_km2=LogNormal.elicit(*crest_area_km2),
         zone=zones["Boulder"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Boulder"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*banquet_area_km2),
+        area_km2=LogNormal.elicit(*crest_area_km2),
         zone=zones["Canyon"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Canyon"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*banquet_area_km2),
+        area_km2=LogNormal.elicit(*crest_area_km2),
         zone=zones["Drift"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
@@ -980,10 +999,10 @@ banquet_reservoirs = [
     ),
 ]
 
-banquet = Prospect(
-    name="Banquet",
+crest = Prospect(
+    name="Crest",
     volumetric_model=VolumetricModel(
-        reservoirs=banquet_reservoirs,
+        reservoirs=crest_reservoirs,
         dependency=0.5,
     ),
     field_development_model=FieldDevelopmentModel.simple_development(
@@ -1007,7 +1026,7 @@ banquet = Prospect(
     ),
 )
 
-banquet_simpack = banquet.simulate(
+crest_simpack = crest.simulate(
     risked=True,
     levered=False,
     chains=CHAINS,
@@ -1015,70 +1034,72 @@ banquet_simpack = banquet.simulate(
     seed=SEED,
 )
 
-banquet_reporter = ProspectReporter(prospect=banquet, simpack=banquet_simpack)
+crest_reporter = ProspectReporter(prospect=crest, simpack=crest_simpack)
 ```
 
 #### Volumetrics
 
 ```{python}
-banquet_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
+crest_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 ```
 
 ##### Total
 
 ```{python}
-banquet_reporter.tabler.volumetrics()
+crest_reporter.tabler.volumetrics()
 ```
+
+---
 
 ##### By Reservoir
 
 ```{python}
-banquet_reporter.tabler.volumetrics(group_by="reservoir")
+crest_reporter.tabler.volumetrics(group_by="reservoir")
 ```
 
 #### Economics
 
 ```{python}
-banquet_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
+crest_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 ```
 
 ```{python}
-banquet_reporter.tabler.risked_npv()
+crest_reporter.tabler.risked_npv()
 ```
 
-### Bento
+### Saddle
 
-Bento is another mid-sized three producer Bonanza follow-up.
+Saddle is another mid-sized three producer Bonanza follow-up.
 
 ```{python}
 #| output: false
 
-bento_area_km2 = (10.0, 18.0)
+saddle_area_km2 = (10.0, 18.0)
 
-bento_reservoirs = [
+saddle_reservoirs = [
     Reservoir(
-        area_km2=LogNormal.elicit(*bento_area_km2),
+        area_km2=LogNormal.elicit(*saddle_area_km2),
         zone=zones["Archer"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Archer"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*bento_area_km2),
+        area_km2=LogNormal.elicit(*saddle_area_km2),
         zone=zones["Boulder"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Boulder"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*bento_area_km2),
+        area_km2=LogNormal.elicit(*saddle_area_km2),
         zone=zones["Canyon"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Canyon"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*bento_area_km2),
+        area_km2=LogNormal.elicit(*saddle_area_km2),
         zone=zones["Drift"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
@@ -1086,16 +1107,16 @@ bento_reservoirs = [
     ),
 ]
 
-bento = Prospect(
-    name="Bento",
+saddle = Prospect(
+    name="Saddle",
     volumetric_model=VolumetricModel(
-        reservoirs=bento_reservoirs,
+        reservoirs=saddle_reservoirs,
         dependency=0.5,
     ),
     field_development_model=FieldDevelopmentModel.simple_development(
         num_producers=3,
         reservoir_names=None,
-        start_date=datetime(2030, 1, 1),
+        start_date=datetime(2031, 1, 1),
         month_offset=12,
         drill_to_online_months=12,
         max_oil_rate_stbpd=22_000,
@@ -1113,7 +1134,7 @@ bento = Prospect(
     ),
 )
 
-bento_simpack = bento.simulate(
+saddle_simpack = saddle.simulate(
     risked=True,
     levered=False,
     chains=CHAINS,
@@ -1121,70 +1142,72 @@ bento_simpack = bento.simulate(
     seed=SEED,
 )
 
-bento_reporter = ProspectReporter(prospect=bento, simpack=bento_simpack)
+saddle_reporter = ProspectReporter(prospect=saddle, simpack=saddle_simpack)
 ```
 
 #### Volumetrics
 
 ```{python}
-bento_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
+saddle_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 ```
 
 ##### Total
 
 ```{python}
-bento_reporter.tabler.volumetrics()
+saddle_reporter.tabler.volumetrics()
 ```
+
+---
 
 ##### By Reservoir
 
 ```{python}
-bento_reporter.tabler.volumetrics(group_by="reservoir")
+saddle_reporter.tabler.volumetrics(group_by="reservoir")
 ```
 
 #### Economics
 
 ```{python}
-bento_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
+saddle_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 ```
 
 ```{python}
-bento_reporter.tabler.risked_npv()
+saddle_reporter.tabler.risked_npv()
 ```
 
-### Baklava
+### Spur
 
-Baklava is the third mid-sized three producer Bonanza follow-up.
+Spur is the third mid-sized three producer Bonanza follow-up.
 
 ```{python}
 #| output: false
 
-baklava_area_km2 = (14.0, 24.0)
+spur_area_km2 = (14.0, 24.0)
 
-baklava_reservoirs = [
+spur_reservoirs = [
     Reservoir(
-        area_km2=LogNormal.elicit(*baklava_area_km2),
+        area_km2=LogNormal.elicit(*spur_area_km2),
         zone=zones["Archer"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Archer"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*baklava_area_km2),
+        area_km2=LogNormal.elicit(*spur_area_km2),
         zone=zones["Boulder"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Boulder"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*baklava_area_km2),
+        area_km2=LogNormal.elicit(*spur_area_km2),
         zone=zones["Canyon"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
         risk_profile=harsh_risk_profiles["Canyon"],
     ),
     Reservoir(
-        area_km2=LogNormal.elicit(*baklava_area_km2),
+        area_km2=LogNormal.elicit(*spur_area_km2),
         zone=zones["Drift"],
         oil=Oil.default(),
         oil_type_curve=OilTypeCurve.default(),
@@ -1192,16 +1215,16 @@ baklava_reservoirs = [
     ),
 ]
 
-baklava = Prospect(
-    name="Baklava",
+spur = Prospect(
+    name="Spur",
     volumetric_model=VolumetricModel(
-        reservoirs=baklava_reservoirs,
+        reservoirs=spur_reservoirs,
         dependency=0.5,
     ),
     field_development_model=FieldDevelopmentModel.simple_development(
         num_producers=3,
         reservoir_names=None,
-        start_date=datetime(2030, 1, 1),
+        start_date=datetime(2032, 1, 1),
         month_offset=12,
         drill_to_online_months=12,
         max_oil_rate_stbpd=28_000,
@@ -1219,7 +1242,7 @@ baklava = Prospect(
     ),
 )
 
-baklava_simpack = baklava.simulate(
+spur_simpack = spur.simulate(
     risked=True,
     levered=False,
     chains=CHAINS,
@@ -1227,55 +1250,73 @@ baklava_simpack = baklava.simulate(
     seed=SEED,
 )
 
-baklava_reporter = ProspectReporter(prospect=baklava, simpack=baklava_simpack)
+spur_reporter = ProspectReporter(prospect=spur, simpack=spur_simpack)
 ```
 
 #### Volumetrics
 
 ```{python}
-baklava_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
+spur_reporter.plotter.volumetric_ecdf(backend=PLOTTING_BACKEND)
 ```
 
 ##### Total
 
 ```{python}
-baklava_reporter.tabler.volumetrics()
+spur_reporter.tabler.volumetrics()
 ```
+
+---
 
 ##### By Reservoir
 
 ```{python}
-baklava_reporter.tabler.volumetrics(group_by="reservoir")
+spur_reporter.tabler.volumetrics(group_by="reservoir")
 ```
 
 #### Economics
 
 ```{python}
-baklava_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
+spur_reporter.plotter.cash_flow(figsize=(650, 250), backend=PLOTTING_BACKEND)
 ```
 
 ```{python}
-baklava_reporter.tabler.risked_npv()
+spur_reporter.tabler.risked_npv()
 ```
 
 ## High risk
 
-You'll notice this whole portfolio looks very high risk. That is because all risk
-factors are being applied with our current state of information. The entire portfolio
-has high charge risk, a P(Charge) of 0.4 for Buffet, Bitesize, Budget and Boring, and an
-even harsher 0.2 for Bonanza and its children, making them all a bad bet. This is an
-untested migration pathway in our basin.
+You'll notice this entire portfolio is very high risk. 
 
-The opportunities don't necessarily hold up on their own merits. That is why strategic
-value is so important. Strategic, full-cycle value of these prospects will be simulated
-on a portfolio basis.
+That is because all risk factors are being applied with our current state of
+information. The entire portfolio has high charge risk, a P(Charge) of 0.4 for Buffet,
+Cove, Ledge and Bridge, and an even harsher 0.1 for Bonanza and its children, making
+them all a bad bet. This is an untested migration corridor in our exploration acreage.
+
+The opportunities don't necessarily hold up on their own merits. Buffet, the entire play
+opener, is negative EMV! That is why strategic value is so important. Strategic,
+full-cycle value of these prospects will be simulated on a portfolio basis, and that
+will provide us with a richer picture of value.
 
 ## Portfolio model
 
 The portfolio manages all these prospects, along with their parent-child relationships
 and information sharing for risk factors. For simplicity we will just model information
-sharing for P(charge), but a user could model relationships between reservoir risk
+sharing for P(Charge), but a user could model relationships between reservoir risk
 factors as they see fit.
+
+### Charge dependency
+
+The charge dependency between reservoir intersections is intuitive. Information we
+acquire on a migration corridor (observing charged) changes the risk factors
+applied to any child prospects in the portfolio. In this example we give charge +3 bits
+of information. So if Buffet fails on charge, the whole portfolio dies, but if it
+succeeds, the portfolio lights up like a christmas tree, and we follow the opportunity
+branches.
+
+Importantly, the information flowing is not contingent on _commercial_ success, it is
+contingent on the observation regarding that particular risk factor. If Buffet is
+charged, but tiny and sub economic, that doesn't change anything for the child
+prospects, what matters is that Buffet is charged!
 
 ```{python}
 #| output: false
@@ -1301,26 +1342,26 @@ def charge_dependency_profile(bits: float = CHARGE_DEPENDENCY_BITS):
 
 
 buffet_node = ProspectNode(prospect=buffet, decision_rule=DECISION_RULE)
-bitesize_node = ProspectNode(prospect=bitesize, decision_rule=DECISION_RULE)
-budget_node = ProspectNode(prospect=budget, decision_rule=DECISION_RULE)
-boring_node = ProspectNode(prospect=boring, decision_rule=DECISION_RULE)
+cove_node = ProspectNode(prospect=cove, decision_rule=DECISION_RULE)
+ledge_node = ProspectNode(prospect=ledge, decision_rule=DECISION_RULE)
+bridge_node = ProspectNode(prospect=bridge, decision_rule=DECISION_RULE)
 bonanza_node = ProspectNode(prospect=bonanza, decision_rule=DECISION_RULE)
-banquet_node = ProspectNode(prospect=banquet, decision_rule=DECISION_RULE)
-bento_node = ProspectNode(prospect=bento, decision_rule=DECISION_RULE)
-baklava_node = ProspectNode(prospect=baklava, decision_rule=DECISION_RULE)
+crest_node = ProspectNode(prospect=crest, decision_rule=DECISION_RULE)
+saddle_node = ProspectNode(prospect=saddle, decision_rule=DECISION_RULE)
+spur_node = ProspectNode(prospect=spur, decision_rule=DECISION_RULE)
 
-buffet_node.add_child(bitesize_node, risk_dependency_profile=charge_dependency_profile())
-buffet_node.add_child(budget_node, risk_dependency_profile=charge_dependency_profile())
-buffet_node.add_child(boring_node, risk_dependency_profile=charge_dependency_profile())
+buffet_node.add_child(cove_node, risk_dependency_profile=charge_dependency_profile())
+buffet_node.add_child(ledge_node, risk_dependency_profile=charge_dependency_profile())
+buffet_node.add_child(bridge_node, risk_dependency_profile=charge_dependency_profile())
 
-boring_node.add_child(bonanza_node, risk_dependency_profile=charge_dependency_profile())
+bridge_node.add_child(bonanza_node, risk_dependency_profile=charge_dependency_profile())
 
-bonanza_node.add_child(banquet_node, risk_dependency_profile=charge_dependency_profile())
-bonanza_node.add_child(bento_node, risk_dependency_profile=charge_dependency_profile())
-bonanza_node.add_child(baklava_node, risk_dependency_profile=charge_dependency_profile())
+bonanza_node.add_child(crest_node, risk_dependency_profile=charge_dependency_profile())
+bonanza_node.add_child(saddle_node, risk_dependency_profile=charge_dependency_profile())
+bonanza_node.add_child(spur_node, risk_dependency_profile=charge_dependency_profile())
 
 portfolio = Portfolio(
-    name="Basin B Portfolio",
+    name="Demo Portfolio",
     root_nodes=[buffet_node],
     economic_start_date=datetime(2026, 1, 1),
     price_model=FlatPriceModel(oil_price_USD_stb=75.0, gas_price_USD_mmbtu=4.0),
@@ -1337,14 +1378,24 @@ portfolio_simpack = portfolio.simulate(
 portfolio_reporter = PortfolioReporter(simpack=portfolio_simpack)
 ```
 
+### Visualizing results
+
 The Resgo Portfolio, as it turns out, is quite a complicated object to visualize. Every
 node in the tree is stochastic, and outcomes are being bifurcated via the information
-sharing between nodes. That creates a difficult to interpret cash flow plot:
+sharing between nodes. Bifurcation also effectively means very high NPV vs almost
+certain failure, given how sensitive we are to charge risk. 
+
+That creates very wide uncertainties. That uncertainty is real, but it is long tailed
+and (by prospect) bi-modal.
 
 ### Portfolio cash flow
 
+Here is the portfolio aggregated schocastic cash flow plot, presented just as they are
+at the resgo Prospect level.
+
 ```{python}
 portfolio_reporter.plotter.cash_flow(
+    symlog_constant=5,
     backend=PLOTTING_BACKEND,
     figsize=(650, 300),
 )
@@ -1352,8 +1403,11 @@ portfolio_reporter.plotter.cash_flow(
 
 ### Portfolio mean case
 
+And here is the mean portfolio case, partitioned by prospect:
+
 ```{python}
-portfolio_reporter.plotter.mean_stacked_cash_flow(
+portfolio_reporter.plotter.mean_stacked_cash_flow( 
+    symlog_constant=5,
     backend=PLOTTING_BACKEND,
     figsize=(650, 300),
 )
@@ -1362,15 +1416,23 @@ portfolio_reporter.plotter.mean_stacked_cash_flow(
 This might be (and I'm really not sure yet) the best way to visualize the portfolio
 value through time. I say I'm not sure because taking the mean across the whole
 simulated array by month is smoothing through a lot of complexity. I can't stack
-prospects while also visualizing uncertainty, so a mean timeline is a good compromise,
-even though the mean case is not actually a case, it never appears in the simulated
-array.
+prospects while also visualizing uncertainty, so a mean timeline is a good compromise
+even though the mean is not actually a case---it never appears in the simulated array.
 
-I could use the P50 (median) case, but then the problem becomes what we actually mean by
-P50, at this level of analysis. I can't take the P50 array of each individual prospect,
-because outcomes are being bifurcated by information flowing from parent to child,
-making a median of limited interest, and that P50 outcome at each prospect never appears
-in the array as a case, either.
+I could use the P50 (median) case, but what do we actually mean by P50 at this level of
+analysis? I can't take the P50 array of each individual prospect, because the actual P50
+portfolio level case is made of an ensemble of uncertain outcomes, none of which
+represent prospect level P50 outcomes. There is also the problem of how
+nonrepresentative the P50 is when dealing with long tailed probability distributions,
+which I'll touch on later.
+
+This plot above is, more or less, a stacked time series EMV plot. That is useful because
+it indicates prospect level expected performance. For example, the Buffet prospect
+(green in the plot above) is negative EMV as it ends below zero. Likewise with Bridge
+(orange). The large wedge created by Bonanza (blue) gives the user an impression of how
+strategically important Bonanza is to the portfolio value.
+
+But it also... hides a lot.
 
 Some brainstorming and refinement will be needed here, I think.
 
@@ -1379,21 +1441,29 @@ It's pretty cool though.
 ### Decision summary
 
 ```{python}
-portfolio_reporter.tabler.decision().reset_index()[["node", "status"]]
+portfolio_reporter.tabler.decision()[["Decision"]]
 ```
 
-You'll notice that the decision assigned to Boring in the table above is `strategic`.
-That is because Boring was not drillable on its own merits, it had negative EMV.
-Considering its downstream opportunity creation, however, made it a clear decision to
-drill.
+You'll notice that the decisions assigned Buffet to Bridge in the table above are
+`strategic`. That is because these prospects are not drillable on their own merits, they
+have negative standalone EMV. Considering downstream opportunity creation, however, made
+it a clear decision to drill Buffet to open the play, and Bridge to open up the Bonanza
+subplay.
 
-The other prospect that looked questionable on a first pass, Budget, was rejected in the
-portfolio. If Budget opened up downstream opportunity, it would likely be set to
-`strategic` as well.
+The other prospect that looked highly questionable on a first pass, Ledge, was rejected
+in the portfolio, even conditional on Buffet demonstrating charge. It was too small to
+justify. 
+
+If Ledge opened up downstream opportunity, it would likely be set to `strategic` as
+well. From this perspective it is worth cataloguing every opportunity, regardless of
+whether they stack up commercially on their own, as they may provide pathways to further
+exploration if new opportunities are identified down the line.
 
 ### Portfolio risked NPV
 
 #### Total
+
+Here is the range of portfolio aggregated NPV:
 
 ```{python}
 portfolio_reporter.tabler.risked_npv()
@@ -1401,44 +1471,194 @@ portfolio_reporter.tabler.risked_npv()
 
 #### By prospect
 
+Things get interesting when we split by prospect. When we look at prospect value, we can
+report standalone NPV (the commercial value of the prospect, taken in isolation), but we
+can also report full cycle value, which considers the value of the opportunities that
+the prospect opens up via its dependencies.
+
+##### Standalone
+
 ```{python}
 portfolio_reporter.tabler.risked_npv(group_by="prospect")
 ```
 
-**NOTE:** These are standalone NPV figures. We should show full-cycle NPV as well to
-show the contrast.
+Notice that, on a standalone basis, Buffet and Bridge are negative mean NPV. They would
+not get drilled based on our decision metric from a standalone economic perspective.
 
-## Overall impression
+---
 
-The first thing that jumps out is that the commercial outcomes at the portfolio
-aggregated level are extremely uncertain. This makes sense, if you think about it. We
-don't even know if this corridor is charged. That means we have anything between zero
-opportunity here, and potentially 8 decently sized prospects. That is going to be a very
-wide range.
+##### Full cycle
 
-To illustrate this uncertainty a bit more:
+```{python}
+portfolio_reporter.tabler.full_cycle_risked_npv()
+```
+
+But look at their full cycle value! Buffet and Bridge were negative before, but from a
+full cycle perspective, they are the most valuable opportunities in the whole portfolio!
+
+---
+
+#### Strategic value summary
+
+```{python}
+portfolio_reporter.tabler.full_cycle_value_components()
+```
+
+This table breaks this down explicitly, focussing on mean outcomes. The downstream value
+here is the sum of child prospect NPV (simulated with end to end Resgo prospect models,
+remember), excluding rejected child prospects (as ignoring sub-economic options does not
+incur any cost).
+
+Buffet and Bridge are listed as `strategic` because they are drillable on their full
+cycle value, not their standalone value.
+
+The plot below is helpful for summarizing this information, but requires some
+explanation to avoid confusion (for me and you). 
+
+**Standalone Success NPV** is the NPV conditional on the prospect geological success. We
+need to present it that way, because we are trying to capture opportunity, and the
+P(Geological Success) is changing during portfolio simulation.
+
+**Full Cycle Success NPV** is the Standalone Success NPV plus the _risked_ sum of
+downstream opportunity NPV (including geological failure cases). We can't assume
+downstream prospects will succeed conditional on the parent prospect, so they must
+remain risked to be accurately captured in the full cycle value of the parent. Rejected
+prospects are also left out here, as there is no sense in penalizing a parent prospect
+with its undrillable child prospects, the only ones that matter are the ones we would
+pursue.
+
+Headache? Don't worry, me too.
+
+Here's the plot:
+
+```{python}
+portfolio_reporter.plotter.unrisked_value_ridge( 
+    backend=PLOTTING_BACKEND,
+    figsize=(650, 500),
+)
+```
+
+Notice the change in Buffet and Bridge, in particular. A bunch of high-side potential is
+captured in the Full Cycle Success NPV, that is missed in standalone economics.
+
+Neat!
+
+## Overall thoughts
+
+Okay, so there is a lot to unpack here.
+
+The first thing that jumps out at me is that the commercial outcomes at the portfolio
+aggregated level are incredibly uncertain. 
+
+This isn't surprising, if you think about it. We don't even know if this corridor is
+charged. That means we have anything between zero value here, and potentially 8 decently
+sized prospects. That is going to be a very wide range. 
+
+Furthermore, at each level in the tree we have risk bifurcation, which means prospect
+outcomes get split into two paths. This further widens portfolio level uncertainty.
+
+To illustrate this a bit more:
 
 If Buffet fails, the entire portfolio is ruled out. Too risky on charge. 
 
-If Buffet succeeds, that boosts the P(Charge) of its children Bitesize, Budget, and
-Boring. That doesn't mean they all succeed (other risk factors are at play) but they
+If Buffet succeeds, that boosts the P(Charge) of its children Cove, Ledge, and
+Bridge. That doesn't mean they all succeed (other risk factors are at play) but they
 become much more likely to.
 
-If Boring is charged, that information flows to Bonanza and its children. These
-prospects were written off as extremely high risk before drilling with P(Charge) of 0.2.
-The success upstream at Budget, even though Budget on its own is sub-economic, opens up
+If Bridge is charged, that information flows to Bonanza and its children. These
+prospects were written off as extremely high risk before drilling with P(Charge) of 0.1.
+The success upstream at Bridge, even though Bridge on its own is sub-economic, opens up
 the Bonanza play. That has huge strategic value, as Bonanza is the biggest prospect in
 the portfolio on an unrisked basis.
 
 Because of the dependencies between prospects in the portfolio, standalone economic
-metrics aren't really enough to communicate value. Most of the value in Buffet is not
+metrics aren't enough to capture opportunity value. Most of the value in Buffet is not
 standalone, it is in the downstream information it provides to child prospects,
-connected via the P(Charge) dependency. 
+connected via the P(Charge) dependency.
 
-Similarly, Boring would never get drilled on its own merits, it provides value via its
-downstream consequences. These complicated arguments are _very_ difficult to make in
-normal circumstances, especially under uncertainty. This is my best attempt at making
-the whole simulated system explicit.
+Similarly, Bridge would never get drilled on its own merits---it would disappear in the
+rankings of a naive opportunity register---it provides value via its downstream
+consequences. These complicated arguments are _very_ difficult to make in normal
+circumstances, especially under uncertainty. This is my best attempt at making the whole
+simulated system explicit.
+
+## A note on means and medians
+
+Something else this exercise has clarified for me, is that summary statistics like the
+mean and median are horribly reductive when uncertainties are this wide. The whole point
+of drilling Buffet and opening up this play is the _exposure to upside_. On a mean
+(expected) basis, the decision is supported because the portfolio is NPV positive... but
+that isn't the real reason for doing it.
+
+According to the model there is a 10% chance this portfolio is worth more than $2.7 billion
+dollars in net present value. The mean is $580 million. 
+
+The range is really important to keep in mind, because we aren't going to discover the
+mean portfolio outcome, we're going to be strapped onto an uncertainty rocket with no
+way of knowing where we end up. Considering the downside exposure vs upside exposure is
+more informative than an abstract mean that will never happen.
+
+In the previous post on Resgo prospect simulation, I brought up loss functions, and I
+think they are even more relevant at this level of analysis.
+
+As for the median... throw it out. It is very misleading because the outcome NPV
+distributions we are considering are so long tailed. It just doesn't make sense as a
+metric if you take uncertainty seriously. So the mean is lossy, but the median is not
+representative.
+
+## Portfolio optimization
+
+I haven't built it yet (maybe it'll be the topic of my next post on Resgo), but this
+simulation chain also creates a very powerful optimization surface. 
+
+A discrete optimization model---shifting prospect drill order,
+wells per prospect, delays---under capital allocation and infrastructure constraints,
+where the target is discounted cash flows (so the benefit of acting sooner is implicit
+in the optimization), is... very nice.
+
+## Where is the D-Tree?
+
+This whole simulation can be thought of as a stochastic D-Tree, with Bayesian updates
+informing success/failure at each node, and full cycle economics driving drill/walk
+decisions. I don't have a pretty plot presenting it that way, but mechanically, that is
+what this it is doing.
+
+# Closing thoughts
+
+I'm not sure how to close this out, but I will say that I am very happy with how
+portfolio simulation in Resgo has turned out. I've always had it as a "capstone" feature
+in the back of my mind, but I can't claim that I designed for it from the beginning. I
+was fortunately very lucky that the implementation fit so well into Resgo's
+architecture. Treating Prospects as nodes in a tree, and simply simulating that tree
+with a few in loop alterations based on risk dependencies, is a pretty elegant way of
+handling portfolio analysis.
+
+The part I am now unsure about is how to rigorously define all these metrics. Reporting
+quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio aggregated
+NPV, and whatever other commercial metrics I will add later, start to build up and cause
+confusion. Handling geological success as a commercial outcome (ie an NPV negative dry
+hole) changes the semantics of prospect evaluation, because traditionally the failure
+case would be captured as a failure arm in a D-Tree. That isn't the elegant approach
+here, I can go a lot further by naturally capturing a range in a single simulated array,
+and reasoning about it downstream, but there are definitely some semantic rough edges to
+figure out.
+
+My next step I think will be to start building a UI---refining the simulation code
+itself is probably the most important thing to be focussed on---but I also need to be
+able to get Resgo into other people's hands at some point, barring me using it in a
+consultancy capacity only. 
+
+I do like the consultancy approach, at least at first, because it will allow me to field
+test with real opportunities, and iron out any creases I've left in the process. There
+is _a lot_ of process, here, so it is inevitable that I've left some mess behind me
+while building it.
+
+Thanks for reading!
+
+```{python}
+test = 100000
+```
+
 
 [^not-sorry]: not sorry
 
