@@ -14,8 +14,8 @@ execute:
 PLOTTING_BACKEND = "altair"
 SEED = 43
 
-CHAINS = 10
-DRAWS = 500
+CHAINS = 6
+DRAWS = 200
 N_RESERVOIRS = 10
 N_PRODUCERS = 25
 
@@ -128,13 +128,13 @@ prospect.field_development_model = FieldDevelopmentModel.simple_development(
     years=30,
 )
 
-prospect.economic_model = EconomicModel(
+prospect.economic_model = EconomicModel.from_values(
     price_model=FlatPriceModel(oil_price_USD_stb=70.0, gas_price_USD_mmbtu=3.5),
     royalty_model=FlatRoyaltyModel(royalty_rate=0.12),
     tax_model=ProgressiveTaxModel(tax_tiers={0: 0.15, 10e6: 0.25, 15e6: 0.4}),
     leverage_model=LeverageModel(debt_to_equity_ratio=1.0, interest_rate=0.06, loan_term_years=15),
     infrastructure_capex_USD=350e6,
-    annual_discount_rate=0.10,
+    annual_nominal_discount_rate=0.10,
     annual_inflation_rate=0.025,
     annual_opex_USD=2e6,
     producer_abandonment_cost_USD=0.5e6,
@@ -161,7 +161,7 @@ Each parameter is represented with a probability distribution, with flexible cop
 models used to capture correlations between them. A few examples are shown below:
 
 ```{python}
-fig = reporter.plotter.forest_plot(
+fig = reporter.plotter.forest(
     "Net (m)", 
     backend=PLOTTING_BACKEND
 )
@@ -169,7 +169,7 @@ fig.show()
 ```
 
 ```{python}
-fig = reporter.plotter.forest_plot(
+fig = reporter.plotter.forest(
     "Porosity", 
     backend=PLOTTING_BACKEND
 )
@@ -177,7 +177,7 @@ fig.show()
 ```
 
 ```{python}
-fig = reporter.plotter.forest_plot(
+fig = reporter.plotter.forest(
     "Water Saturation", 
     backend=PLOTTING_BACKEND
 )
@@ -195,7 +195,7 @@ results stochastically and propagating them into the field production simulator.
 Here are the individual zone success case oil volumes:
 
 ```{python}
-fig = reporter.plotter.forest_plot(
+fig = reporter.plotter.forest(
     "STOIIP (stb)", 
     backend=PLOTTING_BACKEND
 )
@@ -205,7 +205,7 @@ fig.show()
 And the overall total visualized with an ECDF plot:
 
 ```{python}
-fig = reporter.plotter.prospect_volumetric_ecdf_plot(
+fig = reporter.plotter.volumetric_ecdf(
     figsize=(650, 250),
     backend=PLOTTING_BACKEND
 )
@@ -248,7 +248,7 @@ hundreds of different scenarios, each with thousands of iterations, efficiently
 exploring field development options.
 
 ```{python}
-fig = reporter.plotter.combined_production_plot(
+fig = reporter.plotter.combined_production(
     figsize=(650, 250),
     backend=PLOTTING_BACKEND
 )
@@ -291,7 +291,8 @@ NPV, PI, and payback time.
 Below, nominal discounted cash flows are shown, which sum to project NPV.
 
 ```{python}
-fig = reporter.plotter.combined_cash_flow_plot(
+fig = reporter.plotter.combined_cash_flow(
+    monthly_y_scale="linear",
     figsize=(650, 250),
     backend=PLOTTING_BACKEND
 )
@@ -322,31 +323,25 @@ tabulated.
 ### Volumetrics
 
 ```{python}
-reporter.tabler.volumetrics_table()
+reporter.tabler.volumetrics()
 ```
 
 ### Oil EUR
 
 ```{python}
-reporter.tabler.oil_eur_table(group_by=None)
+reporter.tabler.oil_eur(group_by=None)
 ```
 
 #### By Reservoir
 
 ```{python}
-reporter.tabler.oil_eur_table(group_by="reservoir")
+reporter.tabler.oil_eur(group_by="reservoir")
 ```
 
 ### Nominal NPV
 
 ```{python}
-reporter.tabler.npv_table()
-```
-
-### Nominal EMV
-
-```{python}
-reporter.tabler.emv_table()
+reporter.tabler.risked_npv()
 ```
 
 On the basis of these results the prospect looks quite attractive. The project is
@@ -411,16 +406,11 @@ Before defining the function, it is worth looking directly at the simulated NPV
 distribution:
 
 ```{python}
-from resgo.plotting.tables import npv_USD
+from resgo.engine.economic_metrics import nominal_risked_npv_USD
 import numpy as np
 import pandas as pd
 
-npv = npv_USD(
-    simpack,
-    nominal=True,
-    discounted=True,
-    success_only=False,
-)
+npv = nominal_risked_npv_USD(simpack)
 npv_usd = npv.to_numpy().ravel()
 npv_df = pd.DataFrame({"npv_usd_mm": npv_usd / 1e6})
 
