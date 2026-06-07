@@ -2,7 +2,7 @@
 title: "Resgo: Portfolio Simulation"
 subtitle: "End-to-end strategic value quantification"
 author: "Nicholas Dorsch"
-date: today
+date: 2026/06/07
 categories: [LDI, geology, geophysics, statistics]
 image: media/resgo_portfolio.png
 execute:
