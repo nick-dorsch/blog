@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicholas Dorsch">
-<meta name="dcterms.date" content="2026-06-06">
+<meta name="dcterms.date" content="2026-06-07">
 
 <title>Resgo: Portfolio Simulation – dorschblog</title>
 <style>
@@ -174,7 +174,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 6, 2026</p>
+        <p class="date">June 7, 2026</p>
       </div>
     </div>
     
@@ -190,11 +190,12 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#structure-and-constraints" id="toc-structure-and-constraints" class="nav-link active" data-scroll-target="#structure-and-constraints">Structure and constraints</a></li>
-  <li><a href="#dependency-mechanics" id="toc-dependency-mechanics" class="nav-link" data-scroll-target="#dependency-mechanics">Dependency mechanics</a></li>
+  <li><a href="#dependency-mechanics" id="toc-dependency-mechanics" class="nav-link active" data-scroll-target="#dependency-mechanics">Dependency mechanics</a>
+  <ul class="collapse">
+  <li><a href="#a-quick-aside-on-bits-of-evidence" id="toc-a-quick-aside-on-bits-of-evidence" class="nav-link" data-scroll-target="#a-quick-aside-on-bits-of-evidence">A quick aside on “Bits” of evidence</a></li>
+  </ul></li>
   <li><a href="#decision-gates" id="toc-decision-gates" class="nav-link" data-scroll-target="#decision-gates">Decision Gates</a></li>
   <li><a href="#simulation-process" id="toc-simulation-process" class="nav-link" data-scroll-target="#simulation-process">Simulation process</a></li>
-  <li><a href="#additional-wrinkles" id="toc-additional-wrinkles" class="nav-link" data-scroll-target="#additional-wrinkles">Additional wrinkles</a></li>
   <li><a href="#strategic-value" id="toc-strategic-value" class="nav-link" data-scroll-target="#strategic-value">Strategic value</a></li>
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a>
   <ul class="collapse">
@@ -209,10 +210,11 @@ window.Quarto = {
   <li><a href="#saddle" id="toc-saddle" class="nav-link" data-scroll-target="#saddle">Saddle</a></li>
   <li><a href="#spur" id="toc-spur" class="nav-link" data-scroll-target="#spur">Spur</a></li>
   </ul></li>
-  <li><a href="#high-risk" id="toc-high-risk" class="nav-link" data-scroll-target="#high-risk">High risk</a></li>
+  <li><a href="#risky-business" id="toc-risky-business" class="nav-link" data-scroll-target="#risky-business">Risky business</a></li>
   <li><a href="#portfolio-model" id="toc-portfolio-model" class="nav-link" data-scroll-target="#portfolio-model">Portfolio model</a>
   <ul class="collapse">
   <li><a href="#charge-dependency" id="toc-charge-dependency" class="nav-link" data-scroll-target="#charge-dependency">Charge dependency</a></li>
+  <li><a href="#simulation-process-1" id="toc-simulation-process-1" class="nav-link" data-scroll-target="#simulation-process-1">Simulation process</a></li>
   <li><a href="#visualizing-results" id="toc-visualizing-results" class="nav-link" data-scroll-target="#visualizing-results">Visualizing results</a></li>
   <li><a href="#portfolio-cash-flow" id="toc-portfolio-cash-flow" class="nav-link" data-scroll-target="#portfolio-cash-flow">Portfolio cash flow</a></li>
   <li><a href="#portfolio-mean-case" id="toc-portfolio-mean-case" class="nav-link" data-scroll-target="#portfolio-mean-case">Portfolio mean case</a></li>
@@ -238,28 +240,19 @@ window.Quarto = {
 
 
 
-<p>Resgo still has no UI, but before I start developing it I have one more feature to build:</p>
-<p>Portfolio simulation.</p>
-<p>Portfolio simulation is the Resgo end-game. Resgo already provides a very performant Prospect level simulation engine, from subsurface through to commercial metrics, and that leaves it well positioned for zooming out one more level to portfolio level analysis.</p>
-<p>My goals at the outset are the following:</p>
-<ol type="1">
-<li>Allow grouping Prospects into Portfolios, with lossless representation</li>
-<li>Represent parent-child relationships between Prospects to allow for dependency propagation</li>
-<li>Dependency propagation should allow information to flow between prospects and their children, so that drilling outcomes follow logical chains during simulation</li>
-<li>Use those logical chains to derive stand-alone and full-cycle metrics for decision gating</li>
-<li>Report accepted, strategic (full cycle economics says drill) and rejected prospect decisions at the portfolio level</li>
-<li>Make results interpretable with well designed visualizations</li>
-</ol>
-<section id="structure-and-constraints" class="level2">
-<h2 class="anchored" data-anchor-id="structure-and-constraints">Structure and constraints</h2>
-<p>The most convenient representation of a Portfolio with these constraints in mind is a tree. Prospects can have children: opportunities whose risks are affected by outcomes in their parent. That creates some limitations (sibling Prospects can’t have dependencies) but I think the simplicity of tree depth traversal, and limiting onerous dependency configuration, will make that trade-off worthwhile.</p>
-<p>For lossless Prospect representation in Resgo, dependency must be represented at the reservoir and risk factor level. This is a complication that I believe will pay dividends in granular configuration and interpretability of portfolio simulations, matching the mental models in subsurface teams’ heads when defining dependencies between opportunities.</p>
-<p>It will mean, for example, that reservoirs in the Prospects tree can share strong P(Charge) dependency. If the parent fails on charge, that heavily impacts the P(Charge) of children. This is well suited for modelling play-openers on untested migration pathways, for example. Similarly these dependencies can be captured for reservoir presence for testing sand fairways, and seal/trap for things like demonstrating fault seal.</p>
-</section>
+<p>Resgo builds towards a powerful endgame: lossless probabilistic portfolio analysis.</p>
+<p>When I say lossless, I mean that every prospect in the portfolio is a self contained Resgo prospect model, which I outlined in some detail in my <a href="">previous</a> post introducing the software.</p>
+<p>Because Resgo runs a full probabilistic model down to specific reservoir targets and producers, the <code>Prospect</code> is a very rich object to aggregate into portfolio level analysis.</p>
+<p>Simulating outcomes at the reservoir level has a side benefit of allowing the sharing of information between connected opportunities. If a prospect discovered a reservoir is charged on a previously unexplored migration corridor, that provides strong evidence regarding the prospectivity of all other opportunities in that corridor. The prospect has significant <em>strategic value</em>, which is difficult to quantify.</p>
+<p>At least it was difficult… before I built the tooling to do it with Resgo.</p>
+<p>Using an ergonomic data structure and some probabilistic tricks, Resgo can light up a whole portfolio of opportunities like a christmas tree, and provide first class decision support for huge, play opening investments. That means portfolio level, stochastic commercial metrics, plus stand-alone and (much more importantly) <em>strategic</em> opportunity value quantification.</p>
+<p>My goal with this post is to introduce you to the Resgo portfolio analysis capabilities, and by the end of it, convince you that you should drill a strongly negative EMV prospect, using a fully worked example.</p>
+<p>The first ingredient is explaining how information can flow between Resgo prospects.</p>
 <section id="dependency-mechanics" class="level2">
 <h2 class="anchored" data-anchor-id="dependency-mechanics">Dependency mechanics</h2>
 <p>I’m going to bring up Bayes again, sorry<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p>Dependency in this framing is a Bayesian probability update from the prior risk probability (say a 0.5 probability of charge in the child reservoir). Mechanically, the update is applied in odds space:</p>
+<p>Dependency in this framing is a connection between two reservoirs. That connection is quantified in simulation using a Bayesian probability update from the prior risk probability (say a 0.5 P(Charge) in the child reservoir) conditional on the outcome at the parent.</p>
+<p>Mechanically, the update is applied in odds space:</p>
 <p><span class="math display">\[
 O_{\mathrm{post}} = O_{\mathrm{prior}} \times \text{LH}
 \]</span></p>
@@ -269,6 +262,8 @@ O_{\mathrm{post}} = O_{\mathrm{prior}} \times \text{LH}
 = \ln_2\left(O_{\mathrm{prior}}\right) + \ln_2\left(\text{LH}\right)
 \]</span></p>
 <p>where <span class="math inline">\(O = p / (1 - p)\)</span> is the odds, <span class="math inline">\(\text{LH}\)</span> is the likelihood ratio, and <span class="math inline">\(\ln_2\)</span> denotes a base-2 logarithm.</p>
+<section id="a-quick-aside-on-bits-of-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="a-quick-aside-on-bits-of-evidence">A quick aside on “Bits” of evidence</h3>
 <p>Using a base-2 logarithm means that the evidence term, <span class="math inline">\(\ln_2(\text{LH})\)</span>, is measured in <strong>bits</strong>: positive bits increase the odds of success, negative bits decrease them, and zero bits leave the prior odds unchanged.</p>
 <p>You’ll have to humor me—I know it seems weird—but this is a very mentally ergonomic way of framing Bayesian probability updates.</p>
 <p>Starting from a prior probability of 0.50 as an example, each additional bit doubles the likelihood ratio:</p>
@@ -339,10 +334,13 @@ O_{\mathrm{post}} = O_{\mathrm{prior}} \times \text{LH}
 <p>If, for example, P(Charge) is 0.5 across prospects and Buffet fails on charge, that means Bonanza gets a P(Charge) of 0.11 (killing it). If Buffet <em>is</em> charged though, that increases P(Charge) at Bonanza to 0.89!</p>
 <p>See? We can all become Bayesians with some language tricks.</p>
 <p>There is a technical wrinkle that positive and negative updates are not necessarily symmetric (relevant example <a href="https://nick-dorsch.github.io/blog/posts/confusion/">here</a>), so the code should make that explicit, but default to symmetric updates.</p>
+<p>So that covers dependency. The next thing that needs explaining is Decision Gates.</p>
+</section>
 </section>
 <section id="decision-gates" class="level2">
 <h2 class="anchored" data-anchor-id="decision-gates">Decision Gates</h2>
-<p>For the portfolio simulation to be coherent, decisions need to be made about whether to drill for each Prospect, based on the information available. That requires point estimate hurdles. Decisions aren’t made stochastically. We can’t just use the simulation result to determine the right path on every iteration, because the decision maker doesn’t know what will happen. That means a decision criterion needs to be specified.</p>
+<p>For the portfolio simulation to be coherent, decisions need to be made about whether to drill for each Prospect, based on the information available. That requires point estimate hurdles. During simulation (traversal of the tree of prospects in sequential order) prospect risk factors will be bifurcating according to what outcomes are observed in the parent. This requires some careful consideration.</p>
+<p>Decisions aren’t made stochastically. We can’t just use the simulation result to determine the right path on every iteration, because the decision maker doesn’t know what will happen. That means a decision criterion needs to be specified that emulates the choice the decision maker <em>would have made</em> given the information available.</p>
 <p>This can be things like a positive risked mean NPV (equivalent to EMV):</p>
 <p><span class="math display">\[
 \mathbb{E}\left[\mathrm{NPV}_{\mathrm{risked}}\right] &gt; 0
@@ -352,22 +350,22 @@ O_{\mathrm{post}} = O_{\mathrm{prior}} \times \text{LH}
 Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 \]</span></p>
 <p>But it needs to be agreed upon up front for the portfolio simulation to operate. Most companies have defined hurdles like this in place, but there may be situations where hurdles are prospect specific.</p>
-<p>Luckily, because Resgo simulates everything in a single integrated chain, these decision metrics will be consistently applied to rigorously defined stochastic ranges of NPV. I would imagine that that is a rare luxury in portfolio analysis contexts.</p>
+<p>Luckily, because Resgo simulates everything in a single integrated chain, these decision metrics will be consistently applied to rigorously defined stochastic ranges of NPV. The information that the simulated decision maker has access to is the prospect model itself, with its risk factors adjusted according to the upstream outcomes observed.</p>
 </section>
 <section id="simulation-process" class="level2">
 <h2 class="anchored" data-anchor-id="simulation-process">Simulation process</h2>
-<p>Resgo allows us to very ergonomically simulate the entire portfolio tree in a forward pass, adjusting risk factors based on success/failure outcomes in parent nodes, then run the decision gating logic on the results to determine which prospects get drilled and which get rejected. We can then aggregate the portfolio level NPV to assess its overall economic value and uncertainty.</p>
-</section>
-<section id="additional-wrinkles" class="level2">
-<h2 class="anchored" data-anchor-id="additional-wrinkles">Additional wrinkles</h2>
-<p>Because we are simulating an ensemble of prospects, we need to be careful to define a few things up front.</p>
-<p>We need a single price deck, especially if it is stochastic, to avoid individual prospects getting their own price histories.</p>
-<p>We also need a single economic basis for escalation and discounting. That means every prospect has NPV calculations consistent on a single “start date” for the whole portfolio. Failing to do this would unfairly inflate the value of future prospects in the schedule.</p>
+<p>Resgo portfolio analysis simulates the entire portfolio tree in a forward pass, adjusting risk factors based on success/failure outcomes in parent nodes, then runs the decision gating logic on the results to determine which prospects get drilled and which get rejected.</p>
+<p>We can then aggregate the portfolio level NPV to assess its overall economic value and uncertainty. Perhaps more importantly, we can analyze each individual prospect in a new level of detail. This detail is what I’m calling strategic value quantification.</p>
 </section>
 <section id="strategic-value" class="level2">
 <h2 class="anchored" data-anchor-id="strategic-value">Strategic value</h2>
-<p>Something compelling that this gives us is the ability to quantify the strategic value of prospects. This is the stand-alone value of the prospect, plus any downstream opportunity it creates.</p>
-<p>This means that a stand-alone prospect with negative NPV—maybe due to a low P(Success)—can have its downstream value quantified and summed to make it <em>full-cycle</em> economic, even if it is not drillable on its own merits.</p>
+<p>Prospect strategic value is the stand-alone value of the prospect, plus any downstream value it creates through information acquisition.</p>
+<p>That information is valuable for two reasons:</p>
+<ol type="1">
+<li>Reservoir success observations propagate to child prospect reservoirs, boosting their respective risk factors. This may shift a prospect from subeconomic to clearly economic, opening up a previously undrillable opportunity.</li>
+<li>Reservoir failure observations propagate in the same way, but may lead to prospects being <em>rejected</em> on the basis of updated risk factors, avoiding the cost of drilling dry holes.</li>
+</ol>
+<p>This means that a stand-alone prospect with negative NPV—maybe due to a low P(Success)—can have its downstream value quantified and summed to make it clearly <em>full-cycle</em> economic, even if it is not drillable on its own merits.</p>
 <p>For example:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -398,12 +396,13 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>This is the crazy senior geologist speaking. He has a mad twinkle in his eye, and he knows nobody will listen, but he knows he is <em>right, dammit</em>.</p>
 <p>Why is he right?</p>
 <p>Because the information that Bridge provides, expensive as it may be, has huge upside.</p>
-<p>A success at Bridge would boost the P(Success) of Bonanza, a high risk, high reward prospect that nobody is considering because “there is no migration that way”. Bonanza is a <em>play opener</em>, it has several follow-ups, all of which are currently high risk, but high value.</p>
-<p>So you drill Bridge to open up the play.</p>
-<p>I’ve been the crazy guy before. I’ve never been able to quantify any of this stuff persuasively. Resgo lets me quantify the whole lot, all the way through to economics. It all flows naturally as a consequence of your decision metrics, and the risks and uncertainties in your portfolio.</p>
-<p>Resgo tells you to do it.</p>
+<p>A success at Bridge would boost the P(Success) of Bonanza, a high risk, high reward prospect that nobody is considering because “there is no migration that way”.</p>
+<p>Bridge is a <em>play opener</em>, it has several follow-ups, all of which are currently high risk, but high value.</p>
+<p>So you drill it to open up the play. It may fail, but the success case upside is huge.</p>
+<p>I’ve been the crazy guy before. I’ve never been able to quantify any of this stuff persuasively. Resgo lets me quantify the whole lot, all the way through to economics, while preserving uncertainty end to end. It all flows naturally as a consequence of your decision metrics, and the risks and uncertainties in your portfolio.</p>
+<p>Resgo quantifies Bridge’s strategic value, and gives it a very strong <em>tick</em>, for decision makers to ponder.</p>
 <p>And the tool isn’t crazy! It’s just uncertainty propagation, Bayesian updating and commercial modelling. Don’t argue with the results, just make sure you verify your inputs.</p>
-<p>Now let’s try to do it.</p>
+<p>Now let me try to convince you with a worked example.</p>
 </section>
 <section id="example" class="level1">
 <h1>Example</h1>
@@ -3430,23 +3429,33 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 </section>
 </section>
-<section id="high-risk" class="level2">
-<h2 class="anchored" data-anchor-id="high-risk">High risk</h2>
+<section id="risky-business" class="level2">
+<h2 class="anchored" data-anchor-id="risky-business">Risky business</h2>
 <p>You’ll notice this entire portfolio is very high risk.</p>
 <p>That is because all risk factors are being applied with our current state of information. The entire portfolio has high charge risk, a P(Charge) of 0.4 for Buffet, Cove, Ledge and Bridge, and an even harsher 0.1 for Bonanza and its children, making them all a bad bet. This is an untested migration corridor in our exploration acreage.</p>
-<p>The opportunities don’t necessarily hold up on their own merits. Buffet, the entire play opener, is negative EMV! That is why strategic value is so important. Strategic, full-cycle value of these prospects will be simulated on a portfolio basis, and that will provide us with a richer picture of value.</p>
+<p>The opportunities don’t necessarily hold up on their own merits. Buffet, the entire play opener, is negative EMV! But, as the results will show, it is a very good idea to drill it (assuming the loss in the event of failure is survivable).</p>
+<p>This is why strategic value is so important. Strategic, full-cycle value of these prospects will be simulated on a portfolio basis, and that will provide us with a richer picture for decision support.</p>
 </section>
 <section id="portfolio-model" class="level2">
 <h2 class="anchored" data-anchor-id="portfolio-model">Portfolio model</h2>
 <p>The portfolio manages all these prospects, along with their parent-child relationships and information sharing for risk factors. For simplicity we will just model information sharing for P(Charge), but a user could model relationships between reservoir risk factors as they see fit.</p>
 <section id="charge-dependency" class="level3">
 <h3 class="anchored" data-anchor-id="charge-dependency">Charge dependency</h3>
-<p>The charge dependency between reservoir intersections is intuitive. Information we acquire on a migration corridor (observing charged) changes the risk factors applied to any child prospects in the portfolio. In this example we give charge +3 bits of information. So if Buffet fails on charge, the whole portfolio dies, but if it succeeds, the portfolio lights up like a Christmas tree, and we follow the opportunity branches.</p>
-<p>Importantly, the information flowing is not contingent on <em>commercial</em> success, it is contingent on the observation regarding that particular risk factor. If Buffet is charged, but tiny and sub-economic, that doesn’t change anything for the child prospects, what matters is that Buffet is charged!</p>
+<p>The charge dependency between reservoir intersections is intuitive. Information we acquire on a migration corridor (observing charge) changes the risk factors applied to any child prospects in the portfolio. In this example we give charge +3 bits of information. So if Buffet fails on charge, the whole portfolio dies, but if it succeeds, the portfolio lights up like a Christmas tree, and we follow the opportunity branches.</p>
+<p>Importantly, the information flowing is not contingent on <em>commercial</em> success, it is contingent on the observation regarding that particular risk factor. If Buffet is charged, but tiny and sub-economic, that doesn’t change anything for the child prospects, what matters is that now we know they are probably charged!</p>
+<p>Because Resgo is simulating prospects at that level of detail, that detail can be propagated through the portfolio.</p>
+</section>
+<section id="simulation-process-1" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-process-1">Simulation process</h3>
+<p>It varies with number of reservoirs and producer count, but because Resgo is all multithreaded, each Prospect takes about 3-4 seconds to run end to end. That means the entire portfolio simulation runs in around 30 seconds.</p>
+<p>This iteration speed is a key design standard I am working to preserve, I want new prospects, different dependency assumptions, differing parent-child relationships, all testable in minutes, not hours.</p>
+<p>Taken to a heavy enterprise deployment—maybe of a large company with an opportunity register of hundreds of propects spanning various basins—distributed computation of each subtree (one node per indepedent chain of prospects), where each node is itself multithreaded, should mean portfolios are effectively interactible for an end user.</p>
+<p>Change some assumptions around, rerun. Watch the portfolio update whenever a new prospect is added to the register. Test whatever galaxy-brained development sequences you can come up with.</p>
+<p>… Or run discrete optimization algorithms to find the best strategy automatically. That may be where I go with this next.</p>
 </section>
 <section id="visualizing-results" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-results">Visualizing results</h3>
-<p>The Resgo Portfolio, as it turns out, is quite a complicated object to visualize. Every node in the tree is stochastic, and outcomes are being bifurcated via the information sharing between nodes. Bifurcation also effectively means very high NPV vs almost certain failure, given how sensitive we are to charge risk.</p>
+<p>The Resgo <code>Portfolio</code>, as it turns out, is quite a complicated object to visualize. Every node in the tree is stochastic, and outcomes are being bifurcated via the information sharing between nodes. Bifurcation in this case effectively means very high success probability vs almost certain failure, given how sensitive we are to charge risk.</p>
 <p>That creates very wide uncertainties. That uncertainty is real, but it is long tailed and (by prospect) bi-modal.</p>
 </section>
 <section id="portfolio-cash-flow" class="level3">
@@ -4099,16 +4108,18 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 </section>
 <section id="overall-thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="overall-thoughts">Overall thoughts</h2>
-<p>Okay, so there is a lot to unpack here.</p>
-<p>The first thing that jumps out at me is that the commercial outcomes at the portfolio aggregated level are incredibly uncertain.</p>
-<p>This isn’t surprising, if you think about it. We don’t even know if this corridor is charged. That means we have anything between zero value here, and potentially 8 decently sized prospects. That is going to be a very wide range.</p>
-<p>Furthermore, at each level in the tree we have risk bifurcation, which means prospect outcomes get split into two paths. This further widens portfolio level uncertainty.</p>
-<p>To illustrate this a bit more:</p>
-<p>If Buffet fails, the entire portfolio is ruled out. Too risky on charge.</p>
-<p>If Buffet succeeds, that boosts the P(Charge) of its children Cove, Ledge, and Bridge. That doesn’t mean they all succeed (other risk factors are at play) but they become much more likely to.</p>
-<p>If Bridge is charged, that information flows to Bonanza and its children. These prospects were written off as extremely high risk before drilling with P(Charge) of 0.1. The success upstream at Bridge, even though Bridge on its own is sub-economic, opens up the Bonanza play. That has huge strategic value, as Bonanza is the biggest prospect in the portfolio on an unrisked basis.</p>
+<p>Okay, there is a lot to unpack here.</p>
+<p>The first thing that might jump out is that the commercial outcomes at the portfolio aggregated level are incredibly uncertain.</p>
+<p>This isn’t surprising, if you think about it. We don’t even know if this corridor is charged. That means we have anything between zero value here, and potentially 8 decently sized prospects that could be worth a combined $3 billion in NPV. That is going to be a very wide range.</p>
+<p>Furthermore, at each level in the tree we have risk bifurcation, which means prospect outcomes get split into two paths. This naturally widens portfolio level uncertainty.</p>
+<p>This is all a completely consistent logical view of the opportunities in the portfolio though.</p>
+<p>To word out what is happening a bit more:</p>
+<p>If Buffet fails, the entire portfolio is ruled out. Too risky on charge. That is a simple story to wrap your head around.</p>
+<p>If Buffet succeeds, that boosts the P(Charge) of its children Cove, Ledge, and Bridge. That doesn’t mean they all succeed (other risk factors are at play) but they become much more likely to. This is a more complicated story, because it puts many different possibilities on the table, all of which are part of the simulated portfolio distribution.</p>
+<p>Contingent on Buffet’s success, Bridge gets drilled. If <em>Bridge</em> is charged, that information flows to Bonanza and its children. These prospects were written off as extremely high risk before drilling with P(Charge) of 0.1. The success upstream at Bridge, even though Bridge on its own is sub-economic, opens up the Bonanza play. That has huge strategic value, as Bonanza is the biggest prospect in the portfolio on an unrisked basis.</p>
 <p>Because of the dependencies between prospects in the portfolio, standalone economic metrics aren’t enough to capture opportunity value. Most of the value in Buffet is not standalone, it is in the downstream information it provides to child prospects, connected via the P(Charge) dependency.</p>
 <p>Similarly, Bridge would never get drilled on its own merits—it would disappear in the rankings of a naive opportunity register—it provides value via its downstream consequences. These complicated arguments are <em>very</em> difficult to make in normal circumstances, especially under uncertainty. This is my best attempt at making the whole simulated system explicit.</p>
+<p>And it works pretty damn well, if you ask me.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 </section>
 <section id="a-note-on-means-and-medians" class="level2">
 <h2 class="anchored" data-anchor-id="a-note-on-means-and-medians">A note on means and medians</h2>
@@ -4117,27 +4128,31 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <p>The range is really important to keep in mind, because we aren’t going to discover the mean portfolio outcome, we’re going to be strapped onto an uncertainty rocket with no way of knowing where we end up. Considering the downside exposure vs upside exposure is more informative than an abstract mean that will never happen.</p>
 <p>In the previous post on Resgo prospect simulation, I brought up loss functions, and I think they are even more relevant at this level of analysis.</p>
 <p>As for the median… throw it out. It is very misleading because the outcome NPV distributions we are considering are so long tailed. It just doesn’t make sense as a metric if you take uncertainty seriously. So the mean is lossy, but the median is not representative.</p>
+<p>So the stochastic representation is the only reliable output of the model, in my view. The challenge is making it interpretable.</p>
 </section>
 <section id="portfolio-optimization" class="level2">
 <h2 class="anchored" data-anchor-id="portfolio-optimization">Portfolio optimization</h2>
 <p>I haven’t built it yet (maybe it’ll be the topic of my next post on Resgo), but this simulation chain also creates a very powerful optimization surface.</p>
-<p>A discrete optimization model—shifting prospect drill order, wells per prospect, delays—under capital allocation and infrastructure constraints, where the target is discounted cash flows (so the benefit of acting sooner is implicit in the optimization), is… very nice.</p>
+<p>A discrete optimization model—shifting prospect drill order, wells per prospect, delays—under capital allocation and infrastructure constraints, where the target is discounted cash flows (so the benefit of acting sooner is implicit in the optimization), is a pretty compelling proposition.</p>
+<p>It might be a nightmare to build, and it might light my mini PC on fire, but I’ll likely give it a go soon.</p>
 </section>
 <section id="where-is-the-d-tree" class="level2">
 <h2 class="anchored" data-anchor-id="where-is-the-d-tree">Where is the D-Tree?</h2>
 <p>This whole simulation can be thought of as a stochastic decision tree, with Bayesian updates informing success/failure at each node, and full cycle economics driving drill/walk decisions. I don’t have a pretty plot presenting it that way, but mechanically, that is what it is doing.</p>
+<p>The pretty plot will likely be needed as part of the interpretability piece.</p>
 </section>
 </section>
 <section id="closing-thoughts" class="level1">
 <h1>Closing thoughts</h1>
-<p>I’m not sure how to close this out, but I will say that I am very happy with how portfolio simulation in Resgo has turned out. I’ve always had it as a “capstone” feature in the back of my mind, but I can’t claim that I designed for it from the beginning. I was fortunately very lucky that the implementation fit so well into Resgo’s architecture. Treating Prospects as nodes in a tree, and simply simulating that tree with a few in loop alterations based on risk dependencies, is a pretty elegant way of handling portfolio analysis.</p>
-<p>The part I am now unsure about is how to rigorously define all these metrics. Reporting quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio-aggregated NPV, and whatever other commercial metrics I will add later, start to build up and cause confusion. Handling geological success as a commercial outcome (i.e.&nbsp;an NPV-negative dry hole) changes the semantics of prospect evaluation, because traditionally the failure case would be captured as a failure arm in a D-Tree. That isn’t the elegant approach here, I can go a lot further by naturally capturing a range in a single simulated array, and reasoning about it downstream, but there are definitely some semantic rough edges to figure out.</p>
+<p>I’m not sure how to close this out, but I will say that I am very happy with how portfolio simulation in Resgo has turned out.</p>
+<p>It has been a “capstone” feature in the back of my mind from the beginning, but I can’t claim that I designed for it. I was fortunately very lucky that the implementation fit so well into Resgo’s architecture. Treating Prospects as nodes in a tree, and simply simulating that tree with a few in loop alterations based on risk dependencies, is a pretty elegant way of handling portfolio analysis, and it leverages what Resgo already offered, essentially for free.</p>
+<p>The part I am now unsure about is how to rigorously define all these metrics. Reporting quantities like Standalone Success NPV, Full Cycle Success NPV, portfolio-aggregated NPV, and whatever other commercial metrics I will add later, start to build up and cause confusion. Handling geological success as a commercial outcome (i.e.&nbsp;an NPV-negative dry hole) changes the semantics of prospect evaluation, because traditionally the failure case would be captured as a failure arm in a D-Tree. I don’t think that is the elegant approach here—I can go a lot further by naturally capturing a range in a single simulated array and reasoning about it downstream—but there are definitely some semantic rough edges to figure out.</p>
 <p>My next step I think will be to start building a UI—refining the simulation code itself is probably the most important thing to be focused on—but I also need to be able to get Resgo into other people’s hands at some point, barring me using it in a consultancy capacity only.</p>
 <p>I do like the consultancy approach, at least at first, because it will allow me to field test with real opportunities, and iron out any creases I’ve left in the process. There is <em>a lot</em> of process here, so it is inevitable that I’ve left some mess behind me while building it.</p>
-<p>To round this out, here is how I would summarize the Resgo value proposition.</p>
+<p>To round this out, here is how my AI agent summarizes the Resgo value proposition (because I’m so bad at doing it myself, and I was interested):</p>
 <section id="value-proposition" class="level2">
 <h2 class="anchored" data-anchor-id="value-proposition">Value Proposition</h2>
-<p>Resgo is trying to make things possible that are extremely hard to do rigorously with spreadsheet workflows and disconnected prospect evaluations:</p>
+<p>Resgo is trying to do things that are extremely challenging to achieve rigorously with spreadsheet workflows and disconnected prospect evaluations:</p>
 <ul>
 <li><strong>Connect subsurface uncertainty to commercial outcomes.</strong> Volumetrics, risking, development concepts, cash flows, and decision gates all live in one simulation chain.</li>
 <li><strong>Expose the real shape of uncertainty.</strong> Prospect outcomes are not reduced to a single deterministic case; downside, upside, skew, and long tails remain visible.</li>
@@ -4148,7 +4163,7 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 <li><strong>Turn exploration strategy into an auditable model.</strong> The logic behind a sequence of wells can be inspected, challenged, revised, and rerun.</li>
 <li><strong>Support better capital allocation.</strong> Resgo creates the simulation surface needed to rank opportunities, test development sequences, and eventually optimize portfolio choices under real constraints.</li>
 </ul>
-<p>With the inclusion of portfolio simulation, I think that Resgo offers a very compelling value proposition for new ventures, exploration, subsurface and commercial teams, as well as executive decision makers.</p>
+<p>… Thanks AI, I agree.</p>
 <p>Thanks for reading!</p>
 
 
@@ -4160,6 +4175,7 @@ Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) &gt; 0
 
 <ol>
 <li id="fn1"><p>not sorry<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Don’t ask me though, I built the thing and I want to sell it, of course I would say that.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
