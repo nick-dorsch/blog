@@ -51,8 +51,9 @@ theme.apply_lex_altair_theme()
 Resgo builds towards a powerful endgame: lossless probabilistic portfolio analysis.
 
 When I say lossless, I mean that every prospect in the portfolio is a self-contained
-Resgo prospect model, which I outlined in some detail in my [previous](../resgo/) post
-introducing the software.
+Resgo prospect model, which I outlined in some detail in my
+[previous](https://nick-dorsch.github.io/blog/posts/resgo/) post introducing the
+software.
 
 Because Resgo runs a full probabilistic model down to specific reservoir targets and
 producers, the `Prospect` is a very rich object to aggregate into portfolio-level
