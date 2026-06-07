@@ -50,26 +50,26 @@ theme.apply_lex_altair_theme()
 
 Resgo builds towards a powerful endgame: lossless probabilistic portfolio analysis.
 
-When I say lossless, I mean that every prospect in the portfolio is a self contained
-Resgo prospect model, which I outlined in some detail in my [previous]() post
+When I say lossless, I mean that every prospect in the portfolio is a self-contained
+Resgo prospect model, which I outlined in some detail in my [previous](../resgo/) post
 introducing the software.
 
 Because Resgo runs a full probabilistic model down to specific reservoir targets and
-producers, the `Prospect` is a very rich object to aggregate into portfolio level
+producers, the `Prospect` is a very rich object to aggregate into portfolio-level
 analysis.
 
 Simulating outcomes at the reservoir level has a side benefit of allowing the sharing of
-information between connected opportunities. If a prospect discovered a reservoir is
-charged on a previously unexplored migration corridor, that provides strong evidence
-regarding the prospectivity of all other opportunities in that corridor. The prospect
-has significant _strategic value_, which is difficult to quantify.
+information between connected opportunities. If drilling a prospect shows that a
+reservoir is charged on a previously unexplored migration corridor, that provides strong
+evidence regarding the prospectivity of all other opportunities in that corridor. That
+prospect has significant _strategic value_, which is difficult to quantify.
 
 At least it was difficult... before I built the tooling to do it with Resgo.
 
 Using an ergonomic data structure and some probabilistic tricks, Resgo can light up a
-whole portfolio of opportunities like a christmas tree, and provide first class decision
-support for huge, play opening investments. That means portfolio level, stochastic
-commercial metrics, plus stand-alone and (much more importantly) _strategic_ opportunity
+whole portfolio of opportunities like a Christmas tree, and provide first-class decision
+support for huge, play-opening investments. That means portfolio-level, stochastic
+commercial metrics, plus standalone and (much more importantly) _strategic_ opportunity
 value quantification.
 
 My goal with this post is to introduce you to the Resgo portfolio analysis capabilities,
@@ -156,28 +156,29 @@ symmetric (relevant example
 [here](https://nick-dorsch.github.io/blog/posts/confusion/)), so the code should make
 that explicit, but default to symmetric updates.
 
-So that covers dependency. The next thing that needs explaining is Decision Gates.
+So that covers dependency. The next thing that needs explaining is decision gates.
 
-## Decision Gates
+## Decision gates
 
 For the portfolio simulation to be coherent, decisions need to be made about whether to
-drill for each Prospect, based on the information available. That requires point
-estimate hurdles. During simulation (traversal of the tree of prospects in sequential
-order) prospect risk factors will be bifurcating according to what outcomes are observed
-in the parent. This requires some careful consideration.
+drill for each Prospect, based on the information available. That requires point-estimate
+hurdles. During simulation (traversal of the tree of prospects in sequential order),
+prospect outcomes bifurcate according to what is observed in the parent. This requires
+some careful consideration.
 
 Decisions aren't made stochastically. We can't just use the simulation result to
 determine the right path on every iteration, because the decision maker doesn't know
 what will happen. That means a decision criterion needs to be specified that emulates
 the choice the decision maker _would have made_ given the information available.
 
-This can be things like a positive risked mean NPV (equivalent to EMV):
+Examples include a positive risked mean NPV (equivalent to EMV):
 
 $$
 \mathbb{E}\left[\mathrm{NPV}_{\mathrm{risked}}\right] > 0
 $$
 
-or a positive risked 90th percentile NPV:
+or a positive risked P90 NPV, in exceedance terms (equivalent here to the 10th
+percentile):
 
 $$
 Q_{0.10}\left(\mathrm{NPV}_{\mathrm{risked}}\right) > 0
@@ -199,25 +200,25 @@ adjusting risk factors based on success/failure outcomes in parent nodes, then r
 decision gating logic on the results to determine which prospects get drilled and which
 get rejected. 
 
-We can then aggregate the portfolio level NPV to assess its overall economic value and
+We can then aggregate the portfolio-level NPV to assess its overall economic value and
 uncertainty. Perhaps more importantly, we can analyze each individual prospect in a new
 level of detail. This detail is what I'm calling strategic value quantification.
 
 ## Strategic value
 
-Prospect strategic value is the stand-alone value of the prospect, plus any downstream
+Prospect strategic value is the standalone value of the prospect, plus any downstream
 value it creates through information acquisition.
 
 That information is valuable for two reasons:
 
 1. Reservoir success observations propagate to child prospect reservoirs, boosting their
    respective risk factors. This may shift a prospect from subeconomic to clearly
-economic, opening up a previously undrillable opportunity.
+   economic, opening up a previously undrillable opportunity.
 2. Reservoir failure observations propagate in the same way, but may lead to prospects
    being _rejected_ on the basis of updated risk factors, avoiding the cost of drilling
-dry holes.
+   dry holes.
 
-This means that a stand-alone prospect with negative NPV---maybe due to a low
+This means that a standalone prospect with negative NPV---maybe due to a low
 P(Success)---can have its downstream value quantified and summed to make it clearly
 _full-cycle_ economic, even if it is not drillable on its own merits.
 
@@ -240,7 +241,7 @@ flowchart TD
 
 Hear me out.
 
-Bridge is a high risk, low return prospect. It will probably fail, and it's a small
+Bridge is a high-risk, low-return prospect. It will probably fail, and it's a small
 closure. It's a dog.
 
 But if Buffet were successful, you'd be crazy not to drill Bridge next.
@@ -252,17 +253,17 @@ Why is he right?
 
 Because the information that Bridge provides, expensive as it may be, has huge upside.
 
-A success at Bridge would boost the P(Success) of Bonanza, a high risk, high reward
+A success at Bridge would boost the P(Success) of Bonanza, a high-risk, high-reward
 prospect that nobody is considering because "there is no migration that way". 
 
 Bridge is a _play opener_, it has several follow-ups, all of which are currently high
-risk, but high value.
+risk, but high-value.
 
 So you drill it to open up the play. It may fail, but the success case upside is huge.
 
 I've been the crazy guy before. I've never been able to quantify any of this stuff
 persuasively. Resgo lets me quantify the whole lot, all the way through to economics,
-while preserving uncertainty end to end. It all flows naturally as a consequence of your
+while preserving uncertainty end-to-end. It all flows naturally as a consequence of your
 decision metrics, and the risks and uncertainties in your portfolio. 
 
 Resgo quantifies Bridge's strategic value, and gives it a very strong _tick_, for
@@ -274,9 +275,9 @@ inputs.
 
 Now let me try to convince you with a worked example.
 
-# Example
+## Example
 
-Here's the Portfolio tree again, without risks and NPVs as we haven't calculated them
+Here's the portfolio tree again, without risks and NPVs as we haven't calculated them
 yet:
 
 ```{mermaid}
@@ -297,10 +298,10 @@ flowchart TD
 My goal with this example will be to live demo the sequence I spelled out in the
 previous section on strategic value.
 
-This is all make believe, but what I want to try and illustrate is that standalone
+This is all make-believe, but what I want to try and illustrate is that standalone
 prospect economics is insufficient for good opportunity ranking or decision making.
-These prospects will look far too risky to drill on their own, but at a portfolio level
-warrant serious consideration.
+These prospects will look far too risky to drill on their own, but at the portfolio level,
+they warrant serious consideration.
 
 First, let's define these prospects. All prospects will share the same set of
 reservoir targets, named "Archer", "Boulder", "Canyon" and "Drift".
@@ -494,7 +495,7 @@ buffet_reporter.tabler.risked_npv()
 
 ### Cove
 
-Cove is a small, low risk, single producer near field exploration opportunity that
+Cove is a small, low-risk, single-producer, near-field exploration opportunity that
 success at Buffet opens up.
 
 ```{python}
@@ -711,7 +712,7 @@ ledge_reporter.tabler.risked_npv()
 
 ### Bridge
 
-Bridge is a high risk and low reward prospect, with a single producer.
+Bridge is a high-risk and low-reward prospect, with a single producer.
 
 ```{python}
 ## Set up harsher risk profiles
@@ -1295,7 +1296,7 @@ The opportunities don't necessarily hold up on their own merits. Buffet, the ent
 opener, is negative EMV! But, as the results will show, it is a very good idea to drill
 it (assuming the loss in the event of failure is survivable).
 
-This is why strategic value is so important. Strategic, full-cycle value of these
+This is why strategic value is so important. The strategic, full-cycle value of these
 prospects will be simulated on a portfolio basis, and that will provide us with a richer
 picture for decision support.
 
@@ -1314,10 +1315,10 @@ any child prospects in the portfolio. In this example we give charge +3 bits of
 information. So if Buffet fails on charge, the whole portfolio dies, but if it succeeds,
 the portfolio lights up like a Christmas tree, and we follow the opportunity branches.
 
-Importantly, the information flowing is not contingent on _commercial_ success, it is
+Importantly, the information flowing is not contingent on _commercial_ success; it is
 contingent on the observation regarding that particular risk factor. If Buffet is
-charged, but tiny and sub-economic, that doesn't change anything for the child
-prospects, what matters is that now we know they are probably charged!
+charged, but tiny and subeconomic, that doesn't change anything for the child prospects;
+what matters is that now we know they are probably charged!
 
 Because Resgo is simulating prospects at that level of detail, that detail can be
 propagated through the portfolio.
@@ -1384,18 +1385,18 @@ portfolio_reporter = PortfolioReporter(simpack=portfolio_simpack)
 
 ### Simulation process
 
-It varies with number of reservoirs and producer count, but because Resgo is all
-multithreaded, each Prospect takes about 3-4 seconds to run end to end. That means the
+It varies with the number of reservoirs and producer count, but because Resgo is all
+multithreaded, each Prospect takes about 3-4 seconds to run end-to-end. That means the
 entire portfolio simulation runs in around 30 seconds. 
 
-This iteration speed is a key design standard I am working to preserve, I want new
-prospects, different dependency assumptions, differing parent-child relationships, all
+This iteration speed is a key design standard I am working to preserve. I want new
+prospects, different dependency assumptions, and differing parent-child relationships all
 testable in minutes, not hours.
 
-Taken to a heavy enterprise deployment---maybe of a large company with an opportunity
-register of hundreds of propects spanning various basins---distributed computation of
-each subtree (one node per indepedent chain of prospects), where each node is itself
-multithreaded, should mean portfolios are effectively interactible for an end user.
+Taken to a heavy enterprise deployment---say, a large company with an opportunity
+register of hundreds of prospects spanning various basins---distributed computation of
+each subtree (one node per independent chain of prospects), where each node is itself
+multithreaded, should mean portfolios are effectively interactive for an end user.
 
 Change some assumptions around, rerun. Watch the portfolio update whenever a new
 prospect is added to the register. Test whatever galaxy-brained development sequences
@@ -1407,18 +1408,18 @@ That may be where I go with this next.
 ### Visualizing results
 
 The Resgo `Portfolio`, as it turns out, is quite a complicated object to visualize.
-Every node in the tree is stochastic, and outcomes are being bifurcated via the
-information sharing between nodes. Bifurcation in this case effectively means very high
+Every node in the tree is stochastic, and outcomes bifurcate via the information sharing
+between nodes. Bifurcation in this case effectively means very high
 success probability vs almost certain failure, given how sensitive we are to charge
 risk. 
 
-That creates very wide uncertainties. That uncertainty is real, but it is long tailed
-and (by prospect) bi-modal.
+That creates very wide uncertainties. That uncertainty is real, but it is long-tailed
+and (by prospect) bimodal.
 
 ### Portfolio cash flow
 
-Here is the portfolio-aggregated stochastic cash flow plot, presented just as they are
-at the resgo Prospect level.
+Here is the portfolio-aggregated stochastic cash flow plot, presented just as it is at
+the Resgo prospect level.
 
 ```{python}
 portfolio_reporter.plotter.cash_flow(
@@ -1448,13 +1449,13 @@ even though the mean is not actually a case---it never appears in the simulated 
 
 I could use the P50 (median) case, but what do we actually mean by P50 at this level of
 analysis? I can't take the P50 array of each individual prospect, because the actual P50
-portfolio level case is made of an ensemble of uncertain outcomes, none of which
-represent prospect level P50 outcomes. There is also the problem of how
-nonrepresentative the P50 is when dealing with long tailed probability distributions,
+portfolio-level case is made of an ensemble of uncertain outcomes, none of which
+represent prospect-level P50 outcomes. There is also the problem of how
+nonrepresentative the P50 is when dealing with long-tailed probability distributions,
 which I'll touch on later.
 
-This plot above is, more or less, a stacked time series EMV plot. That is useful because
-it indicates prospect level expected performance. For example, the Buffet prospect
+This plot above is, more or less, a stacked time-series EMV plot. That is useful because
+it indicates prospect-level expected performance. For example, the Buffet prospect
 (green in the plot above) is negative EMV as it ends below zero. Likewise with Bridge
 (orange). The large wedge created by Bonanza (blue) gives the user an impression of how
 strategically important Bonanza is to the portfolio value.
@@ -1471,8 +1472,8 @@ It's pretty cool though.
 portfolio_reporter.tabler.decision()[["Decision"]]
 ```
 
-You'll notice that the decisions assigned Buffet to Bridge in the table above are
-`strategic`. That is because these prospects are not drillable on their own merits, they
+You'll notice that the decisions assigned to Buffet and Bridge in the table above are
+`strategic`. That is because these prospects are not drillable on their own merits; they
 have negative standalone EMV. Considering downstream opportunity creation, however, made
 it a clear decision to drill Buffet to open the play, and Bridge to open up the Bonanza
 subplay.
@@ -1500,7 +1501,7 @@ portfolio_reporter.tabler.risked_npv()
 
 Things get interesting when we split by prospect. When we look at prospect value, we can
 report standalone NPV (the commercial value of the prospect, taken in isolation), but we
-can also report full cycle value, which considers the value of the opportunities that
+can also report full-cycle value, which considers the value of the opportunities that
 the prospect opens up via its dependencies.
 
 ##### Standalone
@@ -1514,14 +1515,14 @@ not get drilled based on our decision metric from a standalone economic perspect
 
 ---
 
-##### Full cycle
+##### Full-cycle
 
 ```{python}
 portfolio_reporter.tabler.full_cycle_risked_npv()
 ```
 
-But look at their full cycle value! Buffet and Bridge were negative before, but from a
-full cycle perspective, they are the most valuable opportunities in the whole portfolio!
+But look at their full-cycle value! Buffet and Bridge were negative before, but from a
+full-cycle perspective, they are the most valuable opportunities in the whole portfolio!
 
 ---
 
@@ -1532,12 +1533,12 @@ portfolio_reporter.tabler.full_cycle_value_components()
 ```
 
 This table breaks this down explicitly, focusing on mean outcomes. The downstream value
-here is the sum of child prospect NPV (simulated with end to end Resgo prospect models,
-remember), excluding rejected child prospects (as ignoring sub-economic options does not
+here is the sum of child prospect NPV (simulated with end-to-end Resgo prospect models,
+remember), excluding rejected child prospects (as ignoring subeconomic options does not
 incur any cost).
 
-Buffet and Bridge are listed as `strategic` because they are drillable on their full
-cycle value, not their standalone value.
+Buffet and Bridge are listed as `strategic` because they are drillable on their
+full-cycle value, not their standalone value.
 
 The plot below is helpful for summarizing this information, but requires some
 explanation to avoid confusion (for me and you). 
@@ -1549,7 +1550,7 @@ P(Geological Success) is changing during portfolio simulation.
 **Full Cycle Success NPV** is the Standalone Success NPV plus the _risked_ sum of
 downstream opportunity NPV (including geological failure cases). We can't assume
 downstream prospects will succeed conditional on the parent prospect, so they must
-remain risked to be accurately captured in the full cycle value of the parent. Rejected
+remain risked to be accurately captured in the full-cycle value of the parent. Rejected
 prospects are also left out here, as there is no sense in penalizing a parent prospect
 with its undrillable child prospects, the only ones that matter are the ones we would
 pursue.
@@ -1566,7 +1567,7 @@ portfolio_reporter.plotter.unrisked_value_ridge(
 ```
 
 Notice the change in Buffet and Bridge, in particular. A bunch of high-side potential is
-captured in the Full Cycle Success NPV, that is missed in standalone economics.
+captured in the Full Cycle Success NPV that is missed in standalone economics.
 
 Neat!
 
@@ -1574,21 +1575,21 @@ Neat!
 
 Okay, there is a lot to unpack here.
 
-The first thing that might jump out is that the commercial outcomes at the portfolio
+The first thing that might jump out is that the commercial outcomes at the portfolio-
 aggregated level are incredibly uncertain. 
 
 This isn't surprising, if you think about it. We don't even know if this corridor is
-charged. That means we have anything between zero value here, and potentially 8 decently
+charged. That means we have anything between zero value here, and potentially eight decently
 sized prospects that could be worth a combined $3 billion in NPV. That is going to be a
 very wide range. 
 
 Furthermore, at each level in the tree we have risk bifurcation, which means prospect
-outcomes get split into two paths. This naturally widens portfolio level uncertainty.
+outcomes get split into two paths. This naturally widens portfolio-level uncertainty.
 
 This is all a completely consistent logical view of the opportunities in the portfolio
 though.
 
-To word out what is happening a bit more:
+To spell out what is happening a bit more:
 
 If Buffet fails, the entire portfolio is ruled out. Too risky on charge. That is a
 simple story to wrap your head around.
@@ -1602,13 +1603,13 @@ distribution.
 Contingent on Buffet's success, Bridge gets drilled. If _Bridge_ is charged, that
 information flows to Bonanza and its children. These prospects were written off as
 extremely high risk before drilling with P(Charge) of 0.1. The success upstream at
-Bridge, even though Bridge on its own is sub-economic, opens up the Bonanza play. That
+Bridge, even though Bridge on its own is subeconomic, opens up the Bonanza play. That
 has huge strategic value, as Bonanza is the biggest prospect in the portfolio on an
 unrisked basis.
 
 Because of the dependencies between prospects in the portfolio, standalone economic
 metrics aren't enough to capture opportunity value. Most of the value in Buffet is not
-standalone, it is in the downstream information it provides to child prospects,
+standalone; it is in the downstream information it provides to child prospects,
 connected via the P(Charge) dependency.
 
 Similarly, Bridge would never get drilled on its own merits---it would disappear in the
@@ -1621,17 +1622,17 @@ And it works pretty damn well, if you ask me.[^don't-ask-me]
 
 ## A note on means and medians
 
-Something else this exercise has clarified for me, is that summary statistics like the
+Something else this exercise has clarified for me is that summary statistics like the
 mean and median are horribly reductive when uncertainties are this wide. The whole point
 of drilling Buffet and opening up this play is the _exposure to upside_. On a mean
 (expected) basis, the decision is supported because the portfolio is NPV positive... but
 that isn't the real reason for doing it.
 
-According to the model there is a 10% chance this portfolio is worth more than $2.7 billion
-dollars in net present value. The mean is $580 million. 
+According to the model, there is a 10% chance this portfolio is worth more than $2.7
+billion in net present value. The mean is $580 million. 
 
 The range is really important to keep in mind, because we aren't going to discover the
-mean portfolio outcome, we're going to be strapped onto an uncertainty rocket with no
+mean portfolio outcome; we're going to be strapped onto an uncertainty rocket with no
 way of knowing where we end up. Considering the downside exposure vs upside exposure is
 more informative than an abstract mean that will never happen.
 
@@ -1639,7 +1640,7 @@ In the previous post on Resgo prospect simulation, I brought up loss functions, 
 think they are even more relevant at this level of analysis.
 
 As for the median... throw it out. It is very misleading because the outcome NPV
-distributions we are considering are so long tailed. It just doesn't make sense as a
+distributions we are considering are so long-tailed. It just doesn't make sense as a
 metric if you take uncertainty seriously. So the mean is lossy, but the median is not
 representative.
 
@@ -1662,21 +1663,21 @@ give it a go soon.
 ## Where is the D-Tree?
 
 This whole simulation can be thought of as a stochastic decision tree, with Bayesian
-updates informing success/failure at each node, and full cycle economics driving
+updates informing success/failure at each node, and full-cycle economics driving
 drill/walk decisions. I don't have a pretty plot presenting it that way, but
 mechanically, that is what it is doing. 
 
 The pretty plot will likely be needed as part of the interpretability piece.
 
-# Closing thoughts
+## Closing thoughts
 
 I'm not sure how to close this out, but I will say that I am very happy with how
 portfolio simulation in Resgo has turned out. 
 
 It has been a "capstone" feature in the back of my mind from the beginning, but I can't
-claim that I designed for it. I was fortunately very lucky that the implementation fit
+claim that I designed for it. I was lucky that the implementation fit
 so well into Resgo's architecture. Treating Prospects as nodes in a tree, and simply
-simulating that tree with a few in loop alterations based on risk dependencies, is a
+simulating that tree with a few in-loop alterations based on risk dependencies, is a
 pretty elegant way of handling portfolio analysis, and it leverages what Resgo already
 offered, essentially for free.
 
@@ -1690,13 +1691,13 @@ approach here---I can go a lot further by naturally capturing a range in a singl
 simulated array and reasoning about it downstream---but there are definitely some
 semantic rough edges to figure out.
 
-My next step I think will be to start building a UI---refining the simulation code
+My next step, I think, will be to start building a UI---refining the simulation code
 itself is probably the most important thing to be focused on---but I also need to be
-able to get Resgo into other people's hands at some point, barring me using it in a
-consultancy capacity only. 
+able to get Resgo into other people's hands at some point, unless I only use it in a
+consultancy capacity. 
 
 I do like the consultancy approach, at least at first, because it will allow me to field
-test with real opportunities, and iron out any creases I've left in the process. There
+test with real opportunities, and iron out any wrinkles I've left in the process. There
 is _a lot_ of process here, so it is inevitable that I've left some mess behind me
 while building it.
 
@@ -1734,6 +1735,6 @@ spreadsheet workflows and disconnected prospect evaluations:
 Thanks for reading!
 
 [^not-sorry]: not sorry 
-[^don't-ask-me]: Don't ask me though, I built the thing and I want to sell it, of course
-I would say that.
+[^don't-ask-me]: Don't ask me though; I built the thing and I want to sell it, so of
+course I would say that.
 
