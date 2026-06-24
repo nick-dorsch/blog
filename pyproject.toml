@@ -25,6 +25,7 @@ dependencies = [
     "jupyter-cache>=1.0.1",
     "pymc>=6.0.1",
     "graphviz>=0.21",
+    "drisk>=0.1.1",
 ]
 
 [tool.uv.sources]
