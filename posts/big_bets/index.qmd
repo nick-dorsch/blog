@@ -1,0 +1,643 @@
+---
+title: "Risky Business"
+subtitle: "Some thoughts on rational risk taking"
+author: "Nicholas Dorsch"
+date: 2026/06/25
+categories: [statistics, decision making, opinion]
+image: media/ai_uncertainty_decision_making.png
+execute:
+  echo: false
+---
+
+![Create an image with warm tones that conveys the concept of decision making under
+uncertainty. That should involve distributions over uncertain quantities, our utility
+function over their consequences, and the choices we ultimately make. I don't want an
+infographic. Make something more abstract that captures this
+theme](media/ai_uncertainty_decision_making.png)
+
+```{python}
+import altair as alt
+import numpy as np
+import pandas as pd
+import drisk as dr
+from src.plotting import theme
+
+alt.data_transformers.disable_max_rows()
+theme.apply_lex_altair_theme()
+```
+
+A recent conversation with an old colleague has prompted me to write some thoughts about
+commercial decision making under uncertainty. I have written about oil and gas
+[prospect](https://nick-dorsch.github.io/blog/posts/resgo/) and
+[portfolio](https://nick-dorsch.github.io/blog/posts/resgo_portfolio/) analysis
+recently, and because I have some strong opinions about the topic more generally, I
+thought it would be worth sharing them here.
+
+Having strong opinions doesn't mean I'm right about anything, of course, but take it as
+evidence that I've wrestled with the subject enough to develop them. If the subject
+interests you enough to continue reading, see how they map onto your own.
+
+To get it out of the way up front...
+
+## What do I mean by uncertainty?
+
+The oil and gas industry, where my career began, has a particularly strange set of
+definitions for the terms _risk_ and _uncertainty_, that I think have damaged our
+ability to think clearly on this subject. 
+
+In oil and gas, _risk_ loosely refers to "the chance of something happening" and
+_uncertainty_ refers to "the range of outcomes we expect".
+
+This maps (somewhat clumsily) onto the notions of discrete and continuous uncertainty,
+noting that _risk_ semantics as used in oil and gas have a hard time handling multiple
+categories, caught in a binary "success or failure" frame.
+
+Watch a room erupt into argument at what the Chance of Success of an exploration
+prospect targeting 3 reservoirs should be, and you'll start getting suspicious that
+something has gone very wrong. The word games being played impede logical thinking, so I
+would prefer that the terminology is thrown out altogether.
+
+So with that in mind---cutting through the jargon and warfronts of strange, esoteric
+definitions of words---when I say _uncertainty_, I just mean
+
+> "I'm not sure..."
+
+That's it. 
+
+Heads or tails? Not sure? You're uncertain. How tall am I? Not sure? Uncertainty. What
+happens next? Not sure? Uncertainty. What is the average porosity of the reservoir? Not
+sure? Uncertainty.
+
+If I use the word _risk_ I usually mean exposure to a bad thing, contrasting with the
+term _opportunity_, which I use to mean exposure to a good thing. This is closer to the
+semantics used in finance, and I think closer to popular usage as well. 
+
+Ultimately, I really don't care what words are used outside of their role in
+communicating technical concepts clearly. The use of _risk_ and _uncertainty_ in the oil
+and gas context make things more confusing, so I avoid using them where possible.
+
+## How does it relate to decision making?
+
+Thinking about decision making under uncertainty is mostly just figuring out what we
+_do_ know, thinking through the consequences of what we _don't_, and deciding what to do
+despite our lack of knowledge, given how we feel about those consequences.
+
+That involves wondering about all the things that _could_ happen, and the math of
+describing those possibilities. 
+
+Sometimes this involves discrete possibilities (tossing a coin, rolling a die),
+sometimes it involves a continuous range of possibilities (how much volume, how much
+time), and very often it involves both; but the concept itself should not be confusing
+because we live every moment of our lives with it.
+
+We're not sure. So... what should we do?
+
+Well, a good first step---apart from agreeing on what the hell we're talking about when
+we use words---is to be honest about what we know.
+
+## EMV is not enough
+
+Expected Monetary Value (EMV) is often used as a metric for evaluating commercial
+opportunities, where positive means "good" and negative means "bad". 
+
+It is calculated as:
+
+$$
+\mathrm{EMV} = \sum_{i=1}^{n} p_i x_i
+$$
+
+This is the sum of each outcome multiplied by its probability. In binary business
+decision making terms it is often simplified to _success_ and _failure_ outcomes:
+
+$$
+\mathrm{EMV} = p_s V_s + p_f V_f
+$$
+
+Where the $f$ and $s$ subscripts denote the failure and success outcomes, respectively,
+and $V$ is the value (often in NPV) of the outcome.
+
+Drill a well with a 50% chance of discovering a field worth $200MM, or else fail and eat
+the $10MM CAPEX:
+
+$$
+\begin{aligned}
+\mathrm{EMV}
+  &= p_s V_s + p_f V_f \\
+  &= 0.5(\$200\mathrm{MM}) + 0.5(-\$10\mathrm{MM}) \\
+  &= \$100\mathrm{MM} - \$5\mathrm{MM} \\
+  &= \$95\mathrm{MM}
+\end{aligned}
+$$
+
+It is neat, tidy, convenient to calculate, and easy to communicate. 
+
+But, I would argue it is disastrously misleading when conveyed to the people that most
+need to understand the context: the decision makers.
+
+### Example
+
+To illustrate why EMV is insufficient for rational decision making, let's start with a
+simple coin toss game.
+
+On heads, I pay you $2, on tails you pay me $1. 
+
+In EMV terms, one play is:
+
+$$
+\begin{aligned}
+\mathrm{EMV}_{\text{small bet}}
+  &= 0.5(\$2.00) + 0.5(-\$1.00) \\
+  &= \$0.50
+\end{aligned}
+$$
+
+Now compare that with a superficially similar choice:
+
+$$
+\begin{aligned}
+\mathrm{EMV}_{\text{large bet}}
+  &= 0.5(\$1{,}000{,}000) + 0.5(-\$999{,}999) \\
+  &= \$500{,}000 - \$499{,}999.50 \\
+  &= \$0.50
+\end{aligned}
+$$
+
+Both choices have the same EMV:
+
+$$
+\mathrm{EMV}_{\text{small bet}}
+= \mathrm{EMV}_{\text{large bet}}
+= \$0.50
+$$
+
+But they are obviously not the same decision. The first game should be played as many
+times as you can get away with, but the second should be avoided unless you are Elon
+Musk. You need exceedingly deep pockets to profit from the second game.
+
+This is an extreme and contrived example, but the point is that the uncertainty matters.
+Without explicit communication of the possible outcomes, an EMV metric can hide
+absurdity.
+
+So if someone asks "would you take a $0.50 EMV positive bet?" the rational response is
+very clearly not _yes_, but _I don't have enough information to decide_.
+
+With this in mind, how many commercial decisions in your business are riding on EMV
+calculations? Are opportunities being ranked using it?
+
+### Uncertainty all the way down
+
+In the above example the uncertainty is just "heads or tails"; but outside of casino
+games where odds and payoffs are known, this simplification covers up a (crucially
+important) mess.
+
+In the real world, the outcome probabilities _and_ their values are almost always
+unknowns, we just pretend we know them so the spreadsheets work. The real world isn't
+business metric friendly.[^casino]
+
+Take the $200MM field example: that success case NPV is hiding tens of millions of
+dollars of uncertainty, and you would be kidding yourself if you thought $200MM was
+actually the "true" middle of the distribution, because the true distribution isn't
+real.
+
+The probability going into that EMV calculation is based on a subjective risk
+assessment from the subsurface team, which they may or may not even believe themselves,
+but regardless is also unknowable.
+
+It's uncertainty all the way down. So ending up with a single number should make you
+uncomfortable, especially when a lot of money is on the line.
+
+But does it actually matter?
+
+## Why uncertainty matters
+
+You might think that, because at the end of the day we need to decide what to do, and
+we'll likely decide based on some number being above some other number, all this nerdy
+talk about uncertainty is a waste of time.
+
+The reason that is wrong is because of exposure. It isn't possible to make a rational
+decision without considering exposure to consequences, and that exposure is not defined
+outside of the context of uncertainty. To ignore the uncertainty is to cover it up!
+
+Take the coin toss example. The game of small bets exposes you to losing a dollar, or
+winning 2 dollars each time you play. You don't know what will happen (you are
+uncertain), but the consequence of your uncertainty is acceptable, so you play.
+
+Compare that with the game of big bets. The EMV is the same, but each time you play you are
+exposed to a loss of a million dollars. How many losses can you survive? The consequence
+of your uncertainty (not knowing if you will win or lose the game) is basically
+existential. So you don't play!
+
+I made the EMVs equal to make the point, but even if you stood to gain 10 million
+dollars on a win, you _still_ shouldn't play if a single loss would wipe you out. 
+
+Uncertainty matters! A win for the nerds.
+
+I feel like all of this is totally intuitive to us in normal circumstances, but in
+business we get seduced by abstractions, calculating precise numbers while losing sight
+of the obvious. 
+
+Business contexts _are_ a lot less intuitive, though, so it is worth formalizing this
+stuff. Here is one approach that I like.
+
+## Utility
+
+We can avoid many of these limitations by mapping dollars to "utility" with an agreed
+upon function. I think this provides a fairly simple to communicate path to better
+decision theory in business.
+
+The idea is dead simple: commercial outcomes are estimated in dollars, our utility is
+some function of those dollars.
+
+We may respond linearly to opportunity---$100 provides utility $u$ and $1000 provides
+utility $10u$---but our response to risk is quite different, because risk can kill us...
+so, you know... fair enough.
+
+One way of capturing the asymmetry here is with a function like this. In plain English,
+it treats upside linearly, but increasingly punishes losses as they approach the point
+where the company can no longer survive.
+
+$$
+U(x) =
+\begin{cases}
+x, & x \ge 0 \\[0.8em]
+\dfrac{T x}{T + x}, & -T < x < 0 \\[0.8em]
+U_{\min}, & x \le -T
+\end{cases}
+$$
+
+where:
+
+- $x$ is the commercial outcome, measured in dollars
+- $U(x)$ is the utility-adjusted value of that outcome
+- $T > 0$ is the maximum survivable loss, so bankruptcy occurs at $x = -T$
+- $U_{\min}$ is a finite utility floor used to represent outcomes at or beyond ruin
+
+The important behavior is that the function is linear for positive outcomes, but becomes
+hyperbolic for losses as they approach a survival threshold:
+
+$$
+\lim_{x \to -T} \frac{T x}{T + x} = -\infty
+$$
+
+It helps to cap that divergence at some finite floor $U_{\min}$, because once an outcome
+is catastrophic enough to kill the company, making the plotted penalty even more
+negative stops being useful. Negative infinite utility is something like damning all
+sentient creatures in the universe to eternal torture, and---unless you run an AI
+company---is probably beyond the scope of your impact.
+
+```{python}
+def utility_adjusted_value(x, survival_threshold=1.0, utility_floor=-5.0):
+    x = np.asarray(x)
+    threshold = survival_threshold
+
+    with np.errstate(divide="ignore", invalid="ignore"):
+        utility = np.where(
+            x >= 0,
+            x,
+            (threshold * x) / (threshold + x),
+        )
+
+    utility = np.where(x <= -threshold, utility_floor, utility)
+    return np.maximum(utility, utility_floor)
+
+
+survival_threshold = 1.0
+utility_floor = -5.0
+x_usd_mm = np.linspace(-1.5 * survival_threshold, 3.0 * survival_threshold, 1_000)
+
+utility_df = pd.DataFrame(
+    {
+        "outcome_usd_mm": x_usd_mm,
+        "utility_usd_mm": utility_adjusted_value(
+            x_usd_mm,
+            survival_threshold=survival_threshold,
+            utility_floor=utility_floor,
+        ),
+    }
+)
+
+utility_curve = (
+    alt.Chart(utility_df)
+    .mark_line(strokeWidth=3)
+    .encode(
+        x=alt.X(
+            "outcome_usd_mm:Q",
+            title="Commercial outcome ($MM)",
+        ),
+        y=alt.Y(
+            "utility_usd_mm:Q",
+            title="Utility-adjusted value ($MM)",
+        ),
+        tooltip=[
+            alt.Tooltip("outcome_usd_mm:Q", title="Outcome ($MM)", format=".2f"),
+            alt.Tooltip("utility_usd_mm:Q", title="Utility ($MM)", format=".2f"),
+        ],
+    )
+)
+
+survival_line = (
+    alt.Chart(pd.DataFrame({"outcome_usd_mm": [-survival_threshold]}))
+    .mark_rule(color="red", strokeDash=[6, 4], strokeWidth=2)
+    .encode(x="outcome_usd_mm:Q")
+)
+
+break_even_line = (
+    alt.Chart(pd.DataFrame({"outcome_usd_mm": [0]}))
+    .mark_rule(color="#d5c2a6", strokeDash=[3, 3], strokeWidth=1.5)
+    .encode(x="outcome_usd_mm:Q")
+)
+
+fig = (
+    alt.layer(utility_curve, survival_line, break_even_line)
+    .properties(
+        width=650,
+        height=300,
+        title="Example Utility Function",
+    )
+)
+fig.show()
+```
+
+That cap doesn't need to be arbitrary. It could represent the finite, but very large,
+cost of corporate ruin: the value of the firm, plus distress costs and any additional
+penalty assigned to the disruption imposed on employees, creditors, partners, and future
+opportunities. One rough way to express it:
+
+$$
+U_{\min}
+= -\left(
+V_{\text{firm}}
++ C_{\text{distress}}
++ C_{\text{stakeholder disruption}}
++ C_{\text{strategic optionality}}
+\right)
+$$
+
+where $V_{\text{firm}}$ might be enterprise value, market capitalization, or the present
+value of future distributable cash flows, depending on the organization and context. The
+important point is that this number is not infinity. It is just very large, because
+destroying a company destroys more than the cash immediately lost on a bad bet. It also
+doesn't need to be perfect (good luck estimating the dollar value of distress), just
+agreed upon ahead of time.
+
+In the example plot above, the company is very small, closer to an individual household:
+it can survive a $1MM loss, but anything worse than that pushes it into ruin. Positive
+outcomes are still valued linearly, so making $2MM is twice as good as making $1MM. But
+losses close to the survival threshold are punished much more severely than the
+same-sized gains are rewarded. A $900k loss is not merely the opposite of a $900k gain
+if the company only has around $1MM of effective loss-bearing capacity.
+
+This is the intuition I want the function to capture. A small company with limited cash
+reserves, limited access to credit, and no easy way to raise emergency capital should
+not evaluate a large bet using the same utility function as a much larger organization
+with deep cash reserves and diversified risk. The same project-level NPV distribution
+can be acceptable for one company and existential for another. 
+
+Same NPV distribution, different utility function.
+
+So there is some math here, but I think it maps so well to our intuitions that it
+becomes quite powerful for communicating risk to decision makers. Agree upon a company
+utility function, then map the uncertainty of commercial project outcomes to it.
+
+We can still communicate in dollars and NPV---with a small addendum of "utility
+adjusted"---and for smaller projects there may be very little difference between raw and
+utility-adjusted NPV.
+
+### Example
+
+```{python}
+def plot_utility_ecdf(npv, title, survival_threshold=1.0, utility_floor=-5.0):
+    utility = utility_adjusted_value(
+        npv,
+        survival_threshold=survival_threshold,
+        utility_floor=utility_floor,
+    )
+
+    df = pd.DataFrame(
+        {
+            "NPV": npv,
+            "Utility-adjusted NPV": utility,
+        }
+    ).melt(var_name="metric", value_name="value_usd_mm")
+
+    x_domain = [
+        df["value_usd_mm"].min(),
+        df["value_usd_mm"].quantile(0.99),
+    ]
+
+    ecdf_rows = []
+    for metric, values in df.groupby("metric")["value_usd_mm"]:
+        sorted_values = np.sort(values.to_numpy())
+        ecdf_rows.append(
+            pd.DataFrame(
+                {
+                    "metric": metric,
+                    "value_usd_mm": sorted_values,
+                    "cumulative_probability": np.arange(1, len(sorted_values) + 1)
+                    / len(sorted_values),
+                }
+            )
+        )
+
+    ecdf_df = pd.concat(ecdf_rows, ignore_index=True)
+
+    mean_rows = []
+    for metric, values in df.groupby("metric")["value_usd_mm"]:
+        values = values.to_numpy()
+        mean_value = values.mean()
+        mean_rows.append(
+            {
+                "metric": metric,
+                "value_usd_mm": mean_value,
+                "cumulative_probability": np.mean(values <= mean_value),
+            }
+        )
+
+    mean_df = pd.DataFrame(mean_rows)
+
+    color = alt.Color(
+        "metric:N",
+        title=None,
+        scale=alt.Scale(
+            domain=["NPV", "Utility-adjusted NPV"],
+            range=["limegreen", "#F28E2B"],
+        ),
+    )
+
+    line = (
+        alt.Chart(ecdf_df)
+        .mark_line(interpolate="step-after", strokeWidth=2.5, clip=True)
+        .encode(
+            x=alt.X(
+                "value_usd_mm:Q",
+                title="Value ($MM)",
+                scale=alt.Scale(domain=x_domain),
+            ),
+            y=alt.Y(
+                "cumulative_probability:Q",
+                title=None,
+                axis=alt.Axis(format="%"),
+                scale=alt.Scale(domain=[0, 1]),
+            ),
+            color=color,
+            strokeDash=alt.StrokeDash(
+                "metric:N",
+                title=None,
+                scale=alt.Scale(
+                    domain=["NPV", "Utility-adjusted NPV"],
+                    range=[[1, 0], [6, 4]],
+                ),
+            ),
+            tooltip=[
+                alt.Tooltip("metric:N", title="Metric"),
+                alt.Tooltip("value_usd_mm:Q", title="Value ($MM)", format=".2f"),
+                alt.Tooltip(
+                    "cumulative_probability:Q",
+                    title="Cumulative probability",
+                    format=".1%",
+                ),
+            ],
+        )
+    )
+
+    means = (
+        alt.Chart(mean_df)
+        .mark_point(filled=False, size=110, strokeWidth=2, clip=True)
+        .encode(
+            x=alt.X("value_usd_mm:Q", scale=alt.Scale(domain=x_domain)),
+            y=alt.Y("cumulative_probability:Q", scale=alt.Scale(domain=[0, 1])),
+            color=color,
+            tooltip=[
+                alt.Tooltip("metric:N", title="Metric"),
+                alt.Tooltip("value_usd_mm:Q", title="Mean ($MM)", format=".2f"),
+                alt.Tooltip(
+                    "cumulative_probability:Q",
+                    title="Cumulative probability at mean",
+                    format=".1%",
+                ),
+            ],
+        )
+    )
+
+    breakeven = (
+        alt.Chart(pd.DataFrame({"value_usd_mm": [0]}))
+        .mark_rule(color="white", strokeDash=[3, 3], strokeWidth=1.5, opacity=0.85)
+        .encode(x=alt.X("value_usd_mm:Q", scale=alt.Scale(domain=x_domain)))
+    )
+
+    return alt.layer(breakeven, line, means).properties(
+        width="container",
+        height=300,
+        title=title,
+    ).configure_legend(orient="top-left")
+
+
+```
+
+```{python}
+project_a = (
+    dr.LogNormal.elicit(
+        lower=0.5, upper=1.2
+    ) - 0.5
+)
+
+project_b = (
+    dr.LogNormal.elicit(
+        lower=10, upper=15
+    ) - 11
+)
+
+project_a_npv = np.asarray(project_a.sample(size=10_000, seed=42))
+project_b_npv = np.asarray(project_b.sample(size=10_000, seed=43))
+```
+
+To show this in action, here are two projects that are loosely analogous to the "small"
+and "big" bet coin toss game, but here we have a known cost to play (e.g. the CAPEX of
+each project) and an uncertain commercial outcome.
+
+Imagine we've got a million bucks in the bank, and we're trying to decide what to do
+next.
+
+The following plots show the outcome uncertainties of each project, in raw and
+utility-adjusted NPV terms. The means---which can be taken as EMV or Expected
+Utility (EU)---are shown as points along each ECDF. 
+
+```{python}
+survival_threshold = 1
+utility_floor = -25
+```
+
+```{python}
+plot_utility_ecdf(
+    project_a_npv,
+    title="Project A",
+    survival_threshold=survival_threshold,
+    utility_floor=utility_floor,
+).show()
+```
+
+Project A is a low-risk, low-reward opportunity with a clear positive EMV. It will cost
+half a million dollars to complete, and we estimate the gross commercial payoff is
+mostly in the $0.5--$1.2MM range, so it is very likely to make returns.
+
+Here the NPV and utility-adjusted NPV essentially overlap, because we are not exposed to
+a high chance of ruin.
+
+```{python}
+plot_utility_ecdf(
+    project_b_npv,
+    title="Project B",
+    survival_threshold=survival_threshold,
+    utility_floor=utility_floor,
+).show()
+```
+
+Project B is much larger, with a more uncertain payoff. We estimate the gross commercial
+payoff is mostly in the $10--$15MM range, but it will cost $11MM to complete. Ignoring
+the fact that we will need to go into debt to fund the project at all, there is a real
+chance it will lose money. We also estimate there is about an 11% chance
+that it will bankrupt the company.
+
+But then again... the EMV is very healthy, and much larger than the EMV of Project A.
+
+Obviously, because we're not insane, we will go with Project A. The benefit of the
+utility function approach is the sane thing is also reflected in the maths. The
+utility-adjusted EMV is much lower, and negative in this example. The function is
+helping to guide us back to sane decision making (or just behaving consistently with our
+sanity, which is also good).
+
+I should also note here that the important information really isn't that Project B has
+negative Expected Utility, but rather that it exposes the company to ruin. The
+expectation isn't the point, it's just a shorthand, the uncertainty and its consequences
+are always the point.
+
+Hopefully this example illustrates the usefulness of this approach.
+
+I've never seen it used in oil and gas contexts, but it wouldn't surprise me if it was
+employed in other industries that aren't spending as much time arguing about what the
+word _risk_ means.
+
+## Closing thoughts
+
+EMV is a useful shorthand, but it is insufficient for good decision-making under
+uncertainty. The full distribution of outcomes is important, especially when there is
+exposure to large consequences (like bankruptcy), and an expected value calculation
+fails to capture this.
+
+The use of company utility functions is a nice way of making an organization's actual
+capacity to absorb loss explicit, and avoids the pitfalls of a naive EMV metric,
+especially when uncertainty in commercial outcomes is preserved. In this framing, a
+project can be perfectly rational for one company and existentially risky for another,
+even under the same commercial assumptions.
+
+I'm not advocating for replacing human judgment with a shinier decision-making calculus,
+I am arguing that the consequences of uncertainty should take center stage when
+presenting projects to decision makers, rather than abstracted away with expected value
+calculations. The uncertainty _really_ matters, so it should be honestly communicated
+while we try to figure out what to do next in a messy and complicated world.
+
+Thanks for reading.
+
+
+[^casino]: Unless you run a casino, in which case, shut it down as soon as possible,
+thanks.
