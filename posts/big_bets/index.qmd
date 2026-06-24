@@ -3,11 +3,17 @@ title: "Risky Business"
 subtitle: "Some thoughts on rational risk taking"
 author: "Nicholas Dorsch"
 date: 2026/06/25
-categories: [statistics, decision making]
-image: media/resgo_logo_white.svg
+categories: [statistics, decision making, opinion]
+image: media/ai_uncertainty_decision_making.png
 execute:
   echo: false
 ---
+
+![Create an image with warm tones that conveys the concept of decision making under
+uncertainty. That should involve distributions over uncertain quantities, our utility
+function over their consequences, and the choices we ultimately make. I don't want an
+infographic. Make something more abstract that captures this
+theme](media/ai_uncertainty_decision_making.png)
 
 ```{python}
 import altair as alt

@@ -152,6 +152,7 @@ window.Quarto = {
                                 <div class="quarto-categories">
                 <div class="quarto-category">statistics</div>
                 <div class="quarto-category">decision making</div>
+                <div class="quarto-category">opinion</div>
               </div>
                   </div>
   </div>
@@ -208,6 +209,12 @@ window.Quarto = {
 
 
 
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="media/ai_uncertainty_decision_making.png" class="img-fluid figure-img"></p>
+<figcaption>Create an image with warm tones that conveys the concept of decision making under uncertainty. That should involve distributions over uncertain quantities, our utility function over their consequences, and the choices we ultimately make. I don’t want an infographic. Make something more abstract that captures this theme</figcaption>
+</figure>
+</div>
 <p>A recent conversation with an old colleague has prompted me to write some thoughts about commercial decision making under uncertainty. I have written about oil and gas <a href="https://nick-dorsch.github.io/blog/posts/resgo/">prospect</a> and <a href="https://nick-dorsch.github.io/blog/posts/resgo_portfolio/">portfolio</a> analysis recently, and because I have some strong opinions about the topic more generally, I thought it would be worth sharing them here.</p>
 <p>Having strong opinions doesn’t mean I’m right about anything, of course, but take it as evidence that I’ve wrestled with the subject enough to develop them. If the subject interests you enough to continue reading, see how they map onto your own.</p>
 <p>To get it out of the way up front…</p>
@@ -337,27 +344,27 @@ U_{\min}, &amp; x \le -T
 \lim_{x \to -T} \frac{T x}{T + x} = -\infty
 \]</span></p>
 <p>It helps to cap that divergence at some finite floor <span class="math inline">\(U_{\min}\)</span>, because once an outcome is catastrophic enough to kill the company, making the plotted penalty even more negative stops being useful. Negative infinite utility is something like damning all sentient creatures in the universe to eternal torture, and—unless you run an AI company—is probably beyond the scope of your impact.</p>
-<div id="7b015d70" class="cell" data-execution_count="2">
+<div id="d70536d0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 
 <style>
-  #altair-viz-91ee39d16a91456391d6c977763d6585.vega-embed {
+  #altair-viz-4bca67a0670e466289269a8e65ba0394.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-91ee39d16a91456391d6c977763d6585.vega-embed details,
-  #altair-viz-91ee39d16a91456391d6c977763d6585.vega-embed details summary {
+  #altair-viz-4bca67a0670e466289269a8e65ba0394.vega-embed details,
+  #altair-viz-4bca67a0670e466289269a8e65ba0394.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-91ee39d16a91456391d6c977763d6585"></div>
+<div id="altair-viz-4bca67a0670e466289269a8e65ba0394"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-91ee39d16a91456391d6c977763d6585") {
-      outputDiv = document.getElementById("altair-viz-91ee39d16a91456391d6c977763d6585");
+    if (outputDiv.id !== "altair-viz-4bca67a0670e466289269a8e65ba0394") {
+      outputDiv = document.getElementById("altair-viz-4bca67a0670e466289269a8e65ba0394");
     }
 
     const paths = {
@@ -430,27 +437,27 @@ V_{\text{firm}}
 <p>To show this in action, here are two projects that are loosely analogous to the “small” and “big” bet coin toss game, but here we have a known cost to play (e.g.&nbsp;the CAPEX of each project) and an uncertain commercial outcome.</p>
 <p>Imagine we’ve got a million bucks in the bank, and we’re trying to decide what to do next.</p>
 <p>The following plots show the outcome uncertainties of each project, in raw and utility-adjusted NPV terms. The means—which can be taken as EMV or Expected Utility (EU)—are shown as points along each ECDF.</p>
-<div id="404415b9" class="cell" data-execution_count="6">
+<div id="460f6d6c" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 
 <style>
-  #altair-viz-d327f665d82f401eb388a2b0d79b8fc1.vega-embed {
+  #altair-viz-33fad0dfde2d4baa8f3589d2c12febca.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d327f665d82f401eb388a2b0d79b8fc1.vega-embed details,
-  #altair-viz-d327f665d82f401eb388a2b0d79b8fc1.vega-embed details summary {
+  #altair-viz-33fad0dfde2d4baa8f3589d2c12febca.vega-embed details,
+  #altair-viz-33fad0dfde2d4baa8f3589d2c12febca.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d327f665d82f401eb388a2b0d79b8fc1"></div>
+<div id="altair-viz-33fad0dfde2d4baa8f3589d2c12febca"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d327f665d82f401eb388a2b0d79b8fc1") {
-      outputDiv = document.getElementById("altair-viz-d327f665d82f401eb388a2b0d79b8fc1");
+    if (outputDiv.id !== "altair-viz-33fad0dfde2d4baa8f3589d2c12febca") {
+      outputDiv = document.getElementById("altair-viz-33fad0dfde2d4baa8f3589d2c12febca");
     }
 
     const paths = {
@@ -504,27 +511,27 @@ V_{\text{firm}}
 </div>
 <p>Project A is a low-risk, low-reward opportunity with a clear positive EMV. It will cost half a million dollars to complete, and we estimate the gross commercial payoff is mostly in the $0.5–$1.2MM range, so it is very likely to make returns.</p>
 <p>Here the NPV and utility-adjusted NPV essentially overlap, because we are not exposed to a high chance of ruin.</p>
-<div id="f389926c" class="cell" data-execution_count="7">
+<div id="512fd93a" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 
 <style>
-  #altair-viz-e873c3a514794a2fb26ab5af06c8e7c4.vega-embed {
+  #altair-viz-73cc3561752e4a96bdcb710381abca0a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-e873c3a514794a2fb26ab5af06c8e7c4.vega-embed details,
-  #altair-viz-e873c3a514794a2fb26ab5af06c8e7c4.vega-embed details summary {
+  #altair-viz-73cc3561752e4a96bdcb710381abca0a.vega-embed details,
+  #altair-viz-73cc3561752e4a96bdcb710381abca0a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-e873c3a514794a2fb26ab5af06c8e7c4"></div>
+<div id="altair-viz-73cc3561752e4a96bdcb710381abca0a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-e873c3a514794a2fb26ab5af06c8e7c4") {
-      outputDiv = document.getElementById("altair-viz-e873c3a514794a2fb26ab5af06c8e7c4");
+    if (outputDiv.id !== "altair-viz-73cc3561752e4a96bdcb710381abca0a") {
+      outputDiv = document.getElementById("altair-viz-73cc3561752e4a96bdcb710381abca0a");
     }
 
     const paths = {
