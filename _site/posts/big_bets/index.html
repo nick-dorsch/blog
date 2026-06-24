@@ -257,7 +257,7 @@ window.Quarto = {
 \end{aligned}
 \]</span></p>
 <p>It is neat, tidy, convenient to calculate, and easy to communicate.</p>
-<p>But, I would argue it is disastrously misleading when conveyed to the people that most need to understand the context of a decision: the decision makers themselves.</p>
+<p>But, I would argue it is disastrously misleading when conveyed to the people that most need to understand the context: the decision makers.</p>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
 <p>To illustrate why EMV is insufficient for rational decision making, let’s start with a simple coin toss game.</p>
@@ -309,7 +309,7 @@ window.Quarto = {
 <p>I made the EMVs equal to make the point, but even if you stood to gain 10 million dollars on a win, you <em>still</em> shouldn’t play if a single loss would wipe you out.</p>
 <p>Uncertainty matters! A win for the nerds.</p>
 <p>I feel like all of this is totally intuitive to us in normal circumstances, but in business we get seduced by abstractions, calculating precise numbers while losing sight of the obvious.</p>
-<p>Business contexts <em>are</em> a lot less intuitive, though, so it is worth formalizing this stuff, so here is one approach that I like.</p>
+<p>Business contexts <em>are</em> a lot less intuitive, though, so it is worth formalizing this stuff. Here is one approach that I like.</p>
 </section>
 <section id="utility" class="level2">
 <h2 class="anchored" data-anchor-id="utility">Utility</h2>
@@ -336,28 +336,28 @@ U_{\min}, &amp; x \le -T
 <p><span class="math display">\[
 \lim_{x \to -T} \frac{T x}{T + x} = -\infty
 \]</span></p>
-<p>It helps to cap that divergence at some finite floor <span class="math inline">\(U_{\min}\)</span>, because once an outcome is catastrophic enough to kill the company, making the plotted penalty even more negative stops being useful. Negative infinite utility is something like damning all sentient creatures in the universe to eternal torture, and—unless you run an AI company—is probably beyond the scope of your company’s impact.</p>
-<div id="f30d3871" class="cell" data-execution_count="2">
+<p>It helps to cap that divergence at some finite floor <span class="math inline">\(U_{\min}\)</span>, because once an outcome is catastrophic enough to kill the company, making the plotted penalty even more negative stops being useful. Negative infinite utility is something like damning all sentient creatures in the universe to eternal torture, and—unless you run an AI company—is probably beyond the scope of your impact.</p>
+<div id="7b015d70" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 
 <style>
-  #altair-viz-3369df94586b4bb58384190a3e9d3cbb.vega-embed {
+  #altair-viz-91ee39d16a91456391d6c977763d6585.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-3369df94586b4bb58384190a3e9d3cbb.vega-embed details,
-  #altair-viz-3369df94586b4bb58384190a3e9d3cbb.vega-embed details summary {
+  #altair-viz-91ee39d16a91456391d6c977763d6585.vega-embed details,
+  #altair-viz-91ee39d16a91456391d6c977763d6585.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-3369df94586b4bb58384190a3e9d3cbb"></div>
+<div id="altair-viz-91ee39d16a91456391d6c977763d6585"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-3369df94586b4bb58384190a3e9d3cbb") {
-      outputDiv = document.getElementById("altair-viz-3369df94586b4bb58384190a3e9d3cbb");
+    if (outputDiv.id !== "altair-viz-91ee39d16a91456391d6c977763d6585") {
+      outputDiv = document.getElementById("altair-viz-91ee39d16a91456391d6c977763d6585");
     }
 
     const paths = {
@@ -409,7 +409,7 @@ U_{\min}, &amp; x \le -T
 </script>
 </div>
 </div>
-<p>That cap doesn’t need to be arbitrary. It could represent the finite, but very large, cost of corporate ruin: the value of the firm as a going concern, plus distress costs and any additional penalty assigned to the disruption imposed on employees, creditors, partners, and future opportunities. One rough way to express it:</p>
+<p>That cap doesn’t need to be arbitrary. It could represent the finite, but very large, cost of corporate ruin: the value of the firm, plus distress costs and any additional penalty assigned to the disruption imposed on employees, creditors, partners, and future opportunities. One rough way to express it:</p>
 <p><span class="math display">\[
 U_{\min}
 = -\left(
@@ -419,7 +419,7 @@ V_{\text{firm}}
 + C_{\text{strategic optionality}}
 \right)
 \]</span></p>
-<p>where <span class="math inline">\(V_{\text{firm}}\)</span> might be enterprise value, market capitalization, or the present value of future distributable cash flows, depending on the organization and context. The important point is that this number is not infinity. It is just very large, because destroying a company destroys more than the cash immediately lost on a bad bet. It also doesn’t need to be perfect, just agreed upon ahead of time.</p>
+<p>where <span class="math inline">\(V_{\text{firm}}\)</span> might be enterprise value, market capitalization, or the present value of future distributable cash flows, depending on the organization and context. The important point is that this number is not infinity. It is just very large, because destroying a company destroys more than the cash immediately lost on a bad bet. It also doesn’t need to be perfect (good luck estimating the dollar value of distress), just agreed upon ahead of time.</p>
 <p>In the example plot above, the company is very small, closer to an individual household: it can survive a $1MM loss, but anything worse than that pushes it into ruin. Positive outcomes are still valued linearly, so making $2MM is twice as good as making $1MM. But losses close to the survival threshold are punished much more severely than the same-sized gains are rewarded. A $900k loss is not merely the opposite of a $900k gain if the company only has around $1MM of effective loss-bearing capacity.</p>
 <p>This is the intuition I want the function to capture. A small company with limited cash reserves, limited access to credit, and no easy way to raise emergency capital should not evaluate a large bet using the same utility function as a much larger organization with deep cash reserves and diversified risk. The same project-level NPV distribution can be acceptable for one company and existential for another.</p>
 <p>Same NPV distribution, different utility function.</p>
@@ -430,27 +430,27 @@ V_{\text{firm}}
 <p>To show this in action, here are two projects that are loosely analogous to the “small” and “big” bet coin toss game, but here we have a known cost to play (e.g.&nbsp;the CAPEX of each project) and an uncertain commercial outcome.</p>
 <p>Imagine we’ve got a million bucks in the bank, and we’re trying to decide what to do next.</p>
 <p>The following plots show the outcome uncertainties of each project, in raw and utility-adjusted NPV terms. The means—which can be taken as EMV or Expected Utility (EU)—are shown as points along each ECDF.</p>
-<div id="c047f67d" class="cell" data-execution_count="6">
+<div id="404415b9" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 
 <style>
-  #altair-viz-cd47e89c3e914c1da05fccb5ab4a24c8.vega-embed {
+  #altair-viz-d327f665d82f401eb388a2b0d79b8fc1.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-cd47e89c3e914c1da05fccb5ab4a24c8.vega-embed details,
-  #altair-viz-cd47e89c3e914c1da05fccb5ab4a24c8.vega-embed details summary {
+  #altair-viz-d327f665d82f401eb388a2b0d79b8fc1.vega-embed details,
+  #altair-viz-d327f665d82f401eb388a2b0d79b8fc1.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-cd47e89c3e914c1da05fccb5ab4a24c8"></div>
+<div id="altair-viz-d327f665d82f401eb388a2b0d79b8fc1"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-cd47e89c3e914c1da05fccb5ab4a24c8") {
-      outputDiv = document.getElementById("altair-viz-cd47e89c3e914c1da05fccb5ab4a24c8");
+    if (outputDiv.id !== "altair-viz-d327f665d82f401eb388a2b0d79b8fc1") {
+      outputDiv = document.getElementById("altair-viz-d327f665d82f401eb388a2b0d79b8fc1");
     }
 
     const paths = {
@@ -504,27 +504,27 @@ V_{\text{firm}}
 </div>
 <p>Project A is a low-risk, low-reward opportunity with a clear positive EMV. It will cost half a million dollars to complete, and we estimate the gross commercial payoff is mostly in the $0.5–$1.2MM range, so it is very likely to make returns.</p>
 <p>Here the NPV and utility-adjusted NPV essentially overlap, because we are not exposed to a high chance of ruin.</p>
-<div id="e291c466" class="cell" data-execution_count="7">
+<div id="f389926c" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 
 <style>
-  #altair-viz-71cc731d393547aaa4d21a87418b8149.vega-embed {
+  #altair-viz-e873c3a514794a2fb26ab5af06c8e7c4.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-71cc731d393547aaa4d21a87418b8149.vega-embed details,
-  #altair-viz-71cc731d393547aaa4d21a87418b8149.vega-embed details summary {
+  #altair-viz-e873c3a514794a2fb26ab5af06c8e7c4.vega-embed details,
+  #altair-viz-e873c3a514794a2fb26ab5af06c8e7c4.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-71cc731d393547aaa4d21a87418b8149"></div>
+<div id="altair-viz-e873c3a514794a2fb26ab5af06c8e7c4"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-71cc731d393547aaa4d21a87418b8149") {
-      outputDiv = document.getElementById("altair-viz-71cc731d393547aaa4d21a87418b8149");
+    if (outputDiv.id !== "altair-viz-e873c3a514794a2fb26ab5af06c8e7c4") {
+      outputDiv = document.getElementById("altair-viz-e873c3a514794a2fb26ab5af06c8e7c4");
     }
 
     const paths = {
