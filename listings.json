@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/big_bets/index.html",
       "/posts/resgo_portfolio/index.html",
       "/posts/bayes_in_business/index.html",
       "/posts/resgo/index.html",
